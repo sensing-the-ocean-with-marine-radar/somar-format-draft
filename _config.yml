@@ -2,7 +2,8 @@ title: Data Format Conventions for Sensing the Ocean with Marine Radar (SOMaR-da
 description: First Draft of the cummunity standard data format conventions for Sensing the Ocean with Marine Radar 
 theme: just-the-docs
 
-url: https://somar-format-draft.github.io
+url: https://sensing-the-ocean-with-marine-radar.github.io/somar-format-draft
 
-# aux_links:
-#  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+aux_links:
+  "SOMaR Community": https://github.com/sensing-the-ocean-with-marine-radar
+aux_links_new_tab: true
