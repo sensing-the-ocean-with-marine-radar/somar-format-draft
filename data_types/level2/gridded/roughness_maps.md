@@ -1,7 +1,7 @@
 ---
 title: Roughness maps
 layout: default
-parent: (Moving) grid data
+parent: Gridded data
 nav_order: 1
 ---
 
