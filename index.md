@@ -4,9 +4,9 @@ layout: home
 ---
 
 # Data Format Conventions for Sensing the Ocean with Marine Radar
-_SOMaR-data-formats-v0.1-draft_
+SOMaR-data-formats-v0.1-draft
 
-The SOMaR community
+_The SOMaR community_
 
 This document describes standard data formats to facilitate use, sharing, and post-processing of data products on different levels of processing in the field of marine radar ocean sensing. It defines metadata variables and a structure for different data types. These involve maps, trajectories, and profiles. 
 
