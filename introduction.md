@@ -5,7 +5,6 @@ nav_order: 2
 ---
 
 # Introduction
-{:toc}
 
 Over the past decades, the Sensing the Ocean with Marine Radar (SOMaR) community has developed a set of techniques to extract hydrographic variables from marine radar data. So far, the algorithms and their output data formats are not standardized and different formats are used among groups. In order to achieve better comparability - thus easier collaboration between groups - a common interoperable data format defining standard products used within the SOMaR community is needed.   
 
