@@ -2,7 +2,7 @@
 title: Georeferencing
 layout: default
 parent: Metadata attributes
-nav-order: 5
+nav_order: 5
 ---
 
 # Georeferencing
