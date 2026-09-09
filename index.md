@@ -1,10 +1,10 @@
 ---
 title: Abstract
 layout: home
+description: SOMaR-data-formats-v0.1-draft
 ---
 
 # Data Format Conventions for Sensing the Ocean with Marine Radar
-SOMaR-data-formats-v0.1-draft
 
 _The SOMaR community_
 
