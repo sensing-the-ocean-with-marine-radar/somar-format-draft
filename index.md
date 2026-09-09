@@ -2,6 +2,7 @@
 title: Abstract
 layout: home
 description: SOMaR-data-formats-v0.1-draft
+nav-order: 1
 ---
 
 # Data Format Conventions for Sensing the Ocean with Marine Radar
