@@ -4,8 +4,8 @@ theme: just-the-docs
 
 url: https://sensing-the-ocean-with-marine-radar.github.io/somar-format-draft
 
-#plugins:
-#  - jekyll-default-layout
+plugins:
+  - jekyll-default-layout
   
 aux_links:
   "SOMaR Community": https://github.com/sensing-the-ocean-with-marine-radar
