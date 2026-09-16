@@ -1,8 +1,8 @@
 ---
-title: Current profiles
+title: Near-surface current profiles
 layout: default
 parent: Trajectory data
 nav_order: 2
 ---
 
-# Current profiles
+# Near-surface current profiles

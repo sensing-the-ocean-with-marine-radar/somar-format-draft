@@ -1,8 +1,8 @@
 ---
-title: Level 2 Products
+title: Level 2 data
 layout: default
 parent: SOMaR data types
 #nav_order: 1
 ---
 
-Level 2 Products
+Level 2 data

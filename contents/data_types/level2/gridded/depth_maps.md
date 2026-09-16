@@ -1,8 +1,8 @@
 ---
-title: Depth maps
+title: Bathymetric maps
 layout: default
 parent: Gridded data
 nav_order: 3
 ---
 
-# Bathymetry (or depth) maps 
+# Bathymetric maps 

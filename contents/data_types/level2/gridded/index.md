@@ -1,8 +1,8 @@
 ---
 title: Gridded data
 layout: default
-parent: Level 2 Products
+parent: Level 2 data
 #nav_order: 1
 ---
 
-# (Moving) grid data
+# Gridded data

@@ -5,4 +5,4 @@ parent: Gridded data
 nav_order: 1
 ---
 
-# Relative roughness maps 
+# Roughness maps 

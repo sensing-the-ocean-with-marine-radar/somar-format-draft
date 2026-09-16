@@ -1,17 +1,19 @@
 ---
 title: Level 1a data
 layout: default
-parent: Level 1 Products
+parent: Level 1 data
 #nav_order: 2
 ---
 
-# Level 1a data products
+# Level 1a data
+
+## Polar radar "raw" data 
 
 A SOMaR NetCDF file at Level 1a originates directly from the data recorded by the radar system used (Level 0).
 It can therefore still be considered "raw" radar data, but stored as NetCDF rather than in the often proprietary radar data containers used by different manufacturers.
 This ensures interoperability even when different radar systems are used.
 No changes to the data, other than this format conversion, are allowed.
-In particular, Level 1a data should contain all pulses without any interpolation or pulse averaging.
+In particular, Level 1a products should contain all pulses without any interpolation or pulse averaging.
 The primary axis is time and should, if possible, be given as an absolute timestamp in UNIX time (seconds from 1970-01-01 00:00:00.000 UTC).
 The secondary axes are the range bin number or slant range (or both) and azimuth angle (with respect to the radar's "0" angle which can be different from north).
 The data itself are stored in the units of the radar's respective analog-to-digital converters.

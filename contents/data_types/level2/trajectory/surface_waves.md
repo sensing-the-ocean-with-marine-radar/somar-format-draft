@@ -1,8 +1,8 @@
 ---
-title: Surface waves
+title: Surface wave spectra and parameters
 layout: default
 parent: Trajectory data
 nav_order: 1
 ---
 
-# Surface waves
+# Surface wave spectra and parameters
