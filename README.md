@@ -107,7 +107,7 @@ You might want to maintain your docs in an existing project repo. Instead of cre
 
 ### Modify the GitHub Actions workflow
 
-The GitHub Actions workflow that builds and deploys your site to Github Pages is defined by the `pages.yml` file. You'll need to edit this file to that so that your build and deploy steps look to your `docs` directory, rather than the project root.
+The GitHub Actions workflow that builds and deploys your site to Github Pages is defined by the `pages.yml` file. You'll need to edit this file so that your build and deploy steps look to your `docs` directory, rather than the project root.
 
 1.  Set the default `working-directory` param for the build job.
 
