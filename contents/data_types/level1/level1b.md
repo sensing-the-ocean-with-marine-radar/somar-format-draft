@@ -7,4 +7,6 @@ parent: Level 1 data
 
 # Level 1b data
 
-## Polar or Cartesian image sequences
+## Polar images
+
+## Cartesian images

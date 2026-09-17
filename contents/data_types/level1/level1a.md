@@ -20,9 +20,7 @@ The data itself are stored in the units of the radar's respective analog-to-digi
 Since the SOMaR format aims for full compliance with UDUNITS and CF, the `unit` variable must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units.
 It should therefore be clearly specified in the `comment` variable whether the unit refers to amplitude or power.
 
-## 
-
-## Minimal example:
+## Minimal example
 ```
 {
 dimensions:
