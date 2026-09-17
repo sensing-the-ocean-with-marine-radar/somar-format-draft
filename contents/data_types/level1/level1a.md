@@ -51,7 +51,7 @@ variables:
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Bare minimum level 1a X-band radar data example" ;
                 :source = "ground-based radar" ;
-                :creation_date = "20230831T170026Z" ;
+                :history = "20230831T170026Z: File creation time" ;
                 :originator = "Dr. Famous Scientist" ;
                 :contact = "famous.scientist@frori.org" ;
                 :crs = "Polar local sensor coordinates" ;
