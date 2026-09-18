@@ -25,6 +25,12 @@ ushort polar_amp(time, range) ;
         polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
 ```
 
+Data variables in [Level 1b polar images](../data_types/level1/level1b.md), whose irregular pulse azimuths have been resampled onto a regular azimuth grid, additionally carry a variable attribute recording how this was done:
+
+| Attribute | Allowed values | Description |
+|---|---|---|
+| `azimuth_regularization` | `"nearest_neighbor"`, `"linear_interpolation"`, `"average"` | The method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
+
 Several Level 2 products go further, deriving physically calibrated quantities (e.g. significant wave height, current velocity, water depth) from the radar signal using retrieval-specific calibration parameters — for example, the `comment` attributes of the wave and current products reference an "empirical modulation transfer function" and "radar specific calibration parameters" used internally during processing. These parameters are not yet exposed as their own NetCDF attributes or a dedicated calibration group in current SOMaR output; formalizing how such retrieval-calibration parameters should be recorded (for example, in a dedicated `radar_parameters`/calibration NetCDF group, as this section's heading anticipates) is an open item for a future revision of the format rather than an established convention today.
 
 
