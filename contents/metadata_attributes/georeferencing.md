@@ -44,3 +44,19 @@ grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
 ```
 
 This compound, multi-mapping form of `grid_mapping` is a SOMaR-specific extension: standard CF only defines a single grid mapping per variable. It is only used where a variable is genuinely dual-referenced; a variable tied to a single CRS uses the plain CF form, `grid_mapping = "crs"`.
+
+### Group time variable
+
+Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units` of the form `days since <reference date>`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
+Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable:
+
+```
+double time ;
+        time:calendar = "standard" ;
+        time:long_name = "start time of radar measurement" ;
+        time:standard_name = "time" ;
+        time:units = "days since 2025-01-01T00:00:00Z" ;
+        time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
+```
+
+`time_iso_8601` is redundant with `time` and must agree with it. The start of the first group and the end of the last group are additionally given at file level by the global attributes `time_coverage_start` and `time_coverage_end` (see [Optional global attributes](optional_global.md)).
