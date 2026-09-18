@@ -8,7 +8,7 @@ plugins:
   - jekyll-default-layout
   
 aux_links:
-  "SOMaR Community": https://github.com/sensing-the-ocean-with-marine-radar
+  "GitHub Repository": https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true
