@@ -7,6 +7,9 @@ parent: Level 1 data
 
 # Level 1b data
 
+Level 1b contains individual radar images, one per antenna revolution, mapped from polar (range, azimuth) coordinates onto a local Cartesian grid centered on the platform.
+Values remain uncalibrated and unaveraged; only the geometry changes relative to Level 1a.
+
 ## Polar images
 
 ## Cartesian images

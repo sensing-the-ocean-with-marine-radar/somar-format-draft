@@ -7,6 +7,9 @@ parent: Level 1 data
 
 # Level 1a data
 
+Level 1a is the lowest SOMaR level: the unmodified radar recording, converted from the manufacturer's container into NetCDF.
+Every pulse is kept, indexed by time, range, and azimuth, with no interpolation, averaging, or calibration.
+
 ## Polar radar "raw" data 
 
 A SOMaR NetCDF file at Level 1a originates directly from the data recorded by the radar system used (Level 0).
