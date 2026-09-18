@@ -2,7 +2,7 @@
 title: Near-surface current maps
 layout: default
 parent: Gridded data
-nav_order: 2
+nav_order: 3
 ---
 
 # Near-surface current maps

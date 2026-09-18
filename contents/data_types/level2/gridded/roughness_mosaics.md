@@ -2,7 +2,7 @@
 title: Roughness image mosaics
 layout: default
 parent: Gridded data
-nav_order: 4
+nav_order: 2
 ---
 
 # Roughness image mosaics

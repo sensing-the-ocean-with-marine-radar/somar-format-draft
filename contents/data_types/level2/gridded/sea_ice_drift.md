@@ -2,7 +2,7 @@
 title: Sea ice drift maps
 layout: default
 parent: Gridded data
-nav_order: 1
+nav_order: 5
 ---
 
 # Sea ice drift maps
