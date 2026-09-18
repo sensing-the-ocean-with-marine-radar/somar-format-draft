@@ -11,7 +11,7 @@ Every SOMaR NetCDF file must carry the following global attributes, regardless o
 
 | Attribute | Example | Description |
 |---|---|---|
-| `Conventions` | `"CF-1.13 SOMaR-0.3-draft"` | The CF convention version the file complies with, together with the SOMaR format version, space separated. |
+| `Conventions` | `"CF-1.13 SOMaR-0.5-draft"` | The CF convention version the file complies with, together with the SOMaR format version, space separated. |
 | `title` | `"Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research"` | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
 | `institution` | `"Famous Radar Ocean Research Institute"` | The institution responsible for producing the file. |
 | `source` | `"Shipboard marine X-band radar"` | The method of production of the underlying data, e.g. the type of platform and sensor. |

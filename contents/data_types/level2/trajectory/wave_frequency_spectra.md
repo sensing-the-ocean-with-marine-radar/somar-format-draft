@@ -65,7 +65,7 @@ variables:
                 :title = "Marine X-band radar derived wave energy density frequency spectra, directional spread, and mean direction with quality control flag from R/V Ocean Research" ;
                 :comment = "The wave energy spectral density, directional spread, and mean direction as function of frequency data are derived from the mean two dimensional wavenumber wave energy density spectrum using the linear wave dispersion relation." ;
                 :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
 }

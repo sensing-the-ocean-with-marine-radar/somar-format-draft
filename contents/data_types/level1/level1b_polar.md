@@ -57,7 +57,7 @@ variables:
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
 
 // global attributes:
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Bare minimum level 1b polar X-band radar data example" ;
                 :source = "ground-based radar" ;

@@ -78,7 +78,7 @@ variables:
                 :title = "Marine X-band radar derived mean and peak wave parameters with quality control flag from R/V Ocean Research" ;
                 :comment = "The mean and peak wave parameters are derived from the mean two dimensional wavenumber wave energy density spectrum." ;
                 :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
 }

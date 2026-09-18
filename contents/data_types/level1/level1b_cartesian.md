@@ -70,7 +70,7 @@ variables:
                 pulse_time:units = "days since 2025-01-01T00:00:00Z" ;
 
 // global attributes:
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Marine X-band radar backscatter intensity images from R/V Ocean Research" ;
                 :source = "Shipboard marine X-band radar" ;

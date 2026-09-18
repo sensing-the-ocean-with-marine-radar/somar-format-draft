@@ -73,7 +73,7 @@ variables:
                 :title = "Marine X-band radar sea ice drift measurements with quality control flag from R/V Ocean Research" ;
                 :comment = "The sea ice drift vectors are obtained through cross correlation of pairs of 30.0 s averaged radar backscatter intensity images separated by 90.0 s. The images are partitioned into analysis windows where all pixels outside of the circles that are inscribed in the analysis windows are set to zero. The locations of the Pearson correlation coefficient peaks from two-dimensional sliding window correlations forward and backward in time yield two sea ice drift vectors per analysis window. This method is blind to the presence or absence of sea ice within the analysis window. A good indicator for the presence of sea ice are high correlation coefficients (>0.75) and a good agreement between the two sea ice drift vectors (magnitude of vector difference <0.1 m s-1). The resulting sea ice drift maps have a fixed latitude spacing and a longitude spacing that is updated within 1-degree latitude bands to ensure an approximately constant grid resolution. Analysis windows with a spatiotemporal data coverage of <90.0% are disregarded. Segments of the radar field of view that are obstructed by platform superstructures are also disregarded." ;
                 :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
 }

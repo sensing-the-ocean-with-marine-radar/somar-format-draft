@@ -65,7 +65,7 @@ variables:
                 :title = "Marine X-band radar bathymetry measurements with quality control flag from R/V Ocean Research" ;
                 :comment = "The bathymetry measurements are obtained through least-squares fits that minimize the distance between the wave signal found in marine X-band radar backscatter intensity wavenumber frequency spectra and the linear ocean wave dispersion shell. Here, the spectra are based on 12.0 min long radar backscatter intensity image sequences that are partitioned into analysis windows where all pixels outside of the circles that are inscribed in the analysis windows are set to zero. The resulting bathymetry maps have a fixed latitude spacing and a longitude spacing that is updated within 1-degree latitude bands to ensure an approximately constant grid resolution. The spatial overlap between neighboring analysis windows is 50.0% and the temporal overlap between consecutive analysis periods is 25.0%. Analysis windows with a spatiotemporal data coverage of <90.0% are disregarded. Segments of the radar field of view that are obstructed by platform superstructures are also disregarded. X-band radar bathymetry measurements are limited to waters that are shallower than ~30% of the underlying ocean wavelengths, which is where they sufficiently depart from the deep water dispersion relationship." ;
                 :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
 }

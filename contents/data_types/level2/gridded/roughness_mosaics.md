@@ -25,7 +25,7 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :title = "Marine X-band radar temporally averaged sea surface roughness images from R/V Ocean Research" ;
                 :comment = "The sea surface roughness images are mosaics composed of approximately 375 consecutive radar backscatter intensity images, corresponding to 600.0 s. The images are corrected for ship motion and for the rapid radar backscatter intensity decay with range. Segments of the radar field of view that are obstructed by platform superstructures are disregarded. Each image pixel is a temporal average of approximately 19 consecutive radar backscatter intensity images. The averaging start time for each pixel varies across the image and is determined by the data availability and hence the ship track." ;
                 :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.3-draft" ;
+                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
 
