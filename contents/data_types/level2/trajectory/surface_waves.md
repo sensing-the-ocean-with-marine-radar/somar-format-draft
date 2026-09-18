@@ -5,7 +5,13 @@ parent: Trajectory data
 nav_order: 1
 ---
 
-# Surface wave energy density spectra
+# Surface wave spectra and parameters
+
+Surface wave products describe the sea state along the platform trajectory, retrieved from a dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows.
+They come as wave energy density spectra, which resolve the wave field across wavenumber, frequency, and direction, and as peak and mean wave parameters, which condense each spectrum into standard bulk quantities such as significant wave height and peak wave period.
+All surface wave files carry one value or spectrum per analysis window, with `time`, `longitude`, and `latitude` coordinates and a `measurement_quality` flag.
+
+## Surface wave energy density spectra
 
 Surface wave energy density spectra describe the distribution of wave energy across wavenumber, frequency, and/or direction, retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](../gridded/current_maps.md).
 SOMaR provides two complementary representations of the (time-averaged) wave energy spectrum for each analysis window:
@@ -13,9 +19,9 @@ SOMaR provides two complementary representations of the (time-averaged) wave ene
 1. The two-dimensional wavenumber spectrum, `sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, giving the wave energy density as a function of the two horizontal wavenumber components. Following oceanographic convention, the wavenumber vectors point in the direction from which the waves are propagating.
 2. The one-dimensional frequency spectrogram, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band, all derived from the two-dimensional wavenumber spectrum.
 
-Both representations share the same `time`, `longitude`, and `latitude` coordinates, one value per analysis window, and carry a `measurement_quality` flag. Because the wave energy density is calibrated against a reference wave data set, files also carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
+Because the wave energy density is calibrated against a reference wave data set, files also carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
 
-## Minimal example: two-dimensional wavenumber spectrum
+### Minimal example: two-dimensional wavenumber spectrum
 ```
 netcdf or_2025-01-15-11_wavenumber_spectra_average {
 dimensions:
@@ -70,7 +76,7 @@ variables:
 }
 ```
 
-## Minimal example: one-dimensional frequency spectrogram
+### Minimal example: one-dimensional frequency spectrogram
 ```
 netcdf or_2025-01-15-11_wave_spectrograms_average {
 dimensions:
@@ -130,13 +136,13 @@ variables:
 }
 ```
 
-# Peak and mean wave parameters
+## Peak and mean wave parameters
 
 Peak and mean wave parameters summarize each wave energy density spectrum above using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
 To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities used to derive the significant wave height are also reported (`wave_signal`, `background_noise`), together with the near-surface current vector obtained from the same analysis window (see [Near-surface current maps](../gridded/current_maps.md)) and a `measurement_quality` flag.
 As for the wave spectra, a `sea_surface_wave_significant_height_calibration_status` global attribute documents the calibration source and date against which the significant wave height retrieval was calibrated.
 
-## Minimal example
+### Minimal example
 ```
 netcdf or_2025-01-15-11_wave_parameters_average {
 dimensions:
