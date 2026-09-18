@@ -20,5 +20,5 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `geospatial_lat_min` / `geospatial_lat_max` | `14.9265` / `15.03` | The minimum and maximum latitude covered by the file's data, in degrees north. |
 | `geospatial_lon_min` / `geospatial_lon_max` | `145.8426` / `145.96815` | The minimum and maximum longitude covered by the file's data, in degrees east. |
 
-Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `sea_surface_wave_significant_height_calibration_status` on [Surface wave spectra and parameters](../data_types/level2/trajectory/surface_waves.md), or `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/gridded/current_maps.md).
+Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `sea_surface_wave_significant_height_calibration_status` on the [surface wave products](../data_types/level2/trajectory/index.md), or `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/gridded/current_maps.md).
 
