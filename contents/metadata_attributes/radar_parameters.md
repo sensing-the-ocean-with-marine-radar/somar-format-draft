@@ -25,7 +25,7 @@ ushort polar_amp(time, range) ;
         polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
 ```
 
-Data variables in [Level 1b polar images](../data_types/level1/level1b.md), whose irregular pulse azimuths have been resampled onto a regular azimuth grid, additionally carry a variable attribute recording how this was done:
+Data variables in [Level 1b polar images](../data_types/level1/level1b_polar.md), whose irregular pulse azimuths have been resampled onto a regular azimuth grid, additionally carry a variable attribute recording how this was done:
 
 | Attribute | Allowed values | Description |
 |---|---|---|

@@ -20,7 +20,7 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 
 | Example filename | Product |
 |---|---|
-| `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b.md) (sub-hourly, one antenna revolution) |
+| `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b_cartesian.md) (sub-hourly, one antenna revolution) |
 | `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../data_types/level2/gridded/roughness_images.md) |
 | `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../data_types/level2/gridded/roughness_mosaics.md) |
 | `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../data_types/level2/gridded/current_maps.md) |

@@ -22,7 +22,7 @@ char trajectory ;
 Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice. The `crs` variable's own attributes describe the projection:
 
 - For point/trajectory data given directly as longitude/latitude (e.g. [near-surface current maps](../data_types/level2/gridded/current_maps.md), [bathymetric maps](../data_types/level2/gridded/depth_maps.md), [sea ice drift maps](../data_types/level2/gridded/sea_ice_drift.md), and the wave products), `grid_mapping_name = "latitude_longitude"`, together with the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`) and an `authority_string` (e.g. an EPSG code).
-- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md), [roughness images](../data_types/level2/gridded/roughness_images.md)), `grid_mapping_name = "transverse_mercator"`, with the local projection defined by `longitude_of_projection_origin`, `latitude_of_projection_origin`, `scale_factor_at_central_meridian`, and (where relevant) `false_easting`/`false_northing`, plus `projected_crs_name`.
+- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b_cartesian.md), [roughness images](../data_types/level2/gridded/roughness_images.md)), `grid_mapping_name = "transverse_mercator"`, with the local projection defined by `longitude_of_projection_origin`, `latitude_of_projection_origin`, `scale_factor_at_central_meridian`, and (where relevant) `false_easting`/`false_northing`, plus `projected_crs_name`.
 
 ```
 char crs ;
