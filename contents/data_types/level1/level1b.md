@@ -78,7 +78,7 @@ variables:
                 :source = "Shipboard marine X-band radar" ;
                 :originator = "Dr. Famous Scientist" ;
                 :contact = "famous.scientist@frori.org" ;
-                :comment = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate sytem is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
+                :comment = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
                 :featureType = "trajectory" ;
 }
 ```

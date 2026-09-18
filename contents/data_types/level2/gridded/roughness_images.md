@@ -43,7 +43,7 @@ group: time_20250115110031 {
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
-                crs:projected_crs_name = "WGS 84 / origin of coordinate sytem is radar location at measurement start time" ;
+                crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
         char crs_utm ;
                 crs_utm:grid_mapping_name = "transverse_mercator" ;
                 crs_utm:longitude_of_projection_origin = 147. ;
