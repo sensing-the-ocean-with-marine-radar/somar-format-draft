@@ -51,7 +51,7 @@ variables:
         double sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber) ;
                 sea_surface_wave_variance_spectral_density:long_name = "wave energy density two dimensional wavenumber spectrum" ;
                 sea_surface_wave_variance_spectral_density:standard_name = "sea_surface_wave_variance_spectral_density" ;
-                sea_surface_wave_variance_spectral_density:units = "m3" ;
+                sea_surface_wave_variance_spectral_density:units = "m4" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
                 measurement_quality:flag_meanings = "good bad" ;
