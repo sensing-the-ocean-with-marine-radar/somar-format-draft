@@ -52,7 +52,7 @@ variables:
                 sea_floor_depth_below_sea_surface_standard_error:long_name = "standard error of the bathymetry measurement" ;
                 sea_floor_depth_below_sea_surface_standard_error:units = "m" ;
         int64 number_of_wave_coordinates(measurement) ;
-                number_of_wave_coordinates:long_name = "number of wave coordinates used by the bathmetry measurement" ;
+                number_of_wave_coordinates:long_name = "number of wave coordinates used by the bathymetry measurement" ;
                 number_of_wave_coordinates:units = "1" ;
         ubyte measurement_quality(measurement) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
