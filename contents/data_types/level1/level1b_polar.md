@@ -1,5 +1,5 @@
 ---
-title: Regularized polar images
+title: Regularized polar images (1b)
 layout: default
 parent: Level 1 data
 nav_order: 2

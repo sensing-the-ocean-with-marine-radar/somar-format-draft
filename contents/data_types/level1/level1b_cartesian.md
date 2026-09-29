@@ -1,5 +1,5 @@
 ---
-title: Cartesian images
+title: Cartesian images (1b)
 layout: default
 parent: Level 1 data
 nav_order: 3
