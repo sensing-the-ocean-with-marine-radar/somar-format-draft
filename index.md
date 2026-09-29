@@ -10,8 +10,6 @@ SOMaR-data-formats-v0.5-draft
 
 _The SOMaR community_
 
-This is the very first draft documentation of standard data formats to facilitate use, sharing, and post-processing of products on different levels of processing in the field of marine radar ocean sensing. It defines metadata variables and a structure for different data types. These involve maps, trajectories, and profiles. 
+This document presents the first draft of the Sensing the Ocean with Marine Radars (SOMaR) standard data formats, developed to facilitate the use, sharing, and post-processing of marine radar ocean sensing products across multiple processing levels. It defines a common data structure and metadata conventions for a range of product types, including maps, trajectories, and profiles.
 
-As far as it is possible, all SOMaR data formats are compliant to the NetCDF Climate and Forecast (CF) Metadata Conventions. Extensions to the CF-Conventions needed for SOMaR are detailed. SOMaR data formats aim to be lightweight while providing enough flexibility to cover as many use cases as possible. 
-
-
+Wherever possible, SOMaR data formats adhere to the NetCDF Climate and Forecast (CF) Metadata Conventions. Required SOMaR-specific extensions are documented in detail. The formats are designed to be lightweight, self-describing, and flexible enough to support a wide range of scientific and operational use cases.
