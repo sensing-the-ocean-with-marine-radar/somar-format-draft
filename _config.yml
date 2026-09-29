@@ -2,10 +2,16 @@ title: SOMaR Data Format v0.5 (draft)
 description: First draft of the cummunity standard data format conventions for Sensing the Ocean with Marine Radar 
 theme: just-the-docs
 
-url: https://sensing-the-ocean-with-marine-radar.github.io/somar-format-draft
+url: https://sensing-the-ocean-with-marine-radar.github.io
+baseurl: /somar-format-draft
 
 plugins:
   - jekyll-default-layout
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
   
 aux_links:
   "GitHub Repository": https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft
