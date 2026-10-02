@@ -1,11 +1,11 @@
 ---
-title: Polar radar "raw" data (1a)
+title: Radar "raw" data (L1a)
 layout: default
 parent: Level 1 data
 nav_order: 1
 ---
 
-# Polar radar "raw" data
+# L1a: "raw" radar data
 
 Here we refer to Level 1a data, the lowest SOMaR level: the unmodified radar recording, converted from the manufacturer's container into NetCDF.
 Every pulse is kept, indexed by time, range, and azimuth, with no interpolation, averaging, or calibration.
