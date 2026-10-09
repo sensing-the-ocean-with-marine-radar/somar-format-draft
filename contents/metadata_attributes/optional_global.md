@@ -35,7 +35,7 @@ For example:
                 :platform = "R/V Ocean Research" ;
                 :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
                 :platform_is_mobile = "true" ;
-                :processing_software = "CSTARS X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
+                :processing_software = "FRORI X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
                 :institution_id = "https://ror.org/02dgjyy92" ;
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
                 :date_created = "2025-01-15T12:05:00Z" ;
