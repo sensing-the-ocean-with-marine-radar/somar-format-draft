@@ -28,3 +28,11 @@ nav_enabled: true
 #
 # Supports true (default) or false
 heading_anchors: true
+
+# The just-the-docs theme (0.12.0, the latest release) still uses Sass features
+# that Dart Sass has deprecated. Silence those warnings, which come from the
+# theme's stylesheets rather than from this repository.
+sass:
+  quiet_deps: true
+  silence_deprecations:
+    - import
