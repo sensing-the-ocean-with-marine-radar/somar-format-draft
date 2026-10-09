@@ -32,7 +32,7 @@ variables:
                 time:calendar = "standard" ;
                 time:long_name = "start time of sea ice drift measurement" ;
                 time:standard_name = "time" ;
-                time:units = "days since 2025-01-01T00:00:00Z" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double longitude(measurement) ;
                 longitude:long_name = "center longitude of sea ice drift measurement" ;
                 longitude:standard_name = "longitude" ;

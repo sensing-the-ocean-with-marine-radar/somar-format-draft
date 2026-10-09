@@ -50,7 +50,7 @@ A sweep group holds the following variables, which are distinct from attributes 
 
 | Variable | Values | Description |
 |---|---|---|
-| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since <reference time>` | Required. Time of each pulse. Should be given as UNIX time (`seconds since 1970-01-01T00:00:00Z`). |
+| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `metres` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degrees` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Optional. Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |

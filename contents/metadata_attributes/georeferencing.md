@@ -83,7 +83,7 @@ Coordinates in other projected systems, such as UTM, are not stored, since they 
 
 ### Group time variable
 
-Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units` of the form `days since <reference date>`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
+Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units = "seconds since 1970-01-01T00:00:00Z"`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
 Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` (see [Variable attributes](variable_attributes.md)) with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable:
 
 ```
@@ -91,7 +91,7 @@ double time ;
         time:calendar = "standard" ;
         time:long_name = "start time of radar measurement" ;
         time:standard_name = "time" ;
-        time:units = "days since 2025-01-01T00:00:00Z" ;
+        time:units = "seconds since 1970-01-01T00:00:00Z" ;
         time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
 ```
 

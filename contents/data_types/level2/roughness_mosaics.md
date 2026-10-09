@@ -53,7 +53,7 @@ group: time_20250115111001 {
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
-                time:units = "days since 2025-01-01T00:00:00Z" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
         double x(x) ;
                 x:long_name = "eastward distance from radar position at measurement start time" ;

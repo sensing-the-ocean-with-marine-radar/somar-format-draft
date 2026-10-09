@@ -42,7 +42,7 @@ dimensions:
         range = 435 ;
 variables:
         double time(time) ;
-                time:units = "seconds since 1970-01-01 00:00:00" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:standard_name = "time" ;
                 time:long_name = "start time of radar measurement" ;
         float azimuth(azimuth) ;
@@ -57,7 +57,7 @@ variables:
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
         double pulse_time(time, azimuth) ;
-                pulse_time:units = "seconds since 1970-01-01 00:00:00" ;
+                pulse_time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 pulse_time:long_name = "radar pulse time" ;
                 pulse_time:comment = "acquisition time represented by each azimuth bin" ;
         float polar_amp(time, azimuth, range) ;
@@ -111,7 +111,7 @@ variables:
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
-                time:units = "days since 2025-01-01T00:00:00Z" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double longitude(time) ;
                 longitude:long_name = "longitude" ;
                 longitude:standard_name = "longitude" ;
@@ -140,7 +140,7 @@ variables:
         double pulse_time(time, pulse_azimuth) ;
                 pulse_time:calendar = "standard" ;
                 pulse_time:long_name = "radar pulse time" ;
-                pulse_time:units = "days since 2025-01-01T00:00:00Z" ;
+                pulse_time:units = "seconds since 1970-01-01T00:00:00Z" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
