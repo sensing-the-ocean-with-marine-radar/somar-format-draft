@@ -15,11 +15,12 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 
 - `station_id` is a short, lowercase, unique identifier for the originating platform, e.g. `or` for the fictional R/V Ocean Research used throughout this document's examples.
 - `<YYYY-MM-DD>-<HH>` is the UTC date and hour at which the file's data coverage begins. Most SOMaR products are aggregated into one file per hour; sub-hourly products additionally append a two-digit `-<MM>` minute field.
-- `product_name` is a short, snake_case name identifying the product, matching the naming used for the product throughout this document (e.g. `sea_surface_roughness`, `sea_surface_roughness_mosaic`, `currents`, `currents_profile`, `bathymetry`, `sea_ice_drift`).
+- `product_name` is a short, snake_case name identifying the product, matching the naming used for the product throughout this document (e.g. `radar_raw`, `sea_surface_roughness`, `sea_surface_roughness_mosaic`, `currents`, `currents_profile`, `bathymetry`, `sea_ice_drift`).
 - Level 2 products that are temporal averages of an underlying per-analysis-window product carry an `_average` suffix (e.g. `wave_parameters_average.nc`) to distinguish them from their un-averaged counterparts.
 
 | Example filename | Product |
 |---|---|
+| `or_2025-01-15-11-00_radar_raw.nc` | [Radar "raw" data](../data_types/level1/level1a.md) (sub-hourly) |
 | `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d) (sub-hourly, one antenna revolution) |
 | `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../data_types/level2/roughness_images.md) |
 | `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../data_types/level2/roughness_mosaics.md) |

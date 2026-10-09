@@ -7,6 +7,24 @@ nav_order: 5
 
 # Georeferencing
 
+## Polar sensor coordinates
+
+[Level 1a data](../data_types/level1/level1a.md) and [Level 1b polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
+They are located in space with the variables that the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and, for moving platforms, the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft define for this purpose, rather than with a grid mapping:
+
+- `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform, they give the position at the start of the file.
+- For a moving platform, the `georeference` subgroup of each sweep gives the `latitude`, `longitude`, and `heading` of the platform, either once per sweep, at the time of its first pulse, or for every pulse (CfRadial 2.1; see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)).
+- `azimuth_correction` and `range_correction`, in the `georeference_correction` group, give known offsets of the recorded azimuth and range (CfRadial 2.1; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
+
+The `azimuth` variable holds the antenna angle as recorded by the radar. The azimuth of a pulse relative to true north, clockwise positive, is
+
+```
+azimuth + azimuth_correction + heading
+```
+
+where a missing variable counts as 0, and the ground range follows from the slant range `range + range_correction` and the `altitude` of the antenna above the sea surface.
+The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
+
 ## Trajectory identification
 
 Since every SOMaR Level 1b and Level 2 product is defined along a moving platform's track, files with `featureType = "trajectory"` (see [Mandatory global attributes](mandatory_global.md)) must carry a companion scalar `char` variable named `trajectory`, marked with `cf_role = "trajectory_id"`, identifying the trajectory to which the file's data belong:

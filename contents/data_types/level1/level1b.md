@@ -16,7 +16,12 @@ Each time step represents one complete antenna revolution to form the individual
 The data variable has the dimensions `(time, azimuth, range)`, and reflects uncalibrated amplitude (or power) data.  
 
 
-**TODO** decide what do do with this: *The azimuth is given relative to the radar's "0" angle, as in Level 1a, and is not necessarily north-oriented.*
+One image corresponds to one sweep of the [Level 1a](level1a.md) data.
+The `range` and `azimuth` variables carry the same attributes as at Level 1a, which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
+As at Level 1a, the azimuth is given relative to the radar's zero direction and is not necessarily north-oriented; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../../metadata_attributes/georeferencing.md#polar-sensor-coordinates)).
+The image cube with the dimensions `(time, azimuth, range)` has no equivalent in FM 301, which keeps the individual rays of each sweep, and is specific to SOMaR.
+
+The spacing of the regular azimuth axis is recorded in the `rays_angle_resolution` attribute of `azimuth`, in degrees. The name is that of the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid.
 
 The resampling method is recorded in the `azimuth_regularization` attribute of the data variable, which must be one of:
 
@@ -45,12 +50,15 @@ variables:
                 time:long_name = "start time of radar measurement" ;
         float azimuth(azimuth) ;
                 azimuth:units = "degrees" ;
-                azimuth:standard_name = "sensor_azimuth_angle" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
-                azimuth:comment = "clockwise positive, not North-oriented" ;
+                azimuth:rays_angle_resolution = 0.25f ;
+                azimuth:comment = "clockwise positive, relative to the radar heading marker, not North-oriented" ;
         float range(range) ;
-                range:units = "meters" ;
-                range:long_name = "slant_range" ;
+                range:units = "metres" ;
+                range:long_name = "range_to_measurement_volume" ;
+                range:spacing_is_constant = "true" ;
+                range:meters_to_center_of_first_gate = 3.75f ;
+                range:meters_between_gates = 7.5f ;
         double pulse_time(time, azimuth) ;
                 pulse_time:units = "seconds since 1970-01-01 00:00:00" ;
                 pulse_time:long_name = "radar pulse time" ;
@@ -69,7 +77,6 @@ variables:
                 :history = "20230831T170026Z: File creation time" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
-                :crs = "Polar local sensor coordinates" ;
                 :processing_level = "L1b" ;
 }
 ```

@@ -14,6 +14,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `summary` | [ACDD][acdd] | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. | `"The near-surface current vectors are obtained through least-squares fits ..."` |
 | `platform` | [ACDD][acdd] | String; free text | The name of the vessel or platform the radar was mounted on. | `"R/V Ocean Research"` |
 | `instrument` | [ACDD][acdd] | String; free text | The manufacturer, model, and/or type of the radar system used (see [Radar parameters](radar_parameters.md)). | `"Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar"` |
+| `platform_is_mobile` | [FM 301][fm301] | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. | `"true"` |
 | `processing_software` | SOMaR | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. | `"CSTARS X-band radar processing software version 2.5.0 written in Python 3.13.6"` |
 | `institution_id` | SOMaR | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. | `"https://ror.org/02dgjyy92"` |
 | `license` | [ACDD][acdd] | String; URL or free text | The data usage license under which the file is released. | `"Creative Commons Attribution 4.0 International Public License (CC BY 4.0)"` |
@@ -29,3 +30,4 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `sea_surface_wave_significant_height_calibration_status` on the [surface wave products](../data_types/level2/index.md), or `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/current_maps.md).
 
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
+[fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

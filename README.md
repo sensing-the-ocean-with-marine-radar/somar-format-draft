@@ -1,6 +1,6 @@
 # SOMaR data format (draft)
 
-Draft community standard for data formats used by the *Sensing the Ocean with Marine Radar* (SOMaR) community: NetCDF conventions for sharing and post-processing marine radar products at different processing levels, from raw radar recordings to derived geophysical variables. The formats follow the NetCDF Climate and Forecast (CF) conventions wherever possible, use the Attribute Convention for Data Discovery (ACDD) for discovery metadata, and document the extensions SOMaR needs (for example, time-bounded local grids).
+Draft community standard for data formats used by the *Sensing the Ocean with Marine Radar* (SOMaR) community: NetCDF conventions for sharing and post-processing marine radar products at different processing levels, from raw radar recordings to derived geophysical variables. The formats follow the NetCDF Climate and Forecast (CF) conventions wherever possible, use the Attribute Convention for Data Discovery (ACDD) for discovery metadata and follow WMO FM 301 (and CfRadial for moving platforms) for radar data in polar coordinates, and document the extensions SOMaR needs (for example, time-bounded local grids).
 
 The specification is a [Jekyll] site using the [Just the Docs] theme, published at
 <https://sensing-the-ocean-with-marine-radar.github.io/somar-format-draft>.

@@ -26,9 +26,16 @@ Which of them a given variable carries depends on the product and is shown in th
 | `ancillary_variables` | [CF][cf-ancillary] | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. | `"number_of_observations"` |
 | `flag_values` | [CF][cf-flags] | List of values of the variable's type | The values a flag variable can take. | `0UB, 1UB` |
 | `flag_meanings` | [CF][cf-flags] | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. | `"good bad"` |
+| `coordinates` | [CF][cf-coordinates] | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. | `"azimuth range"` |
+| `spacing_is_constant` | [FM 301][fm301] | String; `true` or `false` | On `range`: whether the range bins are equally spaced. | `"true"` |
+| `meters_to_center_of_first_gate` | [FM 301][fm301] | Number; meters | On `range`: the range to the center of the first range bin. | `3.75` |
+| `meters_between_gates` | [FM 301][fm301] | Number; meters | On `range`: the spacing of the range bins. Required if `spacing_is_constant` is `true`. | `7.5` |
+| `rays_angle_resolution` | SOMaR | Number; degrees | On the regular `azimuth` axis of Level 1b polar data: the spacing of the azimuth bins. Named after the FM 301 variable of the same meaning. | `0.25` |
 | `time_iso_8601` | SOMaR | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. It must agree with `time` (see [Georeferencing](georeferencing.md)). | `"2025-01-15T11:10:01.357666Z"` |
 | `azimuth_regularization` | SOMaR | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On Level 1b polar data variables: how pulses recorded at irregular azimuths were resampled onto the regular `azimuth` axis (see [Radar parameters](radar_parameters.md)). | `"nearest_neighbor"` |
 {: .attribute-table }
+
+FM 301 additionally prescribes values of `standard_name` and `axis` for the `range` and `azimuth` variables (`projection_range_coordinate`, `sensor_to_target_azimuth_angle`, `radial_range_coordinate`, `radial_azimuth_coordinate`). They are not defined by the CF conventions, so SOMaR does not use them.
 
 ## Trajectory and grid mapping references
 
@@ -58,6 +65,8 @@ These attributes are carried by the scalar coordinate reference system variables
 [cf-long-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#long-name
 [cf-units]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#units
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
+[cf-coordinates]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#coordinate-system
+[fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cf-calendar]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#calendar
 [cf-packed]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#packed-data
 [cf-missing]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#missing-data
