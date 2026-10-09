@@ -21,20 +21,9 @@ In particular, Level 1a products should contain all pulses without any interpola
 Radar data in polar coordinates already have an international standard, the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes, which was developed for weather radars from the earlier [CfRadial format][cfradial].
 Rather than define its own structure and vocabulary, SOMaR Level 1a draws on these documents in the following order:
 
-1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, units, and attributes of the variables.
+1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, units, and attributes of the variables. To keep the format simple, Level 1a leaves out everything in FM 301 that is of no use for a marine radar. A Level 1a file is therefore not a conforming FM 301 file. Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
 2. **CfRadial 2.1** (draft of 2019) is followed for the parameters of moving platforms and for corrections to the recorded azimuth and range. FM 301 does not support moving platforms and omits these parts of CfRadial.
 3. **SOMaR** defines what neither document covers.
-
-The tables below name the FM 301 table or CfRadial section that defines each variable; the definitions are not repeated here.
-Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
-
-To keep the format simple, Level 1a leaves out everything in FM 301 that is of no use for a marine radar.
-A Level 1a file is therefore not a conforming FM 301 file. The following are not used:
-
-- **Elevation.** A marine radar scans horizontally only. The FM 301 variables `elevation` and `fixed_angle` are omitted, and the `coordinates` attribute of the data variables is `"azimuth range"` instead of `"elevation azimuth range"`. The vertical beam width is given by `beam_width_v` (see [Radar parameters](../../metadata_attributes/radar_parameters.md)).
-- **Attribute values not defined by CF.** FM 301 prescribes values of `standard_name` and `axis` for `range` and `azimuth` that the CF conventions do not define (`projection_range_coordinate`, `sensor_to_target_azimuth_angle`, `radial_range_coordinate`, `radial_azimuth_coordinate`). They serve to tell range, azimuth, and elevation apart and are omitted, so that Level 1a files remain CF compliant.
-- **Sweep and volume bookkeeping.** `sweep_number`, `follow_mode`, `prt_mode`, `volume_number`, `instrument_type`, and `antenna_transition` are omitted. The start and end time of a file are given by the global attributes `time_coverage_start` and `time_coverage_end` (see [Optional global attributes](../../metadata_attributes/optional_global.md)) rather than by variables.
-- **WMO attributes.** The global and variable attributes of the WMO-CF general regulations (those beginning with `wmo__`) and the FM 301 attribute `instrument_name` are omitted; the radar is named by the global attribute `instrument`.
 
 ## File structure
 
