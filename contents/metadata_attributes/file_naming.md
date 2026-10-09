@@ -2,7 +2,7 @@
 title: File naming recommendations
 layout: default
 parent: Metadata attributes
-nav_order: 5
+nav_order: 6
 ---
 
 # File naming recommendations

@@ -76,10 +76,14 @@ variables:
 // global attributes:
                 :sea_surface_wave_significant_height_calibration_status = "Calibrated on 2025/01/06 using MFWAM global wave data as reference" ;
                 :title = "Marine X-band radar derived mean and peak wave parameters with quality control flag from R/V Ocean Research" ;
-                :comment = "The mean and peak wave parameters are derived from the mean two dimensional wavenumber wave energy density spectrum." ;
-                :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
+                :summary = "The mean and peak wave parameters are derived from the mean two dimensional wavenumber wave energy density spectrum." ;
+                :creator_email = "famous.scientist@frori.org" ;
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
+                :source = "Shipboard marine X-band radar" ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :history = "20250115T120500Z: File creation time" ;
+                :processing_level = "L2b" ;
 }
 ```

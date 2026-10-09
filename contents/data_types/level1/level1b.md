@@ -62,14 +62,15 @@ variables:
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
 
 // global attributes:
-                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Bare minimum level 1b polar X-band radar data example" ;
                 :source = "ground-based radar" ;
                 :history = "20230831T170026Z: File creation time" ;
-                :originator = "Dr. Famous Scientist" ;
-                :contact = "famous.scientist@frori.org" ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :creator_email = "famous.scientist@frori.org" ;
                 :crs = "Polar local sensor coordinates" ;
+                :processing_level = "L1b" ;
 }
 ```
 
@@ -138,13 +139,15 @@ variables:
                 pulse_time:units = "days since 2025-01-01T00:00:00Z" ;
 
 // global attributes:
-                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Marine X-band radar backscatter intensity images from R/V Ocean Research" ;
                 :source = "Shipboard marine X-band radar" ;
-                :originator = "Dr. Famous Scientist" ;
-                :contact = "famous.scientist@frori.org" ;
-                :comment = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :creator_email = "famous.scientist@frori.org" ;
+                :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
                 :featureType = "trajectory" ;
+                :history = "20250115T120500Z: File creation time" ;
+                :processing_level = "L1b" ;
 }
 ```

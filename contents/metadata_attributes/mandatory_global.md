@@ -7,17 +7,24 @@ nav_order: 1
 
 # Mandatory global attributes
 
-Every SOMaR NetCDF file must carry the following global attributes, regardless of processing level or product:
+Every SOMaR NetCDF file must carry the following global attributes, regardless of processing level or product.
+The "Defined by" column names the convention an attribute is taken from (see [Metadata attributes](index.md)); where an attribute has a fixed set of permitted values, all of them are listed and those currently used by SOMaR are set in bold.
 
-| Attribute | Example | Description |
-|---|---|---|
-| `Conventions` | `"CF-1.13 SOMaR-0.5-draft"` | The CF convention version the file complies with, together with the SOMaR format version, space separated. |
-| `title` | `"Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research"` | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
-| `institution` | `"Famous Radar Ocean Research Institute"` | The institution responsible for producing the file. |
-| `source` | `"Shipboard marine X-band radar"` | The method of production of the underlying data, e.g. the type of platform and sensor. |
-| `contact` | `"famous.scientist@frori.org"` | An email address for questions about the file's content. |
-| `originator` | `"Dr. Famous Scientist"` | The name of the person or group responsible for creating the file. |
-| `history` | `"20230831T170026Z: File creation time"` | A record of the file's provenance, at minimum its creation time; audit trail entries (e.g. later reprocessing) should be appended to this attribute rather than overwriting it, following standard CF practice. |
-| `featureType` | `"trajectory"` | The CF discrete sampling geometry of the file. All SOMaR Level 1b and Level 2 products currently use `"trajectory"`, since every product is defined along the platform's track through time; see [Georeferencing](georeferencing.md) for the accompanying `trajectory` variable convention this requires. |
+| Attribute | Defined by | Values | Description | Example |
+|---|---|---|---|---|
+| `Conventions` | [CF][cf-conventions] | String; comma-separated list of the form `CF-<version>, ACDD-<version>, SOMaR-<version>` | The versions of the CF conventions, of ACDD, and of the SOMaR format that the file complies with. | `"CF-1.13, ACDD-1.3, SOMaR-0.5-draft"` |
+| `title` | [CF][cf-description] | String; free text | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. | `"Marine X-band radar near-surface current measurements from R/V Ocean Research"` |
+| `institution` | [CF][cf-description] | String; free text | The institution responsible for producing the file. | `"Famous Radar Ocean Research Institute"` |
+| `source` | [CF][cf-description] | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. | `"Shipboard marine X-band radar"` |
+| `history` | [CF][cf-description] | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. | `"20230831T170026Z: File creation time"` |
+| `creator_name` | [ACDD][acdd] | String; free text | The name of the person or group principally responsible for creating the file. | `"Dr. Famous Scientist"` |
+| `creator_email` | [ACDD][acdd] | String; email address | An email address for questions about the file's content. | `"famous.scientist@frori.org"` |
+| `processing_level` | [ACDD][acdd] | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR data types](../data_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. | `"L2a"` |
+| `featureType` | [CF][cf-featuretype] | String; one of `point`, `timeSeries`, **`trajectory`**, `profile`, `timeSeriesProfile`, `trajectoryProfile` | The CF discrete sampling geometry of the file. All SOMaR Level 1b and Level 2 products currently use `trajectory`, since every product is defined along the platform's track through time; see [Georeferencing](georeferencing.md) for the accompanying `trajectory` variable. Not required at Level 1a, which precedes the trajectory and georeferencing conventions used from Level 1b onward. | `"trajectory"` |
 
-Level 1a files, which precede the trajectory/georeferencing conventions used from Level 1b onward (see [Level 1a data](../data_types/level1/level1a.md)), are not required to carry `featureType`.
+SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the complete set of attributes recommended by ACDD.
+
+[cf-conventions]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#identification-of-conventions
+[cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
+[cf-featuretype]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#featureType
+[acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3

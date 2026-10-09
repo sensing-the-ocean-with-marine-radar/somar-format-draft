@@ -48,13 +48,14 @@ variables:
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
 
 // global attributes:
-                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :title = "Bare minimum level 1a X-band radar data example" ;
                 :source = "ground-based radar" ;
                 :history = "20230831T170026Z: File creation time" ;
-                :originator = "Dr. Famous Scientist" ;
-                :contact = "famous.scientist@frori.org" ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :creator_email = "famous.scientist@frori.org" ;
                 :crs = "Polar local sensor coordinates" ;
+                :processing_level = "L1a" ;
 }
 ```

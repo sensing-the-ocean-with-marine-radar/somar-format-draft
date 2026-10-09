@@ -23,11 +23,15 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
                 :platform = "R/V Ocean Research" ;
                 :title = "Marine X-band radar temporally averaged sea surface roughness images from R/V Ocean Research" ;
-                :comment = "The sea surface roughness images are mosaics composed of approximately 375 consecutive radar backscatter intensity images, corresponding to 600.0 s. The images are corrected for ship motion and for the rapid radar backscatter intensity decay with range. Segments of the radar field of view that are obstructed by platform superstructures are disregarded. Each image pixel is a temporal average of approximately 19 consecutive radar backscatter intensity images. The averaging start time for each pixel varies across the image and is determined by the data availability and hence the ship track." ;
-                :contact = "famous.scientist@frori.org" ;
-                :Conventions = "CF-1.13 SOMaR-0.5-draft" ;
+                :summary = "The sea surface roughness images are mosaics composed of approximately 375 consecutive radar backscatter intensity images, corresponding to 600.0 s. The images are corrected for ship motion and for the rapid radar backscatter intensity decay with range. Segments of the radar field of view that are obstructed by platform superstructures are disregarded. Each image pixel is a temporal average of approximately 19 consecutive radar backscatter intensity images. The averaging start time for each pixel varies across the image and is determined by the data availability and hence the ship track." ;
+                :creator_email = "famous.scientist@frori.org" ;
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :featureType = "trajectory" ;
+                :source = "Shipboard marine X-band radar" ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :history = "20250115T120500Z: File creation time" ;
+                :processing_level = "L2a" ;
 
 group: time_20250115111001 {
   dimensions:
@@ -39,7 +43,7 @@ group: time_20250115111001 {
                 trajectory:long_name = "Mean sea surface roughness measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "transverse_mercator" ;
-                crs:longitude_of_projection_origin = 145.886424800978 ;
+                crs:longitude_of_central_meridian = 145.886424800978 ;
                 crs:latitude_of_projection_origin = 14.9832181178649 ;
                 crs:scale_factor_at_central_meridian = 1. ;
                 crs:longitude_of_prime_meridian = 0. ;
@@ -48,7 +52,7 @@ group: time_20250115111001 {
                 crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
         char crs_utm ;
                 crs_utm:grid_mapping_name = "transverse_mercator" ;
-                crs_utm:longitude_of_projection_origin = 147. ;
+                crs_utm:longitude_of_central_meridian = 147. ;
                 crs_utm:latitude_of_projection_origin = 0. ;
                 crs_utm:false_easting = 500000. ;
                 crs_utm:false_northing = 0. ;

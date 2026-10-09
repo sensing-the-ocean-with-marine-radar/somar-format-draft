@@ -2,7 +2,7 @@
 title: Georeferencing
 layout: default
 parent: Metadata attributes
-nav_order: 4
+nav_order: 5
 ---
 
 # Georeferencing
@@ -22,7 +22,9 @@ char trajectory ;
 Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice. The `crs` variable's own attributes describe the projection:
 
 - For point/trajectory data given directly as longitude/latitude (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products), `grid_mapping_name = "latitude_longitude"`, together with the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`) and an `authority_string` (e.g. an EPSG code).
-- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d), [roughness images](../data_types/level2/roughness_images.md)), `grid_mapping_name = "transverse_mercator"`, with the local projection defined by `longitude_of_projection_origin`, `latitude_of_projection_origin`, `scale_factor_at_central_meridian`, and (where relevant) `false_easting`/`false_northing`, plus `projected_crs_name`.
+- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d), [roughness images](../data_types/level2/roughness_images.md)), `grid_mapping_name = "transverse_mercator"`, with the local projection defined by `longitude_of_central_meridian`, `latitude_of_projection_origin`, `scale_factor_at_central_meridian`, and (where relevant) `false_easting`/`false_northing`, plus `projected_crs_name`.
+
+All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables).
 
 ```
 char crs ;
@@ -43,12 +45,12 @@ Some products additionally provide a second, fixed-frame CRS alongside the prima
 grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
 ```
 
-This compound, multi-mapping form of `grid_mapping` is a SOMaR-specific extension: standard CF only defines a single grid mapping per variable. It is only used where a variable is genuinely dual-referenced; a variable tied to a single CRS uses the plain CF form, `grid_mapping = "crs"`.
+This extended form of `grid_mapping` is defined by the CF conventions (see [Grid Mappings and Projections](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#grid-mappings-and-projections)) and is not a SOMaR extension. It is only used where a variable is genuinely dual-referenced; a variable tied to a single CRS uses the simple form, `grid_mapping = "crs"`.
 
 ### Group time variable
 
 Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units` of the form `days since <reference date>`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
-Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable:
+Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` (see [Variable attributes](variable_attributes.md)) with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable:
 
 ```
 double time ;
