@@ -21,12 +21,13 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 | Example filename | Product |
 |---|---|
 | `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b_cartesian.md) (sub-hourly, one antenna revolution) |
-| `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../data_types/level2/gridded/roughness_images.md) |
-| `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../data_types/level2/gridded/roughness_mosaics.md) |
-| `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../data_types/level2/gridded/current_maps.md) |
-| `or_2025-01-15-11_currents_profile.nc` | [Near-surface current profile maps](../data_types/level2/gridded/current_maps.md) |
-| `or_2025-01-15-11_wavenumber_spectra_average.nc` | [Surface wave two-dimensional wavenumber spectra](../data_types/level2/trajectory/wave_wavenumber_spectra.md) |
-| `or_2025-01-15-11_wave_spectrograms_average.nc` | [Surface wave one-dimensional frequency spectra](../data_types/level2/trajectory/wave_frequency_spectra.md) |
-| `or_2025-01-15-11_wave_parameters_average.nc` | [Peak and mean wave parameters](../data_types/level2/trajectory/wave_parameters.md) |
-| `or_2025-01-15-12_bathymetry.nc` | [Bathymetric maps](../data_types/level2/gridded/depth_maps.md) |
-| `or_2025-08-23-12_sea_ice_drift.nc` | [Sea ice drift maps](../data_types/level2/gridded/sea_ice_drift.md) |
+| `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../data_types/level2/roughness_images.md) |
+| `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../data_types/level2/roughness_mosaics.md) |
+| `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../data_types/level2/current_maps.md) |
+| `or_2025-01-15-11_currents_profile.nc` | [Near-surface current profile maps](../data_types/level2/current_maps.md) |
+| `or_2025-01-15-11_wavenumber_spectra_average.nc` | [Surface wave two-dimensional wavenumber spectra](../data_types/level2/wave_wavenumber_spectra.md) |
+| `or_2025-01-15-11_frequency_direction_spectra_average.nc` | [Surface wave two-dimensional frequency spectra](../data_types/level2/wave_frequency_direction_spectra.md) |
+| `or_2025-01-15-11_wave_spectrograms_average.nc` | [Surface wave one-dimensional frequency spectra](../data_types/level2/wave_frequency_spectra.md) |
+| `or_2025-01-15-11_wave_parameters_average.nc` | [Peak and mean wave parameters](../data_types/level2/wave_parameters.md) |
+| `or_2025-01-15-12_bathymetry.nc` | [Bathymetric maps](../data_types/level2/depth_maps.md) |
+| `or_2025-08-23-12_sea_ice_drift.nc` | [Sea ice drift maps](../data_types/level2/sea_ice_drift.md) |

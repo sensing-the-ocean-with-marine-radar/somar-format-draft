@@ -1,16 +1,16 @@
 ---
-title: Surface wave two-dimensional wavenumber spectra
+title: Surface wave two-dimensional wavenumber spectra (L2a)
 layout: default
-parent: Trajectory data
-nav_order: 1
+parent: Level 2 data
+nav_order: 6
 ---
 
-# Surface wave two-dimensional wavenumber spectra
+# L2a: Surface wave two-dimensional wavenumber spectra
 
 Two-dimensional wavenumber spectra give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each analysis window.
-They are retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](../gridded/current_maps.md).
+They are retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](current_maps.md).
 Following oceanographic convention, the wavenumber vectors point in the direction from which the waves are propagating.
-The [one-dimensional frequency spectra](wave_frequency_spectra.md) and the [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
+The Level 2b [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 Because the wave energy density is calibrated against a reference wave data set, files also carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
 
 ## Minimal example

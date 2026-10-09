@@ -13,7 +13,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, and document structure |
 | `contents/metadata_attributes/` | Mandatory and optional global attributes, radar parameters, file naming, georeferencing |
-| `contents/data_types/` | Level 0, Level 1 (polar raw data, regularized polar images, Cartesian images), and Level 2 products (gridded maps and images, trajectory wave spectra and parameters) |
+| `contents/data_types/` | Level 0, Level 1 (polar raw data, regularized polar images, Cartesian images), and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
 | `contents/about/` | About the SOMaR community |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |

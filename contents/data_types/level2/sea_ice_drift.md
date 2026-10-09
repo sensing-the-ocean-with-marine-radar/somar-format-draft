@@ -1,11 +1,11 @@
 ---
-title: Sea ice drift maps
+title: Sea ice drift maps (L2a)
 layout: default
-parent: Gridded data
+parent: Level 2 data
 nav_order: 5
 ---
 
-# Sea ice drift maps
+# L2a: Sea ice drift maps
 
 Sea ice drift maps provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
 Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter intensity images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.

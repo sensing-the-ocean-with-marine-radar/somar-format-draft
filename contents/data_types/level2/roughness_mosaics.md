@@ -1,17 +1,17 @@
 ---
-title: Roughness image mosaics
+title: Roughness image mosaics (L2a)
 layout: default
-parent: Gridded data
+parent: Level 2 data
 nav_order: 2
 ---
 
-# Roughness image mosaics
+# L2a: Roughness image mosaics
 
 Roughness image mosaics provide temporally averaged sea surface roughness on a single, larger local Cartesian grid per analysis period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter intensity images acquired while the platform moves along its trajectory.
 In contrast to [roughness images](roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over only a few tens of seconds (typically about 19 consecutive images, corresponding to 30 s), but the start of that averaging window differs from pixel to pixel.
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
 The mosaic therefore covers a much larger area than a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
-Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per analysis period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Introduction](../../../introduction/index.md)).
+Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per analysis period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a lookup table flagging which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
 Each group carries both a local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, and, for convenience, the corresponding UTM projection (`crs_utm`), together with along-axis coordinate variables in both systems (`x`/`y` and `x_utm`/`y_utm`).
 

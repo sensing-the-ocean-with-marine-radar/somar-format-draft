@@ -1,11 +1,11 @@
 ---
-title: Near-surface current maps
+title: Near-surface current maps (L2a)
 layout: default
-parent: Gridded data
+parent: Level 2 data
 nav_order: 3
 ---
 
-# Near-surface current maps
+# L2a: Near-surface current maps
 
 Near-surface current maps provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with per-component standard errors and a `measurement_quality` bit flag.
 Each current vector is retrieved through a least-squares fit that minimizes the distance between the wave signal found in a wavenumber-frequency spectrum, computed from a radar backscatter intensity image sequence within a local circular analysis window, and the linear ocean wave dispersion relation, exploiting the current-induced Doppler shift of the surface wave field.
