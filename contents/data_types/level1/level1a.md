@@ -8,20 +8,16 @@ nav_order: 1
 # L1a: "raw" radar data
 
 Here we refer to Level 1a data, the lowest SOMaR level: the unmodified radar recording, converted from the manufacturer's container into NetCDF.
-Every pulse is kept, indexed by time and range, with no interpolation, averaging, or calibration.
 
-A SOMaR NetCDF file at Level 1a originates directly from the data recorded by the radar system used (Level 0).
-It can therefore still be considered "raw" radar data, but stored as NetCDF rather than in the often proprietary radar data containers used by different manufacturers.
+A SOMaR NetCDF file at Level 1a originates directly from the data recorded by the radar system used (Level 0). Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration. It can therefore still be considered "raw" radar data, but stored as NetCDF rather than in the often proprietary radar data containers used by different manufacturers.
 This ensures interoperability even when different radar systems are used.
-No changes to the data, other than this format conversion, are allowed.
-In particular, Level 1a products should contain all pulses without any interpolation or pulse averaging.
 
 ## Relation to FM 301 and CfRadial
 
 Radar data in polar coordinates already have an international standard, the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes, which was developed for weather radars from the earlier [CfRadial format][cfradial].
 Rather than define its own structure and vocabulary, SOMaR Level 1a draws on these documents in the following order:
 
-1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, units, and attributes of the variables. To keep the format simple, Level 1a leaves out everything in FM 301 that is of no use for a marine radar. A Level 1a file is therefore not a conforming FM 301 file. Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
+1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, units, and attributes of the variables. Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
 2. **CfRadial 2.1** (draft of 2019) is followed for the parameters of moving platforms and for corrections to the recorded azimuth and range. FM 301 does not support moving platforms and omits these parts of CfRadial.
 3. **SOMaR** defines what neither document covers.
 
