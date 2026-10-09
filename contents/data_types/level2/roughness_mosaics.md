@@ -13,7 +13,7 @@ The averaging start time is determined by data availability and hence by the pla
 The mosaic therefore covers a much larger area than a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
 Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per analysis period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a lookup table flagging which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
-Each group carries both a local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, and, for convenience, the corresponding UTM projection (`crs_utm`), together with along-axis coordinate variables in both systems (`x`/`y` and `x_utm`/`y_utm`).
+Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
 
 ## Minimal example
 ```
@@ -42,23 +42,13 @@ group: time_20250115111001 {
                 trajectory:cf_role = "trajectory_id" ;
                 trajectory:long_name = "Mean sea surface roughness measurements along R/V Ocean Research trajectory" ;
         char crs ;
-                crs:grid_mapping_name = "transverse_mercator" ;
-                crs:longitude_of_central_meridian = 145.886424800978 ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 145.886424800978 ;
                 crs:latitude_of_projection_origin = 14.9832181178649 ;
-                crs:scale_factor_at_central_meridian = 1. ;
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
                 crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
-        char crs_utm ;
-                crs_utm:grid_mapping_name = "transverse_mercator" ;
-                crs_utm:longitude_of_central_meridian = 147. ;
-                crs_utm:latitude_of_projection_origin = 0. ;
-                crs_utm:false_easting = 500000. ;
-                crs_utm:false_northing = 0. ;
-                crs_utm:scale_factor_at_central_meridian = 0.9996 ;
-                crs_utm:authority_string = "EPSG:32655" ;
-                crs_utm:projected_crs_name = "WGS 84 / UTM zone 55N" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
@@ -66,41 +56,33 @@ group: time_20250115111001 {
                 time:units = "days since 2025-01-01T00:00:00Z" ;
                 time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
         double x(x) ;
-                x:long_name = "distance from radar along grid x-axis at measurement start time" ;
+                x:long_name = "eastward distance from radar position at measurement start time" ;
                 x:standard_name = "projection_x_coordinate" ;
                 x:units = "m" ;
         double y(y) ;
-                y:long_name = "distance from radar along grid y-axis at measurement start time" ;
+                y:long_name = "northward distance from radar position at measurement start time" ;
                 y:standard_name = "projection_y_coordinate" ;
                 y:units = "m" ;
         float mean_sea_surface_roughness(y, x) ;
                 mean_sea_surface_roughness:long_name = "temporally averaged radar backscatter intensity in uncalibrated analog-to-digital converter units" ;
                 mean_sea_surface_roughness:units = "1" ;
-                mean_sea_surface_roughness:grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
+                mean_sea_surface_roughness:grid_mapping = "crs" ;
                 mean_sea_surface_roughness:ancillary_variables = "number_of_observations start_time_of_observations scan_sectors" ;
         int number_of_observations(y, x) ;
                 number_of_observations:standard_name = "number_of_observations" ;
                 number_of_observations:long_name = "number of measurements from which the radar backscatter intensity averages have been derived" ;
                 number_of_observations:units = "1" ;
-                number_of_observations:grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
+                number_of_observations:grid_mapping = "crs" ;
         float start_time_of_observations(y, x) ;
                 start_time_of_observations:long_name = "start time of the radar backscatter intensity averages in seconds after the group time" ;
                 start_time_of_observations:units = "s" ;
-                start_time_of_observations:grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
+                start_time_of_observations:grid_mapping = "crs" ;
         byte scan_sectors(y, x) ;
                 scan_sectors:long_name = "scan sector lookup table" ;
                 scan_sectors:flag_values = 0b, 1b, 2b ;
                 scan_sectors:flag_meanings = "preceding_target_area inside_target_area trailing_target_area" ;
                 scan_sectors:_FillValue = -1b ;
-                scan_sectors:grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
-        double x_utm(x) ;
-                x_utm:long_name = "easting along grid x-axis" ;
-                x_utm:standard_name = "projection_x_coordinate" ;
-                x_utm:units = "m" ;
-        double y_utm(y) ;
-                y_utm:long_name = "northing along grid y-axis" ;
-                y_utm:standard_name = "projection_y_coordinate" ;
-                y_utm:units = "m" ;
+                scan_sectors:grid_mapping = "crs" ;
   } // group time_20250115111001
 
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes) ...

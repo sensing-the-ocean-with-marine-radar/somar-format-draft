@@ -10,6 +10,7 @@ nav_order: 9
 Peak and mean wave parameters summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
 To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities used to derive the significant wave height are also reported (`wave_signal`, `background_noise`), together with the near-surface current vector obtained from the same analysis window (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
 As for the wave spectra, a `sea_surface_wave_significant_height_calibration_status` global attribute documents the calibration source and date against which the significant wave height retrieval was calibrated.
+The `longitude` and `latitude` of each measurement are computed from the offset of the analysis windows from the radar, as described under [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Minimal example
 ```

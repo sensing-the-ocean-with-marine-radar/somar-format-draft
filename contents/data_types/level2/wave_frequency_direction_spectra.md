@@ -12,6 +12,7 @@ They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_s
 Following oceanographic convention, the wave direction is the direction from which the waves are propagating.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
 As for the wavenumber spectra, files carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
+The `longitude` and `latitude` of each measurement are computed from the offset of the analysis windows from the radar, as described under [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Minimal example
 

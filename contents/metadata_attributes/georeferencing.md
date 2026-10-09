@@ -22,7 +22,7 @@ char trajectory ;
 Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice. The `crs` variable's own attributes describe the projection:
 
 - For point/trajectory data given directly as longitude/latitude (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products), `grid_mapping_name = "latitude_longitude"`, together with the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`) and an `authority_string` (e.g. an EPSG code).
-- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d), [roughness images](../data_types/level2/roughness_images.md)), `grid_mapping_name = "transverse_mercator"`, with the local projection defined by `longitude_of_central_meridian`, `latitude_of_projection_origin`, `scale_factor_at_central_meridian`, and (where relevant) `false_easting`/`false_northing`, plus `projected_crs_name`.
+- For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d), [roughness images](../data_types/level2/roughness_images.md)), `grid_mapping_name = "azimuthal_equidistant"`, with the origin of the local grid given by `longitude_of_projection_origin` and `latitude_of_projection_origin`, together with the reference ellipsoid and a `projected_crs_name` (see [Time-bounded local grids](#time-bounded-local-grids)).
 
 All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables).
 
@@ -39,13 +39,27 @@ char crs ;
 
 As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the platform's position at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, each time-bounded grid is stored with its own `crs` and `x`/`y` coordinate variables, either directly (one grid per file, as in Cartesian images) or as a sibling NetCDF group per time window within one file (as in roughness images, where each group is named `time_<YYYYMMDDHHMMSS>`).
 
-Some products additionally provide a second, fixed-frame CRS alongside the primary radar-centric one — for example roughness images carry both a local `crs` and a UTM `crs_utm`, with corresponding `x`/`y` and `x_utm`/`y_utm` coordinate variables, so that a grid can be related to a location-independent frame without recomputing the projection. Where a variable is referenced to more than one CRS like this, its `grid_mapping` attribute lists each CRS variable together with the coordinate variables it applies to, space-separated:
+### Definition of the local grid
+
+Marine radars measure natively in meters, as range and bearing from the antenna. The local grid keeps this geometry:
+
+- `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
+- The origin is the position of the radar at the start of the measurement, taken from concurrent GPS data.
+
+In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves the distance and the bearing from its center, which are the two quantities the radar measures; at the ranges covered by a marine radar, it differs from a flat plane by less than a millimeter at 5 km.
 
 ```
-grid_mapping = "crs: x y crs_utm: x_utm y_utm" ;
+char crs ;
+        crs:grid_mapping_name = "azimuthal_equidistant" ;
+        crs:longitude_of_projection_origin = 145.868167860183 ;
+        crs:latitude_of_projection_origin = 14.9952749946079 ;
+        crs:longitude_of_prime_meridian = 0. ;
+        crs:semi_major_axis = 6378137. ;
+        crs:inverse_flattening = 298.257223563 ;
+        crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
 ```
 
-This extended form of `grid_mapping` is defined by the CF conventions (see [Grid Mappings and Projections](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#grid-mappings-and-projections)) and is not a SOMaR extension. It is only used where a variable is genuinely dual-referenced; a variable tied to a single CRS uses the simple form, `grid_mapping = "crs"`.
+Coordinates in other projected systems, such as UTM, are not stored, since they follow exactly from the `crs` variable. Data variables on a local grid reference it through `grid_mapping = "crs"`.
 
 ### Group time variable
 
@@ -62,3 +76,25 @@ double time ;
 ```
 
 `time_iso_8601` is redundant with `time` and must agree with it. The start of the first group and the end of the last group are additionally given at file level by the global attributes `time_coverage_start` and `time_coverage_end` (see [Optional global attributes](optional_global.md)).
+
+## Positions derived from the local grid
+
+Level 2 products that report `longitude` and `latitude` directly (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products) are retrieved within analysis windows that are placed on the local grid, at known `x` and `y` distances east and north of the radar.
+Their `longitude` and `latitude` are obtained by inverting the local projection defined above, i.e. the azimuthal equidistant projection on the WGS 84 ellipsoid centered on the GPS position of the radar at the start of the measurement.
+The conversion must be carried out on the ellipsoid; a spherical approximation must not be used, since it can displace positions by up to about 0.5% of their distance from the radar.
+The position stored is that of the center of the analysis window or, for the wave products, the mean position of the analysis windows contributing to a measurement.
+
+So that the range and bearing of a measurement from the radar can be recovered, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude`. They have the same dimension as the product's own `longitude` and `latitude` (`measurement` for current, bathymetric, and sea ice drift maps; `time` for wave products):
+
+```
+double radar_longitude(measurement) ;
+        radar_longitude:long_name = "longitude of radar at start of measurement" ;
+        radar_longitude:standard_name = "longitude" ;
+        radar_longitude:units = "degrees_east" ;
+        radar_longitude:grid_mapping = "crs" ;
+double radar_latitude(measurement) ;
+        radar_latitude:long_name = "latitude of radar at start of measurement" ;
+        radar_latitude:standard_name = "latitude" ;
+        radar_latitude:units = "degrees_north" ;
+        radar_latitude:grid_mapping = "crs" ;
+```

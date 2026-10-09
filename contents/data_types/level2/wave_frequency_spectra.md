@@ -10,6 +10,7 @@ nav_order: 8
 One-dimensional frequency spectra give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each analysis window, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 As for the wavenumber spectra, files carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
+The `longitude` and `latitude` of each measurement are computed from the offset of the analysis windows from the radar, as described under [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Minimal example
 ```

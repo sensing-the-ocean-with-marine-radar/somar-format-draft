@@ -12,6 +12,7 @@ They are retrieved from the same dispersion-relation-based wavenumber-frequency 
 Following oceanographic convention, the wavenumber vectors point in the direction from which the waves are propagating.
 The Level 2b [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 Because the wave energy density is calibrated against a reference wave data set, files also carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
+The `longitude` and `latitude` of each measurement are computed from the offset of the analysis windows from the radar, as described under [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Minimal example
 ```
