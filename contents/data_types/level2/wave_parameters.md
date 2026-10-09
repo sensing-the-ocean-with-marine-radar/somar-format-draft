@@ -18,9 +18,6 @@ netcdf or_2025-01-15-11_wave_parameters_average {
 dimensions:
         time = 29 ;
 variables:
-        char trajectory ;
-                trajectory:cf_role = "trajectory_id" ;
-                trajectory:long_name = "Wave measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:authority_string = "EPSG:4326" ;
@@ -81,7 +78,6 @@ variables:
                 :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :featureType = "trajectory" ;
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;

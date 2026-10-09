@@ -98,9 +98,6 @@ dimensions:
         x = 1980 ;
         pulse_azimuth = 1440 ;
 variables:
-        char trajectory ;
-                trajectory:cf_role = "trajectory_id" ;
-                trajectory:long_name = "radar backscatter intensity measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
@@ -150,7 +147,6 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
                 :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
-                :featureType = "trajectory" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L1b" ;
 }

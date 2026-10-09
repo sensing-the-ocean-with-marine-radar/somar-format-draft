@@ -27,21 +27,11 @@ where a missing variable counts as 0, and the ground range follows from the slan
 The position of the radar antenna is the recorded `latitude` and `longitude`, displaced by the position offsets after their rotation by the heading.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
-## Trajectory identification
-
-Since every SOMaR Level 1b and Level 2 product is defined along a moving platform's track, files with `featureType = "trajectory"` (see [Mandatory global attributes](mandatory_global.md)) must carry a companion scalar `char` variable named `trajectory`, marked with `cf_role = "trajectory_id"`, identifying the trajectory to which the file's data belong:
-
-```
-char trajectory ;
-        trajectory:cf_role = "trajectory_id" ;
-        trajectory:long_name = "Current measurements along R/V Ocean Research trajectory" ;
-```
-
 ## Coordinate reference system variables
 
 Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice. The `crs` variable's own attributes describe the projection:
 
-- For point/trajectory data given directly as longitude/latitude (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products), `grid_mapping_name = "latitude_longitude"`, together with the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`) and an `authority_string` (e.g. an EPSG code).
+- For point data given directly as longitude/latitude (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products), `grid_mapping_name = "latitude_longitude"`, together with the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`) and an `authority_string` (e.g. an EPSG code).
 - For Cartesian image grids (e.g. [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d), [roughness images](../data_types/level2/roughness_images.md)), `grid_mapping_name = "azimuthal_equidistant"`, with the origin of the local grid given by `longitude_of_projection_origin` and `latitude_of_projection_origin`, together with the reference ellipsoid and a `projected_crs_name` (see [Time-bounded local grids](#time-bounded-local-grids)).
 
 All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables).

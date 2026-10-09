@@ -27,7 +27,6 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :featureType = "trajectory" ;
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
@@ -38,9 +37,6 @@ group: time_20250115111001 {
         y = 2182 ;
         x = 2195 ;
   variables:
-        char trajectory ;
-                trajectory:cf_role = "trajectory_id" ;
-                trajectory:long_name = "Mean sea surface roughness measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
                 crs:longitude_of_projection_origin = 145.886424800978 ;

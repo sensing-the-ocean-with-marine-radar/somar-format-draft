@@ -18,9 +18,6 @@ netcdf or_2025-01-15-11_currents {
 dimensions:
         measurement = 4720 ;
 variables:
-        char trajectory ;
-                trajectory:cf_role = "trajectory_id" ;
-                trajectory:long_name = "Current measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
@@ -78,7 +75,6 @@ variables:
                 :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :featureType = "trajectory" ;
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
@@ -99,7 +95,7 @@ netcdf or_2025-01-15-11_currents_profile {
 dimensions:
         measurement = 27384 ;
 variables:
-        ... // as for near-surface current maps above (trajectory, crs, measurement, time, longitude, latitude,
+        ... // as for near-surface current maps above (crs, measurement, time, longitude, latitude,
             // eastward/northward_sea_water_velocity, mean_wavenumber, standard errors,
             // number_of_wave_coordinates, measurement_quality) ...
         double lower_wavenumber_bin_edge(measurement) ;
@@ -112,7 +108,6 @@ variables:
                 :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :featureType = "trajectory" ;
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;

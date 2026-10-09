@@ -19,9 +19,6 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 dimensions:
         measurement = 23406 ;
 variables:
-        char trajectory ;
-                trajectory:cf_role = "trajectory_id" ;
-                trajectory:long_name = "Sea ice drift measurements along R/V Ocean Research trajectory" ;
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
@@ -75,7 +72,6 @@ variables:
                 :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :featureType = "trajectory" ;
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250823T130500Z: File creation time" ;
