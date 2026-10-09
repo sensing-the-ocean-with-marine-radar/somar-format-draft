@@ -21,6 +21,7 @@ The "Defined by" column names the convention an attribute is taken from (see [Me
 | `creator_email` | [ACDD][acdd] | String; email address | An email address for questions about the file's content. | `"famous.scientist@frori.org"` |
 | `processing_level` | [ACDD][acdd] | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR data types](../data_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. | `"L2a"` |
 | `featureType` | [CF][cf-featuretype] | String; one of `point`, `timeSeries`, **`trajectory`**, `profile`, `timeSeriesProfile`, `trajectoryProfile` | The CF discrete sampling geometry of the file. All SOMaR Level 1b and Level 2 products currently use `trajectory`, since every product is defined along the platform's track through time; see [Georeferencing](georeferencing.md) for the accompanying `trajectory` variable. Not required at Level 1a, which precedes the trajectory and georeferencing conventions used from Level 1b onward. | `"trajectory"` |
+{: .attribute-table }
 
 SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the complete set of attributes recommended by ACDD.
 

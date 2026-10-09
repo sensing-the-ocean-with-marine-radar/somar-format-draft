@@ -11,7 +11,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 
 | Attribute | Defined by | Values | Description | Example |
 |---|---|---|---|---|
-| `summary` | [ACDD][acdd] | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. | `"The near-surface current vectors are obtained through least-squares fits that minimize the distance between the wave signal ... and the linear ocean wave dispersion shell. ..."` |
+| `summary` | [ACDD][acdd] | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. | `"The near-surface current vectors are obtained through least-squares fits ..."` |
 | `platform` | [ACDD][acdd] | String; free text | The name of the vessel or platform the radar was mounted on. | `"R/V Ocean Research"` |
 | `instrument` | [ACDD][acdd] | String; free text | The manufacturer, model, and/or type of the radar system used (see [Radar parameters](radar_parameters.md)). | `"Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar"` |
 | `processing_software` | SOMaR | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. | `"CSTARS X-band radar processing software version 2.5.0 written in Python 3.13.6"` |
@@ -24,6 +24,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `geospatial_lat_max` | [ACDD][acdd] | Number; degrees north | The northernmost latitude covered by the file's data. | `15.03` |
 | `geospatial_lon_min` | [ACDD][acdd] | Number; degrees east | The westernmost longitude covered by the file's data. | `145.8426` |
 | `geospatial_lon_max` | [ACDD][acdd] | Number; degrees east | The easternmost longitude covered by the file's data. | `145.96815` |
+{: .attribute-table }
 
 Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `sea_surface_wave_significant_height_calibration_status` on the [surface wave products](../data_types/level2/index.md), or `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/current_maps.md).
 

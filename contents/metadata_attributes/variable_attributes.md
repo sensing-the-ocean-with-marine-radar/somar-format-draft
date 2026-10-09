@@ -28,6 +28,7 @@ Which of them a given variable carries depends on the product and is shown in th
 | `flag_meanings` | [CF][cf-flags] | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. | `"good bad"` |
 | `time_iso_8601` | SOMaR | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. It must agree with `time` (see [Georeferencing](georeferencing.md)). | `"2025-01-15T11:10:01.357666Z"` |
 | `azimuth_regularization` | SOMaR | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On Level 1b polar data variables: how pulses recorded at irregular azimuths were resampled onto the regular `azimuth` axis (see [Radar parameters](radar_parameters.md)). | `"nearest_neighbor"` |
+{: .attribute-table }
 
 ## Trajectory and grid mapping references
 
@@ -35,6 +36,7 @@ Which of them a given variable carries depends on the product and is shown in th
 |---|---|---|---|---|
 | `cf_role` | [CF][cf-dsg] | String; one of `timeseries_id`, `profile_id`, **`trajectory_id`** | Marks the variable that identifies the feature the file's data belong to. In SOMaR it is carried by the scalar `trajectory` variable. | `"trajectory_id"` |
 | `grid_mapping` | [CF][cf-grid-mapping] | String; either the name of one coordinate reference system variable, or the extended form `<crs variable>: <coordinate> [<coordinate> ...]`, repeated for each coordinate reference system | Links a data or coordinate variable to the variable describing its coordinate reference system. The extended form names the coordinate variables a coordinate reference system applies to. | `"crs"`<br>`"crs: x y"` |
+{: .attribute-table }
 
 ## Coordinate reference system variables
 
@@ -50,6 +52,7 @@ These attributes are carried by the scalar coordinate reference system variables
 | `latitude_of_projection_origin` | [CF][cf-azimuthal-equidistant] | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. | `14.9952749946079` |
 | `projected_crs_name` | [CF][cf-appendix-f] | String; free text | The name of the projected coordinate reference system. | `"WGS 84 / origin of coordinate system is radar location at measurement start time"` |
 | `authority_string` | SOMaR | String; `<authority>:<code>` | An identifier of the coordinate reference system in a public registry. Not a CF attribute; given in addition to the CF attributes above, which remain the authoritative definition. | `"EPSG:4326"` |
+{: .attribute-table }
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name
 [cf-long-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#long-name
