@@ -11,7 +11,7 @@ table.variable-table {
     overflow-wrap: anywhere;
   }
 
-  // Attribute names and variable declarations stay in one piece.
+  // Attribute and variable names stay in one piece.
   td:first-child code {
     overflow-wrap: normal;
     white-space: nowrap;

@@ -33,12 +33,12 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 
 ## Root group
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `double latitude`<br><small>[FM 301][fm301], Table 301-4</small> | `degrees_north` | Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `double longitude`<br><small>[FM 301][fm301], Table 301-4</small> | `degrees_east` | Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `double altitude`<br><small>[FM 301][fm301], Table 301-4</small> | `metres` | Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
-| `string platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> |  | `"fixed"` or `"ship"`. |
+| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
+| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
+| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `metres` | Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
+| `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Type of the platform. |
 {: .variable-table }
 
 The global attribute `platform_is_mobile` states whether the platform moves (see [Moving platforms](#moving-platforms)).
@@ -48,24 +48,24 @@ The global attribute `platform_is_mobile` states whether the platform moves (see
 The primary dimension of a sweep is `time`, with one entry per radar pulse; the secondary dimension is `range`.
 The following variables are required in every sweep group.
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `double time(time)`<br><small>[FM 301][fm301], Table 301-6</small> | `seconds since <reference time>` | Time of each pulse. Should be given as UNIX time (`seconds since 1970-01-01T00:00:00Z`). |
-| `float range(range)`<br><small>[FM 301][fm301], Table 301-6</small> | `metres` | Slant range from the antenna to the center of each range bin. Carries the attributes `spacing_is_constant`, `meters_to_center_of_first_gate`, and `meters_between_gates`. |
-| `float azimuth(time)`<br><small>[FM 301][fm301], Table 301-7</small> | `degrees` | Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
+| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since <reference time>` | Time of each pulse. Should be given as UNIX time (`seconds since 1970-01-01T00:00:00Z`). |
+| `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `metres` | Slant range from the antenna to the center of each range bin. Carries the attributes `spacing_is_constant`, `meters_to_center_of_first_gate`, and `meters_between_gates`. |
+| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degrees` | Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
 {: .variable-table }
 
 The following variables are optional.
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `string sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> |  | `"azimuth_surveillance"` for a full revolution or `"sector"` for a sector scan. Assumed `"azimuth_surveillance"` if missing. |
-| `float frequency(frequency)`<br><small>[FM 301][fm301], Table 301-6</small> | `s-1` | Operating frequency of the radar. |
-| `string polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> |  | `"horizontal"` (HH) or `"vertical"` (VV). |
-| `float pulse_width(time)`<br><small>[FM 301][fm301], Table 301-8</small> | `seconds` | Length of the transmitted pulse. |
-| `float prt(time)`<br><small>[FM 301][fm301], Table 301-8</small> | `seconds` | Pulse repetition time. |
-| `float scan_rate(time)`<br><small>[FM 301][fm301], Table 301-8</small> | `degrees/s` | Antenna rotation rate. |
-| `int n_samples(time)`<br><small>[FM 301][fm301], Table 301-8</small> |  | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
+| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
+| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float `(frequency)`; `s-1` | Operating frequency of the radar. |
+| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Length of the transmitted pulse. |
+| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Pulse repetition time. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degrees/s` | Antenna rotation rate. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
 {: .variable-table }
 
 ### Data variables
@@ -86,16 +86,16 @@ The variables can be given in one of two ways, which must be the same for all va
 - **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, and it matches the [Level 1b Cartesian images](level1b.md#cartesian-image-sequences-cart3d), whose grid origin is the radar position at the start of each revolution. It is a SOMaR addition; CfRadial defines the variables per pulse only.
 - **Per pulse.** The variables have the dimension `(time)` of the sweep and give the values for every pulse, as in CfRadial. This option keeps the full resolution of the navigation data.
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `double latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `degrees_north` | Required. Recorded latitude (WGS 84). |
-| `double longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `float heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `degrees` | Required. Heading of the platform relative to true north. |
-| `double altitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `metres` | Optional. Height of the radar antenna above mean sea level. |
-| `float roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `degrees` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
-| `float pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `degrees` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
-| `float eastward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `m/s` | Optional. Eastward velocity of the platform. |
-| `float northward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | `m/s` | Optional. Northward velocity of the platform. |
+| `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_north` | Required. Recorded latitude (WGS 84). |
+| `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Required. Recorded longitude (WGS 84). |
+| `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Required. Heading of the platform relative to true north. |
+| `altitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `metres` | Optional. Height of the radar antenna above mean sea level. |
+| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
+| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
+| `eastward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m/s` | Optional. Eastward velocity of the platform. |
+| `northward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m/s` | Optional. Northward velocity of the platform. |
 {: .variable-table }
 
 `latitude` and `longitude` are stored as recorded.

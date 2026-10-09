@@ -28,12 +28,12 @@ Parameters that may change from pulse to pulse are stored in the sweep groups, a
 
 Constant properties of the antenna and receiver are stored in a group named `radar_parameters` in the root group (FM 301, regulation 301.5 and Table 301-12).
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `float antenna_gain_h`<br><small>[FM 301][fm301], Table 301-12</small> | `dBi` | Nominal antenna gain. |
-| `float beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | `degrees` | Horizontal beam width of the antenna. |
-| `float beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | `degrees` | Vertical beam width of the antenna. |
-| `float receiver_bandwidth`<br><small>[FM 301][fm301], Table 301-12</small> | `s-1` | Bandwidth of the radar receiver. |
+| `antenna_gain_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `dBi` | Nominal antenna gain. |
+| `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Horizontal beam width of the antenna. |
+| `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Vertical beam width of the antenna. |
+| `receiver_bandwidth`<br><small>[FM 301][fm301], Table 301-12</small> | float; `s-1` | Bandwidth of the radar receiver. |
 {: .variable-table }
 
 ## The `radar_calibration` group
@@ -50,13 +50,13 @@ The corrections are constant for a file and are added to the recorded values; a 
 The position offsets are rotated by the heading before they are added (see [Position offset](#position-offset)).
 At [Level 1a](../data_types/level1/level1a.md), the data are stored as recorded and the corrections are not applied.
 
-| Variable | Units | Description |
+| Variable | Values | Description |
 |---|---|---|
-| `float azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | `degrees` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship. |
-| `float range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | `metres` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
-| `float heading_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | `degrees` | Correction to the `heading` values. |
-| `float position_offset_x`<br><small>SOMaR</small> | `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
-| `float position_offset_y`<br><small>SOMaR</small> | `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
+| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degrees` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship. |
+| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `metres` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
+| `heading_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degrees` | Correction to the `heading` values. |
+| `position_offset_x`<br><small>SOMaR</small> | float; `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
+| `position_offset_y`<br><small>SOMaR</small> | float; `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
 {: .variable-table }
 
 ### Position offset
