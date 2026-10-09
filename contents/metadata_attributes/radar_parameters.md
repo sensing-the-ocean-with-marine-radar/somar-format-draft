@@ -56,7 +56,6 @@ At [Level 1a](../data_types/level1/level1a.md), the data are stored as recorded 
 | `heading_correction` | float | `degrees` | Correction to the `heading` values. |
 | `position_offset_x` | float | `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
 | `position_offset_y` | float | `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
-| `roll_correction`, `pitch_correction` | float | `degrees` | Corrections to the `roll` and `pitch` values. |
 
 ### Position offset
 
