@@ -18,7 +18,7 @@ SOMaR files describe the radar instrument in words through two global attributes
 The technical parameters of the radar are stored as variables.
 SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general, and, where FM 301 has no provision, from the earlier [CfRadial 2.1][cfradial] draft (see [Level 1a data](../data_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
 The tables below list the variables that apply to marine radars, with the table or section that defines each of them; all of them are optional.
-Variables for the vertical polarization channel (`antenna_gain_v`, `xmit_power_v`, ...) are defined by FM 301 in the same way; a radar with a single polarization uses the `_h` variables.
+Variables for the vertical polarization channel (`xmit_power_v`, ...) are defined by FM 301 in the same way; a radar with a single polarization uses the `_h` variables.
 
 ## Pulse and scan parameters
 
@@ -37,21 +37,13 @@ All of them are optional.
 
 ## The `radar_parameters` group
 
-Constant properties of the antenna and receiver are stored in a group named `radar_parameters` in the root group (FM 301, regulation 301.5 and Table 301-12).
+Constant properties of the antenna are stored in a group named `radar_parameters` in the root group (FM 301, regulation 301.5 and Table 301-12).
 
 | Variable | Values | Description |
 |---|---|---|
-| `antenna_gain_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `dBi` | Nominal antenna gain. |
 | `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Horizontal beam width of the antenna. |
 | `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Vertical beam width of the antenna. |
-| `receiver_bandwidth`<br><small>[FM 301][fm301], Table 301-12</small> | float; `s-1` | Bandwidth of the radar receiver. |
 {: .variable-table }
-
-## The `radar_calibration` group
-
-Where a radiometric calibration of the radar is available, it is stored in a group named `radar_calibration` in the root group (FM 301, regulation 301.7 and Table 301-14).
-Since a different calibration applies to each pulse width, all variables in this group have the dimension `calib`.
-FM 301 defines a comprehensive set of calibration variables there, among them `pulse_width`, `xmit_power_h`, `antenna_gain_h`, and the waveguide and radome losses; SOMaR uses them as defined.
 
 ## The `georeference_correction` group
 
@@ -89,7 +81,7 @@ For a fixed platform, the position offsets are not used, and `latitude` and `lon
 
 ## Uncalibrated backscatter
 
-Until a radiometric calibration is applied, Level 1 data variables hold raw analog-to-digital converter (ADC) counts or a quantity derived from them. As introduced in [Level 1a data](../data_types/level1/level1a.md), such variables use the standard CF/UDUNITS `scale_factor` and `add_offset` attributes together with `units = "1"` or `units = "dB"`, and must state in a `comment` attribute whether the stored quantity is an amplitude or a power:
+Level 1 data variables hold raw analog-to-digital converter (ADC) counts or a quantity derived from them. As introduced in [Level 1a data](../data_types/level1/level1a.md), such variables use the standard CF/UDUNITS `scale_factor` and `add_offset` attributes together with `units = "1"` or `units = "dB"`, and must state in a `comment` attribute whether the stored quantity is an amplitude or a power:
 
 ```
 ushort polar_amp(time, range) ;

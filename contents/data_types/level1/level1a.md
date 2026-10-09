@@ -29,7 +29,7 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 - The **root group** holds the global attributes and the variables that apply to the whole file.
 - Each sweep is stored in a group named **`sweep_<n>`**, where `<n>` is the number of the sweep, starting at 0 and increasing in the order of acquisition.
 - For a moving platform, each sweep group has a subgroup named **`georeference`**.
-- The optional groups **`radar_parameters`**, **`radar_calibration`**, and **`georeference_correction`** are located in the root group and described under [Radar parameters](../../metadata_attributes/radar_parameters.md).
+- The optional groups **`radar_parameters`** and **`georeference_correction`** are located in the root group and described under [Radar parameters](../../metadata_attributes/radar_parameters.md).
 
 ## Root group
 
@@ -295,13 +295,9 @@ group: radar_parameters {
         float beam_width_v ;
                 beam_width_v:units = "degrees" ;
                 beam_width_v:long_name = "vertical antenna beam width" ;
-        float receiver_bandwidth ;
-                receiver_bandwidth:units = "s-1" ;
-                receiver_bandwidth:long_name = "bandwidth of radar receiver" ;
   data:
         beam_width_h = 0.95 ;
         beam_width_v = 20. ;
-        receiver_bandwidth = 2.e+07 ;
   } // group radar_parameters
 
 group: georeference_correction {
