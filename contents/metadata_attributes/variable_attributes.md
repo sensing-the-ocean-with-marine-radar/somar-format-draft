@@ -12,53 +12,53 @@ Which of them a given variable carries depends on the product and is shown in th
 
 ## Data and coordinate variables
 
-| Attribute | Defined by | Values | Description | Example |
-|---|---|---|---|---|
-| `standard_name` | [CF][cf-standard-name] | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. | `"sea_surface_wave_significant_height"` |
-| `long_name` | [CF][cf-long-name] | String; free text | A human-readable description of the variable. | `"start time of wave measurement"` |
-| `units` | [CF][cf-units] | String; a unit recognized by UDUNITS | The unit of the stored values. Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). | `"m s-1"` |
-| `comment` | [CF][cf-description] | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Radar parameters](radar_parameters.md)). | `"the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). ..."` |
-| `calendar` | [CF][cf-calendar] | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. | `"standard"` |
-| `scale_factor` | [CF][cf-packed] | Number | Factor by which stored values are multiplied to unpack them. | `0.176738930567883` |
-| `add_offset` | [CF][cf-packed] | Number | Offset added to stored values after scaling. | `0.` |
-| `_FillValue` | [CF][cf-missing] | Same type as the variable | The value marking missing data. | `-1b` |
-| `valid_range` | [CF][cf-missing] | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. | `0UB, 127UB` |
-| `ancillary_variables` | [CF][cf-ancillary] | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. | `"number_of_observations"` |
-| `flag_values` | [CF][cf-flags] | List of values of the variable's type | The values a flag variable can take. | `0UB, 1UB` |
-| `flag_meanings` | [CF][cf-flags] | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. | `"good bad"` |
-| `coordinates` | [CF][cf-coordinates] | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. | `"azimuth range"` |
-| `spacing_is_constant` | [FM 301][fm301] | String; `true` or `false` | On `range`: whether the range bins are equally spaced. | `"true"` |
-| `meters_to_center_of_first_gate` | [FM 301][fm301] | Number; meters | On `range`: the range to the center of the first range bin. | `3.75` |
-| `meters_between_gates` | [FM 301][fm301] | Number; meters | On `range`: the spacing of the range bins. Required if `spacing_is_constant` is `true`. | `7.5` |
-| `rays_angle_resolution` | SOMaR | Number; degrees | On the regular `azimuth` axis of Level 1b polar data: the spacing of the azimuth bins. Named after the FM 301 variable of the same meaning. | `0.25` |
-| `time_iso_8601` | SOMaR | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. It must agree with `time` (see [Georeferencing](georeferencing.md)). | `"2025-01-15T11:10:01.357666Z"` |
-| `azimuth_regularization` | SOMaR | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On Level 1b polar data variables: how pulses recorded at irregular azimuths were resampled onto the regular `azimuth` axis (see [Radar parameters](radar_parameters.md)). | `"nearest_neighbor"` |
+| Attribute | Values | Description | Example |
+|---|---|---|---|
+| `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. | `"sea_surface_wave_significant_height"` |
+| `long_name`<br><small>[CF][cf-long-name]</small> | String; free text | A human-readable description of the variable. | `"start time of wave measurement"` |
+| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). | `"m s-1"` |
+| `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Radar parameters](radar_parameters.md)). | `"the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). ..."` |
+| `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. | `"standard"` |
+| `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. | `0.176738930567883` |
+| `add_offset`<br><small>[CF][cf-packed]</small> | Number | Offset added to stored values after scaling. | `0.` |
+| `_FillValue`<br><small>[CF][cf-missing]</small> | Same type as the variable | The value marking missing data. | `-1b` |
+| `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. | `0UB, 127UB` |
+| `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. | `"number_of_observations"` |
+| `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. | `0UB, 1UB` |
+| `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. | `"good bad"` |
+| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. | `"azimuth range"` |
+| `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | On `range`: whether the range bins are equally spaced. | `"true"` |
+| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | On `range`: the range to the center of the first range bin. | `3.75` |
+| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | On `range`: the spacing of the range bins. Required if `spacing_is_constant` is `true`. | `7.5` |
+| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On the regular `azimuth` axis of Level 1b polar data: the spacing of the azimuth bins. Named after the FM 301 variable of the same meaning. | `0.25` |
+| `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. It must agree with `time` (see [Georeferencing](georeferencing.md)). | `"2025-01-15T11:10:01.357666Z"` |
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On Level 1b polar data variables: how pulses recorded at irregular azimuths were resampled onto the regular `azimuth` axis (see [Radar parameters](radar_parameters.md)). | `"nearest_neighbor"` |
 {: .attribute-table }
 
 FM 301 additionally prescribes values of `standard_name` and `axis` for the `range` and `azimuth` variables (`projection_range_coordinate`, `sensor_to_target_azimuth_angle`, `radial_range_coordinate`, `radial_azimuth_coordinate`). They are not defined by the CF conventions, so SOMaR does not use them.
 
 ## Trajectory and grid mapping references
 
-| Attribute | Defined by | Values | Description | Example |
-|---|---|---|---|---|
-| `cf_role` | [CF][cf-dsg] | String; one of `timeseries_id`, `profile_id`, **`trajectory_id`** | Marks the variable that identifies the feature the file's data belong to. In SOMaR it is carried by the scalar `trajectory` variable. | `"trajectory_id"` |
-| `grid_mapping` | [CF][cf-grid-mapping] | String; either the name of one coordinate reference system variable, or the extended form `<crs variable>: <coordinate> [<coordinate> ...]`, repeated for each coordinate reference system | Links a data or coordinate variable to the variable describing its coordinate reference system. The extended form names the coordinate variables a coordinate reference system applies to. | `"crs"`<br>`"crs: x y"` |
+| Attribute | Values | Description | Example |
+|---|---|---|---|
+| `cf_role`<br><small>[CF][cf-dsg]</small> | String; one of `timeseries_id`, `profile_id`, **`trajectory_id`** | Marks the variable that identifies the feature the file's data belong to. In SOMaR it is carried by the scalar `trajectory` variable. | `"trajectory_id"` |
+| `grid_mapping`<br><small>[CF][cf-grid-mapping]</small> | String; either the name of one coordinate reference system variable, or the extended form `<crs variable>: <coordinate> [<coordinate> ...]`, repeated for each coordinate reference system | Links a data or coordinate variable to the variable describing its coordinate reference system. The extended form names the coordinate variables a coordinate reference system applies to. | `"crs"`<br>`"crs: x y"` |
 {: .attribute-table }
 
 ## Coordinate reference system variables
 
 These attributes are carried by the scalar coordinate reference system variables (conventionally `crs`) that `grid_mapping` refers to.
 
-| Attribute | Defined by | Values | Description | Example |
-|---|---|---|---|---|
-| `grid_mapping_name` | [CF][cf-appendix-f] | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for point and trajectory data, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](georeferencing.md#time-bounded-local-grids)). | `"azimuthal_equidistant"` |
-| `longitude_of_prime_meridian` | [CF][cf-appendix-f] | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. | `0.` |
-| `semi_major_axis` | [CF][cf-appendix-f] | Number; meters | The semi-major axis of the reference ellipsoid. | `6378137.` |
-| `inverse_flattening` | [CF][cf-appendix-f] | Number | The inverse flattening of the reference ellipsoid. | `298.257223563` |
-| `longitude_of_projection_origin` | [CF][cf-azimuthal-equidistant] | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. | `145.868167860183` |
-| `latitude_of_projection_origin` | [CF][cf-azimuthal-equidistant] | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. | `14.9952749946079` |
-| `projected_crs_name` | [CF][cf-appendix-f] | String; free text | The name of the projected coordinate reference system. | `"WGS 84 / origin of coordinate system is radar location at measurement start time"` |
-| `authority_string` | SOMaR | String; `<authority>:<code>` | An identifier of the coordinate reference system in a public registry. Not a CF attribute; given in addition to the CF attributes above, which remain the authoritative definition. | `"EPSG:4326"` |
+| Attribute | Values | Description | Example |
+|---|---|---|---|
+| `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for point and trajectory data, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](georeferencing.md#time-bounded-local-grids)). | `"azimuthal_equidistant"` |
+| `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. | `0.` |
+| `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; meters | The semi-major axis of the reference ellipsoid. | `6378137.` |
+| `inverse_flattening`<br><small>[CF][cf-appendix-f]</small> | Number | The inverse flattening of the reference ellipsoid. | `298.257223563` |
+| `longitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. | `145.868167860183` |
+| `latitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. | `14.9952749946079` |
+| `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. | `"WGS 84 / origin of coordinate system is radar location at measurement start time"` |
+| `authority_string`<br><small>SOMaR</small> | String; `<authority>:<code>` | An identifier of the coordinate reference system in a public registry. Not a CF attribute; given in addition to the CF attributes above, which remain the authoritative definition. | `"EPSG:4326"` |
 {: .attribute-table }
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name

@@ -1,5 +1,6 @@
-// Attribute tables: fit the content width instead of scrolling sideways.
-table.attribute-table {
+// Attribute and variable tables: fit the content width instead of scrolling sideways.
+table.attribute-table,
+table.variable-table {
   th,
   td {
     min-width: 0;
@@ -10,14 +11,19 @@ table.attribute-table {
     overflow-wrap: anywhere;
   }
 
-  // Attribute names stay in one piece.
+  // Attribute names and variable declarations stay in one piece.
   td:first-child code {
     overflow-wrap: normal;
     white-space: nowrap;
   }
 
+  // The defining convention, in small print under the name.
+  td:first-child small {
+    color: $grey-dk-000;
+  }
+
   // Give the description the largest share.
-  th:nth-child(4) {
+  th:nth-child(3) {
     width: 34%;
   }
 }
