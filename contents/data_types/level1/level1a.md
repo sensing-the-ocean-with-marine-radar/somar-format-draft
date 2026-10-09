@@ -71,7 +71,6 @@ The radar measurement is stored in one or more variables with the dimensions `(t
 The data are stored in the units of the radar's analog-to-digital converters, using the attributes `scale_factor`, `add_offset`, and `_FillValue`.
 The `coordinates` attribute is set to `"azimuth range"`.
 The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute should state clearly whether the values refer to amplitude or power.
-Where a radar provides one of the quantities that FM 301 lists in Table 301-9, such as the Doppler velocity measured by a coherent radar, the variable name given there should be used.
 
 ## Moving platforms
 
