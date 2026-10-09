@@ -12,9 +12,10 @@ nav_order: 5
 [Level 1a data](../data_types/level1/level1a.md) and [Level 1b polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 They are located in space with the variables that the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and, for moving platforms, the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft define for this purpose, rather than with a grid mapping:
 
-- `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform, they give the position at the start of the file.
+- `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform, they give the recorded position at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0.
 - For a moving platform, the `georeference` subgroup of each sweep gives the `latitude`, `longitude`, and `heading` of the platform, either once per sweep, at the time of its first pulse, or for every pulse (CfRadial 2.1; see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)).
 - `azimuth_correction` and `range_correction`, in the `georeference_correction` group, give known offsets of the recorded azimuth and range (CfRadial 2.1; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
+- `position_offset_x` and `position_offset_y`, in the same group, give the position of the radar antenna relative to the GPS antenna in the ship frame, for a moving platform whose position is recorded at a different location than the radar (SOMaR; see [Position offset](radar_parameters.md#position-offset)).
 
 The `azimuth` variable holds the antenna angle as recorded by the radar. The azimuth of a pulse relative to true north, clockwise positive, is
 
@@ -23,6 +24,7 @@ azimuth + azimuth_correction + heading
 ```
 
 where a missing variable counts as 0, and the ground range follows from the slant range `range + range_correction` and the `altitude` of the antenna above the sea surface.
+The position of the radar antenna is the recorded `latitude` and `longitude`, displaced by the position offsets after their rotation by the heading.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
 ## Trajectory identification

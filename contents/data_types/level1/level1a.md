@@ -35,8 +35,8 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 
 | Variable | Dimension | Type | Units | Defined by | Description |
 |---|---|---|---|---|---|
-| `latitude` | none | double | `degrees_north` | FM 301, Table 301-4 | Latitude of the radar antenna (WGS 84). For a moving platform, the latitude at the start of the file. |
-| `longitude` | none | double | `degrees_east` | FM 301, Table 301-4 | Longitude of the radar antenna (WGS 84). For a moving platform, the longitude at the start of the file. |
+| `latitude` | none | double | `degrees_north` | FM 301, Table 301-4 | Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0. |
+| `longitude` | none | double | `degrees_east` | FM 301, Table 301-4 | Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0. |
 | `altitude` | none | double | `metres` | FM 301, Table 301-4 | Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
 | `platform_type` | none | string | | FM 301, Tables 301-4 and 301-15 | `"fixed"` or `"ship"`. |
 
@@ -86,14 +86,17 @@ The variables can be given in one of two ways, which must be the same for all va
 
 | Variable | Dimension | Type | Units | Description |
 |---|---|---|---|---|
-| `latitude` | none or `(time)` | double | `degrees_north` | Required. Latitude of the radar antenna (WGS 84). |
-| `longitude` | none or `(time)` | double | `degrees_east` | Required. Longitude of the radar antenna (WGS 84). |
+| `latitude` | none or `(time)` | double | `degrees_north` | Required. Recorded latitude (WGS 84); that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0. |
+| `longitude` | none or `(time)` | double | `degrees_east` | Required. Recorded longitude (WGS 84); that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0. |
 | `heading` | none or `(time)` | float | `degrees` | Required. Heading of the platform relative to true north. |
 | `altitude` | none or `(time)` | double | `metres` | Optional. Height of the radar antenna above mean sea level. |
 | `roll` | none or `(time)` | float | `degrees` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
 | `pitch` | none or `(time)` | float | `degrees` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
 | `eastward_velocity` | none or `(time)` | float | `m/s` | Optional. Eastward velocity of the platform. |
 | `northward_velocity` | none or `(time)` | float | `m/s` | Optional. Northward velocity of the platform. |
+
+`latitude` and `longitude` are stored as recorded.
+Where they have been taken from a GPS antenna at a different location on the platform, the position of the radar antenna relative to the GPS antenna is given by `position_offset_x` and `position_offset_y` in the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#position-offset) and is not applied.
 
 ## Azimuth reference
 
@@ -189,11 +192,11 @@ variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
-                latitude:long_name = "latitude of radar antenna at the start of the file" ;
+                latitude:long_name = "latitude of GPS antenna at the start of the file" ;
         double longitude ;
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
-                longitude:long_name = "longitude of radar antenna at the start of the file" ;
+                longitude:long_name = "longitude of GPS antenna at the start of the file" ;
         double altitude ;
                 altitude:units = "metres" ;
                 altitude:standard_name = "altitude" ;
@@ -268,11 +271,11 @@ group: sweep_0 {
         double latitude ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
-                latitude:long_name = "latitude of radar antenna at the start of the sweep" ;
+                latitude:long_name = "latitude of GPS antenna at the start of the sweep" ;
         double longitude ;
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
-                longitude:long_name = "longitude of radar antenna at the start of the sweep" ;
+                longitude:long_name = "longitude of GPS antenna at the start of the sweep" ;
         float heading ;
                 heading:units = "degrees" ;
                 heading:standard_name = "platform_orientation" ;
@@ -307,9 +310,17 @@ group: georeference_correction {
         float range_correction ;
                 range_correction:units = "metres" ;
                 range_correction:long_name = "correction to range values" ;
+        float position_offset_x ;
+                position_offset_x:units = "metres" ;
+                position_offset_x:long_name = "position of radar antenna relative to GPS antenna, positive to starboard" ;
+        float position_offset_y ;
+                position_offset_y:units = "metres" ;
+                position_offset_y:long_name = "position of radar antenna relative to GPS antenna, positive toward the bow" ;
   data:
         azimuth_correction = -1.3 ;
         range_correction = -22.5 ;
+        position_offset_x = 2.4 ;
+        position_offset_y = -11.8 ;
   } // group georeference_correction
 }
 ```
@@ -322,11 +333,11 @@ If the position and heading are given per pulse instead, the variables of the `g
         double latitude(time) ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
-                latitude:long_name = "latitude of radar antenna" ;
+                latitude:long_name = "latitude of GPS antenna" ;
         double longitude(time) ;
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
-                longitude:long_name = "longitude of radar antenna" ;
+                longitude:long_name = "longitude of GPS antenna" ;
         float heading(time) ;
                 heading:units = "degrees" ;
                 heading:standard_name = "platform_orientation" ;
