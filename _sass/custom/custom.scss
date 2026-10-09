@@ -1,5 +1,5 @@
 // Attribute and variable tables: fit the content width instead of scrolling
-// sideways, with the same column widths in every table of a kind.
+// sideways, with the same column widths in every table.
 table.attribute-table,
 table.variable-table {
   width: 100%;
@@ -21,10 +21,8 @@ table.variable-table {
   td:first-child small {
     color: $grey-dk-000;
   }
-}
 
-// Variable | Values | Description
-table.variable-table {
+  // Name | Values | Description
   th:nth-child(1),
   th:nth-child(2) {
     width: 25%;
@@ -32,24 +30,5 @@ table.variable-table {
 
   th:nth-child(3) {
     width: 50%;
-  }
-}
-
-// Attribute | Values | Description | Example
-table.attribute-table {
-  th:nth-child(1) {
-    width: 24%;
-  }
-
-  th:nth-child(2) {
-    width: 20%;
-  }
-
-  th:nth-child(3) {
-    width: 34%;
-  }
-
-  th:nth-child(4) {
-    width: 22%;
   }
 }

@@ -9,10 +9,10 @@ nav_order: 4
 
 SOMaR files describe the radar instrument in words through two global attributes, `instrument` (see [Optional global attributes](optional_global.md)) and `source` (see [Mandatory global attributes](mandatory_global.md)):
 
-| Attribute | Values | Description | Example |
-|---|---|---|---|
-| `instrument`<br><small>[ACDD](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3)</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. | `"Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar"` |
-| `source`<br><small>[CF](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents)</small> | String; free text | The general method of production, e.g. platform and sensor type. | `"Shipboard marine X-band radar"` |
+| Attribute | Values | Description |
+|---|---|---|
+| `instrument`<br><small>[ACDD](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3)</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
+| `source`<br><small>[CF](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents)</small> | String; free text | The general method of production, e.g. platform and sensor type. |
 {: .attribute-table }
 
 The technical parameters of the radar are stored as variables.
@@ -93,9 +93,9 @@ ushort polar_amp(time, range) ;
 
 Data variables in [Level 1b polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d), whose irregular pulse azimuths have been resampled onto a regular azimuth grid, additionally carry a variable attribute recording how this was done:
 
-| Attribute | Values | Description | Example |
-|---|---|---|---|
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | The method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. | `"nearest_neighbor"` |
+| Attribute | Values | Description |
+|---|---|---|
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | The method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
 {: .attribute-table }
 
 ## Retrieval calibration

@@ -136,7 +136,7 @@ variables:
         float radar_backscatter_intensity(time, y, x) ;
                 radar_backscatter_intensity:long_name = "radar backscatter intensity in uncalibrated analog-to-digital converter units" ;
                 radar_backscatter_intensity:units = "1" ;
-                radar_backscatter_intensity:grid_mapping = "crs: x y" ;
+                radar_backscatter_intensity:grid_mapping = "crs" ;
         double pulse_azimuth(pulse_azimuth) ;
                 pulse_azimuth:long_name = "radar pulse azimuth (clockwise with respect to north)" ;
                 pulse_azimuth:units = "degrees" ;
