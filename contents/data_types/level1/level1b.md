@@ -29,27 +29,60 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 | `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
 {: .attribute-table }
 
-`time` gives the start time of each revolution. 
+`time` gives the start time of each revolution.
+
+### Position and heading
+
+For a fixed platform, the scalar variables `latitude`, `longitude`, and `altitude` give the position of the radar antenna, as in the root group at [Level 1a](level1a.md#root-group).
+
+For a moving platform, the position and heading of the platform are stored as variables with the dimension `time`, with one value per image, taken at the start of the revolution.
+They take the place of the `georeference` subgroups of Level 1a, which have no counterpart in an image cube; `altitude` remains scalar.
+
+| Variable | Values | Description |
+|---|---|---|
+| `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_north` | Required. Recorded latitude (WGS 84). |
+| `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_east` | Required. Recorded longitude (WGS 84). |
+| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)`; `degrees` | Required. Heading of the platform relative to true north. |
+{: .variable-table }
+
+The names and units are those of CfRadial 2.1; storing them once per image on the `time` dimension is specific to SOMaR.
+As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
 
 <!---and `pulse_time` gives the acquisition time represented by each azimuth bin, i.e. the time of the selected pulse, the correspondingly interpolated time, or the mean time of the averaged pulses.-->
 
-## Minimal example (NEEDS TO BE ADAPTED!!!)
+## Minimal example
+
+A radar on a fixed platform.
+
 ```
-{
+netcdf or_2023-08-31-17-00_radar_polar {
 dimensions:
         time = 41 ;
         azimuth = 1440 ;
         range = 435 ;
 variables:
+        double latitude ;
+                latitude:units = "degrees_north" ;
+                latitude:standard_name = "latitude" ;
+                latitude:long_name = "latitude of radar antenna" ;
+        double longitude ;
+                longitude:units = "degrees_east" ;
+                longitude:standard_name = "longitude" ;
+                longitude:long_name = "longitude of radar antenna" ;
+        double altitude ;
+                altitude:units = "metres" ;
+                altitude:standard_name = "altitude" ;
+                altitude:long_name = "height of radar antenna above mean sea level" ;
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:calendar = "standard" ;
                 time:standard_name = "time" ;
                 time:long_name = "start time of radar measurement" ;
         float azimuth(azimuth) ;
                 azimuth:units = "degrees" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
                 azimuth:rays_angle_resolution = 0.25f ;
-                azimuth:comment = "clockwise positive, relative to the radar heading marker, not North-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
         float range(range) ;
                 range:units = "metres" ;
                 range:long_name = "range_to_measurement_volume" ;
@@ -58,6 +91,7 @@ variables:
                 range:meters_between_gates = 7.5f ;
         double pulse_time(time, azimuth) ;
                 pulse_time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                pulse_time:calendar = "standard" ;
                 pulse_time:long_name = "radar pulse time" ;
                 pulse_time:comment = "acquisition time represented by each azimuth bin" ;
         float polar_amp(time, azimuth, range) ;
@@ -75,7 +109,28 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
                 :processing_level = "L1b" ;
+data:
+        latitude = 54.1826 ;
+        longitude = 7.8853 ;
+        altitude = 43. ;
 }
+```
+
+For a moving platform, `latitude` and `longitude` have the dimension `time`, and `heading` is added:
+
+```
+        double latitude(time) ;
+                latitude:units = "degrees_north" ;
+                latitude:standard_name = "latitude" ;
+                latitude:long_name = "latitude of GPS antenna at the start of the revolution" ;
+        double longitude(time) ;
+                longitude:units = "degrees_east" ;
+                longitude:standard_name = "longitude" ;
+                longitude:long_name = "longitude of GPS antenna at the start of the revolution" ;
+        float heading(time) ;
+                heading:units = "degrees" ;
+                heading:standard_name = "platform_orientation" ;
+                heading:long_name = "heading of the platform relative to true north at the start of the revolution" ;
 ```
 
 ## Cartesian image sequences (cart3d)
