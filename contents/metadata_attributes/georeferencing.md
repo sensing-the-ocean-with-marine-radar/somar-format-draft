@@ -15,6 +15,7 @@ They are located in space with the variables that the WMO-CF Radial profile [FM 
 - `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform, they give the recorded position at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0.
 - For a moving platform, the `georeference` subgroup of each sweep gives the `latitude`, `longitude`, and `heading` of the platform, either once per sweep, at the time of its first pulse, or for every pulse (CfRadial 2.1; see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)).
 - `azimuth_correction` and `range_correction`, in the `georeference_correction` group, give known offsets of the recorded azimuth and range (CfRadial 2.1; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
+- `time_correction`, in the same group, gives a known offset of the radar clock relative to GPS time (SOMaR; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
 - `position_offset_x` and `position_offset_y`, in the same group, give the position of the radar antenna relative to the GPS antenna in the ship frame, for a moving platform whose position is recorded at a different location than the radar (SOMaR; see [Position offset](radar_parameters.md#position-offset)).
 
 The `azimuth` variable holds the antenna angle as recorded by the radar. The azimuth of a pulse relative to true north, clockwise positive, is

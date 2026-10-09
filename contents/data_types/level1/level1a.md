@@ -308,6 +308,9 @@ group: georeference_correction {
         float range_correction ;
                 range_correction:units = "metres" ;
                 range_correction:long_name = "correction to range values" ;
+        double time_correction ;
+                time_correction:units = "seconds" ;
+                time_correction:long_name = "correction to time values" ;
         float position_offset_x ;
                 position_offset_x:units = "metres" ;
                 position_offset_x:long_name = "position of radar antenna relative to GPS antenna, positive to starboard" ;
@@ -317,6 +320,7 @@ group: georeference_correction {
   data:
         azimuth_correction = -1.3 ;
         range_correction = -22.5 ;
+        time_correction = 0.35 ;
         position_offset_x = 2.4 ;
         position_offset_y = -11.8 ;
   } // group georeference_correction
