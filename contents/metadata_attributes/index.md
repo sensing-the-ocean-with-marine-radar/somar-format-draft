@@ -1,13 +1,32 @@
 ---
-title: Metadata attributes
+title: Metadata
 layout: default
 nav_order: 3
 ---
 
-# Metadata attributes
+# Metadata
 
-Every SOMaR NetCDF file carries a common core of global and variable-level metadata attributes, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR data types](../data_types/index.md)).
+Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR data types](../data_types/index.md)).
 This chapter documents that shared metadata: the [mandatory global attributes](mandatory_global.md) that every SOMaR file must carry, [optional global attributes](optional_global.md) that are recommended where applicable, the [variable attributes](variable_attributes.md) attached to individual variables, the [radar and calibration parameters](radar_parameters.md) that describe how raw instrument counts relate to physical quantities, the [file naming](file_naming.md) convention used to identify a file's platform, time, and product without opening it, and the [georeferencing](georeferencing.md) conventions used to locate SOMaR's time-bounded local grids and trajectory points in space.
+
+## Variables and attributes
+
+NetCDF stores information in two ways.
+A variable is a named array of values with a type, dimensions, and attributes of its own.
+An attribute is a label attached either to a variable or, as a global attribute, to the file as a whole.
+
+```
+variables:
+        float prt(time) ;                  // a variable
+                prt:units = "seconds" ;    // an attribute of that variable
+
+// global attributes:
+                :title = "..." ;           // an attribute of the file
+```
+
+As a rule of thumb, a quantity that can change from pulse to pulse or from sweep to sweep, or that is a number with units, is stored as a variable; a description of a variable or of the file is stored as an attribute.
+
+## Reading the tables
 
 Attributes are tabulated with three columns: the attribute name, its permitted values, and a description.
 Variables are tabulated with three columns: the variable name, its values, i.e. its type and dimension followed by its units or permitted values, and a description.

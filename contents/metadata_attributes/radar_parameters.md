@@ -1,7 +1,7 @@
 ---
 title: Radar parameters
 layout: default
-parent: Metadata attributes
+parent: Metadata
 nav_order: 4
 ---
 
@@ -22,7 +22,18 @@ Variables for the vertical polarization channel (`antenna_gain_v`, `xmit_power_v
 
 ## Pulse and scan parameters
 
-Parameters that may change from pulse to pulse are stored in the sweep groups, alongside the data (see [Level 1a data](../data_types/level1/level1a.md#sweep-groups)): `frequency`, `polarization_mode`, `pulse_width`, `prt`, `scan_rate`, and `n_samples` (FM 301, Tables 301-6 and 301-8).
+Parameters that may change from pulse to pulse are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../data_types/level1/level1a.md#sweep-groups)).
+All of them are optional.
+
+| Variable | Values | Description |
+|---|---|---|
+| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float `(frequency)`; `s-1` | Operating frequency of the radar. |
+| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Length of the transmitted pulse. |
+| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Pulse repetition time. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degrees/s` | Antenna rotation rate. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
+{: .variable-table }
 
 ## The `radar_parameters` group
 
@@ -90,13 +101,6 @@ ushort polar_amp(time, range) ;
         polar_amp:coordinates = "azimuth range" ;
         polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
 ```
-
-Data variables in [Level 1b polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d), whose irregular pulse azimuths have been resampled onto a regular azimuth grid, additionally carry a variable attribute recording how this was done:
-
-| Attribute | Values | Description |
-|---|---|---|
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | The method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
-{: .attribute-table }
 
 ## Retrieval calibration
 

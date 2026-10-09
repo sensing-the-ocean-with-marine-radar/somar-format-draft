@@ -17,21 +17,18 @@ The data variable has the dimensions `(time, azimuth, range)`, and reflects unca
 
 
 One image corresponds to one sweep of the [Level 1a](level1a.md) data.
-The `range` and `azimuth` variables carry the same attributes as at Level 1a, which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
+The `range` and `azimuth` variables carry the same attributes as at [Level 1a](level1a.md#sweep-groups), which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
 As at Level 1a, the azimuth is given relative to the radar's zero direction and is not necessarily north-oriented; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../../metadata_attributes/georeferencing.md#polar-sensor-coordinates)).
 The image cube with the dimensions `(time, azimuth, range)` has no equivalent in FM 301, which keeps the individual rays of each sweep, and is specific to SOMaR.
 
-The spacing of the regular azimuth axis is recorded in the `rays_angle_resolution` attribute of `azimuth`, in degrees. The name is that of the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid.
+The regular azimuth axis and the resampling onto it are recorded in two attributes.
 
-The resampling method is recorded in the `azimuth_regularization` attribute of the data variable, which must be one of:
+| Attribute | Values | Description |
+|---|---|---|
+| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid. |
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
+{: .attribute-table }
 
-| Value | Description |
-|---|---|
-| `"nearest_neighbor"` | Each azimuth bin takes the pulse closest in azimuth. |
-| `"linear_interpolation"` | Each azimuth bin is linearly interpolated between the two adjacent pulses. |
-| `"average"` | Each azimuth bin is the mean of all pulses falling within it. |
-
-The `comment` attribute should describe the method in words.
 `time` gives the start time of each revolution. 
 
 <!---and `pulse_time` gives the acquisition time represented by each azimuth bin, i.e. the time of the selected pulse, the correspondingly interpolated time, or the mean time of the averaged pulses.-->

@@ -1,7 +1,7 @@
 ---
 title: Georeferencing
 layout: default
-parent: Metadata attributes
+parent: Metadata
 nav_order: 5
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Variable attributes
 layout: default
-parent: Metadata attributes
+parent: Metadata
 nav_order: 3
 ---
 
@@ -27,12 +27,7 @@ Which of them a given variable carries depends on the product and is shown in th
 | `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
 | `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. |
 | `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. |
-| `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | On `range`: whether the range bins are equally spaced. |
-| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | On `range`: the range to the center of the first range bin. |
-| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | On `range`: the spacing of the range bins. Required if `spacing_is_constant` is `true`. |
-| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On the regular `azimuth` axis of Level 1b polar data: the spacing of the azimuth bins. Named after the FM 301 variable of the same meaning. |
 | `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. It must agree with `time` (see [Georeferencing](georeferencing.md)). |
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On Level 1b polar data variables: how pulses recorded at irregular azimuths were resampled onto the regular `azimuth` axis (see [Radar parameters](radar_parameters.md)). |
 {: .attribute-table }
 
 FM 301 additionally prescribes values of `standard_name` and `axis` for the `range` and `azimuth` variables (`projection_range_coordinate`, `sensor_to_target_azimuth_angle`, `radial_range_coordinate`, `radial_azimuth_coordinate`). They are not defined by the CF conventions, so SOMaR does not use them.

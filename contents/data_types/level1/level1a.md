@@ -46,27 +46,26 @@ The global attribute `platform_is_mobile` states whether the platform moves (see
 ## Sweep groups
 
 The primary dimension of a sweep is `time`, with one entry per radar pulse; the secondary dimension is `range`.
-The following variables are required in every sweep group.
+A sweep group holds the following variables, which are distinct from attributes (see [Variables and attributes](../../metadata_attributes/index.md#variables-and-attributes)).
 
 | Variable | Values | Description |
 |---|---|---|
-| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since <reference time>` | Time of each pulse. Should be given as UNIX time (`seconds since 1970-01-01T00:00:00Z`). |
-| `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `metres` | Slant range from the antenna to the center of each range bin. Carries the attributes `spacing_is_constant`, `meters_to_center_of_first_gate`, and `meters_between_gates`. |
-| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degrees` | Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
+| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since <reference time>` | Required. Time of each pulse. Should be given as UNIX time (`seconds since 1970-01-01T00:00:00Z`). |
+| `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `metres` | Required. Slant range from the antenna to the center of each range bin. |
+| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degrees` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
+| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Optional. Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
 {: .variable-table }
 
-The following variables are optional.
+The `range` variable carries the following attributes.
 
-| Variable | Values | Description |
+| Attribute | Values | Description |
 |---|---|---|
-| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
-| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float `(frequency)`; `s-1` | Operating frequency of the radar. |
-| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
-| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Length of the transmitted pulse. |
-| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Pulse repetition time. |
-| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degrees/s` | Antenna rotation rate. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
-{: .variable-table }
+| `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
+| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The range to the center of the first range bin. |
+| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The spacing of the range bins. Required if `spacing_is_constant` is `true`. |
+{: .attribute-table }
+
+The optional variables that describe the pulse and the scan, such as `frequency`, `pulse_width`, and `prt`, are also stored in the sweep groups; they are listed under [Radar parameters](../../metadata_attributes/radar_parameters.md#pulse-and-scan-parameters).
 
 ### Data variables
 
