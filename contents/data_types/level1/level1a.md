@@ -7,10 +7,9 @@ nav_order: 1
 
 # L1a: "raw" radar data
 
-Here we refer to Level 1a data, the lowest SOMaR level: the unmodified radar recording, converted from the manufacturer's container into NetCDF.
-
-A SOMaR NetCDF file at Level 1a originates directly from the data recorded by the radar system used (Level 0). Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration. It can therefore still be considered "raw" radar data, but stored as NetCDF rather than in the often proprietary radar data containers used by different manufacturers.
-This ensures interoperability even when different radar systems are used.
+Level 1a is the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
+Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
+The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
 
 ## Relation to FM 301 and CfRadial
 
@@ -35,10 +34,10 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `metres` | Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
-| `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Type of the platform. |
+| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
+| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
+| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `metres` | Required. Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
+| `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Required. Type of the platform. |
 {: .variable-table }
 
 The global attribute `platform_is_mobile` states whether the platform moves (see [Moving platforms](#moving-platforms)).
@@ -72,7 +71,18 @@ The optional variables that describe the pulse and the scan, such as `frequency`
 The radar measurement is stored in one or more variables with the dimensions `(time, range)` (FM 301, regulation 301.4.6 and Table 301-10).
 The data are stored in the units of the radar's analog-to-digital converters, using the attributes `scale_factor`, `add_offset`, and `_FillValue`.
 The `coordinates` attribute is set to `"azimuth range"`.
-The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute should state clearly whether the values refer to amplitude or power.
+The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute must state whether the values refer to amplitude or power:
+
+```
+ushort polar_amp(time, range) ;
+        polar_amp:scale_factor = 0.176738930567883 ;
+        polar_amp:add_offset = 0. ;
+        polar_amp:_FillValue = 65535US ;
+        polar_amp:long_name = "radar_backscatter_amplitude" ;
+        polar_amp:units = "1" ;
+        polar_amp:coordinates = "azimuth range" ;
+        polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
+```
 
 ## Moving platforms
 

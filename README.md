@@ -1,6 +1,6 @@
 # SOMaR data format (draft)
 
-Draft community standard for data formats used by the *Sensing the Ocean with Marine Radar* (SOMaR) community: NetCDF conventions for sharing and post-processing marine radar products at different processing levels, from raw radar recordings to derived geophysical variables. The formats follow the NetCDF Climate and Forecast (CF) conventions wherever possible, use the Attribute Convention for Data Discovery (ACDD) for discovery metadata and follow WMO FM 301 (and CfRadial for moving platforms) for radar data in polar coordinates, and document the extensions SOMaR needs (for example, time-bounded local grids).
+Draft community standard for data formats used by the *Sensing the Ocean with Marine Radar* (SOMaR) community: NetCDF conventions for sharing and post-processing marine radar products at different processing levels, from raw radar recordings to derived geophysical variables. The formats follow the NetCDF Climate and Forecast (CF) conventions wherever possible, use the Attribute Convention for Data Discovery (ACDD) for discovery metadata and follow WMO FM 301 (and CfRadial for moving platforms) for radar data in polar coordinates, and define what these standards leave open, in particular how gridded products from a moving vessel are stored.
 
 The specification is a [Jekyll] site using the [Just the Docs] theme, published at
 <https://sensing-the-ocean-with-marine-radar.github.io/somar-format-draft>.
@@ -12,8 +12,8 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | --- | --- |
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, and document structure |
-| `contents/metadata_attributes/` | Mandatory and optional global attributes, radar parameters, file naming, georeferencing |
-| `contents/data_types/` | Level 0, Level 1 (polar raw data, regularized polar images, Cartesian images), and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
+| `contents/metadata_attributes/` | Mandatory and optional global attributes, variable attributes, radar parameters, georeferencing, file naming |
+| `contents/data_types/` | Level 1 (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
 | `contents/about/` | About the SOMaR community |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |

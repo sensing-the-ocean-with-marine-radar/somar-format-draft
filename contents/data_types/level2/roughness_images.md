@@ -13,6 +13,20 @@ All time-bounded grids belonging to one file (typically covering one hour of a p
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.
 Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
 
+## Variables
+
+Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
+
+| Variable | Values | Description |
+|---|---|---|
+| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of radar measurement. |
+| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Eastward distance from radar position at measurement start time. |
+| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Northward distance from radar position at measurement start time. |
+| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; dimensionless | Temporally averaged radar backscatter intensity in uncalibrated analog-to-digital converter units. |
+| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; dimensionless | Number of measurements from which the radar backscatter intensity averages have been derived. |
+{: .variable-table }
+
 ## Minimal example
 ```
 netcdf or_2025-01-15-11_sea_surface_roughness {
@@ -72,3 +86,6 @@ group: time_20250115110031 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging window ...
 }
 ```
+
+[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
+[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

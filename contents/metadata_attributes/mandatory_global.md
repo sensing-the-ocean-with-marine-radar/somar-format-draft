@@ -8,7 +8,7 @@ nav_order: 1
 # Mandatory global attributes
 
 Every SOMaR NetCDF file must carry the following global attributes, regardless of processing level or product.
-The convention an attribute is taken from is named in small print under the attribute (see [Metadata](index.md)); where an attribute has a fixed set of permitted values, all of them are listed and those currently used by SOMaR are set in bold.
+The convention an attribute is taken from is named in small print under the attribute (see [Metadata](index.md)).
 
 | Attribute | Values | Description |
 |---|---|---|

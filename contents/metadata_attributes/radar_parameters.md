@@ -5,25 +5,16 @@ parent: Metadata
 nav_order: 4
 ---
 
-# Radar Parameters/Calibration Group
+# Radar parameters
 
-SOMaR files describe the radar instrument in words through two global attributes, `instrument` (see [Optional global attributes](optional_global.md)) and `source` (see [Mandatory global attributes](mandatory_global.md)):
-
-| Attribute | Values | Description |
-|---|---|---|
-| `instrument`<br><small>[ACDD](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3)</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
-| `source`<br><small>[CF](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents)</small> | String; free text | The general method of production, e.g. platform and sensor type. |
-{: .attribute-table }
-
+SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](mandatory_global.md).
 The technical parameters of the radar are stored as variables.
 SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general, and, where FM 301 has no provision, from the earlier [CfRadial 2.1][cfradial] draft (see [Level 1a data](../data_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
 The tables below list the variables that apply to marine radars, with the table or section that defines each of them; all of them are optional.
-Variables for the vertical polarization channel (`xmit_power_v`, ...) are defined by FM 301 in the same way; a radar with a single polarization uses the `_h` variables.
 
 ## Pulse and scan parameters
 
 Parameters that may change from pulse to pulse are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../data_types/level1/level1a.md#sweep-groups)).
-All of them are optional.
 
 | Variable | Values | Description |
 |---|---|---|
@@ -75,24 +66,9 @@ east  =  position_offset_x * cos(H) + position_offset_y * sin(H)
 north = -position_offset_x * sin(H) + position_offset_y * cos(H)
 ```
 
-metres east and north of the recorded position; the conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid.
+meters east and north of the recorded position; the conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid.
 The offsets are horizontal distances for a level ship; roll and pitch are neglected.
 For a fixed platform, the position offsets are not used, and `latitude` and `longitude` in the root group give the position of the radar antenna.
-
-## Uncalibrated backscatter
-
-Level 1 data variables hold raw analog-to-digital converter (ADC) counts or a quantity derived from them. As introduced in [Level 1a data](../data_types/level1/level1a.md), such variables use the standard CF/UDUNITS `scale_factor` and `add_offset` attributes together with `units = "1"` or `units = "dB"`, and must state in a `comment` attribute whether the stored quantity is an amplitude or a power:
-
-```
-ushort polar_amp(time, range) ;
-        polar_amp:scale_factor = 0.176738930567883 ;
-        polar_amp:add_offset = 0. ;
-        polar_amp:_FillValue = 65535US ;
-        polar_amp:long_name = "radar_backscatter_amplitude" ;
-        polar_amp:units = "1" ;
-        polar_amp:coordinates = "azimuth range" ;
-        polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
-```
 
 ## Retrieval calibration
 

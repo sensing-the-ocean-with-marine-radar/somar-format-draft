@@ -49,8 +49,8 @@ char crs ;
 
 ## Time-bounded local grids
 
-As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the platform's position at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, the roughness images and mosaics store each time-bounded grid as a sibling NetCDF group per time window, named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and `x`/`y` coordinate variables.
-The near-surface current, bathymetric, and sea ice drift maps are stored in groups of the same kind, one per measurement period, on a longitude/latitude grid or, for a processor that works on the local grid, on that grid together with two-dimensional `longitude` and `latitude` (see [Positions derived from the local grid](#positions-derived-from-the-local-grid)).
+As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the position of the radar antenna at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, the roughness images and mosaics store each time-bounded grid as a sibling NetCDF group per time window, named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and `x`/`y` coordinate variables.
+The near-surface current, bathymetric, and sea ice drift maps are stored in groups of the same kind, one per measurement period, on a longitude/latitude grid or, for a processor that works on the local grid, on that grid together with two-dimensional `longitude` and `latitude` (see [Positions of analysis windows](#positions-of-analysis-windows)).
 The [Level 1b Cartesian images](../data_types/level1/level1b.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
 
 ### Definition of the local grid
@@ -91,7 +91,7 @@ double time ;
 
 `time_iso_8601` is redundant with `time` and must agree with it. The start of the first group and the end of the last group are additionally given at file level by the global attributes `time_coverage_start` and `time_coverage_end` (see [Optional global attributes](optional_global.md)).
 
-## Positions derived from the local grid
+## Positions of analysis windows
 
 Level 2 products that report `longitude` and `latitude` directly (e.g. [near-surface current maps](../data_types/level2/current_maps.md), [bathymetric maps](../data_types/level2/depth_maps.md), [sea ice drift maps](../data_types/level2/sea_ice_drift.md), and the wave products) are retrieved within analysis windows.
 Depending on the processor, the windows are placed on an Earth-fixed lattice in longitude and latitude or on the local grid, at known `x` and `y` distances east and north of the radar.
@@ -107,10 +107,8 @@ double radar_longitude ;
         radar_longitude:long_name = "longitude of radar at start of measurement" ;
         radar_longitude:standard_name = "longitude" ;
         radar_longitude:units = "degrees_east" ;
-        radar_longitude:grid_mapping = "crs" ;
 double radar_latitude ;
         radar_latitude:long_name = "latitude of radar at start of measurement" ;
         radar_latitude:standard_name = "latitude" ;
         radar_latitude:units = "degrees_north" ;
-        radar_latitude:grid_mapping = "crs" ;
 ```

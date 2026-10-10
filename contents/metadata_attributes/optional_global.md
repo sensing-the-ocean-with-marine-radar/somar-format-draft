@@ -13,7 +13,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 |---|---|---|
 | `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
-| `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used (see [Radar parameters](radar_parameters.md)). |
+| `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
 | `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |

@@ -9,14 +9,9 @@ nav_order: 2
 
 ## Polar image sequences (pol3d)
 
-Here we refer to Level 1b data in polar form: radar image sequences, kept in polar (range, azimuth) coordinates but mapped to a regularized range and azimuth axis, such that every individual image in the sequence shares the same range and azimuth grid.
-
-A SOMaR NetCDF file with Level 1b polar images mostly originates from Level 1a (or Level 0) data.
-Each time step represents one complete antenna revolution to form the individual image.
-The data variable has the dimensions `(time, azimuth, range)`, and reflects uncalibrated amplitude (or power) data.  
-
-
-One image corresponds to one sweep of the [Level 1a](level1a.md) data.
+Level 1b polar images (`pol3d`, a three-dimensional cube in polar coordinates) are radar image sequences that remain in the polar coordinates of the sensor but are mapped onto a regular range and azimuth axis, so that all images of a sequence share the same grid.
+They are usually derived from Level 1a data.
+Each time step is one complete antenna revolution, corresponding to one sweep of the [Level 1a](level1a.md) data, and the data variable has the dimensions `(time, azimuth, range)` and holds uncalibrated amplitude or power.
 The `range` and `azimuth` variables carry the same attributes as at [Level 1a](level1a.md#sweep-groups), which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
 As at Level 1a, the azimuth is given relative to the radar's zero direction and is not necessarily north-oriented; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../../metadata_attributes/georeferencing.md#polar-sensor-coordinates)).
 The image cube with the dimensions `(time, azimuth, range)` has no equivalent in FM 301, which keeps the individual rays of each sweep, and is specific to SOMaR.
@@ -30,6 +25,7 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 {: .attribute-table }
 
 `time` gives the start time of each revolution.
+The optional variable `pulse_time`, with the dimension `azimuth`, gives the time of each azimuth bin in seconds after the start of its revolution, i.e. the time of the selected pulse, the correspondingly interpolated time, or the mean time of the averaged pulses. It is the same for all images, which assumes that the antenna rotates steadily.
 
 ### Position and heading
 
@@ -48,9 +44,7 @@ They take the place of the `georeference` subgroups of Level 1a, which have no c
 The names and units are those of CfRadial 2.1; storing them once per image on the `time` dimension is specific to SOMaR.
 As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
 
-<!---and `pulse_time` gives the acquisition time represented by each azimuth bin, i.e. the time of the selected pulse, the correspondingly interpolated time, or the mean time of the averaged pulses.-->
-
-## Minimal example
+### Minimal example
 
 A radar on a fixed platform.
 
@@ -89,11 +83,9 @@ variables:
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
-        double pulse_time(time, azimuth) ;
-                pulse_time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                pulse_time:calendar = "standard" ;
-                pulse_time:long_name = "radar pulse time" ;
-                pulse_time:comment = "acquisition time represented by each azimuth bin" ;
+        float pulse_time(azimuth) ;
+                pulse_time:units = "s" ;
+                pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
         float polar_amp(time, azimuth, range) ;
                 polar_amp:long_name = "radar_backscatter_amplitude" ;
                 polar_amp:units = "1" ;
@@ -135,18 +127,14 @@ For a moving platform, `latitude` and `longitude` have the dimension `time`, and
 
 ## Cartesian image sequences (cart3d)
 
-Here we refer to Level 1b data in Cartesian form: individual radar images, one per antenna revolution, mapped from polar coordinates onto a local Cartesian grid centered on the platform.
-
-A SOMaR NetCDF file at Level 1b contains individual radar images that have been mapped from the sensor's native polar (range, azimuth) geometry onto a Cartesian grid, while otherwise remaining as close as possible to the underlying Level 1a raw data.
-Unlike Level 1a, where the primary axis is time and pulses are stored individually, Level 1b images represent one complete antenna revolution per time step, reprojected onto a regular Cartesian `x`/`y` grid.
-The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each scan; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
+Level 1b Cartesian images (`cart3d`, a three-dimensional cube in Cartesian coordinates) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying Level 1a data.
+The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each revolution; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
 Grid cells that fall outside the calibrated field of view, for example those obstructed by platform superstructure, are blanked.
-Because each image pixel is acquired at a slightly different time as the antenna rotates, the acquisition time of a given pixel can, if needed, be approximated from the `pulse_azimuth` and `pulse_time` variables, which record the azimuth and acquisition time of each individual radar pulse contributing to the image.
 As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"`); no radiometric calibration or temporal averaging is applied at this level.
 
 ### Position and orientation
 
-`x` and `y` are distances in metres east and north of the grid origin.
+`x` and `y` are distances in meters east and north of the grid origin.
 The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no `heading` is stored. This is the main difference from the polar form, which is stored as recorded.
 
 The grid origin is the position of the radar antenna at the start of each revolution, i.e. the recorded position after application of the [position offsets](../../metadata_attributes/radar_parameters.md#position-offset), and is given by `longitude` and `latitude`.
@@ -161,7 +149,7 @@ For a moving platform, they have the dimension `time`, with one value per image;
 The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
 For the same reason, `x` and `y` carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
 
-## Minimal example
+### Minimal example
 
 A radar on a moving platform.
 
@@ -171,7 +159,6 @@ dimensions:
         time = 41 ;
         y = 1980 ;
         x = 1980 ;
-        pulse_azimuth = 1440 ;
 variables:
         double time(time) ;
                 time:calendar = "standard" ;
@@ -195,13 +182,6 @@ variables:
         float radar_backscatter_intensity(time, y, x) ;
                 radar_backscatter_intensity:long_name = "radar backscatter intensity in uncalibrated analog-to-digital converter units" ;
                 radar_backscatter_intensity:units = "1" ;
-        double pulse_azimuth(pulse_azimuth) ;
-                pulse_azimuth:long_name = "radar pulse azimuth (clockwise with respect to north)" ;
-                pulse_azimuth:units = "degrees" ;
-        double pulse_time(time, pulse_azimuth) ;
-                pulse_time:calendar = "standard" ;
-                pulse_time:long_name = "radar pulse time" ;
-                pulse_time:units = "seconds since 1970-01-01T00:00:00Z" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -210,7 +190,7 @@ variables:
                 :source = "Shipboard marine X-band radar" ;
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
-                :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image. The approximate time of measurement for each image pixel can be inferred from the pulse_time variable." ;
+                :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image." ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L1b" ;
 }

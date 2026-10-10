@@ -16,8 +16,8 @@ Which of them a given variable carries depends on the product and is shown in th
 |---|---|---|
 | `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
 | `long_name`<br><small>[CF][cf-long-name]</small> | String; free text | A human-readable description of the variable. |
-| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
-| `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Radar parameters](radar_parameters.md)). |
+| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Level 1 variables taken from FM 301 and CfRadial keep the spellings of those documents (`metres`, `degrees`, `seconds`); all other variables use SI symbols (`m`, `degree`, `s`). Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
+| `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Level 1a data](../data_types/level1/level1a.md#data-variables)). |
 | `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
 | `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
 | `add_offset`<br><small>[CF][cf-packed]</small> | Number | Offset added to stored values after scaling. |
@@ -25,10 +25,11 @@ Which of them a given variable carries depends on the product and is shown in th
 | `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. |
 | `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. |
 | `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
-| `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value | The meaning of each entry in `flag_values`, in the same order. |
-| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. On Level 2 current, bathymetric, and sea ice drift maps stored in the local-grid form it is set to `"longitude latitude"`. |
+| `flag_masks`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The bits that can be set independently in a flag variable, used in place of `flag_values` where several conditions can hold at once. A value of 0 means that no condition holds. |
+| `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value or mask | The meaning of each entry in `flag_values` or `flag_masks`, in the same order. |
+| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. On the Level 2 wave products, and on current, bathymetric, and sea ice drift maps stored in the local-grid form, it is set to `"longitude latitude"`. |
 | `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |
-| `grid_mapping`<br><small>[CF][cf-grid-mapping]</small> | String; the name of a coordinate reference system variable, conventionally `crs` | Links a data or coordinate variable to the variable describing its coordinate reference system. |
+| `grid_mapping`<br><small>[CF][cf-grid-mapping]</small> | String; the name of a coordinate reference system variable, conventionally `crs` | Links a data variable to the variable describing the coordinate reference system of its coordinates. |
 {: .attribute-table }
 
 ## Coordinate reference system variables
