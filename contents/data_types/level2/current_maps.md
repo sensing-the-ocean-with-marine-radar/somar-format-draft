@@ -24,16 +24,16 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of current measurement. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Center longitude of current measurement. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Center latitude of current measurement. |
-| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the near surface current velocity. |
-| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the near surface current velocity. |
-| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Mean wavenumber of the wave signal used by the current measurement. |
-| `eastward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the eastward component of the near surface current velocity. |
-| `northward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the northward component of the near surface current velocity. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int64 `(latitude, longitude)`; dimensionless | Number of wave coordinates used by the current measurement. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag: 0 is good, and each bit that is set marks a failed check, as listed in `flag_meanings`. |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
+| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Longitude of the centers of the analysis windows. |
+| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Latitude of the centers of the analysis windows. |
+| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the near-surface current. |
+| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the near-surface current. |
+| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Mean wavenumber of the wave signal used in the fit, which indicates the effective sensing depth. |
+| `eastward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the eastward component. |
+| `northward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the northward component. |
+| `number_of_wave_coordinates`<br><small>SOMaR</small> | int64 `(latitude, longitude)`; dimensionless | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
 ## Minimal example
@@ -182,7 +182,7 @@ The variables are those of the near-surface current maps, with the additional di
 
 | Variable | Values | Description |
 |---|---|---|
-| `lower_wavenumber_bin_edge`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Lower edge of the wavenumber bin used by the current measurement. |
+| `lower_wavenumber_bin_edge`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Lower edge of each wavenumber band. |
 {: .variable-table }
 
 In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attribute.

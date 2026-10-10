@@ -20,11 +20,11 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of radar measurement. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Eastward distance from radar position at measurement start time. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Northward distance from radar position at measurement start time. |
-| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; dimensionless | Temporally averaged radar backscatter intensity in uncalibrated analog-to-digital converter units. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; dimensionless | Number of measurements from which the radar backscatter intensity averages have been derived. |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the averaging window. |
+| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the averaging window. |
+| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the averaging window. |
+| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; dimensionless | Radar backscatter intensity averaged over the window, uncalibrated. |
+| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; dimensionless | Number of Level 1b images that contributed to each grid cell. |
 {: .variable-table }
 
 ## Minimal example
