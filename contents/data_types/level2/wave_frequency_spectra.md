@@ -9,7 +9,7 @@ nav_order: 8
 
 One-dimensional frequency spectra give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each analysis window, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
-As for the wavenumber spectra, files carry a `sea_surface_wave_significant_height_calibration_status` global attribute documenting the calibration source and date.
+The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Calibration](wave_wavenumber_spectra.md#calibration)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -28,13 +28,6 @@ The file holds the following variables.
 | `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Mean direction the waves come from in each frequency band. |
 | `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
-
-In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attribute.
-
-| Attribute | Values | Description |
-|---|---|---|
-| `sea_surface_wave_significant_height_calibration_status`<br><small>SOMaR</small> | String; free text | The reference wave data and the date against which the wave energy density was calibrated. |
-{: .attribute-table }
 
 ## Minimal example
 ```
@@ -89,7 +82,6 @@ variables:
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
-                :sea_surface_wave_significant_height_calibration_status = "Calibrated on 2025/01/06 using MFWAM global wave data as reference" ;
                 :title = "Marine X-band radar derived wave energy density frequency spectra, directional spread, and mean direction with quality control flag from R/V Ocean Research" ;
                 :summary = "The wave energy spectral density, directional spread, and mean direction as function of frequency data are derived from the mean two dimensional wavenumber wave energy density spectrum using the linear wave dispersion relation." ;
                 :creator_email = "famous.scientist@frori.org" ;
@@ -99,6 +91,34 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L2b" ;
+
+group: wave_calibration {
+  variables:
+        double hs_intercept ;
+                hs_intercept:units = "m" ;
+                hs_intercept:long_name = "intercept of the significant wave height calibration" ;
+        double hs_slope ;
+                hs_slope:units = "m" ;
+                hs_slope:long_name = "slope of the significant wave height calibration" ;
+        string hs_predictor ;
+                hs_predictor:long_name = "quantity to which the significant wave height calibration is applied" ;
+        string mtf_form ;
+                mtf_form:long_name = "form of the modulation transfer function" ;
+                mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;
+        double mtf_exponent ;
+                mtf_exponent:units = "1" ;
+                mtf_exponent:long_name = "exponent of the power-law modulation transfer function" ;
+
+  // group attributes:
+                :calibration_reference = "MFWAM global wave data" ;
+                :calibration_date = "2025-01-06" ;
+  data:
+        hs_intercept = 0.1 ;
+        hs_slope = 1.5 ;
+        hs_predictor = "sqrt_signal_to_noise_ratio" ;
+        mtf_form = "power_law" ;
+        mtf_exponent = -1.2 ;
+  } // group wave_calibration
 }
 ```
 

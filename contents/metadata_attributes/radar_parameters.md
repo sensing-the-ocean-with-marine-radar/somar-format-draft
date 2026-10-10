@@ -70,9 +70,5 @@ meters east and north of the recorded position; the conversion to `latitude` and
 The offsets are horizontal distances for a level ship; roll and pitch are neglected.
 For a fixed platform, the position offsets are not used, and `latitude` and `longitude` in the root group give the position of the radar antenna.
 
-## Retrieval calibration
-
-Several Level 2 products derive physically calibrated quantities (e.g. significant wave height, current velocity, water depth) from the radar signal using retrieval-specific calibration parameters — for example, the `summary` attributes of the wave and current products reference an "empirical modulation transfer function" and "radar specific calibration parameters" used internally during processing. These parameters describe the retrieval rather than the radar and are not covered by FM 301 or CfRadial. They are not yet exposed as their own NetCDF attributes or variables in current SOMaR output; formalizing how they should be recorded is an open item for a future revision of the format.
-
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs

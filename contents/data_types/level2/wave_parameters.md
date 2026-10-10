@@ -8,8 +8,8 @@ nav_order: 9
 # L2b: Peak and mean wave parameters
 
 Peak and mean wave parameters summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
-To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities used to derive the significant wave height are also reported (`wave_signal`, `background_noise`), together with the near-surface current vector obtained from the same analysis window (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
-As for the wave spectra, a `sea_surface_wave_significant_height_calibration_status` global attribute documents the calibration source and date against which the significant wave height retrieval was calibrated.
+To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_slope` and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis window (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Calibration](wave_wavenumber_spectra.md#calibration)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -32,13 +32,6 @@ The file holds the following variables.
 | `background_noise`<br><small>SOMaR</small> | double `(time)`; dimensionless | Spectral density of the background noise in the radar images, used to derive the significant wave height. |
 | `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
-
-In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attribute.
-
-| Attribute | Values | Description |
-|---|---|---|
-| `sea_surface_wave_significant_height_calibration_status`<br><small>SOMaR</small> | String; free text | The reference wave data and the date against which the wave energy density was calibrated. |
-{: .attribute-table }
 
 ## Minimal example
 ```
@@ -116,7 +109,6 @@ variables:
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
-                :sea_surface_wave_significant_height_calibration_status = "Calibrated on 2025/01/06 using MFWAM global wave data as reference" ;
                 :title = "Marine X-band radar derived mean and peak wave parameters with quality control flag from R/V Ocean Research" ;
                 :summary = "The mean and peak wave parameters are derived from the mean two dimensional wavenumber wave energy density spectrum." ;
                 :creator_email = "famous.scientist@frori.org" ;
@@ -126,6 +118,34 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L2b" ;
+
+group: wave_calibration {
+  variables:
+        double hs_intercept ;
+                hs_intercept:units = "m" ;
+                hs_intercept:long_name = "intercept of the significant wave height calibration" ;
+        double hs_slope ;
+                hs_slope:units = "m" ;
+                hs_slope:long_name = "slope of the significant wave height calibration" ;
+        string hs_predictor ;
+                hs_predictor:long_name = "quantity to which the significant wave height calibration is applied" ;
+        string mtf_form ;
+                mtf_form:long_name = "form of the modulation transfer function" ;
+                mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;
+        double mtf_exponent ;
+                mtf_exponent:units = "1" ;
+                mtf_exponent:long_name = "exponent of the power-law modulation transfer function" ;
+
+  // group attributes:
+                :calibration_reference = "MFWAM global wave data" ;
+                :calibration_date = "2025-01-06" ;
+  data:
+        hs_intercept = 0.1 ;
+        hs_slope = 1.5 ;
+        hs_predictor = "sqrt_signal_to_noise_ratio" ;
+        mtf_form = "power_law" ;
+        mtf_exponent = -1.2 ;
+  } // group wave_calibration
 }
 ```
 

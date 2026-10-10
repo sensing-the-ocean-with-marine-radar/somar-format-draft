@@ -47,7 +47,7 @@ For example:
                 :geospatial_lon_max = 145.96815 ;
 ```
 
-Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `sea_surface_wave_significant_height_calibration_status` on the [surface wave products](../data_types/level2/index.md), or `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/current_maps.md).
+Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/current_maps.md#near-surface-current-profile-maps).
 
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
