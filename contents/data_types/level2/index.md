@@ -14,7 +14,7 @@ They are divided into two sublevels according to how they are obtained: Level 2a
 
 Level 2a products are the direct result of a retrieval applied to Level 1b image sequences.
 [Roughness images](roughness_images.md) and [roughness image mosaics](roughness_mosaics.md) are mapped onto time-bounded local Cartesian grids stored as NetCDF groups.
-[Near-surface current maps](current_maps.md), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) are retrieved within analysis windows placed on an overlapping, approximately regular grid that follows the platform, and their analysis locations are stored as points on a flat `measurement` dimension.
+[Near-surface current maps](current_maps.md), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) are retrieved within analysis windows placed on an overlapping, approximately regular grid that follows the platform, and are stored as one two-dimensional map per measurement period, each in its own NetCDF group, on a longitude/latitude grid.
 [Surface wave two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) give one spectrum per analysis window along the platform's path, indexed by `time` with accompanying `longitude` and `latitude`.
 
 ## Level 2b

@@ -10,64 +10,16 @@ nav_order: 3
 Near-surface current maps provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with per-component standard errors and a `measurement_quality` bit flag.
 Each current vector is retrieved through a least-squares fit that minimizes the distance between the wave signal found in a wavenumber-frequency spectrum, computed from a radar backscatter intensity image sequence within a local circular analysis window, and the linear ocean wave dispersion relation, exploiting the current-induced Doppler shift of the surface wave field.
 Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight, the effective sensing depth depends on the wavenumber range of the wave signal used in the fit and can be approximated as 4-8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
-Because the analysis windows are placed on an overlapping, approximately (but not exactly) regular grid that follows the platform trajectory, analysis locations are stored as points indexed by a flat `measurement` dimension rather than as coordinates on a regular `x`/`y` grid, with `longitude` and `latitude` given as measurement-indexed variables. The positions are computed from the offset of each analysis window from the radar, as described under [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
+The analysis windows of one measurement period form a map that spans the radar footprint, and with a moving vessel the area covered changes from one period to the next.
+All maps belonging to one file are therefore stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, as for the [roughness images](roughness_images.md).
+Within each group, the variables are stored on a two-dimensional grid with the dimensions `(latitude, longitude)`, and the scalar variable `time` gives the start time of the period.
+Since the radar footprint is circular, the cells in the corners of the grid hold the `_FillValue`, as do the cells of analysis windows without a result.
+The coordinate variables `latitude` and `longitude` give the centers of the analysis windows. They are one-dimensional because the windows lie on an Earth-fixed lattice with a single longitude spacing per measurement period, so that each map is a rectangular grid in longitude and latitude (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-derived-from-the-local-grid)). A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](#local-grid-form) of a group.
+The radar position for the period may optionally be stored in the scalar variables `radar_longitude` and `radar_latitude`.
 
 ## Minimal example
 ```
 netcdf or_2025-01-15-11_currents {
-dimensions:
-        measurement = 4720 ;
-variables:
-        char crs ;
-                crs:grid_mapping_name = "latitude_longitude" ;
-                crs:longitude_of_prime_meridian = 0. ;
-                crs:semi_major_axis = 6378137. ;
-                crs:inverse_flattening = 298.257223563 ;
-                crs:authority_string = "EPSG:4326" ;
-        int64 measurement(measurement) ;
-                measurement:long_name = "measurement identifier" ;
-                measurement:units = "1" ;
-        double time(measurement) ;
-                time:calendar = "standard" ;
-                time:long_name = "start time of current measurement" ;
-                time:standard_name = "time" ;
-                time:units = "seconds since 1970-01-01T00:00:00Z" ;
-        double longitude(measurement) ;
-                longitude:long_name = "center longitude of current measurement" ;
-                longitude:standard_name = "longitude" ;
-                longitude:units = "degrees_east" ;
-                longitude:grid_mapping = "crs" ;
-        double latitude(measurement) ;
-                latitude:long_name = "center latitude of current measurement" ;
-                latitude:standard_name = "latitude" ;
-                latitude:units = "degrees_north" ;
-                latitude:grid_mapping = "crs" ;
-        double eastward_sea_water_velocity(measurement) ;
-                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
-                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
-                eastward_sea_water_velocity:units = "m s-1" ;
-        double northward_sea_water_velocity(measurement) ;
-                northward_sea_water_velocity:long_name = "northward component of the near surface current velocity" ;
-                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
-                northward_sea_water_velocity:units = "m s-1" ;
-        double mean_wavenumber(measurement) ;
-                mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
-                mean_wavenumber:units = "radian m-1" ;
-        double eastward_sea_water_velocity_standard_error(measurement) ;
-                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near surface current velocity" ;
-                eastward_sea_water_velocity_standard_error:units = "m s-1" ;
-        double northward_sea_water_velocity_standard_error(measurement) ;
-                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near surface current velocity" ;
-                northward_sea_water_velocity_standard_error:units = "m s-1" ;
-        int64 number_of_wave_coordinates(measurement) ;
-                number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
-                number_of_wave_coordinates:units = "1" ;
-        ubyte measurement_quality(measurement) ;
-                measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
-                measurement_quality:flag_meanings = "good_quality measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
-                measurement_quality:valid_range = 0UB, 127UB ;
-                measurement_quality:flag_values = 0UB, 1UB, 2UB, 4UB, 8UB, 16UB, 32UB, 64UB ;
-                measurement_quality:standard_name = "quality_flag" ;
 
 // global attributes:
                 :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
@@ -79,27 +31,130 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L2a" ;
+
+group: time_20250115110031 {
+  dimensions:
+        latitude = 17 ;
+        longitude = 17 ;
+  variables:
+        char crs ;
+                crs:grid_mapping_name = "latitude_longitude" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:authority_string = "EPSG:4326" ;
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+        double longitude(longitude) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+                longitude:grid_mapping = "crs" ;
+        double latitude(latitude) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+                latitude:grid_mapping = "crs" ;
+        double eastward_sea_water_velocity(latitude, longitude) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(latitude, longitude) ;
+                northward_sea_water_velocity:long_name = "northward component of the near surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+        double mean_wavenumber(latitude, longitude) ;
+                mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
+                mean_wavenumber:units = "radian m-1" ;
+                mean_wavenumber:_FillValue = NaN ;
+        double eastward_sea_water_velocity_standard_error(latitude, longitude) ;
+                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity_standard_error:units = "m s-1" ;
+                eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        double northward_sea_water_velocity_standard_error(latitude, longitude) ;
+                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near surface current velocity" ;
+                northward_sea_water_velocity_standard_error:units = "m s-1" ;
+                northward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        int64 number_of_wave_coordinates(latitude, longitude) ;
+                number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
+                number_of_wave_coordinates:units = "1" ;
+                number_of_wave_coordinates:_FillValue = -1L ;
+        ubyte measurement_quality(latitude, longitude) ;
+                measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
+                measurement_quality:flag_meanings = "good_quality measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
+                measurement_quality:valid_range = 0UB, 127UB ;
+                measurement_quality:flag_values = 0UB, 1UB, 2UB, 4UB, 8UB, 16UB, 32UB, 64UB ;
+                measurement_quality:standard_name = "quality_flag" ;
+                measurement_quality:_FillValue = 255UB ;
+  } // group time_20250115110031
+
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
+```
+
+### Local-grid form
+
+A processor whose analysis windows lie on a local grid around the radar stores the grid itself, as the [roughness images](roughness_images.md) do: `x` and `y` give the distance in metres east and north of the radar, and `crs` describes the local projection centered on the position of the radar antenna for that period.
+`longitude` and `latitude` remain mandatory, as two-dimensional variables, so that every file gives the geographic position of each analysis window.
+Only the variables that differ from the example above are shown:
+
+```
+group: time_20250115110031 {
+  dimensions:
+        y = 17 ;
+        x = 17 ;
+  variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 145.868167860183 ;
+                crs:latitude_of_projection_origin = 14.9952749946079 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar position at measurement start time" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar position at measurement start time" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        double longitude(y, x) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(y, x) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(y, x) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:coordinates = "longitude latitude" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        ... // all other data variables likewise on (y, x), with grid_mapping and coordinates ...
+  } // group time_20250115110031
 ```
 
 # Near-surface current profile maps
 
 Near-surface current profile maps extend the near-surface current maps above by repeating the same dispersion-relation current fit for a set of distinct wavenumber bands rather than a single fixed wave-signal wavenumber range, providing an approximate vertical profile of near-surface current shear.
-Each entry along the `measurement` dimension therefore corresponds to one (analysis location, wavenumber band) pair rather than to one analysis location alone, so the same location appears multiple times, once per wavenumber band for which a fit was attempted.
-The lower bound of the wavenumber band used for a given measurement is given by `lower_wavenumber_bin_edge`, with the (fixed) band width given by the global attribute `wavenumber_bin_size`; as in the near-surface current maps, `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in that particular fit, and since the effective sensing depth increases with wavelength, the wavenumber-dependence of the current fits amounts to a measure of upper-ocean vertical current shear.
+The variables therefore have an additional dimension `wavenumber_bin`, i.e. `(wavenumber_bin, latitude, longitude)`, with one layer per wavenumber band; cells for which no fit was attempted hold the `_FillValue`.
+The lower bound of each wavenumber band is given by `lower_wavenumber_bin_edge`, which has the dimension `wavenumber_bin`, with the (fixed) band width given by the global attribute `wavenumber_bin_size`; as in the near-surface current maps, `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in that particular fit, and since the effective sensing depth increases with wavelength, the wavenumber-dependence of the current fits amounts to a measure of upper-ocean vertical current shear.
 All other variables (current components, standard errors, `number_of_wave_coordinates`, `measurement_quality`) are defined identically to the near-surface current maps above.
 
 ## Minimal example
 ```
 netcdf or_2025-01-15-11_currents_profile {
-dimensions:
-        measurement = 27384 ;
-variables:
-        ... // as for near-surface current maps above (crs, measurement, time, longitude, latitude,
-            // eastward/northward_sea_water_velocity, mean_wavenumber, standard errors,
-            // number_of_wave_coordinates, measurement_quality) ...
-        double lower_wavenumber_bin_edge(measurement) ;
-                lower_wavenumber_bin_edge:long_name = "lower edge of the wavenumber bin used by the current measurement" ;
 
 // global attributes:
                 :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
@@ -112,5 +167,20 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L2a" ;
+
+group: time_20250115110031 {
+  dimensions:
+        wavenumber_bin = 6 ;
+        latitude = 17 ;
+        longitude = 17 ;
+  variables:
+        ... // crs, time, longitude, and latitude as for near-surface current maps above;
+            // eastward/northward_sea_water_velocity, mean_wavenumber, standard errors,
+            // number_of_wave_coordinates, and measurement_quality on (wavenumber_bin, latitude, longitude) ...
+        double lower_wavenumber_bin_edge(wavenumber_bin) ;
+                lower_wavenumber_bin_edge:long_name = "lower edge of the wavenumber bin used by the current measurement" ;
+  } // group time_20250115110031
+
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
 ```
