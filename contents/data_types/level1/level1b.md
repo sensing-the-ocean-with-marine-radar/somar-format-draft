@@ -139,12 +139,32 @@ Here we refer to Level 1b data in Cartesian form: individual radar images, one p
 
 A SOMaR NetCDF file at Level 1b contains individual radar images that have been mapped from the sensor's native polar (range, azimuth) geometry onto a Cartesian grid, while otherwise remaining as close as possible to the underlying Level 1a raw data.
 Unlike Level 1a, where the primary axis is time and pulses are stored individually, Level 1b images represent one complete antenna revolution per time step, reprojected onto a regular Cartesian `x`/`y` grid.
-The grid is defined in a local, radar-centric coordinate system whose origin is given by the platform's `longitude`/`latitude` at the start of each scan; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
+The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each scan; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
 Grid cells that fall outside the calibrated field of view, for example those obstructed by platform superstructure, are blanked.
 Because each image pixel is acquired at a slightly different time as the antenna rotates, the acquisition time of a given pixel can, if needed, be approximated from the `pulse_azimuth` and `pulse_time` variables, which record the azimuth and acquisition time of each individual radar pulse contributing to the image.
 As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"`); no radiometric calibration or temporal averaging is applied at this level.
 
+### Position and orientation
+
+`x` and `y` are distances in metres east and north of the grid origin.
+The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no `heading` is stored. This is the main difference from the polar form, which is stored as recorded.
+
+The grid origin is the position of the radar antenna at the start of each revolution, i.e. the recorded position after application of the [position offsets](../../metadata_attributes/radar_parameters.md#position-offset), and is given by `longitude` and `latitude`.
+For a moving platform, they have the dimension `time`, with one value per image; for a fixed platform, they are scalar.
+
+| Variable | Values | Description |
+|---|---|---|
+| `longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Longitude (WGS 84) of the grid origin. |
+| `latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Latitude (WGS 84) of the grid origin. |
+{: .variable-table }
+
+The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
+For the same reason, `x` and `y` carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
+
 ## Minimal example
+
+A radar on a moving platform.
+
 ```
 netcdf or_2025-01-15-11-00_single_scan_sea_surface_roughness {
 dimensions:
@@ -153,12 +173,6 @@ dimensions:
         x = 1980 ;
         pulse_azimuth = 1440 ;
 variables:
-        char crs ;
-                crs:grid_mapping_name = "latitude_longitude" ;
-                crs:longitude_of_prime_meridian = 0. ;
-                crs:semi_major_axis = 6378137. ;
-                crs:inverse_flattening = 298.257223563 ;
-                crs:authority_string = "EPSG:4326" ;
         double time(time) ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
@@ -168,24 +182,19 @@ variables:
                 longitude:long_name = "longitude" ;
                 longitude:standard_name = "longitude" ;
                 longitude:units = "degrees_east" ;
-                longitude:grid_mapping = "crs" ;
         double latitude(time) ;
                 latitude:long_name = "latitude" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
-                latitude:grid_mapping = "crs" ;
         double x(x) ;
                 x:long_name = "distance from radar along grid x-axis at measurement start time for each image" ;
-                x:standard_name = "projection_x_coordinate" ;
                 x:units = "m" ;
         double y(y) ;
                 y:long_name = "distance from radar along grid y-axis at measurement start time for each image" ;
-                y:standard_name = "projection_y_coordinate" ;
                 y:units = "m" ;
         float radar_backscatter_intensity(time, y, x) ;
                 radar_backscatter_intensity:long_name = "radar backscatter intensity in uncalibrated analog-to-digital converter units" ;
                 radar_backscatter_intensity:units = "1" ;
-                radar_backscatter_intensity:grid_mapping = "crs" ;
         double pulse_azimuth(pulse_azimuth) ;
                 pulse_azimuth:long_name = "radar pulse azimuth (clockwise with respect to north)" ;
                 pulse_azimuth:units = "degrees" ;
@@ -206,3 +215,5 @@ variables:
                 :processing_level = "L1b" ;
 }
 ```
+
+For a fixed platform, `longitude` and `latitude` are scalar.
