@@ -6,7 +6,7 @@ nav_order: 2
 
 # Introduction
 
-Over the past decades, the Sensing the Ocean with Marine Radar (SOMaR) community has developed a set of techniques to extract hydrographic variables from marine radar data. However, the associated algorithms and output data formats have not yet been standardized, and different formats are currently used across research groups. To achieve better comparability, and thereby facilitate collaboration between groups, a common interoperable data format defining standard products used within the SOMaR community is needed.
+Over the past decades, the Sensing the Ocean with Marine Radar (SOMaR) community has developed a set of techniques to extract hydrographic variables from marine radar data. However, the output data formats have not yet been standardized, and different formats are currently used across research groups. To make marine radar data findable, accessible, interoperable, and reusable (FAIR), and thereby facilitate their use and exchange well beyond the groups that produce them, SOMaR defines a common data format with standard products.
 
 ## Scope
 This document is tailored for use within the SOMaR community and applies to ocean radar data collected by radars typically used for navigation. These are primarily systems operating in the X or S band and equipped with beam antennas that scan the ocean surface.
