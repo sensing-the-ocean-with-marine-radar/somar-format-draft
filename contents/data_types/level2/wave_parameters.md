@@ -144,7 +144,7 @@ group: wave_calibration {
         hs_slope = 1.5 ;
         hs_predictor = "sqrt_signal_to_noise_ratio" ;
         mtf_form = "power_law" ;
-        mtf_exponent = -1.2 ;
+        mtf_exponent = 1.2 ;
   } // group wave_calibration
 }
 ```

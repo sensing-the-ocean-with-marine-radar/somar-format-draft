@@ -36,7 +36,7 @@ The file holds the following variables.
 
 Two steps of the wave retrieval rely on empirical parameters, which differ between processors. They are recorded in a group named `wave_calibration` in the root group, so that the calibration can be reproduced from the file.
 
-- The **modulation transfer function** M(k) converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by the squared magnitude of M(k). For the form `"power_law"`, that squared magnitude is k^β, where k is the wavenumber and β is given by `mtf_exponent`.
+- The **modulation transfer function** M(k) converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by the squared magnitude of M(k). For the form `"power_law"`, that squared magnitude is proportional to k^β, where k is the wavenumber and β is given by `mtf_exponent`; a positive β thus reduces the energy at high wavenumbers.
 - The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](wave_parameters.md), into the significant wave height: Hs = `hs_intercept` + `hs_slope` × P, where the predictor P named by `hs_predictor` is typically the square root of the signal-to-noise ratio.
 
 | Variable | Values | Description |
@@ -136,7 +136,7 @@ group: wave_calibration {
         hs_slope = 1.5 ;
         hs_predictor = "sqrt_signal_to_noise_ratio" ;
         mtf_form = "power_law" ;
-        mtf_exponent = -1.2 ;
+        mtf_exponent = 1.2 ;
   } // group wave_calibration
 }
 ```
