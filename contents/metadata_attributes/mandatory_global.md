@@ -13,13 +13,6 @@ The convention an attribute is taken from is named in small print under the attr
 | Attribute | Values | Description |
 |---|---|---|
 | `Conventions`<br><small>[CF][cf-conventions]</small> | String; comma-separated list of the form `CF-<version>, ACDD-<version>, SOMaR-<version>` | The versions of the CF conventions, of ACDD, and of the SOMaR format that the file complies with. |
-| `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
-| `institution`<br><small>[CF][cf-description]</small> | String; free text | The institution responsible for producing the file. |
-| `source`<br><small>[CF][cf-description]</small> | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. |
-| `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
-| `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
-| `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
-| `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
 | `product_type`<br><small>SOMaR</small> | String; one of `radar_polar_raw`, `radar_polar_regularized`, `radar_cartesian`, `sea_surface_roughness`, `sea_surface_roughness_mosaic`, `currents`, `currents_profile`, `bathymetry`, `sea_ice_drift`, `wavenumber_spectra`, `frequency_direction_spectra`, `wave_spectrograms`, `wave_parameters` | The specific SOMaR product type of the file's content (see [SOMaR product types](../product_types/index.md)). |
 {: .attribute-table }
 
@@ -28,5 +21,3 @@ The WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-ma
 SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the complete set of attributes recommended by ACDD.
 
 [cf-conventions]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#identification-of-conventions
-[cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
-[acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3

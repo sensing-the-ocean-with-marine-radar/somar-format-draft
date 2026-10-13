@@ -33,15 +33,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 netcdf or_2025-01-15-12_bathymetry {
 
 // global attributes:
-                :title = "Marine X-band radar bathymetry measurements with quality control flag from R/V Ocean Research" ;
-                :summary = "The bathymetry measurements are obtained through least-squares fits that minimize the distance between the wave signal found in marine X-band radar backscatter intensity wavenumber frequency spectra and the linear ocean wave dispersion shell. Here, the spectra are based on 4.0 min long radar backscatter intensity image sequences that are partitioned into analysis windows. Pixels outside the circles inscribed within each analysis window are set to zero prior to processing. The resulting bathymetry maps have a fixed latitude spacing and a longitude spacing that is updated within 1-degree latitude bands to ensure an approximately constant grid resolution. The spatial overlap between neighboring analysis windows is 50.0% and the temporal overlap between consecutive analysis periods is 25.0%. Analysis windows with a spatiotemporal data coverage of <90.0% are disregarded. Segments of the radar field of view that are obstructed by platform superstructures are also disregarded. X-band radar bathymetry measurements are limited to waters that are shallower than ~30% of the underlying ocean wavelengths, which is where they sufficiently depart from the deep water dispersion relationship." ;
-                :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :source = "Shipboard marine X-band radar" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :history = "20250115T130500Z: File creation time" ;
-                :processing_level = "L2a" ;
                 :product_type = "bathymetry" ;
 
 group: time_20250115120031 {

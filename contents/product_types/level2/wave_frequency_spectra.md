@@ -82,15 +82,7 @@ variables:
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
-                :title = "Marine X-band radar derived wave energy density frequency spectra, directional spread, and mean direction with quality control flag from R/V Ocean Research" ;
-                :summary = "The wave energy spectral density, directional spread, and mean direction as function of frequency data are derived from the mean two dimensional wavenumber wave energy density spectrum using the linear wave dispersion relation." ;
-                :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :source = "Shipboard marine X-band radar" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :history = "20250115T120500Z: File creation time" ;
-                :processing_level = "L2b" ;
                 :product_type = "wave_spectrograms" ;
 
 group: wave_calibration {

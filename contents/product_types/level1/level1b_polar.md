@@ -92,13 +92,6 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :title = "Bare minimum level 1b polar X-band radar data example" ;
-                :source = "ground-based radar" ;
-                :history = "20230831T170026Z: File creation time" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :creator_email = "famous.scientist@frori.org" ;
-                :processing_level = "L1b" ;
                 :product_type = "radar_polar_regularized" ;
 data:
         latitude = 54.1826 ;

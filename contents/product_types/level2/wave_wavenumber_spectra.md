@@ -101,15 +101,7 @@ variables:
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
-                :title = "Marine X-band radar derived wave energy density 2D wavenumber spectra with quality control flag from R/V Ocean Research" ;
-                :summary = "The wave retrieval is based on 4.0 min long marine X-band radar image sequences that are partitioned into 6 analysis windows of 512 by 512 pixels. Pixels outside the circles inscribed within each analysis window are set to zero prior to processing. The analysis windows are spread across the radar field of view, geostationary, and placed at a range with maximum data coverage. The radar image sequences within each analysis window are transformed to wavenumber frequency space, dispersion filtered, integrated over frequency, multiplied with an empirical modulation transfer function, and rescaled using radar specific calibration parameters to obtain a two dimensional wavenumber wave energy density spectrum. Here, the mean two dimensional wavenumber wave energy density spectra are given. The wavenumber vectors point in the direction from which the waves are propagating." ;
-                :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :source = "Shipboard marine X-band radar" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :history = "20250115T120500Z: File creation time" ;
-                :processing_level = "L2a" ;
                 :product_type = "wavenumber_spectra" ;
 
 group: wave_calibration {

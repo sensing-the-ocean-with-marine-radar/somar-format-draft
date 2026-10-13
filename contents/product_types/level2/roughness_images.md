@@ -32,17 +32,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 netcdf or_2025-01-15-11_sea_surface_roughness {
 
 // global attributes:
-                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
-                :platform = "R/V Ocean Research" ;
-                :title = "Marine X-band radar temporally averaged sea surface roughness images from R/V Ocean Research" ;
-                :summary = "The sea surface roughness images are temporal averages of approximately 19 consecutive radar backscatter intensity images, corresponding to 30.0 s. The images are corrected for ship motion and for the rapid radar backscatter intensity decay with range. Segments of the radar field of view that are obstructed by platform superstructures are disregarded." ;
-                :creator_email = "famous.scientist@frori.org" ;
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :source = "Shipboard marine X-band radar" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :history = "20250115T120500Z: File creation time" ;
-                :processing_level = "L2a" ;
                 :product_type = "sea_surface_roughness" ;
 
 group: time_20250115110031 {

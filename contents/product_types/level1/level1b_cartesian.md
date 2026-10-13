@@ -65,14 +65,6 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :title = "Marine X-band radar backscatter intensity images from R/V Ocean Research" ;
-                :source = "Shipboard marine X-band radar" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :creator_email = "famous.scientist@frori.org" ;
-                :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image." ;
-                :history = "20250115T120500Z: File creation time" ;
-                :processing_level = "L1b" ;
                 :product_type = "radar_cartesian" ;
 }
 ```

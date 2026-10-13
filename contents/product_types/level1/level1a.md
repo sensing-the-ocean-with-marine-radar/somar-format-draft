@@ -146,15 +146,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :title = "Bare minimum level 1a X-band radar data example" ;
-                :source = "ground-based radar" ;
-                :history = "20230831T170026Z: File creation time" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :creator_email = "famous.scientist@frori.org" ;
-                :processing_level = "L1a" ;
                 :product_type = "radar_polar_raw" ;
-                :platform_is_mobile = "false" ;
 data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
@@ -218,15 +210,6 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :title = "Level 1a marine X-band radar data from R/V Ocean Research" ;
-                :source = "Shipboard marine X-band radar" ;
-                :history = "20250115T120500Z: File creation time" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :creator_email = "famous.scientist@frori.org" ;
-                :platform = "R/V Ocean Research" ;
-                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
-                :processing_level = "L1a" ;
                 :product_type = "radar_polar_raw" ;
                 :platform_is_mobile = "true" ;
 data:
