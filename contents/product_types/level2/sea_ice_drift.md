@@ -99,7 +99,7 @@ group: time_20250823120031 {
                 correlation_coefficient_alternative:_FillValue = NaN ;
         ubyte measurement_quality(latitude, longitude) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-7: bad)" ;
-                measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_to_high correlation_coefficient_too_low" ;
+                measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_too_high correlation_coefficient_too_low" ;
                 measurement_quality:flag_masks = 1UB, 2UB, 4UB ;
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:grid_mapping = "crs" ;
