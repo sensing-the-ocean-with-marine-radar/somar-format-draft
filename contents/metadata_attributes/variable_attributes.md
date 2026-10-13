@@ -8,7 +8,7 @@ nav_order: 3
 # Variable attributes
 
 The tables below list the attributes that SOMaR files attach to individual variables, as opposed to the file as a whole.
-Which of them a given variable carries depends on the product and is shown in the minimal example on each product's page; where an attribute has a fixed set of permitted values, all of them are listed and those currently used by SOMaR are set in bold.
+Which of them a given variable carries depends on the product and is shown in the minimal example on each product's page.
 
 ## Data and coordinate variables
 

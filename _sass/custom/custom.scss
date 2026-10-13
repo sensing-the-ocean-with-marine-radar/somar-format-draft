@@ -80,3 +80,11 @@ table.product-table {
     overflow-wrap: anywhere;
   }
 }
+
+// Inline code inside strong elements (e.g. **`code`**): override the theme's
+// `:not(pre, figure) > code` font-weight of 400 so bold text renders properly.
+strong code,
+strong > code,
+code strong {
+  font-weight: 700;
+}
