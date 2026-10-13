@@ -1,7 +1,7 @@
 ---
 title: Radar "raw" data (L1a)
 layout: default
-parent: Level 1 data
+parent: Level 1 products
 nav_order: 1
 ---
 

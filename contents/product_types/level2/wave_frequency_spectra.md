@@ -1,7 +1,7 @@
 ---
 title: Surface wave one-dimensional frequency spectra (L2b)
 layout: default
-parent: Level 2 data
+parent: Level 2 products
 nav_order: 8
 ---
 

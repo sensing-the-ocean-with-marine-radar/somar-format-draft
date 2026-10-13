@@ -1,7 +1,7 @@
 ---
 title: Cartesian image sequences (L1b)
 layout: default
-parent: Level 1 data
+parent: Level 1 products
 nav_order: 3
 ---
 
