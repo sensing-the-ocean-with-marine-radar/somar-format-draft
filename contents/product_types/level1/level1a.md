@@ -59,9 +59,9 @@ The `range` variable carries the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
-| `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
-| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The range to the center of the first range bin. |
 | `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The spacing of the range bins. Required if `spacing_is_constant` is `true`. |
+| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The range to the center of the first range bin. |
+| `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
 {: .attribute-table }
 
 The optional variables that describe the pulse and the scan, such as `frequency`, `pulse_width`, and `prt`, are also stored in the sweep groups; they are listed under [Radar parameters](../../metadata_attributes/radar_parameters.md#pulse-and-scan-parameters).
@@ -210,8 +210,8 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "radar_polar_raw" ;
                 :platform_is_mobile = "true" ;
+                :product_type = "radar_polar_raw" ;
 data:
         latitude = 14.9952749946079 ;
         longitude = 145.868167860183 ;

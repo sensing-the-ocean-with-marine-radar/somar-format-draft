@@ -14,22 +14,22 @@ Which of them a given variable carries depends on the product and is shown in th
 
 | Attribute | Values | Description |
 |---|---|---|
-| `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
-| `long_name`<br><small>[CF][cf-long-name]</small> | String; free text | A human-readable description of the variable. |
-| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Level 1 variables taken from FM 301 and CfRadial keep the spellings of those documents (`metres`, `degrees`, `seconds`); all other variables use SI symbols (`m`, `degree`, `s`). Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
-| `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Level 1a data](../product_types/level1/level1a.md#data-variables)). |
-| `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
-| `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
-| `add_offset`<br><small>[CF][cf-packed]</small> | Number | Offset added to stored values after scaling. |
 | `_FillValue`<br><small>[CF][cf-missing]</small> | Same type as the variable | The value marking missing data. |
-| `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. |
+| `add_offset`<br><small>[CF][cf-packed]</small> | Number | Offset added to stored values after scaling. |
 | `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. |
-| `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
+| `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
+| `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. Required on Level 1 backscatter variables to state whether the stored quantity is an amplitude or a power (see [Level 1a data](../product_types/level1/level1a.md#data-variables)). |
+| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. On the Level 2 wave products, and on current, bathymetric, and sea ice drift maps stored in the local-grid form, it is set to `"longitude latitude"`. |
 | `flag_masks`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The bits that can be set independently in a flag variable, used in place of `flag_values` where several conditions can hold at once. A value of 0 means that no condition holds. |
 | `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value or mask | The meaning of each entry in `flag_values` or `flag_masks`, in the same order. |
-| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. On the Level 2 wave products, and on current, bathymetric, and sea ice drift maps stored in the local-grid form, it is set to `"longitude latitude"`. |
-| `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |
+| `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
 | `grid_mapping`<br><small>[CF][cf-grid-mapping]</small> | String; the name of a coordinate reference system variable, conventionally `crs` | Links a data variable to the variable describing the coordinate reference system of its coordinates. |
+| `long_name`<br><small>[CF][cf-long-name]</small> | String; free text | A human-readable description of the variable. |
+| `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
+| `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
+| `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |
+| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Level 1 variables taken from FM 301 and CfRadial keep the spellings of those documents (`metres`, `degrees`, `seconds`); all other variables use SI symbols (`m`, `degree`, `s`). Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
+| `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. |
 {: .attribute-table }
 
 ## Coordinate reference system variables
@@ -38,14 +38,14 @@ These attributes are carried by the scalar coordinate reference system variables
 
 | Attribute | Values | Description |
 |---|---|---|
-| `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for point data, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](georeferencing.md#time-bounded-local-grids)). |
-| `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. |
-| `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; meters | The semi-major axis of the reference ellipsoid. |
-| `inverse_flattening`<br><small>[CF][cf-appendix-f]</small> | Number | The inverse flattening of the reference ellipsoid. |
-| `longitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
-| `latitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
-| `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. |
 | `authority_string`<br><small>SOMaR</small> | String; `<authority>:<code>` | An identifier of the coordinate reference system in a public registry. Not a CF attribute; given in addition to the CF attributes above, which remain the authoritative definition. |
+| `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for point data, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](georeferencing.md#time-bounded-local-grids)). |
+| `inverse_flattening`<br><small>[CF][cf-appendix-f]</small> | Number | The inverse flattening of the reference ellipsoid. |
+| `latitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
+| `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. |
+| `longitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
+| `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. |
+| `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; meters | The semi-major axis of the reference ellipsoid. |
 {: .attribute-table }
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name

@@ -54,8 +54,8 @@ The group carries the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
-| `calibration_reference`<br><small>SOMaR</small> | String; free text | The reference wave data against which the calibration was derived. |
 | `calibration_date`<br><small>SOMaR</small> | String; ISO 8601 date | The date of the calibration. |
+| `calibration_reference`<br><small>SOMaR</small> | String; free text | The reference wave data against which the calibration was derived. |
 {: .attribute-table }
 
 ## Minimal example

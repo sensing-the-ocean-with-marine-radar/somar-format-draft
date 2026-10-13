@@ -11,54 +11,54 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 
 | Attribute | Values | Description |
 |---|---|---|
-| `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
-| `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. |
+| `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
+| `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
+| `date_created`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC | The date on which this version of the data was created. It must agree with the creation time recorded in `history`; changes to metadata alone do not alter it. |
+| `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude covered by the file's data. |
+| `geospatial_lat_min`<br><small>[ACDD][acdd]</small> | Number; degrees north | The southernmost latitude covered by the file's data. |
+| `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east | The easternmost longitude covered by the file's data. |
+| `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east | The westernmost longitude covered by the file's data. |
+| `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
 | `institution`<br><small>[CF][cf-description]</small> | String; free text | The institution responsible for producing the file. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |
-| `source`<br><small>[CF][cf-description]</small> | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. |
-| `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
-| `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
-| `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
-| `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
-| `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
 | `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
-| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. |
-| `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
-| `date_created`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC | The date on which this version of the data was created. It must agree with the creation time recorded in `history`; changes to metadata alone do not alter it. |
-| `time_coverage_start`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the first observation contributing to the data in the file. Fractional seconds (up to microsecond precision) should be given where the source data provide them, so that the value equals the start time of the first observation exactly. |
+| `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
+| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. |
+| `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
+| `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. |
+| `source`<br><small>[CF][cf-description]</small> | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. |
+| `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. |
 | `time_coverage_end`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the latest observation contributing to the data in the file. For products organized in time-bounded groups of fixed window length, this is the end of the last window, i.e. approximately the start time plus the number of groups times the window length (five 600 s groups starting at 11:10:01 end at approximately 12:00:01). |
-| `geospatial_lat_min`<br><small>[ACDD][acdd]</small> | Number; degrees north | The southernmost latitude covered by the file's data. |
-| `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude covered by the file's data. |
-| `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east | The westernmost longitude covered by the file's data. |
-| `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east | The easternmost longitude covered by the file's data. |
+| `time_coverage_start`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the first observation contributing to the data in the file. Fractional seconds (up to microsecond precision) should be given where the source data provide them, so that the value equals the start time of the first observation exactly. |
+| `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
 {: .attribute-table }
 
 For example:
 
 ```
 // global attributes:
-                :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :source = "Shipboard marine X-band radar" ;
-                :history = "20250115T120500Z: File creation time" ;
-                :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
-                :processing_level = "L2a" ;
-                :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
-                :platform = "R/V Ocean Research" ;
-                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
-                :platform_is_mobile = "true" ;
-                :processing_software = "FRORI X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
-                :institution_id = "https://ror.org/02dgjyy92" ;
-                :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
+                :creator_name = "Dr. Famous Scientist" ;
                 :date_created = "2025-01-15T12:05:00Z" ;
-                :time_coverage_start = "2025-01-15T11:10:01.357666Z" ;
-                :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
-                :geospatial_lat_min = 14.9265 ;
                 :geospatial_lat_max = 15.03 ;
-                :geospatial_lon_min = 145.8426 ;
+                :geospatial_lat_min = 14.9265 ;
                 :geospatial_lon_max = 145.96815 ;
+                :geospatial_lon_min = 145.8426 ;
+                :history = "20250115T120500Z: File creation time" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
+                :institution_id = "https://ror.org/02dgjyy92" ;
+                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
+                :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
+                :platform = "R/V Ocean Research" ;
+                :platform_is_mobile = "true" ;
+                :processing_level = "L2a" ;
+                :processing_software = "FRORI X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
+                :source = "Shipboard marine X-band radar" ;
+                :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
+                :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
+                :time_coverage_start = "2025-01-15T11:10:01.357666Z" ;
+                :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
 ```
 
 Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../product_types/level2/current_maps.md#near-surface-current-profile-maps).

@@ -18,8 +18,8 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 
 | Attribute | Values | Description |
 |---|---|---|
-| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid. |
 | `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
+| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid. |
 {: .attribute-table }
 
 `time` gives the start time of each revolution.
