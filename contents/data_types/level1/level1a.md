@@ -92,7 +92,7 @@ SOMaR also allows `"true"`, for a radar on a ship; the attribute is assumed to b
 If `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and attitude of the platform, with the variables defined in section 5.4 of CfRadial 2.1.
 The variables can be given in one of two ways, which must be the same for all variables of the subgroup:
 
-- **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, and it matches the [Level 1b Cartesian images](level1b.md#cartesian-image-sequences-cart3d), whose grid origin is the radar position at the start of each revolution. It is a SOMaR addition; CfRadial defines the variables per pulse only.
+- **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, and it matches the [Level 1b Cartesian images](level1b_cartesian.md), whose grid origin is the radar position at the start of each revolution. It is a SOMaR addition; CfRadial defines the variables per pulse only.
 - **Per pulse.** The variables have the dimension `(time)` of the sweep and give the values for every pulse, as in CfRadial. This option keeps the full resolution of the navigation data.
 
 | Variable | Values | Description |

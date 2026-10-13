@@ -21,8 +21,8 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 | Example filename | Product |
 |---|---|
 | `or_2025-01-15-11-00_radar_raw.nc` | [Radar "raw" data](../data_types/level1/level1a.md) (sub-hourly) |
-| `or_2025-01-15-11-00_radar_polar.nc` | [Polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d) (sub-hourly) |
-| `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b.md#cartesian-image-sequences-cart3d) (sub-hourly) |
+| `or_2025-01-15-11-00_radar_polar.nc` | [Polar images](../data_types/level1/level1b_polar.md) (sub-hourly) |
+| `or_2025-01-15-11-00_single_scan_sea_surface_roughness.nc` | [Cartesian images](../data_types/level1/level1b_cartesian.md) (sub-hourly) |
 | `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../data_types/level2/roughness_images.md) |
 | `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../data_types/level2/roughness_mosaics.md) |
 | `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../data_types/level2/current_maps.md) |

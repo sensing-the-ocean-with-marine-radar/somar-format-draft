@@ -9,12 +9,12 @@ nav_order: 5
 
 ## Polar sensor coordinates
 
-[Level 1a data](../data_types/level1/level1a.md) and [Level 1b polar images](../data_types/level1/level1b.md#polar-image-sequences-pol3d) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
+[Level 1a data](../data_types/level1/level1a.md) and [Level 1b polar images](../data_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 They are located in space with the variables that the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and, for moving platforms, the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft define for this purpose, rather than with a grid mapping:
 
 - `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform at Level 1a, they give the recorded position at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0.
 - For a moving platform at Level 1a, the `georeference` subgroup of each sweep gives the `latitude`, `longitude`, and `heading` of the platform, either once per sweep, at the time of its first pulse, or for every pulse (CfRadial 2.1; see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)).
-- For a moving platform at Level 1b, `latitude`, `longitude`, and `heading` have the dimension `time` and give the values at the start of each revolution (see [Level 1b polar images](../data_types/level1/level1b.md#position-and-heading)).
+- For a moving platform at Level 1b, `latitude`, `longitude`, and `heading` have the dimension `time` and give the values at the start of each revolution (see [Level 1b polar images](../data_types/level1/level1b_polar.md#position-and-heading)).
 - `azimuth_correction` and `range_correction`, in the `georeference_correction` group, give known offsets of the recorded azimuth and range (CfRadial 2.1; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
 - `time_correction`, in the same group, gives a known offset of the radar clock relative to GPS time (SOMaR; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
 - `position_offset_x` and `position_offset_y`, in the same group, give the position of the radar antenna relative to the GPS antenna in the ship frame, for a moving platform whose position is recorded at a different location than the radar (SOMaR; see [Position offset](radar_parameters.md#position-offset)).
@@ -51,7 +51,7 @@ char crs ;
 
 As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the position of the radar antenna at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, the roughness images and mosaics store each time-bounded grid as a sibling NetCDF group per time window, named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and `x`/`y` coordinate variables.
 The near-surface current, bathymetric, and sea ice drift maps are stored in groups of the same kind, one per measurement period, on a longitude/latitude grid or, for a processor that works on the local grid, on that grid together with two-dimensional `longitude` and `latitude` (see [Positions of analysis windows](#positions-of-analysis-windows)).
-The [Level 1b Cartesian images](../data_types/level1/level1b.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
+The [Level 1b Cartesian images](../data_types/level1/level1b_cartesian.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
 
 ### Definition of the local grid
 
