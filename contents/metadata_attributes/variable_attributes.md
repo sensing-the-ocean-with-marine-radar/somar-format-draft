@@ -19,7 +19,7 @@ Which of them a given variable carries depends on the product and is shown in th
 | `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. |
 | `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
 | `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. |
-| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. On Level 1a data variables it is set to `"azimuth range"`; FM 301 prescribes `"elevation azimuth range"`, but SOMaR does not use elevation. On the Level 2 wave products, and on current, bathymetric, and sea ice drift maps stored in the local-grid form, it is set to `"longitude latitude"`. |
+| `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. |
 | `flag_masks`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The bits that can be set independently in a flag variable, used in place of `flag_values` where several conditions can hold at once. A value of 0 means that no condition holds. |
 | `flag_meanings`<br><small>[CF][cf-flags]</small> | String; blank-separated list with one word per flag value or mask | The meaning of each entry in `flag_values` or `flag_masks`, in the same order. |
 | `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
