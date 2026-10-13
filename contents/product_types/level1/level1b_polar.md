@@ -19,7 +19,7 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 | Attribute | Values | Description |
 |---|---|---|
 | `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Should be accompanied by a `comment` describing the method in words. |
-| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degrees | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid. |
+| `rays_angle_resolution`<br><small>SOMaR</small> | Number; degree | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution`, which gives the angular spacing of rays that are indexed to a regular grid. |
 {: .attribute-table }
 
 `time` gives the start time of each revolution.
@@ -36,7 +36,7 @@ They take the place of the `georeference` subgroups of Level 1a, which have no c
 |---|---|---|
 | `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_north` | Required. Recorded latitude (WGS 84). |
 | `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)`; `degrees` | Required. Heading of the platform relative to true north. |
+| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)`; `degree` | Required. Heading of the platform relative to true north. |
 {: .variable-table }
 
 The names and units are those of CfRadial 2.1; storing them once per image on the `time` dimension is specific to SOMaR.
@@ -62,7 +62,7 @@ variables:
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of radar antenna" ;
         double altitude ;
-                altitude:units = "metres" ;
+                altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
         double time(time) ;
@@ -71,12 +71,12 @@ variables:
                 time:standard_name = "time" ;
                 time:long_name = "start time of radar measurement" ;
         float azimuth(azimuth) ;
-                azimuth:units = "degrees" ;
+                azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
                 azimuth:rays_angle_resolution = 0.25f ;
                 azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
         float range(range) ;
-                range:units = "metres" ;
+                range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
@@ -112,7 +112,7 @@ For a moving platform, `latitude` and `longitude` have the dimension `time`, and
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the revolution" ;
         float heading(time) ;
-                heading:units = "degrees" ;
+                heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the revolution" ;
 ```

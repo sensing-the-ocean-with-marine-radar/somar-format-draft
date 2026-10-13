@@ -28,7 +28,7 @@ Which of them a given variable carries depends on the product and is shown in th
 | `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
 | `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
 | `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |
-| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Level 1 variables taken from FM 301 and CfRadial keep the spellings of those documents (`metres`, `degrees`, `seconds`); all other variables use SI symbols (`m`, `degree`, `s`). Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
+| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Variables use SI symbols (`m`, `degree`, `s`) in accordance with CF conventions and UDUNITS. Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
 | `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. |
 {: .attribute-table }
 
@@ -45,7 +45,7 @@ These attributes are carried by the scalar coordinate reference system variables
 | `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. |
 | `longitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
 | `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. |
-| `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; meters | The semi-major axis of the reference ellipsoid. |
+| `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; m | The semi-major axis of the reference ellipsoid. |
 {: .attribute-table }
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name

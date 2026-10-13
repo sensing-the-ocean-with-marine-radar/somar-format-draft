@@ -18,7 +18,7 @@ An attribute is a label attached either to a variable or, as a global attribute,
 ```
 variables:
         float prt(time) ;                  // a variable
-                prt:units = "seconds" ;    // an attribute of that variable
+                prt:units = "s" ;    // an attribute of that variable
 
 // global attributes:
                 :title = "..." ;           // an attribute of the file

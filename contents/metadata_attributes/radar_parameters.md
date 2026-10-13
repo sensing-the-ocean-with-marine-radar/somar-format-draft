@@ -20,9 +20,9 @@ Parameters that may change from pulse to pulse are stored as variables in the sw
 |---|---|---|
 | `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float `(frequency)`; `s-1` | Operating frequency of the radar. |
 | `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
-| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Length of the transmitted pulse. |
-| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `seconds` | Pulse repetition time. |
-| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degrees/s` | Antenna rotation rate. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Length of the transmitted pulse. |
+| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Pulse repetition time. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degree s-1` | Antenna rotation rate. |
 | `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
 {: .variable-table }
 
@@ -32,8 +32,8 @@ Constant properties of the antenna are stored in a group named `radar_parameters
 
 | Variable | Values | Description |
 |---|---|---|
-| `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Horizontal beam width of the antenna. |
-| `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degrees` | Vertical beam width of the antenna. |
+| `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Horizontal beam width of the antenna. |
+| `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Vertical beam width of the antenna. |
 {: .variable-table }
 
 ## The `georeference_correction` group
@@ -46,11 +46,11 @@ At [Level 1a](../product_types/level1/level1a.md), the data are stored as record
 
 | Variable | Values | Description |
 |---|---|---|
-| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degrees` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship, including any constant bias of the heading sensor. |
-| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `metres` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
-| `time_correction`<br><small>SOMaR</small> | double; `seconds` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
-| `position_offset_x`<br><small>SOMaR</small> | float; `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
-| `position_offset_y`<br><small>SOMaR</small> | float; `metres` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
+| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degree` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship, including any constant bias of the heading sensor. |
+| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
+| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
+| `position_offset_x`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
+| `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
 {: .variable-table }
 
 ### Position offset

@@ -36,7 +36,7 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 |---|---|---|
 | `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
 | `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `metres` | Required. Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
+| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
 | `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Required. Type of the platform. |
 {: .variable-table }
 
@@ -50,8 +50,8 @@ A sweep group holds the following variables, which are distinct from attributes 
 | Variable | Values | Description |
 |---|---|---|
 | `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
-| `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `metres` | Required. Slant range from the antenna to the center of each range bin. |
-| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degrees` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
+| `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
+| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Optional. Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
 {: .variable-table }
 
@@ -59,8 +59,8 @@ The `range` variable carries the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
-| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The spacing of the range bins. Required if `spacing_is_constant` is `true`. |
-| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; meters | The range to the center of the first range bin. |
+| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; m | The spacing of the range bins. Required if `spacing_is_constant` is `true`. |
+| `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; m | The range to the center of the first range bin. |
 | `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
 {: .attribute-table }
 
@@ -99,12 +99,12 @@ The variables can be given in one of two ways, which must be the same for all va
 |---|---|---|
 | `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_north` | Required. Recorded latitude (WGS 84). |
 | `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Required. Heading of the platform relative to true north. |
-| `altitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `metres` | Optional. Height of the radar antenna above mean sea level. |
-| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
-| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degrees` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
-| `eastward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m/s` | Optional. Eastward velocity of the platform. |
-| `northward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m/s` | Optional. Northward velocity of the platform. |
+| `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Required. Heading of the platform relative to true north. |
+| `altitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `m` | Optional. Height of the radar antenna above mean sea level. |
+| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
+| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
+| `eastward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m s-1` | Optional. Eastward velocity of the platform. |
+| `northward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m s-1` | Optional. Northward velocity of the platform. |
 {: .variable-table }
 
 `latitude` and `longitude` are stored as recorded.
@@ -139,7 +139,7 @@ variables:
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of radar antenna" ;
         double altitude ;
-                altitude:units = "metres" ;
+                altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
         string platform_type ;
@@ -164,13 +164,13 @@ group: sweep_0 {
                 time:standard_name = "time" ;
                 time:long_name = "time of radar pulse" ;
         float range(range) ;
-                range:units = "metres" ;
+                range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
         float azimuth(time) ;
-                azimuth:units = "degrees" ;
+                azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
                 azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
         ushort polar_amp(time, range) ;
@@ -203,7 +203,7 @@ variables:
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the file" ;
         double altitude ;
-                altitude:units = "metres" ;
+                altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
         string platform_type ;
@@ -230,7 +230,7 @@ group: sweep_0 {
                 time:standard_name = "time" ;
                 time:long_name = "time of radar pulse" ;
         float range(range) ;
-                range:units = "metres" ;
+                range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
@@ -239,16 +239,16 @@ group: sweep_0 {
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         float azimuth(time) ;
-                azimuth:units = "degrees" ;
+                azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
                 azimuth:comment = "clockwise positive, relative to the bow of the ship, not North-oriented" ;
         string sweep_mode ;
         string polarization_mode ;
         float pulse_width(time) ;
-                pulse_width:units = "seconds" ;
+                pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;
         float prt(time) ;
-                prt:units = "seconds" ;
+                prt:units = "s" ;
                 prt:long_name = "pulse repetition time" ;
         ushort polar_amp(time, range) ;
                 polar_amp:scale_factor = 0.176738930567883 ;
@@ -274,7 +274,7 @@ group: sweep_0 {
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the sweep" ;
         float heading ;
-                heading:units = "degrees" ;
+                heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the sweep" ;
     } // group georeference
@@ -285,10 +285,10 @@ group: sweep_0 {
 group: radar_parameters {
   variables:
         float beam_width_h ;
-                beam_width_h:units = "degrees" ;
+                beam_width_h:units = "degree" ;
                 beam_width_h:long_name = "horizontal antenna beam width" ;
         float beam_width_v ;
-                beam_width_v:units = "degrees" ;
+                beam_width_v:units = "degree" ;
                 beam_width_v:long_name = "vertical antenna beam width" ;
   data:
         beam_width_h = 0.95 ;
@@ -298,19 +298,19 @@ group: radar_parameters {
 group: georeference_correction {
   variables:
         float azimuth_correction ;
-                azimuth_correction:units = "degrees" ;
+                azimuth_correction:units = "degree" ;
                 azimuth_correction:long_name = "correction to azimuth values" ;
         float range_correction ;
-                range_correction:units = "metres" ;
+                range_correction:units = "m" ;
                 range_correction:long_name = "correction to range values" ;
         double time_correction ;
-                time_correction:units = "seconds" ;
+                time_correction:units = "s" ;
                 time_correction:long_name = "correction to time values" ;
         float position_offset_x ;
-                position_offset_x:units = "metres" ;
+                position_offset_x:units = "m" ;
                 position_offset_x:long_name = "position of radar antenna relative to GPS antenna, positive to starboard" ;
         float position_offset_y ;
-                position_offset_y:units = "metres" ;
+                position_offset_y:units = "m" ;
                 position_offset_y:long_name = "position of radar antenna relative to GPS antenna, positive toward the bow" ;
   data:
         azimuth_correction = -1.3 ;
@@ -336,7 +336,7 @@ If the position and heading are given per pulse instead, the variables of the `g
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna" ;
         float heading(time) ;
-                heading:units = "degrees" ;
+                heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north" ;
     } // group georeference
