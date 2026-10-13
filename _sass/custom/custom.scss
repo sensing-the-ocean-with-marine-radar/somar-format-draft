@@ -32,3 +32,37 @@ table.variable-table {
     width: 50%;
   }
 }
+
+// Product overview table on product_types/index.md
+table.product-table {
+  width: 100%;
+  table-layout: fixed;
+
+  th,
+  td {
+    min-width: 0;
+  }
+
+  // Level | Product | Canonical product_type | Short abbreviation
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 10%;
+    text-align: center;
+  }
+
+  th:nth-child(2) {
+    width: 36%;
+  }
+
+  th:nth-child(3) {
+    width: 36%;
+  }
+
+  th:nth-child(4) {
+    width: 18%;
+  }
+
+  td code {
+    overflow-wrap: anywhere;
+  }
+}
