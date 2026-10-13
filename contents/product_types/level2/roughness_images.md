@@ -7,7 +7,7 @@ nav_order: 1
 
 # L2a: Roughness images
 
-Roughness images (`sea_surface_roughness`, short `roughness`) provide temporally averaged sea surface roughness, derived from Level 1b Cartesian backscatter intensity images averaged over a short time window (typically tens of seconds) to reduce speckle noise while still resolving the length scales relevant to short wind waves.
+Roughness images (`sea_surface_roughness`, short `rough`) provide temporally averaged sea surface roughness, derived from Level 1b Cartesian backscatter intensity images averaged over a short time window (typically tens of seconds) to reduce speckle noise while still resolving the length scales relevant to short wind waves.
 Because the underlying platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
 All time-bounded grids belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per averaging window, named `time_<YYYYMMDDHHMMSS>` after the start time of that window.
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.

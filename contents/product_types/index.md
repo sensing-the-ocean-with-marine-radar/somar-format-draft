@@ -15,16 +15,16 @@ In addition to the canonical `product_type` name, a recognized short abbreviatio
 | **L1a** | [Radar "raw" data](level1/level1a.md) | `radar_polar_raw` | `pol_raw` |
 | **L1b** | [Polar image sequences](level1/level1b_polar.md) | `radar_polar_regularized` | `pol3d` |
 | **L1b** | [Cartesian image sequences](level1/level1b_cartesian.md) | `radar_cartesian` | `cart3d` |
-| **L2a** | [Roughness images](level2/roughness_images.md) | `sea_surface_roughness` | `roughness` |
-| **L2a** | [Roughness image mosaics](level2/roughness_mosaics.md) | `sea_surface_roughness_mosaic` | `roughness_mosaic` |
-| **L2a** | [Near-surface current maps](level2/current_maps.md) | `currents` | `currents` |
-| **L2a** | [Near-surface current profile maps](level2/current_maps.md#near-surface-current-profile-maps) | `currents_profile` | `currents_profile` |
-| **L2a** | [Bathymetric maps](level2/depth_maps.md) | `bathymetry` | `bathymetry` |
-| **L2a** | [Sea ice drift maps](level2/sea_ice_drift.md) | `sea_ice_drift` | `sea_ice_drift` |
-| **L2a** | [Surface wave 2D wavenumber spectra](level2/wave_wavenumber_spectra.md) | `wavenumber_spectra` | `wave_k2d` |
-| **L2b** | [Surface wave 2D frequency spectra](level2/wave_frequency_direction_spectra.md) | `frequency_direction_spectra` | `wave_fdir` |
-| **L2b** | [Surface wave 1D frequency spectra](level2/wave_frequency_spectra.md) | `wave_spectrograms` | `wave_f1d` |
-| **L2b** | [Peak and mean wave parameters](level2/wave_parameters.md) | `wave_parameters` | `wave_params` |
+| **L2a** | [Roughness images](level2/roughness_images.md) | `sea_surface_roughness` | `rough` |
+| **L2a** | [Roughness image mosaics](level2/roughness_mosaics.md) | `sea_surface_roughness_mosaic` | `rough_mosaic` |
+| **L2a** | [Near-surface current maps](level2/current_maps.md) | `currents` | `cur` |
+| **L2a** | [Near-surface current profile maps](level2/current_maps.md#near-surface-current-profile-maps) | `currents_profile` | `cur_profile` |
+| **L2a** | [Bathymetric maps](level2/depth_maps.md) | `bathymetry` | `bathy` |
+| **L2a** | [Sea ice drift maps](level2/sea_ice_drift.md) | `sea_ice_drift` | `ice_drift` |
+| **L2a** | [Surface wave 2D wavenumber spectra](level2/wave_wavenumber_spectra.md) | `wavenumber_spectra` | `wav_k2d` |
+| **L2b** | [Surface wave 2D frequency spectra](level2/wave_frequency_direction_spectra.md) | `frequency_direction_spectra` | `wav_fdir` |
+| **L2b** | [Surface wave 1D frequency spectra](level2/wave_frequency_spectra.md) | `wave_spectrograms` | `wav_f1d` |
+| **L2b** | [Peak and mean wave parameters](level2/wave_parameters.md) | `wave_parameters` | `wav_params` |
 {: .product-table }
 
 [Level 1](level1/index.md) products retain the radar's own measurement (backscatter intensity or amplitude in uncalibrated units), either pulse by pulse in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
