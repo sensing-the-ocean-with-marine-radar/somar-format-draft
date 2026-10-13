@@ -9,12 +9,12 @@ nav_order: 4
 
 SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](mandatory_global.md).
 The technical parameters of the radar are stored as variables.
-SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general, and, where FM 301 has no provision, from the earlier [CfRadial 2.1][cfradial] draft (see [Level 1a data](../data_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
+SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general, and, where FM 301 has no provision, from the earlier [CfRadial 2.1][cfradial] draft (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
 The tables below list the variables that apply to marine radars, with the table or section that defines each of them; all of them are optional.
 
 ## Pulse and scan parameters
 
-Parameters that may change from pulse to pulse are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../data_types/level1/level1a.md#sweep-groups)).
+Parameters that may change from pulse to pulse are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -42,7 +42,7 @@ Known offsets of the recorded pointing direction, range, time, and platform posi
 This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
 The corrections are constant for a file and are added to the recorded values; a missing variable is equivalent to a correction of 0.
 The position offsets are rotated by the heading before they are added (see [Position offset](#position-offset)).
-At [Level 1a](../data_types/level1/level1a.md), the data are stored as recorded and the corrections are not applied.
+At [Level 1a](../product_types/level1/level1a.md), the data are stored as recorded and the corrections are not applied.
 
 | Variable | Values | Description |
 |---|---|---|

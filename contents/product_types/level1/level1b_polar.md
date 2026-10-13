@@ -7,7 +7,7 @@ nav_order: 2
 
 # L1b: Polar image sequences
 
-Level 1b polar images (`pol3d`, a three-dimensional cube in polar coordinates) are radar image sequences that remain in the polar coordinates of the sensor but are mapped onto a regular range and azimuth axis, so that all images of a sequence share the same grid.
+Level 1b polar images (`radar_polar_regularized`, short `pol3d`, a three-dimensional cube in polar coordinates) are radar image sequences that remain in the polar coordinates of the sensor but are mapped onto a regular range and azimuth axis, so that all images of a sequence share the same grid.
 They are usually derived from Level 1a data.
 Each time step is one complete antenna revolution, corresponding to one sweep of the [Level 1a](level1a.md) data, and the data variable has the dimensions `(time, azimuth, range)` and holds uncalibrated amplitude or power.
 The `range` and `azimuth` variables carry the same attributes as at [Level 1a](level1a.md#sweep-groups), which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
@@ -47,7 +47,7 @@ As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optio
 A radar on a fixed platform.
 
 ```
-netcdf or_2023-08-31-17-00_radar_polar {
+netcdf or_2023-08-31-17-00_radar_polar_regularized {
 dimensions:
         time = 41 ;
         azimuth = 1440 ;
@@ -99,6 +99,7 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
                 :processing_level = "L1b" ;
+                :product_type = "radar_polar_regularized" ;
 data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;

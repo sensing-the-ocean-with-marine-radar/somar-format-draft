@@ -39,5 +39,5 @@ sass:
 
 # Placeholder pages for levels the format does not define yet.
 exclude:
-  - contents/data_types/level0/
-  - contents/data_types/level1/level1c.md
+  - contents/product_types/level0/
+  - contents/product_types/level1/level1c.md

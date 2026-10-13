@@ -1,7 +1,7 @@
 #---
 #title: Level 0 Products
 #layout: default
-#parent: SOMaR data types
+#parent: SOMaR product types
 #nav_order: 3
 #---
 

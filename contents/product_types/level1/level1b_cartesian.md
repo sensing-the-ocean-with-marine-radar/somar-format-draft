@@ -7,7 +7,7 @@ nav_order: 3
 
 # L1b: Cartesian image sequences
 
-Level 1b Cartesian images (`cart3d`, a three-dimensional cube in Cartesian coordinates) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying Level 1a data.
+Level 1b Cartesian images (`radar_cartesian`, short `cart3d`, a three-dimensional cube in Cartesian coordinates) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying Level 1a data.
 The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each revolution; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
 Grid cells that fall outside the calibrated field of view, for example those obstructed by platform superstructure, are blanked.
 As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"`); no radiometric calibration or temporal averaging is applied at this level.
@@ -34,7 +34,7 @@ For the same reason, `x` and `y` carry no `standard_name`: CF defines `projectio
 A radar on a moving platform.
 
 ```
-netcdf or_2025-01-15-11-00_single_scan_sea_surface_roughness {
+netcdf or_2025-01-15-11-00_radar_cartesian {
 dimensions:
         time = 41 ;
         y = 1980 ;
@@ -73,6 +73,7 @@ variables:
                 :summary = "The marine X-band radar backscatter intensity images are corrected for ship motion. Segments of the radar field of view that are obstructed by platform superstructures are blanked. The origin of the coordinate system is given by (longitude, latitude), which corresponds to the radar location at the measurement start time for each image." ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L1b" ;
+                :product_type = "radar_cartesian" ;
 }
 ```
 

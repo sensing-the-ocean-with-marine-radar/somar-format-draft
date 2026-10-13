@@ -7,7 +7,7 @@ nav_order: 1
 
 # L1a: "raw" radar data
 
-Level 1a is the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
+Level 1a polar radar "raw" data (`radar_polar_raw`, short `pol_raw`) is the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
 Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
 The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
 
@@ -128,7 +128,7 @@ For a fixed platform, there is no `heading`, and `azimuth_correction` is the dir
 A radar on a fixed platform.
 
 ```
-netcdf or_2023-08-31-17-00_radar_raw {
+netcdf or_2023-08-31-17-00_radar_polar_raw {
 variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
@@ -153,6 +153,7 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :creator_email = "famous.scientist@frori.org" ;
                 :processing_level = "L1a" ;
+                :product_type = "radar_polar_raw" ;
                 :platform_is_mobile = "false" ;
 data:
         latitude = 54.1826 ;
@@ -199,7 +200,7 @@ group: sweep_0 {
 A radar on a ship, with the position and heading of the ship at the start of each sweep, the pulse parameters, and the `radar_parameters` and `georeference_correction` groups.
 
 ```
-netcdf or_2025-01-15-11-00_radar_raw {
+netcdf or_2025-01-15-11-00_radar_polar_raw {
 variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
@@ -226,6 +227,7 @@ variables:
                 :platform = "R/V Ocean Research" ;
                 :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
                 :processing_level = "L1a" ;
+                :product_type = "radar_polar_raw" ;
                 :platform_is_mobile = "true" ;
 data:
         latitude = 14.9952749946079 ;

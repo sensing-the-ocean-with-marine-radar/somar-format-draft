@@ -7,7 +7,7 @@ nav_order: 5
 
 # L2a: Sea ice drift maps
 
-Sea ice drift maps provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
+Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
 Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter intensity images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.
 Because the correlation is evaluated both forward and backward in time, two independent drift vector estimates are reported for each analysis window: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward correlation, with its corresponding `correlation_coefficient`, and `eastward_sea_ice_velocity_alternative`/`northward_sea_ice_velocity_alternative` from the backward correlation, with `correlation_coefficient_alternative`.
 This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
@@ -46,6 +46,7 @@ netcdf or_2025-08-23-12_sea_ice_drift {
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250823T130500Z: File creation time" ;
                 :processing_level = "L2a" ;
+                :product_type = "sea_ice_drift" ;
 
 group: time_20250823120031 {
   dimensions:

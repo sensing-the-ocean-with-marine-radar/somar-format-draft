@@ -14,7 +14,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. In practice, most SOMaR products carry a fairly detailed `summary`. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
 | `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
-| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../data_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. |
+| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. At Level 1a, `true` requires the position and heading of the platform for every sweep or every pulse (see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). Assumed `false` if missing. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software (and its runtime) used to produce the file, to support reproducibility. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
@@ -47,7 +47,7 @@ For example:
                 :geospatial_lon_max = 145.96815 ;
 ```
 
-Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../data_types/level2/current_maps.md#near-surface-current-profile-maps).
+Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../product_types/level2/current_maps.md#near-surface-current-profile-maps).
 
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

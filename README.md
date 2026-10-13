@@ -13,7 +13,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, and document structure |
 | `contents/metadata_attributes/` | Mandatory and optional global attributes, variable attributes, radar parameters, georeferencing, file naming |
-| `contents/data_types/` | Level 1 (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
+| `contents/product_types/` | Level 1 (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
 | `contents/about/` | About the SOMaR community |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |
@@ -32,7 +32,7 @@ Then open <http://localhost:4000>. The built site is written to `_site/`.
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- Each data type has its own page under `contents/data_types/`, documenting its dimensions, variables, and attributes with a minimal CDL example. Attributes shared by all products belong in `contents/metadata_attributes/`.
+- Each product type has its own page under `contents/product_types/`, documenting its dimensions, variables, and attributes with a minimal CDL example. Attributes shared by all products belong in `contents/metadata_attributes/`.
 - Please propose changes through issues or pull requests.
 
 ## License and attribution

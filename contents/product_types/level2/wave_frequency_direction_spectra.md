@@ -7,7 +7,7 @@ nav_order: 7
 
 # L2b: Surface wave two-dimensional frequency spectra
 
-Two-dimensional frequency spectra give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each analysis window.
+Two-dimensional frequency spectra (`frequency_direction_spectra`, short `wave_fdir`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each analysis window.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 Following oceanographic convention, the wave direction is the direction from which the waves are propagating.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
@@ -88,6 +88,7 @@ variables:
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T120500Z: File creation time" ;
                 :processing_level = "L2b" ;
+                :product_type = "frequency_direction_spectra" ;
 
 group: wave_calibration {
   variables:

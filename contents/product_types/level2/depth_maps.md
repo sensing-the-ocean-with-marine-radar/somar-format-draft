@@ -7,7 +7,7 @@ nav_order: 4
 
 # L2a: Bathymetric maps
 
-Bathymetric maps provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with a standard error and a `measurement_quality` bit flag.
+Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with a standard error and a `measurement_quality` bit flag.
 As for the [near-surface current maps](current_maps.md), each depth is retrieved through a least-squares fit that minimizes the distance between the wave signal found in a wavenumber-frequency spectrum, computed from a radar backscatter intensity image sequence within a local circular analysis window, and the ocean wave dispersion relation; here, however, the fit solves for water depth rather than current velocity, exploiting the depth-induced deviation from the deep-water dispersion relationship. Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, X-band radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 As for the [near-surface current maps](current_maps.md), the analysis windows of one measurement period form a map that spans the radar footprint, and all maps belonging to one file are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>`. Within each group, the variables are stored on a two-dimensional `(latitude, longitude)` grid, on which the cells in the corners and those of analysis windows without a result hold the `_FillValue`, and the coordinate variables `latitude` and `longitude` give the centers of the analysis windows (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-of-analysis-windows)); a processor whose analysis windows lie on a local grid uses the [local-grid form](current_maps.md#local-grid-form) instead; the radar position for the period may optionally be stored in the scalar variables `radar_longitude` and `radar_latitude`.
 
@@ -42,6 +42,7 @@ netcdf or_2025-01-15-12_bathymetry {
                 :creator_name = "Dr. Famous Scientist" ;
                 :history = "20250115T130500Z: File creation time" ;
                 :processing_level = "L2a" ;
+                :product_type = "bathymetry" ;
 
 group: time_20250115120031 {
   dimensions:
