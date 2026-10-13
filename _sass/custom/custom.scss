@@ -1,7 +1,8 @@
 // Attribute and variable tables: fit the content width instead of scrolling
 // sideways, with the same column widths in every table.
 table.attribute-table,
-table.variable-table {
+table.variable-table,
+table.mandatory-attribute-table {
   width: 100%;
   table-layout: fixed;
 
@@ -30,6 +31,19 @@ table.variable-table {
 
   th:nth-child(3) {
     width: 50%;
+  }
+}
+
+// Mandatory global attributes table on metadata_attributes/mandatory_global.md
+table.mandatory-attribute-table {
+  // Attribute | Values | Description
+  th:nth-child(1) {
+    width: 20%;
+  }
+
+  th:nth-child(2),
+  th:nth-child(3) {
+    width: 40%;
   }
 }
 
