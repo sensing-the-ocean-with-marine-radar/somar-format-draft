@@ -12,7 +12,7 @@ nav_order: 5
 [Level 1a data](../product_types/level1/level1a.md) and [Level 1b polar images](../product_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 They are located in space with variables from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft:
 
-- `altitude`, required as a scalar in the root group, gives the height of the radar antenna above mean sea level; it is constant and does not vary (FM 301).
+- `altitude` gives the height of the radar antenna above mean sea level; it is constant and does not vary (FM 301).
 - For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
 - For a moving platform, platform position and orientation are recorded in `latitude`, `longitude`, and `heading` (CfRadial 2.1), provided either **per sweep** (at the start of each revolution) or **per pulse**:
   - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per pulse; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). In addition, FM 301 requires scalar `latitude` and `longitude` at file start in the root group.
