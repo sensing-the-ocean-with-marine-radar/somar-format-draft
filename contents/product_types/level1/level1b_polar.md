@@ -27,19 +27,21 @@ The optional variable `pulse_time`, with the dimension `azimuth`, gives the time
 
 ## Position and heading
 
-For a fixed platform, the scalar variables `latitude`, `longitude`, and `altitude` give the position of the radar antenna, as in the root group at [Level 1a](level1a.md#root-group).
+The scalar variable `altitude` in the root group is required for all platforms (fixed and moving) and gives the height of the radar antenna above mean sea level; it is constant and does not vary.
+For a fixed platform, scalar `latitude` and `longitude` in the root group give the antenna position, as at [Level 1a](level1a.md#root-group).
 
-For a moving platform, the position and heading of the platform are stored as variables with the dimension `time`, with one value per image, taken at the start of the revolution.
-They take the place of the `georeference` subgroups of Level 1a, which have no counterpart in an image cube; `altitude` remains scalar.
+For a moving platform, the position and heading of the platform are stored in the root group using the variable names and units of CfRadial 2.1 (Section 5.4). As at Level 1a, they can be given in one of two ways:
+
+- **Per sweep.** The variables have the dimension `(time)` and give the values at the start of each revolution (image).
+- **Per pulse.** The variables have the dimensions `(time, azimuth)` and give the values for every pulse (azimuth bin).
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_north` | Required. Recorded latitude (WGS 84). |
-| `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)`; `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)`; `degree` | Required. Heading of the platform relative to true north. |
+| `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_north` | Required. Recorded latitude (WGS 84). |
+| `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_east` | Required. Recorded longitude (WGS 84). |
+| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)` or `(time, azimuth)`; `degree` | Required. Heading of the platform relative to true north. |
 {: .variable-table }
 
-The names and units are those of CfRadial 2.1; storing them once per image on the `time` dimension is specific to SOMaR.
 As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Minimal example
@@ -100,7 +102,7 @@ data:
 }
 ```
 
-For a moving platform, `latitude` and `longitude` have the dimension `time`, and `heading` is added:
+For a moving platform with position and heading per sweep, `latitude` and `longitude` have the dimension `time`, and `heading` is added (`altitude` remains scalar in the root group):
 
 ```
         double latitude(time) ;
@@ -115,4 +117,21 @@ For a moving platform, `latitude` and `longitude` have the dimension `time`, and
                 heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the revolution" ;
+```
+
+If the position and heading are given per pulse instead, the variables have the dimensions `(time, azimuth)`:
+
+```
+        double latitude(time, azimuth) ;
+                latitude:units = "degrees_north" ;
+                latitude:standard_name = "latitude" ;
+                latitude:long_name = "latitude of GPS antenna" ;
+        double longitude(time, azimuth) ;
+                longitude:units = "degrees_east" ;
+                longitude:standard_name = "longitude" ;
+                longitude:long_name = "longitude of GPS antenna" ;
+        float heading(time, azimuth) ;
+                heading:units = "degree" ;
+                heading:standard_name = "platform_orientation" ;
+                heading:long_name = "heading of the platform relative to true north" ;
 ```

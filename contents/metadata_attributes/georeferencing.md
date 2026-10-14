@@ -10,14 +10,14 @@ nav_order: 5
 ## Polar sensor coordinates
 
 [Level 1a data](../product_types/level1/level1a.md) and [Level 1b polar images](../product_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
-They are located in space with the variables that the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and, for moving platforms, the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft define for this purpose, rather than with a grid mapping:
+They are located in space with variables from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) and the [CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs) draft:
 
-- `latitude`, `longitude`, and `altitude`, in the root group, give the position of the radar antenna (FM 301). For a moving platform at Level 1a, they give the recorded position at the start of the file, which is that of the radar antenna only if `position_offset_x` and `position_offset_y` are 0.
-- For a moving platform at Level 1a, the `georeference` subgroup of each sweep gives the `latitude`, `longitude`, and `heading` of the platform, either once per sweep, at the time of its first pulse, or for every pulse (CfRadial 2.1; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)).
-- For a moving platform at Level 1b, `latitude`, `longitude`, and `heading` have the dimension `time` and give the values at the start of each revolution (see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
-- `azimuth_correction` and `range_correction`, in the `georeference_correction` group, give known offsets of the recorded azimuth and range (CfRadial 2.1; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
-- `time_correction`, in the same group, gives a known offset of the radar clock relative to GPS time (SOMaR; see [Radar parameters](radar_parameters.md#the-georeference_correction-group)).
-- `position_offset_x` and `position_offset_y`, in the same group, give the position of the radar antenna relative to the GPS antenna in the ship frame, for a moving platform whose position is recorded at a different location than the radar (SOMaR; see [Position offset](radar_parameters.md#position-offset)).
+- `altitude`, required as a scalar in the root group, gives the height of the radar antenna above mean sea level; it is constant and does not vary (FM 301).
+- For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
+- For a moving platform, platform position and orientation are recorded in `latitude`, `longitude`, and `heading` (CfRadial 2.1), provided either **per sweep** (at the start of each revolution) or **per pulse**:
+  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per pulse; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). In addition, FM 301 requires scalar `latitude` and `longitude` at file start in the root group.
+  - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per pulse; see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
+- Offsets for recorded azimuth, range, radar clock time, and GPS antenna position are given in the [`georeference_correction` group](radar_parameters.md#the-georeference_correction-group) (`azimuth_correction`, `range_correction`, `time_correction`, `position_offset_x`, `position_offset_y`).
 
 The `azimuth` variable holds the antenna angle as recorded by the radar. The azimuth of a pulse relative to true north, clockwise positive, is
 

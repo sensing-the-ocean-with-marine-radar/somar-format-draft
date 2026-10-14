@@ -89,22 +89,19 @@ ushort polar_amp(time, range) ;
 FM 301 requires the global attribute `platform_is_mobile` to be `"false"`.
 SOMaR also allows `"true"`, for a radar on a ship; the attribute is assumed to be `"false"` if missing.
 
-If `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and attitude of the platform, with the variables defined in section 5.4 of CfRadial 2.1.
+If `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform, with the variables defined in section 5.4 of CfRadial 2.1.
 The variables can be given in one of two ways, which must be the same for all variables of the subgroup:
 
-- **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, and it matches the [Level 1b Cartesian images](level1b_cartesian.md), whose grid origin is the radar position at the start of each revolution. It is a SOMaR addition; CfRadial defines the variables per pulse only.
+- **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, matching the per-sweep option of [Level 1b polar images](level1b_polar.md) and the grid origin of [Level 1b Cartesian images](level1b_cartesian.md). It is a SOMaR addition; CfRadial defines the variables per pulse only.
 - **Per pulse.** The variables have the dimension `(time)` of the sweep and give the values for every pulse, as in CfRadial. This option keeps the full resolution of the navigation data.
+
+The antenna height above mean sea level is given by the required, constant scalar `altitude` variable in the root group and does not vary.
 
 | Variable | Values | Description |
 |---|---|---|
 | `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_north` | Required. Recorded latitude (WGS 84). |
 | `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Required. Recorded longitude (WGS 84). |
 | `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Required. Heading of the platform relative to true north. |
-| `altitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `m` | Optional. Height of the radar antenna above mean sea level. |
-| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Optional. Roll about the longitudinal axis of the platform; positive is left side up, looking forward. |
-| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Optional. Pitch about the lateral axis of the platform; positive is up at the front. |
-| `eastward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m s-1` | Optional. Eastward velocity of the platform. |
-| `northward_velocity`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `m s-1` | Optional. Northward velocity of the platform. |
 {: .variable-table }
 
 `latitude` and `longitude` are stored as recorded.
