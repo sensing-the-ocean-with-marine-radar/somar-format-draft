@@ -9,6 +9,7 @@ nav_order: 3
 Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR product types](../product_types/index.md)).
 This chapter documents that shared metadata: the [mandatory global attributes](mandatory_global.md) that every SOMaR file must carry, [optional global attributes](optional_global.md) that are recommended where applicable, the [variable attributes](variable_attributes.md) attached to individual variables, the [radar parameters](radar_parameters.md) that describe the instrument and the known offsets of its pointing direction, range, time, and position, the [georeferencing](georeferencing.md) conventions used to locate SOMaR's time-bounded local grids and measurement positions in space, and the [file naming](file_naming.md) convention used to identify a file's platform, time, and product without opening it.
 
+{% comment %}
 ## Variables and attributes
 
 NetCDF stores information in two ways.
@@ -25,6 +26,7 @@ variables:
 ```
 
 As a rule of thumb, a quantity that can change from pulse to pulse or from sweep to sweep, or that is a number with units, is stored as a variable; a description of a variable or of the file is stored as an attribute.
+{% endcomment %}
 
 ## Reading the tables
 

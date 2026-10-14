@@ -45,7 +45,7 @@ The global attribute `platform_is_mobile` states whether the platform moves (see
 ## Sweep groups
 
 The primary dimension of a sweep is `time`, with one entry per radar pulse; the secondary dimension is `range`.
-A sweep group holds the following variables, which are distinct from attributes (see [Variables and attributes](../../metadata_attributes/index.md#variables-and-attributes)).
+A sweep group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
