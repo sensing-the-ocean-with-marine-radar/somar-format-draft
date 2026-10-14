@@ -40,9 +40,15 @@ Constant properties of the antenna are stored in a group named `radar_parameters
 
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in a group named `georeference_correction` in the root group.
 This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
-The corrections are constant for a file and are added to the recorded values; a missing variable is equivalent to a correction of 0.
-The position offsets are rotated by the heading before they are added (see [Position offset](#position-offset)).
-At [Level 1a](../product_types/level1/level1a.md), the data are stored as recorded and the corrections are not applied.
+
+This group is only present in [Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md) products. In these products, `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied. Downstream users and software must add these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
+
+- **Azimuth**: The azimuth relative to true north is `azimuth + azimuth_correction + heading`.
+- **Range**: The corrected slant range is `range + range_correction`.
+- **Time**: The corrected time is `time + time_correction`.
+- **Platform position**: The antenna position is obtained by rotating `position_offset_x` and `position_offset_y` by the platform heading and adding them to the recorded platform `latitude` and `longitude` (see [Position offset](#position-offset)).
+
+In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level1b_cartesian.md) and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
 
 | Variable | Values | Description |
 |---|---|---|
