@@ -39,15 +39,6 @@ Georeferenced data variables reference a scalar `char` coordinate reference syst
 
 All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables).
 
-```
-char crs ;
-        crs:grid_mapping_name = "latitude_longitude" ;
-        crs:longitude_of_prime_meridian = 0. ;
-        crs:semi_major_axis = 6378137. ;
-        crs:inverse_flattening = 298.257223563 ;
-        crs:authority_string = "EPSG:4326" ;
-```
-
 ## Time-bounded local grids
 
 As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the position of the radar antenna at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, the roughness images and mosaics store each time-bounded grid as a sibling NetCDF group per time window, named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and `x`/`y` coordinate variables.
