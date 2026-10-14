@@ -95,7 +95,7 @@ The variables can be given in one of two ways, which must be the same for all va
 - **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, matching the per-sweep option of [Level 1b polar images](level1b_polar.md) and the grid origin of [Level 1b Cartesian images](level1b_cartesian.md). It is a SOMaR addition; CfRadial defines the variables per pulse only.
 - **Per pulse.** The variables have the dimension `(time)` of the sweep and give the values for every pulse, as in CfRadial. This option keeps the full resolution of the navigation data.
 
-The antenna height above mean sea level is given by the required, constant scalar `altitude` variable in the root group and does not vary.
+The antenna height above mean sea level is given by the required scalar `altitude` variable in the root group and is assumed constant.
 
 | Variable | Values | Description |
 |---|---|---|
