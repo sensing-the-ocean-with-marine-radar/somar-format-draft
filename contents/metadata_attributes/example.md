@@ -107,9 +107,7 @@ data:
 
 Technical parameters of the radar are stored as variables (see [Radar parameters](radar_parameters.md)).
 
-### The `radar_parameters` group
-
-Used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store constant antenna properties, operating frequency, and pulse and scan parameters in the root group:
+The `radar_parameters` group is used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store constant antenna properties, operating frequency, and pulse and scan parameters in the root group:
 
 ```
 group: radar_parameters {
@@ -147,9 +145,7 @@ group: radar_parameters {
   } // group radar_parameters
 ```
 
-### Variable pulse and scan parameters
-
-Used by polar products when pulse or scan parameters vary: in [Level 1a](../product_types/level1/level1a.md#sweep-groups), stored in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below); in [Level 1b polar](../product_types/level1/level1b_polar.md), stored in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
+When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below) and [Level 1b polar](../product_types/level1/level1b_polar.md), stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
 
 ```
 group: sweep_0 {
