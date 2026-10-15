@@ -18,6 +18,6 @@ The convention an attribute is taken from is named in small print under the attr
 
 The WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), which SOMaR follows for [Level 1a data](../product_types/level1/level1a.md), defines mandatory global attributes of its own. Apart from `platform_is_mobile` (see [Optional global attributes](optional_global.md)), Level 1a files do not use them: they are not FM 301 files, so `Conventions` does not list the WMO-CF extensions.
 
-SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the complete set of attributes recommended by ACDD.
+SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the attributes recommended by ACDD.
 
 [cf-conventions]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#identification-of-conventions
