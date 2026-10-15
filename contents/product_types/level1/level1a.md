@@ -64,7 +64,7 @@ The `range` variable carries the following attributes.
 | `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
 {: .attribute-table }
 
-The optional variables that describe the pulse and the scan, such as `frequency`, `pulse_width`, and `prt`, are also stored in the sweep groups; they are listed under [Radar parameters](../../metadata_attributes/radar_parameters.md#pulse-and-scan-parameters).
+Parameters describing the radar, pulse, and scan are typically kept constant and stored in the `radar_parameters` group in the root group (see [Radar parameters](../../metadata_attributes/radar_parameters.md)). Where they vary from sweep to sweep or from pulse to pulse, they are stored as variables in the sweep groups instead; where they vary from pulse to pulse, they carry the dimension `time`.
 
 ### Data variables
 
@@ -186,7 +186,7 @@ group: sweep_0 {
 
 ## Example for a moving platform
 
-A radar on a ship, with the position and heading of the ship at the start of each sweep, the pulse parameters, and the `radar_parameters` and `georeference_correction` groups.
+A radar on a ship, with the position and heading of the ship at the start of each sweep, and the `radar_parameters` and `georeference_correction` groups.
 
 ```
 netcdf or_2025-01-15-11-00_radar_polar_raw {
@@ -231,21 +231,11 @@ group: sweep_0 {
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
-        float frequency ;
-                frequency:units = "s-1" ;
-                frequency:long_name = "operating frequency of the radar" ;
         float azimuth(time) ;
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
                 azimuth:comment = "clockwise positive, relative to the bow of the ship, not North-oriented" ;
         string sweep_mode ;
-        string polarization_mode ;
-        float pulse_width ;
-                pulse_width:units = "s" ;
-                pulse_width:long_name = "length of the transmitted pulse" ;
-        float prt ;
-                prt:units = "s" ;
-                prt:long_name = "pulse repetition time" ;
         ushort polar_amp(time, range) ;
                 polar_amp:scale_factor = 0.176738930567883 ;
                 polar_amp:add_offset = 0. ;
@@ -255,11 +245,7 @@ group: sweep_0 {
                 polar_amp:coordinates = "azimuth range" ;
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
   data:
-        frequency = 9.41e+09 ;
         sweep_mode = "azimuth_surveillance" ;
-        polarization_mode = "vertical" ;
-        pulse_width = 8.e-08 ;
-        prt = 0.0005 ;
 
   group: georeference {
     variables:
@@ -288,9 +274,30 @@ group: radar_parameters {
         float beam_width_v ;
                 beam_width_v:units = "degree" ;
                 beam_width_v:long_name = "vertical antenna beam width" ;
+        float frequency ;
+                frequency:units = "s-1" ;
+                frequency:long_name = "operating frequency of the radar" ;
+        string polarization_mode ;
+        float pulse_width ;
+                pulse_width:units = "s" ;
+                pulse_width:long_name = "length of the transmitted pulse" ;
+        float prt ;
+                prt:units = "s" ;
+                prt:long_name = "pulse repetition time" ;
+        float scan_rate ;
+                scan_rate:units = "degree s-1" ;
+                scan_rate:long_name = "antenna rotation rate" ;
+        int n_samples ;
+                n_samples:long_name = "number of samples contributing to each stored pulse" ;
   data:
         beam_width_h = 0.95 ;
         beam_width_v = 20. ;
+        frequency = 9.41e+09 ;
+        polarization_mode = "vertical" ;
+        pulse_width = 5.e-08 ;
+        prt = 3.33e-04 ;
+        scan_rate = 240. ;
+        n_samples = 1 ;
   } // group radar_parameters
 
 group: georeference_correction {

@@ -14,29 +14,26 @@ The tables below list the variables that apply to marine radars, with the table 
 
 Known offsets of pointing direction, range, time, and antenna position relative to GPS are georeference corrections rather than instrument parameters; they are stored in the `georeference_correction` group and documented under [Georeference correction parameters](georeference_correction.md).
 
-## Pulse and scan parameters
-
-Parameters describing the pulse and the scan are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)). In practice they are usually constant over a sweep and stored as scalars; where they vary from pulse to pulse, they can carry the dimension `time`.
-
-| Variable | Values | Description |
-|---|---|---|
-| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
-| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
-| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `s` | Length of the transmitted pulse. |
-| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `s` | Pulse repetition time. |
-| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `degree s-1` | Antenna rotation rate. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int or int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
-{: .variable-table }
-
 ## The `radar_parameters` group
 
-Constant properties of the antenna are stored in a group named `radar_parameters` in the root group (FM 301, regulation 301.5 and Table 301-12).
+Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group (FM 301, regulation 301.5 and Tables 301-6, 301-8, 301-12).
+In practice, the antenna properties (`beam_width_h`, `beam_width_v`) as well as the pulse and scan parameters (`frequency`, `polarization_mode`, `pulse_width`, `prt`, `scan_rate`, `n_samples`) are typically constant and stored here as scalars.
 
 | Variable | Values | Description |
 |---|---|---|
 | `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Horizontal beam width of the antenna. |
 | `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Vertical beam width of the antenna. |
+| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
+| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Length of the transmitted pulse. |
+| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Pulse repetition time. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float; `degree s-1` | Antenna rotation rate. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
 {: .variable-table }
+
+## Variable pulse and scan parameters
+
+Where pulse or scan parameters vary from sweep to sweep or from pulse to pulse, they are stored as variables in the sweep groups instead, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)). Parameters constant over a sweep are stored as scalars in the sweep group; where they vary from pulse to pulse, they carry the dimension `time`.
 
 For examples showing these variables in NetCDF CDL format, see [Example metadata](example.md#radar-parameters).
 

@@ -107,12 +107,19 @@ data:
 
 Technical parameters of the radar are stored as variables (see [Radar parameters](radar_parameters.md)).
 
-### Pulse and scan parameters
+### The `radar_parameters` group
 
-Parameters describing the pulse and scan are stored in each sweep group. They are typically constant over a sweep and stored as scalars, but may carry the dimension `time` if they vary from pulse to pulse:
+Constant antenna properties, operating frequency, and pulse and scan parameters are stored in a dedicated `radar_parameters` group in the root group:
 
 ```
-variables:
+group: radar_parameters {
+  variables:
+        float beam_width_h ;
+                beam_width_h:units = "degree" ;
+                beam_width_h:long_name = "horizontal antenna beam width" ;
+        float beam_width_v ;
+                beam_width_v:units = "degree" ;
+                beam_width_v:long_name = "vertical antenna beam width" ;
         float frequency ;
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
@@ -128,32 +135,34 @@ variables:
                 scan_rate:long_name = "antenna rotation rate" ;
         int n_samples ;
                 n_samples:long_name = "number of samples contributing to each stored pulse" ;
-data:
+  data:
+        beam_width_h = 0.95 ;
+        beam_width_v = 20. ;
         frequency = 9.41e+09 ;
         polarization_mode = "vertical" ;
         pulse_width = 5.e-08 ;
         prt = 3.33e-04 ;
-        scan_rate = 144. ;
+        scan_rate = 240. ;
         n_samples = 1 ;
-```
-
-### The `radar_parameters` group
-
-Constant antenna properties are stored in a dedicated `radar_parameters` group in the root group:
-
-```
-group: radar_parameters {
-  variables:
-        float beam_width_h ;
-                beam_width_h:units = "degree" ;
-                beam_width_h:long_name = "horizontal antenna beam width" ;
-        float beam_width_v ;
-                beam_width_v:units = "degree" ;
-                beam_width_v:long_name = "vertical antenna beam width" ;
-  data:
-        beam_width_h = 0.95 ;
-        beam_width_v = 20. ;
   } // group radar_parameters
+```
+
+### Variable pulse and scan parameters
+
+Where pulse and scan parameters vary from sweep to sweep or from pulse to pulse, they are stored in each sweep group instead, carrying the dimension `time` if they vary from pulse to pulse:
+
+```
+group: sweep_0 {
+  dimensions:
+        time = 986 ;
+  variables:
+        float pulse_width(time) ;
+                pulse_width:units = "s" ;
+                pulse_width:long_name = "length of the transmitted pulse" ;
+        float prt(time) ;
+                prt:units = "s" ;
+                prt:long_name = "pulse repetition time" ;
+  } // group sweep_0
 ```
 
 ## Georeference correction parameters
