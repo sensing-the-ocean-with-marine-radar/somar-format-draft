@@ -50,7 +50,6 @@ group: time_20250823120031 {
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
-                crs:authority_string = "EPSG:4326" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of sea ice drift measurement" ;

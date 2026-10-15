@@ -41,7 +41,9 @@ dimensions:
 variables:
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
-                crs:authority_string = "EPSG:4326" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
         double time(time) ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of wave measurement" ;

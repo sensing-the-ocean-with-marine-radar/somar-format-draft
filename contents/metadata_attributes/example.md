@@ -44,7 +44,7 @@ The root group carries the [mandatory global attributes](mandatory_global.md) an
 
 Georeferenced data variables link to a coordinate reference system (CRS) variable through their `grid_mapping` attribute (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables) and [Variable attributes](variable_attributes.md#coordinate-reference-system-variables)).
 
-### Geographic coordinates (EPSG:4326)
+### Geographic coordinates (WGS 84)
 
 Used by wave products and standard Level 2 maps on an Earth-fixed longitude/latitude grid:
 
@@ -54,7 +54,6 @@ char crs ;
         crs:longitude_of_prime_meridian = 0. ;
         crs:semi_major_axis = 6378137. ;
         crs:inverse_flattening = 298.257223563 ;
-        crs:authority_string = "EPSG:4326" ;
 ```
 
 ### Local Cartesian grid (azimuthal equidistant)
