@@ -34,7 +34,7 @@ Which attributes a given variable carries depends on the product type, as illust
 
 ## Coordinate reference system variables
 
-These attributes are carried by the scalar coordinate reference system variables (conventionally `crs`) that `grid_mapping` refers to.
+These attributes are carried by coordinate reference system variables (conventionally `crs`) that `grid_mapping` refers to. Under [CF conventions][cf-grid-mapping], `crs` is a scalar container variable that holds projection metadata in its attributes and carries no data values.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -46,6 +46,8 @@ These attributes are carried by the scalar coordinate reference system variables
 | `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. |
 | `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; m | The semi-major axis of the reference ellipsoid. |
 {: .attribute-table }
+
+For examples showing coordinate reference system variables in NetCDF CDL format, see [Example metadata](example.md#coordinate-reference-system-variables).
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name
 [cf-long-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#long-name

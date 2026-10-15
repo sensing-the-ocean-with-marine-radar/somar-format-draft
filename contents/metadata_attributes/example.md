@@ -46,7 +46,7 @@ Georeferenced data variables link to a coordinate reference system (CRS) variabl
 
 ### Geographic coordinates
 
-Used by wave products and standard Level 2 maps on an Earth-fixed longitude/latitude grid. Under CF conventions, `crs` is an index-less container variable that holds projection metadata in its attributes and carries no data values:
+Used by wave products and standard Level 2 maps on an Earth-fixed longitude/latitude grid:
 
 ```
 variables:
@@ -61,7 +61,7 @@ data:
 
 ### Time-bounded local grid
 
-Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps, centered on the radar position at the start of each measurement (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)). These variables are stored within each `time_<YYYYMMDDHHMMSS>` group. Each time-bounded grid carries a scalar `time` variable giving the measurement start time, optionally complemented by `time_iso_8601` (see [Group time variable](../georeferencing/index.md#group-time-variable)):
+Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps. Each time-bounded grid carries a scalar `time` variable giving the measurement start time (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids) and [Group time variable](../georeferencing/index.md#group-time-variable)):
 
 ```
 variables:
