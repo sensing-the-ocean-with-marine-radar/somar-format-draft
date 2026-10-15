@@ -42,32 +42,30 @@ In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level
 
 ## Coordinate reference system variables
 
-Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice. The `crs` variable's own attributes describe the projection:
-
-- **Geographic coordinates** (the wave products and standard [near-surface current maps](../product_types/level2/current_maps.md), [bathymetric maps](../product_types/level2/depth_maps.md), and [sea ice drift maps](../product_types/level2/sea_ice_drift.md)): `grid_mapping_name = "latitude_longitude"`, specifying the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`).
-- **Time-bounded local grid** (the [roughness images](../product_types/level2/roughness_images.md), [roughness image mosaics](../product_types/level2/roughness_mosaics.md), and [local-grid Level 2 maps](../product_types/level2/current_maps.md#local-grid-form)): `grid_mapping_name = "azimuthal_equidistant"`, specifying the origin of the local grid (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and a `projected_crs_name` (see [Time-bounded local grids](#time-bounded-local-grids)). Level 2 maps on this grid additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for the analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
-
+Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice.
 All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](../metadata_attributes/variable_attributes.md#coordinate-reference-system-variables); for CDL examples of both systems, see [Example metadata](../metadata_attributes/example.md#coordinate-reference-system-variables).
 
-## Time-bounded local grids
+SOMaR uses two coordinate reference systems:
 
-As introduced in the [Introduction](../introduction/index.md), SOMaR's Cartesian image products (e.g. Cartesian images, roughness images) are mapped onto a local, radar-centric grid whose origin is the position of the radar antenna at the start of each measurement, and which is therefore only valid for a limited time window. Rather than one global grid for the whole file, the roughness images and mosaics store each time-bounded grid as a sibling NetCDF group per time window, named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and `x`/`y` coordinate variables.
-The near-surface current, bathymetric, and sea ice drift maps are stored in groups of the same kind, one per measurement period, on a longitude/latitude grid or, for a processor that works on the local grid, on that grid together with two-dimensional `longitude` and `latitude` (see [Positions of analysis windows](#positions-of-analysis-windows)).
-The [Level 1b Cartesian images](../product_types/level1/level1b_cartesian.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
+### Geographic coordinates
 
-### Definition of the local grid
+Used by wave products and standard Level 2 maps ([near-surface current maps](../product_types/level2/current_maps.md), [bathymetric maps](../product_types/level2/depth_maps.md), and [sea ice drift maps](../product_types/level2/sea_ice_drift.md)) on an Earth-fixed longitude/latitude grid.
+The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` and describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`).
 
-Marine radars measure natively in meters, as range and bearing from the antenna. The local grid keeps this geometry:
+### Time-bounded local grids
+
+Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([roughness images](../product_types/level2/roughness_images.md) and [roughness image mosaics](../product_types/level2/roughness_mosaics.md)) and local-grid [Level 2 maps](../product_types/level2/current_maps.md#local-grid-form) preserve this geometry on a radar-centric grid:
 
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
 
-In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves the distance and the bearing from its center, which are the two quantities the radar measures; at the ranges covered by a marine radar, it differs from a flat plane by less than a millimeter at 5 km.
+In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center, differing from a flat plane by less than a millimeter at 5 km. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and a `projected_crs_name`.
 
-### Group time variable
+Because the origin changes as a platform moves, each local grid is valid only for a limited time window. Rather than one global grid for the whole file, roughness images, mosaics, and local-grid Level 2 maps store each time-bounded grid as a sibling NetCDF group named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and coordinate variables:
+- Each group carries a scalar `double` variable `time` giving the start time of the measurement (`units = "seconds since 1970-01-01T00:00:00Z"`), optionally complemented by a human-readable `time_iso_8601` string (see [Variable attributes](../metadata_attributes/variable_attributes.md)).
+- Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
-Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units = "seconds since 1970-01-01T00:00:00Z"`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
-Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` (see [Variable attributes](../metadata_attributes/variable_attributes.md)) with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable (see [Example metadata](../metadata_attributes/example.md#time-bounded-local-grid)).
+[Level 1b Cartesian images](../product_types/level1/level1b_cartesian.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
 
 ## Positions of analysis windows
 
