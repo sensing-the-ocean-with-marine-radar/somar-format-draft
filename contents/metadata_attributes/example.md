@@ -145,7 +145,7 @@ group: radar_parameters {
   } // group radar_parameters
 ```
 
-When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below) and [Level 1b polar](../product_types/level1/level1b_polar.md), stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
+When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
 
 ```
 group: sweep_0 {
