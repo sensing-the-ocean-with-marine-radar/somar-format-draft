@@ -131,8 +131,8 @@ variables:
 data:
         frequency = 9.41e+09 ;
         polarization_mode = "vertical" ;
-        pulse_width = 8.e-08 ;
-        prt = 0.0005 ;
+        pulse_width = 5.e-08 ;
+        prt = 3.33e-04 ;
         scan_rate = 144. ;
         n_samples = 1 ;
 ```
