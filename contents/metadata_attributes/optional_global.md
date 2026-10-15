@@ -34,32 +34,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content, specific enough to distinguish it from other SOMaR products. |
 {: .attribute-table }
 
-For example:
-
-```
-// global attributes:
-                :creator_email = "famous.scientist@frori.org" ;
-                :creator_name = "Dr. Famous Scientist" ;
-                :date_created = "2025-01-15T12:05:00Z" ;
-                :geospatial_lat_max = 15.03 ;
-                :geospatial_lat_min = 14.9265 ;
-                :geospatial_lon_max = 145.96815 ;
-                :geospatial_lon_min = 145.8426 ;
-                :history = "20250115T120500Z: File creation time" ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :institution_id = "https://ror.org/02dgjyy92" ;
-                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
-                :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
-                :platform = "R/V Ocean Research" ;
-                :platform_is_mobile = "true" ;
-                :processing_level = "L2a" ;
-                :processing_software = "FRORI X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
-                :source = "Shipboard marine X-band radar" ;
-                :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
-                :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
-                :time_coverage_start = "2025-01-15T11:10:01.357666Z" ;
-                :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
-```
+For an example showing these optional attributes in a file header alongside mandatory attributes, see [Example metadata](example.md#file-level-metadata).
 
 Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../product_types/level2/current_maps.md#near-surface-current-profile-maps).
 

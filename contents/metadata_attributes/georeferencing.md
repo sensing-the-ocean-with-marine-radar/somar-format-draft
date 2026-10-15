@@ -37,7 +37,7 @@ Georeferenced data variables reference a scalar `char` coordinate reference syst
 - **Cartesian image grids** (the [roughness images](../product_types/level2/roughness_images.md) and [roughness image mosaics](../product_types/level2/roughness_mosaics.md)): `grid_mapping_name = "azimuthal_equidistant"`, specifying the origin of the local grid (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and a `projected_crs_name` (see [Time-bounded local grids](#time-bounded-local-grids)).
 - **Local-grid Level 2 maps** (current, bathymetric, and sea ice drift maps in their [local-grid form](../product_types/level2/current_maps.md#local-grid-form)): use the same `azimuthal_equidistant` projection as the Cartesian images, but additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for the analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
-All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables).
+All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](variable_attributes.md#coordinate-reference-system-variables); for CDL examples of both systems, see [Example metadata](example.md#coordinate-reference-system-variables).
 
 ## Time-bounded local grids
 
@@ -57,7 +57,7 @@ In CF terms, this plane is described as an azimuthal equidistant projection on t
 ### Group time variable
 
 Each time-bounded grid carries a scalar `double` variable `time`, following CF conventions (`standard_name = "time"`, `calendar`, and `units = "seconds since 1970-01-01T00:00:00Z"`), that gives the start time of the measurement the grid belongs to. The name of a group, `time_<YYYYMMDDHHMMSS>`, repeats this time truncated (not rounded) to whole seconds.
-Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` (see [Variable attributes](variable_attributes.md)) with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable.
+Because a raw numeric `time` is hard to read, `time` may optionally carry a SOMaR-specific attribute `time_iso_8601` (see [Variable attributes](variable_attributes.md)) with the same instant as an ISO 8601 UTC string, including fractional seconds, so that the start time of each group is human-readable without decoding the variable (see [Example metadata](example.md#group-time-variable)).
 
 ## Positions of analysis windows
 
@@ -68,4 +68,4 @@ On the local grid, these maps store `x` and `y` with the `crs` of the local grid
 The conversion must be carried out on the ellipsoid; a spherical approximation must not be used, since it can displace positions by up to about 0.5% of their distance from the radar.
 The position stored is that of the center of the analysis window or, for the wave products, the mean position of the analysis windows contributing to a measurement.
 
-So that the range and bearing of a measurement from the radar can be recovered, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude`. For the current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for the wave products, they have the dimension `time`.
+So that the range and bearing of a measurement from the radar can be recovered, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` (see [Example metadata](example.md#positions-of-analysis-windows)). For the current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for the wave products, they have the dimension `time`.
