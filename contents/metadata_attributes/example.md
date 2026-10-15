@@ -7,7 +7,7 @@ nav_order: 6
 
 # Example metadata
 
-This page illustrates how the shared metadata described in this chapter (i.e. global attributes, coordinate reference systems, group time, and radar position) appear in NetCDF CDL format in a SOMaR product.
+This page illustrates how shared metadata (i.e. global attributes, coordinate reference systems, and radar position) appear in NetCDF CDL format in a SOMaR product.
 
 ## File-level metadata
 
@@ -77,9 +77,9 @@ double time ;
         time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
 ```
 
-## Positions of analysis windows
+## Radar position
 
-Level 2 products retrieved within analysis windows may optionally record the radar position that served as the origin for each measurement (see [Positions of analysis windows](../georeferencing/index.md#positions-of-analysis-windows)):
+Level 2 products retrieved within analysis windows may optionally record the radar position that served as the origin for each measurement (see [Radar position](../georeferencing/index.md#radar-position)):
 
 ```
 double radar_longitude ;
