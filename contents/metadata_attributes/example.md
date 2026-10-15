@@ -58,7 +58,7 @@ char crs ;
 
 ### Local Cartesian grid (azimuthal equidistant)
 
-Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps, centered on the radar position at the start of each measurement (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)):
+Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps, centered on the radar position at the start of each measurement (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)). Each time-bounded grid carries a scalar `time` variable giving the measurement start time, optionally complemented by `time_iso_8601` (see [Group time variable](../georeferencing/index.md#group-time-variable)):
 
 ```
 char crs ;
@@ -69,13 +69,6 @@ char crs ;
         crs:semi_major_axis = 6378137. ;
         crs:inverse_flattening = 298.257223563 ;
         crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
-```
-
-## Group time variable
-
-Each time-bounded grid carries a scalar `time` variable giving the measurement start time, optionally complemented by `time_iso_8601` (see [Group time variable](../georeferencing/index.md#group-time-variable)):
-
-```
 double time ;
         time:calendar = "standard" ;
         time:long_name = "start time of radar measurement" ;
