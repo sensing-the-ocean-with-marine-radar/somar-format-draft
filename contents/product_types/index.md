@@ -1,7 +1,7 @@
 ---
 title: SOMaR product types
 layout: default
-nav_order: 5
+nav_order: 4
 ---
 
 # SOMaR product types

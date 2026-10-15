@@ -2,7 +2,7 @@
 title: Example metadata
 layout: default
 parent: Metadata
-nav_order: 5
+nav_order: 6
 ---
 
 # Example metadata

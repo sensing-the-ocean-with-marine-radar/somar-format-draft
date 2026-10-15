@@ -12,7 +12,7 @@ The technical parameters of the radar are stored as variables.
 SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
 The tables below list the variables that apply to marine radars, with the table or section that defines each of them; all of them are optional.
 
-Known offsets of pointing direction, range, time, and antenna position relative to GPS are georeference corrections rather than instrument parameters; they are stored in the `georeference_correction` group and documented under [Georeferencing](../georeferencing/index.md#the-georeference_correction-group).
+Known offsets of pointing direction, range, time, and antenna position relative to GPS are georeference corrections rather than instrument parameters; they are stored in the `georeference_correction` group and documented under [Georeference correction parameters](georeference_correction.md).
 
 ## Pulse and scan parameters
 

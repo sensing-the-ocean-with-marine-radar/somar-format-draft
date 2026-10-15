@@ -42,7 +42,7 @@ For a moving platform, the position and heading of the platform are stored in th
 | `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)` or `(time, azimuth)`; `degree` | Required. Heading of the platform relative to true north. |
 {: .variable-table }
 
-As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../georeferencing/index.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
+As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/georeference_correction.md) gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Minimal example
 

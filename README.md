@@ -12,9 +12,9 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | --- | --- |
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, and document structure |
-| `contents/georeferencing/` | Polar coordinates, georeference corrections, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
-| `contents/metadata_attributes/` | Mandatory and optional global attributes, variable attributes, radar parameters, CDL example header |
+| `contents/metadata_attributes/` | Mandatory and optional global attributes, variable attributes, radar parameters, georeference correction parameters, CDL example header |
 | `contents/product_types/` | Level 1 products (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
+| `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
 | `contents/file_naming/` | File naming pattern and product naming recommendations |
 | `contents/about/` | About the SOMaR community |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
