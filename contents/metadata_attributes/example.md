@@ -27,7 +27,7 @@ The root group carries the [mandatory global attributes](mandatory_global.md) an
                 :history = "20250115T120500Z: File creation time" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :institution_id = "https://ror.org/01abcde23" ;
-                :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
+                :instrument = "Famous Radar Ocean Research Institute coherent-on-receive marine X-band radar" ;
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
                 :platform = "R/V Ocean Research" ;
                 :platform_is_mobile = "true" ;
