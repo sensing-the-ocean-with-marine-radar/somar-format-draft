@@ -7,7 +7,7 @@ nav_order: 6
 
 # Example metadata
 
-This page illustrates how the shared metadata described in this chapter—global attributes, coordinate reference systems, group time, and radar position—appear in NetCDF CDL format in a SOMaR product.
+This page illustrates how the shared metadata described in this chapter (i.e. global attributes, coordinate reference systems, group time, and radar position) appear in NetCDF CDL format in a SOMaR product.
 
 ## File-level metadata
 

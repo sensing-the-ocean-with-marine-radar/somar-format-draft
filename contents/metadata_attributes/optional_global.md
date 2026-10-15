@@ -36,7 +36,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 
 For an example showing these optional attributes in a file header alongside mandatory attributes, see [Example metadata](example.md#file-level-metadata).
 
-Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here — for example `wavenumber_bin_size` on the [near-surface current profile maps](../product_types/level2/current_maps.md#near-surface-current-profile-maps).
+Individual products may additionally define their own product-specific optional global attributes, documented on the relevant product's own page rather than here, for example `wavenumber_bin_size` on the [near-surface current profile maps](../product_types/level2/current_maps.md#near-surface-current-profile-maps).
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
