@@ -7,11 +7,11 @@ nav_order: 6
 
 # Example metadata
 
-This page illustrates how shared metadata (i.e. global attributes, coordinate reference systems, radar position, radar parameters, and georeference corrections) appear in NetCDF CDL format in a SOMaR product.
+This page illustrates how shared metadata (global attributes, coordinate reference systems, radar position, radar parameters, and georeference corrections) appear in NetCDF CDL format across SOMaR products.
 
 ## File-level metadata
 
-The root group carries the [mandatory global attributes](mandatory_global.md) and any applicable [optional global attributes](optional_global.md):
+Used by all SOMaR products. The root group carries [mandatory](mandatory_global.md) and applicable [optional global attributes](optional_global.md):
 
 ```
 // global attributes:
@@ -61,7 +61,7 @@ data:
 
 ### Time-bounded local grid
 
-Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps. Each time-bounded grid carries a scalar `time` variable giving the measurement start time (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids) and [Group time variable](../georeferencing/index.md#group-time-variable)):
+Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps. Each time-bounded grid carries a scalar `time` variable giving the measurement start time (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)):
 
 ```
 variables:
@@ -86,7 +86,7 @@ data:
 
 ## Radar position
 
-Level 2 products retrieved within analysis windows may optionally record the radar position that served as the origin for each measurement (see [Radar position](../georeferencing/index.md#radar-position)). For current, bathymetric, and sea ice drift maps, they are stored as scalar variables in each `time_<YYYYMMDDHHMMSS>` group; for wave products, they have the dimension `time`:
+Used optionally by Level 2 products retrieved within analysis windows to record the radar origin (see [Radar position](../georeferencing/index.md#radar-position)). Stored as scalars in each `time_<YYYYMMDDHHMMSS>` group for current, bathymetric, and sea ice drift maps, or with dimension `time` for wave products:
 
 ```
 variables:
@@ -109,7 +109,7 @@ Technical parameters of the radar are stored as variables (see [Radar parameters
 
 ### The `radar_parameters` group
 
-Constant antenna properties, operating frequency, and pulse and scan parameters are stored in a dedicated `radar_parameters` group in the root group:
+Used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store constant antenna properties, operating frequency, and pulse and scan parameters in the root group:
 
 ```
 group: radar_parameters {
@@ -149,7 +149,7 @@ group: radar_parameters {
 
 ### Variable pulse and scan parameters
 
-Where pulse and scan parameters vary from sweep to sweep or from pulse to pulse, they are stored in each sweep group instead, carrying the dimension `time` if they vary from pulse to pulse:
+Used by polar products when pulse or scan parameters vary: in [Level 1a](../product_types/level1/level1a.md#sweep-groups), stored in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below); in [Level 1b polar](../product_types/level1/level1b_polar.md), stored in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
 
 ```
 group: sweep_0 {
@@ -167,7 +167,7 @@ group: sweep_0 {
 
 ## Georeference correction parameters
 
-Known offsets of pointing direction, range, time, and platform position relative to GPS are stored in the `georeference_correction` group in the root group of polar products (see [Georeference correction parameters](georeference_correction.md)):
+Used by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store known sensor and antenna offsets relative to GPS in the root group (see [Georeference correction parameters](georeference_correction.md)):
 
 ```
 group: georeference_correction {
