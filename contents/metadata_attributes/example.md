@@ -98,34 +98,32 @@ Technical parameters of the radar are stored as variables (see [Radar parameters
 
 ### Pulse and scan parameters
 
-Parameters that may change from pulse to pulse are stored in each sweep group:
+Parameters describing the pulse and scan are stored in each sweep group. They are typically constant over a sweep and stored as scalars, but may carry the dimension `time` if they vary from pulse to pulse:
 
 ```
-dimensions:
-        time = 3 ;
 variables:
         float frequency ;
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         string polarization_mode ;
-        float pulse_width(time) ;
+        float pulse_width ;
                 pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;
-        float prt(time) ;
+        float prt ;
                 prt:units = "s" ;
                 prt:long_name = "pulse repetition time" ;
-        float scan_rate(time) ;
+        float scan_rate ;
                 scan_rate:units = "degree s-1" ;
                 scan_rate:long_name = "antenna rotation rate" ;
-        int n_samples(time) ;
+        int n_samples ;
                 n_samples:long_name = "number of samples contributing to each stored pulse" ;
 data:
         frequency = 9.41e+09 ;
         polarization_mode = "vertical" ;
-        pulse_width = 8.e-08, 8.e-08, 8.e-08 ;
-        prt = 0.0005, 0.0005, 0.0005 ;
-        scan_rate = 144., 144., 144. ;
-        n_samples = 1, 1, 1 ;
+        pulse_width = 8.e-08 ;
+        prt = 0.0005 ;
+        scan_rate = 144. ;
+        n_samples = 1 ;
 ```
 
 ### The `radar_parameters` group

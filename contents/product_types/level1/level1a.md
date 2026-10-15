@@ -240,10 +240,10 @@ group: sweep_0 {
                 azimuth:comment = "clockwise positive, relative to the bow of the ship, not North-oriented" ;
         string sweep_mode ;
         string polarization_mode ;
-        float pulse_width(time) ;
+        float pulse_width ;
                 pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;
-        float prt(time) ;
+        float prt ;
                 prt:units = "s" ;
                 prt:long_name = "pulse repetition time" ;
         ushort polar_amp(time, range) ;
@@ -258,6 +258,8 @@ group: sweep_0 {
         frequency = 9.41e+09 ;
         sweep_mode = "azimuth_surveillance" ;
         polarization_mode = "vertical" ;
+        pulse_width = 8.e-08 ;
+        prt = 0.0005 ;
 
   group: georeference {
     variables:

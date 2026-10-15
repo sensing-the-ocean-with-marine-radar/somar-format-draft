@@ -16,16 +16,16 @@ Known offsets of pointing direction, range, time, and antenna position relative 
 
 ## Pulse and scan parameters
 
-Parameters that may change from pulse to pulse are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)).
+Parameters describing the pulse and the scan are stored as variables in the sweep groups, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)). In practice they are usually constant over a sweep and stored as scalars; where they vary from pulse to pulse, they can carry the dimension `time`.
 
 | Variable | Values | Description |
 |---|---|---|
 | `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
 | `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
-| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Length of the transmitted pulse. |
-| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Pulse repetition time. |
-| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `degree s-1` | Antenna rotation rate. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `s` | Length of the transmitted pulse. |
+| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `s` | Pulse repetition time. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float or float `(time)`; `degree s-1` | Antenna rotation rate. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int or int `(time)` | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
 {: .variable-table }
 
 ## The `radar_parameters` group
