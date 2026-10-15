@@ -20,7 +20,7 @@ Parameters that may change from pulse to pulse are stored as variables in the sw
 
 | Variable | Values | Description |
 |---|---|---|
-| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float `(frequency)`; `s-1` | Operating frequency of the radar. |
+| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
 | `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Polarization of the radar: HH or VV. |
 | `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Length of the transmitted pulse. |
 | `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float `(time)`; `s` | Pulse repetition time. |

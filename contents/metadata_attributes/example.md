@@ -102,9 +102,9 @@ Parameters that may change from pulse to pulse are stored in each sweep group:
 
 ```
 dimensions:
-        frequency = 1 ;
+        time = 3 ;
 variables:
-        float frequency(frequency) ;
+        float frequency ;
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         string polarization_mode ;
@@ -122,6 +122,10 @@ variables:
 data:
         frequency = 9.41e+09 ;
         polarization_mode = "vertical" ;
+        pulse_width = 8.e-08, 8.e-08, 8.e-08 ;
+        prt = 0.0005, 0.0005, 0.0005 ;
+        scan_rate = 144., 144., 144. ;
+        n_samples = 1, 1, 1 ;
 ```
 
 ### The `radar_parameters` group

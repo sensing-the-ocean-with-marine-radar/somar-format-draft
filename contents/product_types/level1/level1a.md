@@ -219,7 +219,6 @@ group: sweep_0 {
   dimensions:
         time = 986 ;
         range = 435 ;
-        frequency = 1 ;
   variables:
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
@@ -232,7 +231,7 @@ group: sweep_0 {
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
-        float frequency(frequency) ;
+        float frequency ;
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         float azimuth(time) ;
