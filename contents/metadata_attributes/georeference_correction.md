@@ -21,4 +21,6 @@ This group is only present in [Level 1a](../product_types/level1/level1a.md) and
 | `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow (see [Position offset](../georeferencing/index.md#position-offset)). |
 {: .variable-table }
 
+For an example showing this group in NetCDF CDL format, see [Example metadata](example.md#georeference-correction-parameters) and [Level 1a data](../product_types/level1/level1a.md#example-for-a-moving-platform).
+
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs

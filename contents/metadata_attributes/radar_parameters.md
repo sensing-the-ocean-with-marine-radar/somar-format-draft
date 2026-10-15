@@ -38,5 +38,7 @@ Constant properties of the antenna are stored in a group named `radar_parameters
 | `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Vertical beam width of the antenna. |
 {: .variable-table }
 
+For examples showing these variables in NetCDF CDL format, see [Example metadata](example.md#radar-parameters).
+
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
