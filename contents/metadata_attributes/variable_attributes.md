@@ -12,6 +12,8 @@ Which attributes a given variable carries depends on the product type, as illust
 
 ## Data and coordinate variables
 
+These attributes define the physical meaning, units, valid ranges, and coordinate relationships of data and coordinate variables.
+
 | Attribute | Values | Description |
 |---|---|---|
 | `_FillValue`<br><small>[CF][cf-missing]</small> | Same type as the variable | The value marking missing data. |
