@@ -32,7 +32,7 @@ The root group carries the [mandatory global attributes](mandatory_global.md) an
                 :platform = "R/V Ocean Research" ;
                 :platform_is_mobile = "true" ;
                 :processing_level = "L2a" ;
-                :processing_software = "FRORI X-band radar processing software version 2.5.0 written in Python 3.13.6" ;
+                :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ;
                 :source = "Shipboard marine X-band radar" ;
                 :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
                 :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
