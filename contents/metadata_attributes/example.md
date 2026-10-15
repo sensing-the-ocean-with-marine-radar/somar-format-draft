@@ -26,7 +26,7 @@ The root group carries the [mandatory global attributes](mandatory_global.md) an
                 :geospatial_lon_min = 145.8426 ;
                 :history = "20250115T120500Z: File creation time" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :institution_id = "https://ror.org/02dgjyy92" ;
+                :institution_id = "https://ror.org/01abcde23" ;
                 :instrument = "Helmholtz-Zentrum Hereon coherent-on-receive marine X-band radar" ;
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
                 :platform = "R/V Ocean Research" ;
