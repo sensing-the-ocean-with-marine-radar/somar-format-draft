@@ -74,11 +74,9 @@ Depending on the processor, the windows are placed on an Earth-fixed lattice in 
 On an Earth-fixed lattice, a measurement period uses a single longitude spacing, so the current, bathymetric, and sea ice drift maps are rectangular grids with one-dimensional `latitude` and `longitude` coordinate variables.
 On the local grid, these maps store `x` and `y` with the `crs` of the local grid, together with two-dimensional `longitude` and `latitude`, which are obtained by inverting the local projection defined above, i.e. the azimuthal equidistant projection on the WGS 84 ellipsoid centered on the position of the radar antenna at the start of the measurement.
 The conversion must be carried out on the ellipsoid; a spherical approximation must not be used, since it can displace positions by up to about 0.5% of their distance from the radar.
-The position stored is that of the center of the analysis window or, for the wave products, the mean position of the analysis windows contributing to a measurement.
+The stored position is that of the center of the analysis window or, for wave products, the mean position of the analysis windows contributing to a measurement.
 
-### Radar position
-
-So that the range and bearing of a measurement from the radar can be recovered, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` (see [Example metadata](../metadata_attributes/example.md#radar-position)). For the current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for the wave products, they have the dimension `time`.
+<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` (see [Example metadata](../metadata_attributes/example.md#radar-position)). For current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for wave products, they have the dimension `time`.
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
