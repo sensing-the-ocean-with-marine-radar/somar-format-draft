@@ -28,7 +28,7 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 - The **root group** holds the global attributes and the variables that apply to the whole file.
 - Each sweep is stored in a group named **`sweep_<n>`**, where `<n>` is the number of the sweep, starting at 0 and increasing in the order of acquisition.
 - For a moving platform, each sweep group has a subgroup named **`georeference`**.
-- The optional groups **`radar_parameters`** and **`georeference_correction`** are located in the root group and described under [Radar parameters](../../metadata_attributes/radar_parameters.md).
+- The optional group **`radar_parameters`** is described under [Radar parameters](../../metadata_attributes/radar_parameters.md); the optional group **`georeference_correction`** is described under [Georeferencing](../../georeferencing/index.md#the-georeference_correction-group). Both are located in the root group.
 
 ## Root group
 
@@ -105,7 +105,7 @@ The antenna height above mean sea level is given by the required scalar `altitud
 {: .variable-table }
 
 `latitude` and `longitude` are stored as recorded.
-Where they have been taken from a GPS antenna at a different location on the platform, the position of the radar antenna relative to the GPS antenna is given by `position_offset_x` and `position_offset_y` in the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#position-offset) and is not applied.
+Where they have been taken from a GPS antenna at a different location on the platform, the position of the radar antenna relative to the GPS antenna is given by `position_offset_x` and `position_offset_y` in the optional [`georeference_correction` group](../../georeferencing/index.md#position-offset) and is not applied.
 
 ## Azimuth reference
 
@@ -117,7 +117,7 @@ The azimuth relative to true north is obtained as
 azimuth + azimuth_correction + heading
 ```
 
-where `heading` is taken from the `georeference` subgroup and `azimuth_correction` from the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#the-georeference_correction-group); a missing variable counts as 0.
+where `heading` is taken from the `georeference` subgroup and `azimuth_correction` from the optional [`georeference_correction` group](../../georeferencing/index.md#the-georeference_correction-group); a missing variable counts as 0.
 For a fixed platform, there is no `heading`, and `azimuth_correction` is the direction of the radar's zero direction relative to true north.
 
 ## Minimal example

@@ -11,7 +11,7 @@ Roughness images (`sea_surface_roughness`, short `rough`) provide temporally ave
 Because the underlying platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
 All time-bounded grids belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per averaging window, named `time_<YYYYMMDDHHMMSS>` after the start time of that window.
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.
-Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
+Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 
 ## Variables
 
@@ -19,7 +19,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the averaging window. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the averaging window. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the averaging window. |

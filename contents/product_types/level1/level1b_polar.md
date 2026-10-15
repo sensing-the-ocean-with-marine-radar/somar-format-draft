@@ -11,7 +11,7 @@ Level 1b polar images (`radar_polar_regularized`, short `pol3d`, a three-dimensi
 They are usually derived from Level 1a data.
 Each time step is one complete antenna revolution, corresponding to one sweep of the [Level 1a](level1a.md) data, and the data variable has the dimensions `(time, azimuth, range)` and holds uncalibrated amplitude or power.
 The `range` and `azimuth` variables carry the same attributes as at [Level 1a](level1a.md#sweep-groups), which are taken from the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
-As at Level 1a, the azimuth is given relative to the radar's zero direction and is not necessarily north-oriented; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../../metadata_attributes/georeferencing.md#polar-sensor-coordinates)).
+As at Level 1a, the azimuth is given relative to the radar's zero direction and is not necessarily north-oriented; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)).
 The image cube with the dimensions `(time, azimuth, range)` has no equivalent in FM 301, which keeps the individual rays of each sweep, and is specific to SOMaR.
 
 The regular azimuth axis and the resampling onto it are recorded in two attributes.
@@ -42,7 +42,7 @@ For a moving platform, the position and heading of the platform are stored in th
 | `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)` or `(time, azimuth)`; `degree` | Required. Heading of the platform relative to true north. |
 {: .variable-table }
 
-As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/radar_parameters.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
+As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../georeferencing/index.md#the-georeference_correction-group) gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Minimal example
 

@@ -2,7 +2,7 @@
 title: Example metadata
 layout: default
 parent: Metadata
-nav_order: 7
+nav_order: 5
 ---
 
 # Example metadata
@@ -42,7 +42,7 @@ The root group carries the [mandatory global attributes](mandatory_global.md) an
 
 ## Coordinate reference system variables
 
-Georeferenced data variables link to a coordinate reference system (CRS) variable through their `grid_mapping` attribute (see [Georeferencing](georeferencing.md#coordinate-reference-system-variables) and [Variable attributes](variable_attributes.md#coordinate-reference-system-variables)).
+Georeferenced data variables link to a coordinate reference system (CRS) variable through their `grid_mapping` attribute (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables) and [Variable attributes](variable_attributes.md#coordinate-reference-system-variables)).
 
 ### Geographic coordinates (EPSG:4326)
 
@@ -59,7 +59,7 @@ char crs ;
 
 ### Local Cartesian grid (azimuthal equidistant)
 
-Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps, centered on the radar position at the start of each measurement (see [Time-bounded local grids](georeferencing.md#time-bounded-local-grids)):
+Used by time-bounded Cartesian image products (roughness images and mosaics) and local-grid Level 2 maps, centered on the radar position at the start of each measurement (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)):
 
 ```
 char crs ;
@@ -74,7 +74,7 @@ char crs ;
 
 ## Group time variable
 
-Each time-bounded grid carries a scalar `time` variable giving the measurement start time, optionally complemented by `time_iso_8601` (see [Group time variable](georeferencing.md#group-time-variable)):
+Each time-bounded grid carries a scalar `time` variable giving the measurement start time, optionally complemented by `time_iso_8601` (see [Group time variable](../georeferencing/index.md#group-time-variable)):
 
 ```
 double time ;
@@ -87,7 +87,7 @@ double time ;
 
 ## Positions of analysis windows
 
-Level 2 products retrieved within analysis windows may optionally record the radar position that served as the origin for each measurement (see [Positions of analysis windows](georeferencing.md#positions-of-analysis-windows)):
+Level 2 products retrieved within analysis windows may optionally record the radar position that served as the origin for each measurement (see [Positions of analysis windows](../georeferencing/index.md#positions-of-analysis-windows)):
 
 ```
 double radar_longitude ;

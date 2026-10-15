@@ -14,7 +14,7 @@ Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted.
 The Level 2b [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated against a reference wave data set; the parameters of this calibration are recorded in the `wave_calibration` group (see [Calibration](#calibration)).
-The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
+The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
 
@@ -22,7 +22,7 @@ The file holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Start time of each measurement. |
 | `eastward_wave_wavenumber`<br><small>SOMaR</small> | double `(eastward_wave_wavenumber)`; `m-1` | Eastward wavenumber component, pointing in the direction the waves come from. |
 | `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Northward wavenumber component, pointing in the direction the waves come from. |

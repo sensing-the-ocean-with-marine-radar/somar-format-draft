@@ -9,8 +9,10 @@ nav_order: 4
 
 SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](optional_global.md).
 The technical parameters of the radar are stored as variables.
-SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general, and, where FM 301 has no provision, from the earlier [CfRadial 2.1][cfradial] draft (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
+SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
 The tables below list the variables that apply to marine radars, with the table or section that defines each of them; all of them are optional.
+
+Known offsets of pointing direction, range, time, and antenna position relative to GPS are georeference corrections rather than instrument parameters; they are stored in the `georeference_correction` group and documented under [Georeferencing](../georeferencing/index.md#the-georeference_correction-group).
 
 ## Pulse and scan parameters
 
@@ -35,46 +37,6 @@ Constant properties of the antenna are stored in a group named `radar_parameters
 | `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Horizontal beam width of the antenna. |
 | `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Vertical beam width of the antenna. |
 {: .variable-table }
-
-## The `georeference_correction` group
-
-Known offsets of the recorded pointing direction, range, time, and platform position are stored in a group named `georeference_correction` in the root group.
-This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
-
-This group is only present in [Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md) products. In these products, `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied. Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
-
-- **Azimuth**: The azimuth relative to true north is `azimuth + azimuth_correction + heading`.
-- **Range**: The corrected slant range is `range + range_correction`.
-- **Time**: The corrected time is `time + time_correction`.
-- **Platform position**: The antenna position is obtained by rotating `position_offset_x` and `position_offset_y` by the platform heading into eastward and northward displacements in meters, and converting these displacements to `latitude` and `longitude` on the WGS 84 ellipsoid (see [Position offset](#position-offset)).
-
-In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level1b_cartesian.md) and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
-
-| Variable | Values | Description |
-|---|---|---|
-| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degree` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship, including any constant bias of the heading sensor. |
-| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
-| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
-| `position_offset_x`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard. |
-| `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow. |
-{: .variable-table }
-
-### Position offset
-
-Where the position of a moving platform has been taken from a GPS antenna at a different location on the platform, the recorded `latitude` and `longitude` are those of the GPS antenna.
-`position_offset_x` and `position_offset_y` give the position of the radar antenna relative to the GPS antenna in a ship frame whose x-axis is positive to starboard and whose y-axis is positive toward the bow.
-They replace the `latitude_correction` and `longitude_correction` of CfRadial 2.1, which are constant in degrees and therefore valid for a single heading only; an offset in the ship frame is independent of the heading.
-
-With the heading `H`, the radar antenna is located
-
-```
-east  =  position_offset_x * cos(H) + position_offset_y * sin(H)
-north = -position_offset_x * sin(H) + position_offset_y * cos(H)
-```
-
-meters east and north of the recorded position; the conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid.
-The offsets are horizontal distances for a level ship; roll and pitch are neglected.
-For a fixed platform, the position offsets are not used, and `latitude` and `longitude` in the root group give the position of the radar antenna.
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs

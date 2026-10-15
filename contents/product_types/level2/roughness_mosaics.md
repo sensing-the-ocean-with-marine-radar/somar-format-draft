@@ -13,7 +13,7 @@ The averaging start time is determined by data availability and hence by the pla
 The mosaic therefore covers a much larger area than a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
 Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
 Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a lookup table flagging which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
-Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../metadata_attributes/georeferencing.md#time-bounded-local-grids)).
+Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 
 ## Variables
 
@@ -21,7 +21,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the measurement period. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the measurement period. |

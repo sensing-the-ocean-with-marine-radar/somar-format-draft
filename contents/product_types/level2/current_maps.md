@@ -14,7 +14,7 @@ The analysis windows of one measurement period form a map that spans the radar f
 All maps belonging to one file are therefore stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, as for the [roughness images](roughness_images.md).
 Within each group, the variables are stored on a two-dimensional grid with the dimensions `(latitude, longitude)`, and the scalar variable `time` gives the start time of the period.
 Since the radar footprint is circular, the cells in the corners of the grid hold the `_FillValue`, as do the cells of analysis windows without a result.
-The coordinate variables `latitude` and `longitude` give the centers of the analysis windows. They are one-dimensional because the windows lie on an Earth-fixed lattice with a single longitude spacing per measurement period, so that each map is a rectangular grid in longitude and latitude (see [Georeferencing](../../metadata_attributes/georeferencing.md#positions-of-analysis-windows)). A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](#local-grid-form) of a group.
+The coordinate variables `latitude` and `longitude` give the centers of the analysis windows. They are one-dimensional because the windows lie on an Earth-fixed lattice with a single longitude spacing per measurement period, so that each map is a rectangular grid in longitude and latitude (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)). A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](#local-grid-form) of a group.
 The radar position for the period may optionally be stored in the scalar variables `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -23,7 +23,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../metadata_attributes/georeferencing.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Latitude of the centers of the analysis windows. |
