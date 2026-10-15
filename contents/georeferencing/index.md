@@ -9,6 +9,9 @@ nav_order: 5
 ## Polar sensor coordinates
 
 [Level 1a data](../product_types/level1/level1a.md) and [Level 1b polar images](../product_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
+The `azimuth` variable holds the antenna angle as recorded by the radar relative to its zero direction; on a ship, this is typically the bow.
+The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
+
 They are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft:
 
 - Scalar `altitude` in the root group gives the height of the radar antenna above mean sea level; it is assumed constant for both fixed and moving platforms (FM 301).
@@ -16,28 +19,18 @@ They are located in space with variables from the WMO-CF Radial profile [FM 301]
 - For a moving platform, platform position and orientation are recorded in `latitude`, `longitude`, and `heading` (CfRadial 2.1), provided either **per sweep** (at the start of each revolution) or **per pulse**:
   - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per pulse; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). In addition, FM 301 requires scalar `latitude` and `longitude` at file start in the root group.
   - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per pulse; see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
-- Offsets for recorded azimuth, range, radar clock time, and GPS antenna position are given in the [`georeference_correction` group](../metadata_attributes/georeference_correction.md) (`azimuth_correction`, `range_correction`, `time_correction`, `position_offset_x`, `position_offset_y`).
-
-The `azimuth` variable holds the antenna angle as recorded by the radar. The azimuth of a pulse relative to true north, clockwise positive, is
-
-```
-azimuth + azimuth_correction + heading
-```
-
-where a missing variable counts as 0, and the ground range follows from the slant range `range + range_correction` and the `altitude` of the antenna above the sea surface.
-The position of the radar antenna is the recorded `latitude` and `longitude`, displaced by the position offsets after their rotation by the heading.
-The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
 ## Applying georeference corrections
 
-In polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)), `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied. Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
+In polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)), `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied.
+Known offsets of the recorded pointing direction, range, time, and platform position are stored in the optional `georeference_correction` group in the root group (see [Georeference correction parameters](../metadata_attributes/georeference_correction.md)).
+Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
 
-- **Azimuth**: The azimuth relative to true north is `azimuth + azimuth_correction + heading`.
-- **Range**: The corrected slant range is `range + range_correction`.
+- **Azimuth**: The azimuth of a pulse relative to true north, clockwise positive, is `azimuth + azimuth_correction + heading`.
+- **Range**: The corrected slant range is `range + range_correction`. The ground range follows from the corrected slant range and the `altitude` of the antenna above the sea surface.
 - **Time**: The corrected time is `time + time_correction`.
 - **Platform position**: The antenna position is obtained by rotating `position_offset_x` and `position_offset_y` by the platform heading into eastward and northward displacements in meters, and converting these displacements to `latitude` and `longitude` on the WGS 84 ellipsoid (see [Position offset](#position-offset)).
 
-These variables are stored in the `georeference_correction` group (see [Georeference correction parameters](../metadata_attributes/georeference_correction.md)).
 In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level1b_cartesian.md) and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
 
 ## Position offset
