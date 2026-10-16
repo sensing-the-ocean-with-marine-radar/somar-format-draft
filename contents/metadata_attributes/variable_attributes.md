@@ -42,7 +42,7 @@ These attributes are carried by coordinate reference system variables (conventio
 | Attribute | Values | Description |
 |---|---|---|
 | `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for longitude/latitude grids and series, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)). |
-| `horizontal_datum_name`<br><small>[CF][cf-appendix-f]</small> | String; `"World Geodetic System 1984"` | The name of the geodetic datum. |
+| `horizontal_datum_name`<br><small>[CF][cf-appendix-f]</small> | String; a datum name per CF Appendix F. SOMaR uses **`World Geodetic System 1984`** | The name of the geodetic datum. |
 | `inverse_flattening`<br><small>[CF][cf-appendix-f]</small> | Number | The inverse flattening of the reference ellipsoid. |
 | `latitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
 | `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. |
