@@ -19,13 +19,11 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east | The easternmost longitude covered by the file's data. |
 | `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east | The westernmost longitude covered by the file's data. |
 | `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
-| `id`<br><small>[ACDD][acdd]</small> | String; free text | An identifier for the file that is unique within the namespace given by `naming_authority`, e.g. the file name without its extension. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |
 | `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
 | `keywords`<br><small>[ACDD][acdd]</small> | String; comma-separated list | Keywords describing the file's content, preferably from a controlled vocabulary such as the [GCMD Science Keywords](https://www.earthdata.nasa.gov/data/tools/gcmd-keyword-viewer). |
 | `keywords_vocabulary`<br><small>[ACDD][acdd]</small> | String; free text | The controlled vocabulary from which the `keywords` are taken, e.g. `GCMD Science Keywords`. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
-| `naming_authority`<br><small>[ACDD][acdd]</small> | String; reverse domain name | The organization that provides the `id`, in reverse domain name notation, e.g. `org.frori`. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
 | `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. In polar products (Level 1a and Level 1b polar), `true` requires the position and heading of the platform for every sweep or every pulse (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). Assumed `false` if missing. |
 | `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
@@ -53,14 +51,12 @@ The global attributes of a [near-surface current map](../product_types/level2/cu
                 :geospatial_lon_max = 145.96815 ;
                 :geospatial_lon_min = 145.8426 ;
                 :history = "20250115T120500Z: File creation time" ;
-                :id = "or_2025-01-15-11_currents" ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :institution_id = "https://ror.org/01abcde23" ;
                 :instrument = "Famous Radar Ocean Research Institute coherent-on-receive marine X-band radar" ;
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS" ;
                 :keywords_vocabulary = "GCMD Science Keywords" ;
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
-                :naming_authority = "org.frori" ;
                 :platform = "R/V Ocean Research" ;
                 :platform_is_mobile = "true" ;
                 :processing_level = "L2a" ;
