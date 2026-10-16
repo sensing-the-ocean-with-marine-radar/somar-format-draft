@@ -88,6 +88,10 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 15.0012 ;
+                :geospatial_lat_min = 14.9478 ;
+                :geospatial_lon_max = 145.9486 ;
+                :geospatial_lon_min = 145.8631 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "wave_frequency_direction_spectra" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;

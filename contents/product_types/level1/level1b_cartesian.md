@@ -75,6 +75,10 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 14.99584 ;
+                :geospatial_lat_min = 14.99466 ;
+                :geospatial_lon_max = 145.86905 ;
+                :geospatial_lon_min = 145.86733 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "radar_cartesian" ;
                 :time_coverage_end = "2025-01-15T11:00:59Z" ;

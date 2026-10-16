@@ -14,10 +14,6 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
 | `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
 | `date_created`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC | The date on which this version of the data was created. It must agree with the creation time recorded in `history`; changes to metadata alone do not alter it. |
-| `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude covered by the file's data. |
-| `geospatial_lat_min`<br><small>[ACDD][acdd]</small> | Number; degrees north | The southernmost latitude covered by the file's data. |
-| `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east | The easternmost longitude covered by the file's data. |
-| `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east | The westernmost longitude covered by the file's data. |
 | `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |
 | `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |

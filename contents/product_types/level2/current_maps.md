@@ -39,6 +39,10 @@ netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 15.03 ;
+                :geospatial_lat_min = 14.9265 ;
+                :geospatial_lon_max = 145.96815 ;
+                :geospatial_lon_min = 145.8426 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "currents" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
@@ -194,6 +198,10 @@ netcdf or_2025-01-15-11_currents_profile {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 15.03 ;
+                :geospatial_lat_min = 14.9265 ;
+                :geospatial_lon_max = 145.96815 ;
+                :geospatial_lon_min = 145.8426 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "currents_profile" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;

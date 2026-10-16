@@ -12,10 +12,12 @@ is "// excerpt":
 - Dimension lengths are capped at 3 so that the built files stay small; the
   data sections of the examples must therefore hold scalars only.
 
-Each block is built with "ncgen -k nc4" and its "ncdump -h" header checked
+Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
 scoping rules for references between variables, and the SOMaR rules for
-global attributes and file names.
+global attributes and file names. The spatial bounds are checked against
+the positions the example gives: scalar latitude and longitude values in
+the data sections and the projection origins of crs variables.
 
 Usage: python3 scripts/check_examples.py [--strict]
 
@@ -42,6 +44,7 @@ STANDARD_NAME_TABLE_URL = (
 DIMENSION_CAP = 3
 # Units the specification allows but UDUNITS does not define.
 EXTRA_UNITS = {"dB"}
+GEOSPATIAL_ATTRIBUTES = ("geospatial_lat_min", "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max")
 CRS_NAME_ATTRIBUTES = (
     "geographic_crs_name",
     "horizontal_datum_name",
@@ -135,21 +138,34 @@ def prepare(block, groups):
 
 
 def parse_header(text):
-    """Parse "ncdump -h" output into {group path: {"variables": {...}, "attributes": {...}}}."""
-    groups = {"/": {"variables": {}, "attributes": {}}}
+    """Parse "ncdump" output into {group path: {"variables": {...}, "attributes": {...}, "data": {...}}}.
+
+    "data" holds the values of variables whose data section gives a single number.
+    """
+    groups = {"/": {"variables": {}, "attributes": {}, "data": {}}}
     stack = ["/"]
+    section = None
     for line in text.splitlines():
         stripped = line.strip()
         match = re.match(r"group: (\w+) \{$", stripped)
         if match:
             path = stack[-1].rstrip("/") + "/" + match.group(1)
-            groups[path] = {"variables": {}, "attributes": {}}
+            groups[path] = {"variables": {}, "attributes": {}, "data": {}}
             stack.append(path)
+            section = None
             continue
         if stripped.startswith("} // group"):
             stack.pop()
             continue
+        if stripped in ("dimensions:", "variables:", "data:"):
+            section = stripped
+            continue
         group = groups[stack[-1]]
+        if section == "data:":
+            match = re.match(r"^(\w+) = (-?[0-9.]+(?:e[-+]?\d+)?) ;$", stripped)
+            if match:
+                group["data"][match.group(1)] = float(match.group(2))
+            continue
         match = re.match(r"^(?:string )?(\w*):(\w+) = (.*) ;$", stripped)
         if match:
             variable, attribute, value = match.groups()
@@ -160,6 +176,52 @@ def parse_header(text):
         if match:
             group["variables"].setdefault(match.group(1), {})
     return groups
+
+
+def number(value):
+    """Return the number in an ncdump attribute value such as "15.03" or "15.03f", or None."""
+    match = re.fullmatch(r"(-?[0-9.]+(?:e[-+]?\d+)?)[a-zA-Z]*", value or "")
+    return float(match.group(1)) if match else None
+
+
+def positions(groups):
+    """Yield the known positions that the spatial bounds must enclose (see mandatory_global.md).
+
+    These are the scalar latitude and longitude values in the data sections and, in groups
+    without latitude and longitude variables, the projection origin of the crs variable.
+    """
+    for path, group in groups.items():
+        if "latitude" in group["variables"] or "longitude" in group["variables"]:
+            if "latitude" in group["data"] and "longitude" in group["data"]:
+                yield path, group["data"]["latitude"], group["data"]["longitude"]
+        elif "crs" in group["variables"]:
+            crs = group["variables"]["crs"]
+            latitude = number(crs.get("latitude_of_projection_origin"))
+            longitude = number(crs.get("longitude_of_projection_origin"))
+            if latitude is not None and longitude is not None:
+                yield path, latitude, longitude
+
+
+def check_bounds(groups):
+    root = groups["/"]["attributes"]
+    bounds = {a: number(root.get(a)) for a in GEOSPATIAL_ATTRIBUTES}
+    invalid = [a for a, value in bounds.items() if value is None and a in root]
+    if invalid:
+        return [f"{', '.join(invalid)} not numeric"]
+    if None in bounds.values():
+        return []
+    lat_min, lat_max, lon_min, lon_max = (bounds[a] for a in GEOSPATIAL_ATTRIBUTES)
+    errors = []
+    if not -90 <= lat_min <= lat_max <= 90:
+        errors.append("geospatial_lat_min and geospatial_lat_max must satisfy -90 <= min <= max <= 90")
+    if not (-180 <= lon_min <= 180 and -180 <= lon_max <= 180):
+        errors.append("geospatial_lon_min and geospatial_lon_max must lie between -180 and 180")
+    for path, latitude, longitude in positions(groups):
+        # Across the antimeridian, lon_min is greater than lon_max.
+        inside = lon_min <= longitude <= lon_max if lon_min <= lon_max else longitude >= lon_min or longitude <= lon_max
+        if not (lat_min <= latitude <= lat_max and inside):
+            errors.append(f"position ({latitude}, {longitude}) in group {path} lies outside the geospatial bounds")
+    return errors
 
 
 def unquote(value):
@@ -216,6 +278,7 @@ def check_header(groups, is_file, names, units_module, expected):
         missing = [a for a in expected["mandatory_attributes"] if a not in root]
         if missing:
             errors.append(f"missing mandatory global attributes: {', '.join(missing)}")
+        errors += check_bounds(groups)
         conventions = unquote(root.get("Conventions", ""))
         if conventions != expected["conventions"]:
             errors.append(f'Conventions is "{conventions}", expected "{expected["conventions"]}"')
@@ -275,10 +338,10 @@ def main():
                     print(f"FAIL {relative}, block {number}: ncgen: {message}")
                     failures += 1
                     continue
-                header = subprocess.run(["ncdump", "-h", target], capture_output=True, text=True, check=True).stdout
+                dump = subprocess.run(["ncdump", target], capture_output=True, text=True, check=True).stdout
                 is_file = cdl.startswith("netcdf ") and not cdl.startswith("netcdf fragment ")
                 expected["file_name"] = cdl.split()[1] if is_file else ""
-                errors = check_header(parse_header(header), is_file, names, units_module, expected)
+                errors = check_header(parse_header(dump), is_file, names, units_module, expected)
                 if errors:
                     failures += 1
                     print(f"FAIL {relative}, block {number}:")

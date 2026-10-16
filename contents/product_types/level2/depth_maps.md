@@ -39,6 +39,10 @@ netcdf or_2025-01-15-12_bathymetry {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 14.9785 ;
+                :geospatial_lat_min = 14.887 ;
+                :geospatial_lon_max = 146.042 ;
+                :geospatial_lon_min = 145.9175 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "bathymetry" ;
                 :time_coverage_end = "2025-01-15T12:59:59Z" ;

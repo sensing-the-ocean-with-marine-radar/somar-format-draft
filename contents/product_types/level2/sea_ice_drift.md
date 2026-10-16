@@ -50,6 +50,10 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 78.9987 ;
+                :geospatial_lat_min = 78.9012 ;
+                :geospatial_lon_max = 5.2276 ;
+                :geospatial_lon_min = 4.8123 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "sea_ice_drift" ;
                 :time_coverage_end = "2025-08-23T12:59:59Z" ;

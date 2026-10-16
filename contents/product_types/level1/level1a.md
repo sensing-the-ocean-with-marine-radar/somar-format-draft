@@ -120,6 +120,10 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 54.1826 ;
+                :geospatial_lat_min = 54.1826 ;
+                :geospatial_lon_max = 7.8853 ;
+                :geospatial_lon_min = 7.8853 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "radar_polar_raw" ;
                 :time_coverage_end = "2023-08-31T17:00:59Z" ;
@@ -189,6 +193,10 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 14.9958976192 ;
+                :geospatial_lat_min = 14.99471 ;
+                :geospatial_lon_max = 145.86898 ;
+                :geospatial_lon_min = 145.8672647679 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_raw" ;

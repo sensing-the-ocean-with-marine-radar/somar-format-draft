@@ -34,6 +34,10 @@ netcdf or_2025-01-15-11_sea_surface_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 14.99528 ;
+                :geospatial_lat_min = 14.95348 ;
+                :geospatial_lon_max = 145.94251 ;
+                :geospatial_lon_min = 145.86816 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "sea_surface_roughness" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
