@@ -14,8 +14,7 @@ Because the correlation is evaluated both forward and backward in time, two inde
 This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
-{: .open_issue }
-The time lag between the correlated images and the duration of the temporal averaging are not yet stored. The drift is presumably given over ground, but this is not yet stated.
+As for the [near-surface currents](current_maps.md), the drift vector is given relative to the ground, with the platform motion removed, and points in the direction toward which the ice drifts.
 
 ## Variables
 
@@ -36,6 +35,14 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
+In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attributes.
+
+| Attribute | Values | Description |
+|---|---|---|
+| `time_lag`<br><small>SOMaR</small> | Number; `s` | The time between the two correlated images. |
+| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | The duration over which the radar backscatter intensity images are averaged to form each of the correlated images. |
+{: .attribute-table }
+
 ## Minimal example
 ```
 netcdf or_2025-08-23-12_sea_ice_drift {
@@ -43,6 +50,8 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "sea_ice_drift" ;
+                :time_lag = 90. ;
+                :averaging_duration = 30. ;
 
 group: time_20250823120031 {
   dimensions:
