@@ -39,7 +39,11 @@ netcdf or_2025-01-15-12_bathymetry {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "bathymetry" ;
+                :time_coverage_end = "2025-01-15T12:59:59Z" ;
+                :time_coverage_start = "2025-01-15T12:00:00Z" ;
+                :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_period_duration = 240. ;

@@ -34,7 +34,11 @@ netcdf or_2025-01-15-11_sea_surface_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "sea_surface_roughness" ;
+                :time_coverage_end = "2025-01-15T11:59:59Z" ;
+                :time_coverage_start = "2025-01-15T11:00:00Z" ;
+                :title = "Marine X-band radar sea surface roughness images from R/V Ocean Research" ;
 
 group: time_20250115110031 {
   dimensions:

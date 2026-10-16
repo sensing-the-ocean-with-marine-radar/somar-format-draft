@@ -120,7 +120,11 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "radar_polar_raw" ;
+                :time_coverage_end = "2023-08-31T17:00:59Z" ;
+                :time_coverage_start = "2023-08-31T17:00:00Z" ;
+                :title = "Marine X-band radar raw data from a fixed platform" ;
 data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
@@ -185,8 +189,12 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_raw" ;
+                :time_coverage_end = "2025-01-15T11:00:59Z" ;
+                :time_coverage_start = "2025-01-15T11:00:00Z" ;
+                :title = "Marine X-band radar raw data from R/V Ocean Research" ;
 data:
         latitude = 14.9958976192 ;
         longitude = 145.8672647679 ;

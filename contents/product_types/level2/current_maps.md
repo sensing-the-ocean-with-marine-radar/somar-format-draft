@@ -39,7 +39,11 @@ netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "currents" ;
+                :time_coverage_end = "2025-01-15T11:59:59Z" ;
+                :time_coverage_start = "2025-01-15T11:00:00Z" ;
+                :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_period_duration = 240. ;
@@ -190,7 +194,11 @@ netcdf or_2025-01-15-11_currents_profile {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "currents_profile" ;
+                :time_coverage_end = "2025-01-15T11:59:59Z" ;
+                :time_coverage_start = "2025-01-15T11:00:00Z" ;
+                :title = "Marine X-band radar near-surface current profile maps from R/V Ocean Research" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_period_duration = 240. ;

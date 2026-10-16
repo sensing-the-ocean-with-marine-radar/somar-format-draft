@@ -74,6 +74,11 @@ def product_types():
     return set(re.findall(r"`([a-z0-9_]+)`", row.split("|")[2]))
 
 
+def mandatory_attributes():
+    text = read(os.path.join(ROOT, "contents/metadata_attributes/mandatory_global.md"))
+    return [re.match(r"\| `(\w+)`", line).group(1) for line in text.splitlines() if line.startswith("| `")]
+
+
 def canonical_groups():
     groups = {}
     for path in glob.glob(os.path.join(ROOT, "contents/metadata_attributes/*.md")):
@@ -208,6 +213,9 @@ def check_header(groups, is_file, names, units_module, expected):
                     errors.append(f"{where}: {attribute} and flag_meanings differ in length")
     if is_file:
         root = groups["/"]["attributes"]
+        missing = [a for a in expected["mandatory_attributes"] if a not in root]
+        if missing:
+            errors.append(f"missing mandatory global attributes: {', '.join(missing)}")
         conventions = unquote(root.get("Conventions", ""))
         if conventions != expected["conventions"]:
             errors.append(f'Conventions is "{conventions}", expected "{expected["conventions"]}"')
@@ -240,6 +248,7 @@ def main():
     expected = {
         "conventions": f"CF-1.13, ACDD-1.3, SOMaR-{config_value('somar_version')}" + ("-draft" if config_value("somar_status") == "draft" else ""),
         "product_types": product_types(),
+        "mandatory_attributes": mandatory_attributes(),
     }
 
     failures = checked = 0

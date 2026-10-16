@@ -72,7 +72,11 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
                 :product_type = "radar_cartesian" ;
+                :time_coverage_end = "2025-01-15T11:00:59Z" ;
+                :time_coverage_start = "2025-01-15T11:00:00Z" ;
+                :title = "Marine X-band radar Cartesian images from R/V Ocean Research" ;
 }
 ```
 
