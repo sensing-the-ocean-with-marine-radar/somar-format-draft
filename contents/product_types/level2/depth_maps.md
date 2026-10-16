@@ -2,6 +2,7 @@
 title: Bathymetric maps (L2a)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 4
 ---
 
@@ -24,7 +25,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `sea_floor_depth_below_sea_surface`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m` | Water depth, from the sea surface to the sea floor. |
 | `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Mean wavenumber of the wave signal used in the fit. |
 | `sea_floor_depth_below_sea_surface_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m` | Standard error of the water depth. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int64 `(latitude, longitude)`; dimensionless | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
+| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; dimensionless | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
@@ -76,11 +77,11 @@ group: time_20250115120031 {
                 sea_floor_depth_below_sea_surface_standard_error:units = "m" ;
                 sea_floor_depth_below_sea_surface_standard_error:grid_mapping = "crs" ;
                 sea_floor_depth_below_sea_surface_standard_error:_FillValue = NaN ;
-        int64 number_of_wave_coordinates(latitude, longitude) ;
+        int number_of_wave_coordinates(latitude, longitude) ;
                 number_of_wave_coordinates:long_name = "number of wave coordinates used by the bathymetry measurement" ;
                 number_of_wave_coordinates:units = "1" ;
                 number_of_wave_coordinates:grid_mapping = "crs" ;
-                number_of_wave_coordinates:_FillValue = -1L ;
+                number_of_wave_coordinates:_FillValue = -1 ;
         ubyte measurement_quality(latitude, longitude) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold bathymetry_fit_boundaries_reached number_of_spatial_neighbors_below_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold measurement_outside_area_of_validity" ;

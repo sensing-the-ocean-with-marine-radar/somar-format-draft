@@ -120,6 +120,7 @@ group: radar_parameters {
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         string polarization_mode ;
+                polarization_mode:long_name = "antenna polarization mode" ;
         float pulse_width ;
                 pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;

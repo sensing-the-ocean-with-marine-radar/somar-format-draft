@@ -2,6 +2,7 @@
 title: Sea ice drift maps (L2a)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 5
 ---
 
@@ -65,40 +66,41 @@ group: time_20250823120031 {
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
         double eastward_sea_ice_velocity(latitude, longitude) ;
-                eastward_sea_ice_velocity:long_name = "eastward component of the sea ice velocity from forward cross correlation" ;
+                eastward_sea_ice_velocity:long_name = "eastward component of the sea ice velocity from forward cross-correlation" ;
                 eastward_sea_ice_velocity:standard_name = "eastward_sea_ice_velocity" ;
                 eastward_sea_ice_velocity:units = "m s-1" ;
                 eastward_sea_ice_velocity:grid_mapping = "crs" ;
                 eastward_sea_ice_velocity:_FillValue = NaN ;
         double northward_sea_ice_velocity(latitude, longitude) ;
-                northward_sea_ice_velocity:long_name = "northward component of the sea ice velocity from forward cross correlation" ;
+                northward_sea_ice_velocity:long_name = "northward component of the sea ice velocity from forward cross-correlation" ;
                 northward_sea_ice_velocity:standard_name = "northward_sea_ice_velocity" ;
                 northward_sea_ice_velocity:units = "m s-1" ;
                 northward_sea_ice_velocity:grid_mapping = "crs" ;
                 northward_sea_ice_velocity:_FillValue = NaN ;
         double correlation_coefficient(latitude, longitude) ;
-                correlation_coefficient:long_name = "maximum Pearson coefficient from forward cross correlation" ;
+                correlation_coefficient:long_name = "maximum Pearson coefficient from forward cross-correlation" ;
                 correlation_coefficient:units = "1" ;
                 correlation_coefficient:grid_mapping = "crs" ;
                 correlation_coefficient:_FillValue = NaN ;
         double eastward_sea_ice_velocity_alternative(latitude, longitude) ;
-                eastward_sea_ice_velocity_alternative:long_name = "eastward component of the sea ice velocity from backward cross correlation" ;
+                eastward_sea_ice_velocity_alternative:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
                 eastward_sea_ice_velocity_alternative:units = "m s-1" ;
                 eastward_sea_ice_velocity_alternative:grid_mapping = "crs" ;
                 eastward_sea_ice_velocity_alternative:_FillValue = NaN ;
         double northward_sea_ice_velocity_alternative(latitude, longitude) ;
-                northward_sea_ice_velocity_alternative:long_name = "northward component of the sea ice velocity from backward cross correlation" ;
+                northward_sea_ice_velocity_alternative:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
                 northward_sea_ice_velocity_alternative:units = "m s-1" ;
                 northward_sea_ice_velocity_alternative:grid_mapping = "crs" ;
                 northward_sea_ice_velocity_alternative:_FillValue = NaN ;
         double correlation_coefficient_alternative(latitude, longitude) ;
-                correlation_coefficient_alternative:long_name = "maximum Pearson coefficient from backward cross correlation" ;
+                correlation_coefficient_alternative:long_name = "maximum Pearson coefficient from backward cross-correlation" ;
                 correlation_coefficient_alternative:units = "1" ;
                 correlation_coefficient_alternative:grid_mapping = "crs" ;
                 correlation_coefficient_alternative:_FillValue = NaN ;
         ubyte measurement_quality(latitude, longitude) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-7: bad)" ;
                 measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_too_high correlation_coefficient_too_low" ;
+                measurement_quality:valid_range = 0UB, 7UB ;
                 measurement_quality:flag_masks = 1UB, 2UB, 4UB ;
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:grid_mapping = "crs" ;

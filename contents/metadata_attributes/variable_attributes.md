@@ -27,6 +27,7 @@ These attributes define the physical meaning, units, valid ranges, and coordinat
 | `flag_values`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The values a flag variable can take. |
 | `grid_mapping`<br><small>[CF][cf-grid-mapping]</small> | String; the name of a coordinate reference system variable, conventionally `crs` | Links a data variable to the variable describing the coordinate reference system of its coordinates (see [Coordinate reference system variables](#coordinate-reference-system-variables)). |
 | `long_name`<br><small>[CF][cf-long-name]</small> | String; free text | A human-readable description of the variable. |
+| `references`<br><small>[CF][cf-description]</small> | String; free text | Published or web-based references that describe the data or methods used. |
 | `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
 | `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
 | `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |

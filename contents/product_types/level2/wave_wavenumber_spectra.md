@@ -2,6 +2,7 @@
 title: Surface wave two-dimensional wavenumber spectra (L2a)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 6
 ---
 
@@ -29,7 +30,7 @@ The file holds the following variables.
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Mean latitude of the analysis windows contributing to each measurement. |
 | `sea_surface_wave_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Wave energy density as a function of the two wavenumber components. |
-| `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
 ## Calibration
@@ -95,10 +96,14 @@ variables:
                 sea_surface_wave_variance_spectral_density:units = "m4" ;
                 sea_surface_wave_variance_spectral_density:coordinates = "longitude latitude" ;
                 sea_surface_wave_variance_spectral_density:grid_mapping = "crs" ;
+                sea_surface_wave_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
+                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
                 measurement_quality:flag_meanings = "good bad" ;
                 measurement_quality:flag_values = 0UB, 1UB ;
+                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 

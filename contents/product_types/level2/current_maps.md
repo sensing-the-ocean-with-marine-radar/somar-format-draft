@@ -2,6 +2,7 @@
 title: Near-surface current maps (L2a)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 3
 ---
 
@@ -32,7 +33,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Mean wavenumber of the wave signal used in the fit, which indicates the effective sensing depth. |
 | `eastward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the eastward component. |
 | `northward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Standard error of the northward component. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int64 `(latitude, longitude)`; dimensionless | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
+| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; dimensionless | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
@@ -69,13 +70,13 @@ group: time_20250115110031 {
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
         double eastward_sea_water_velocity(latitude, longitude) ;
-                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
                 eastward_sea_water_velocity:units = "m s-1" ;
                 eastward_sea_water_velocity:grid_mapping = "crs" ;
                 eastward_sea_water_velocity:_FillValue = NaN ;
         double northward_sea_water_velocity(latitude, longitude) ;
-                northward_sea_water_velocity:long_name = "northward component of the near surface current velocity" ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:grid_mapping = "crs" ;
@@ -86,20 +87,20 @@ group: time_20250115110031 {
                 mean_wavenumber:grid_mapping = "crs" ;
                 mean_wavenumber:_FillValue = NaN ;
         double eastward_sea_water_velocity_standard_error(latitude, longitude) ;
-                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity_standard_error:units = "m s-1" ;
                 eastward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
         double northward_sea_water_velocity_standard_error(latitude, longitude) ;
-                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near surface current velocity" ;
+                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity_standard_error:units = "m s-1" ;
                 northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 northward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        int64 number_of_wave_coordinates(latitude, longitude) ;
+        int number_of_wave_coordinates(latitude, longitude) ;
                 number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
                 number_of_wave_coordinates:units = "1" ;
                 number_of_wave_coordinates:grid_mapping = "crs" ;
-                number_of_wave_coordinates:_FillValue = -1L ;
+                number_of_wave_coordinates:_FillValue = -1 ;
         ubyte measurement_quality(latitude, longitude) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
@@ -151,7 +152,7 @@ group: time_20250115110031 {
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
         double eastward_sea_water_velocity(y, x) ;
-                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
                 eastward_sea_water_velocity:units = "m s-1" ;
                 eastward_sea_water_velocity:grid_mapping = "crs" ;

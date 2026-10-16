@@ -6,7 +6,7 @@ nav_order: 3
 
 # Metadata
 
-Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR product types](../product_types/index.md)).
+Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR product types](../product_types/index.md)). All SOMaR files are written using the NetCDF-4 format (`NETCDF4`), taking advantage of its hierarchical group structure and unsigned data types while adhering to CF conventions for group scoping.
 This chapter documents that shared metadata: the [mandatory global attributes](mandatory_global.md) that every SOMaR file must carry, [optional global attributes](optional_global.md) that are recommended where applicable, the [variable attributes](variable_attributes.md) attached to individual variables, the [radar parameters](radar_parameters.md) that describe the instrument, the [georeference correction parameters](georeference_correction.md) that store known offsets of pointing direction, range, time, and antenna position, and an [example metadata header](example.md) illustrating these conventions in CDL format.
 For conventions locating SOMaR's polar data and time-bounded local grids in space, see [Georeferencing](../georeferencing/index.md); for file naming on disk, see [File naming](../file_naming/index.md).
 

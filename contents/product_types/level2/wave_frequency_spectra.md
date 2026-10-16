@@ -2,6 +2,7 @@
 title: Surface wave one-dimensional frequency spectra (L2b)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 8
 ---
 
@@ -26,7 +27,7 @@ The file holds the following variables.
 | `sea_surface_wave_variance_spectral_density`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `m2 s` | Wave energy density as a function of frequency. |
 | `sea_surface_wave_directional_spread`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Directional spread of the waves in each frequency band. |
 | `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Mean direction the waves come from in each frequency band. |
-| `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
 ## Minimal example
@@ -48,7 +49,7 @@ variables:
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double wave_frequency(wave_frequency) ;
                 wave_frequency:long_name = "wave frequency" ;
-                wave_frequency:standard_name = "wave_frequency" ;
+                wave_frequency:standard_name = "sea_surface_wave_frequency" ;
                 wave_frequency:units = "s-1" ;
         double longitude(time) ;
                 longitude:long_name = "mean longitude of wave measurement" ;
@@ -64,22 +65,28 @@ variables:
                 sea_surface_wave_variance_spectral_density:units = "m2 s" ;
                 sea_surface_wave_variance_spectral_density:coordinates = "longitude latitude" ;
                 sea_surface_wave_variance_spectral_density:grid_mapping = "crs" ;
+                sea_surface_wave_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         float sea_surface_wave_directional_spread(time, wave_frequency) ;
                 sea_surface_wave_directional_spread:long_name = "wave directional spread in each frequency band" ;
                 sea_surface_wave_directional_spread:standard_name = "sea_surface_wave_directional_spread" ;
                 sea_surface_wave_directional_spread:units = "degree" ;
                 sea_surface_wave_directional_spread:coordinates = "longitude latitude" ;
                 sea_surface_wave_directional_spread:grid_mapping = "crs" ;
+                sea_surface_wave_directional_spread:ancillary_variables = "measurement_quality" ;
         float sea_surface_wave_mean_from_direction(time, wave_frequency) ;
                 sea_surface_wave_mean_from_direction:long_name = "mean wave direction in each frequency band" ;
                 sea_surface_wave_mean_from_direction:standard_name = "sea_surface_wave_mean_from_direction" ;
                 sea_surface_wave_mean_from_direction:units = "degree" ;
                 sea_surface_wave_mean_from_direction:coordinates = "longitude latitude" ;
                 sea_surface_wave_mean_from_direction:grid_mapping = "crs" ;
+                sea_surface_wave_mean_from_direction:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
+                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
                 measurement_quality:flag_meanings = "good bad" ;
                 measurement_quality:flag_values = 0UB, 1UB ;
+                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 

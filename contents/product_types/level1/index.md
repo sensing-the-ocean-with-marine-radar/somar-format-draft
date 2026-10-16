@@ -2,7 +2,8 @@
 title: Level 1 products
 layout: default
 parent: SOMaR product types
-#nav_order: 2
+nav_order: 1
+has_children: true
 ---
 
 # Level 1 products

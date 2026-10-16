@@ -2,6 +2,7 @@
 title: Polar image sequences (L1b)
 layout: default
 parent: Level 1 products
+grand_parent: SOMaR product types
 nav_order: 2
 ---
 
@@ -44,6 +45,10 @@ For a moving platform, the position and heading of the platform are stored in th
 
 As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/georeference_correction.md) gives the known offsets of azimuth, range, time, and antenna position.
 
+## Radar parameters
+
+Like Level 1a, constant technical parameters of the radar antenna, pulse, and scan can be stored in an optional root-level group named [`radar_parameters`](../../metadata_attributes/radar_parameters.md). When pulse or scan parameters (such as `prt` or `scan_rate`) vary over time, they are stored in the root group instead, with dimension `time` (varying per revolution) or `(time, azimuth)` (varying per pulse).
+
 ## Minimal example
 
 A radar on a fixed platform.
@@ -53,7 +58,7 @@ netcdf or_2023-08-31-17-00_radar_polar_regularized {
 dimensions:
         time = 41 ;
         azimuth = 1440 ;
-        range = 435 ;
+        range = 1000 ;
 variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
@@ -102,9 +107,28 @@ data:
 }
 ```
 
-For a moving platform with position and heading per sweep, `latitude` and `longitude` have the dimension `time`, and `heading` is added (`altitude` remains scalar in the root group):
+## Example for a moving platform
+
+A radar on a ship, with position and heading recorded per sweep, along with the optional `radar_parameters` and `georeference_correction` groups.
 
 ```
+netcdf or_2025-01-15-11-00_radar_polar_regularized {
+dimensions:
+        time = 41 ;
+        azimuth = 1440 ;
+        range = 1000 ;
+variables:
+        double altitude ;
+                altitude:units = "m" ;
+                altitude:standard_name = "altitude" ;
+                altitude:long_name = "height of radar antenna above mean sea level" ;
+        string platform_type ;
+                platform_type:long_name = "platform type" ;
+        double time(time) ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:calendar = "standard" ;
+                time:standard_name = "time" ;
+                time:long_name = "start time of radar measurement" ;
         double latitude(time) ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
@@ -117,6 +141,94 @@ For a moving platform with position and heading per sweep, `latitude` and `longi
                 heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the revolution" ;
+        float azimuth(azimuth) ;
+                azimuth:units = "degree" ;
+                azimuth:long_name = "radar antenna pointing direction on regular grid" ;
+                azimuth:rays_angle_resolution = 0.25f ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
+        float range(range) ;
+                range:units = "m" ;
+                range:long_name = "range_to_measurement_volume" ;
+                range:spacing_is_constant = "true" ;
+                range:meters_to_center_of_first_gate = 3.75f ;
+                range:meters_between_gates = 7.5f ;
+        float pulse_time(azimuth) ;
+                pulse_time:units = "s" ;
+                pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
+        float polar_amp(time, azimuth, range) ;
+                polar_amp:long_name = "radar_backscatter_amplitude" ;
+                polar_amp:units = "1" ;
+                polar_amp:azimuth_regularization = "nearest_neighbor" ;
+                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "radar_polar_regularized" ;
+data:
+        altitude = 18.5 ;
+        platform_type = "ship" ;
+
+group: radar_parameters {
+  variables:
+        float beam_width_h ;
+                beam_width_h:units = "degree" ;
+                beam_width_h:long_name = "horizontal antenna beam width" ;
+        float beam_width_v ;
+                beam_width_v:units = "degree" ;
+                beam_width_v:long_name = "vertical antenna beam width" ;
+        float frequency ;
+                frequency:units = "s-1" ;
+                frequency:long_name = "operating frequency of the radar" ;
+        string polarization_mode ;
+                polarization_mode:long_name = "antenna polarization mode" ;
+        float pulse_width ;
+                pulse_width:units = "s" ;
+                pulse_width:long_name = "length of the transmitted pulse" ;
+        float prt ;
+                prt:units = "s" ;
+                prt:long_name = "pulse repetition time" ;
+        float scan_rate ;
+                scan_rate:units = "degree s-1" ;
+                scan_rate:long_name = "antenna rotation rate" ;
+        int n_samples ;
+                n_samples:long_name = "number of samples contributing to each stored pulse" ;
+  data:
+        beam_width_h = 0.95 ;
+        beam_width_v = 20. ;
+        frequency = 9.41e+09 ;
+        polarization_mode = "vertical" ;
+        pulse_width = 5.e-08 ;
+        prt = 3.33e-04 ;
+        scan_rate = 240. ;
+        n_samples = 1 ;
+  } // group radar_parameters
+
+group: georeference_correction {
+  variables:
+        float azimuth_correction ;
+                azimuth_correction:units = "degree" ;
+                azimuth_correction:long_name = "correction to azimuth values" ;
+        float range_correction ;
+                range_correction:units = "m" ;
+                range_correction:long_name = "correction to range values" ;
+        double time_correction ;
+                time_correction:units = "s" ;
+                time_correction:long_name = "correction to time values" ;
+        float position_offset_x ;
+                position_offset_x:units = "m" ;
+                position_offset_x:long_name = "position of radar antenna relative to GPS antenna, positive to starboard" ;
+        float position_offset_y ;
+                position_offset_y:units = "m" ;
+                position_offset_y:long_name = "position of radar antenna relative to GPS antenna, positive toward the bow" ;
+  data:
+        azimuth_correction = -1.3 ;
+        range_correction = -22.5 ;
+        time_correction = 0.35 ;
+        position_offset_x = 2.4 ;
+        position_offset_y = -11.8 ;
+  } // group georeference_correction
+}
 ```
 
 If the position and heading are given per pulse instead, the variables have the dimensions `(time, azimuth)`:

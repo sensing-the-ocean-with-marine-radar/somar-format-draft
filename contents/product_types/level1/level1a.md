@@ -2,6 +2,7 @@
 title: Radar "raw" data (L1a)
 layout: default
 parent: Level 1 products
+grand_parent: SOMaR product types
 nav_order: 1
 ---
 
@@ -44,7 +45,8 @@ The global attribute `platform_is_mobile` states whether the platform moves (see
 
 ## Sweep groups
 
-The primary dimension of a sweep is `time`, with one entry per radar pulse; the secondary dimension is `range`.
+The primary dimension of a sweep is `time`, with one entry per radar pulse; in NetCDF and FM 301, its dimension length is the number of pulses in that sweep (e.g. 4500 for a 1.5 s sweep at 3000 Hz PRF), while the timestamps of the individual pulses are stored in the coordinate variable `time(time)`.
+The secondary dimension is `range`.
 A sweep group holds the following variables.
 
 | Variable | Values | Description |
@@ -140,6 +142,7 @@ variables:
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
         string platform_type ;
+                platform_type:long_name = "platform type" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -152,8 +155,8 @@ data:
 
 group: sweep_0 {
   dimensions:
-        time = 986 ;
-        range = 435 ;
+        time = 4500 ; // number of pulses in the sweep
+        range = 1000 ; // number of range gates
   variables:
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
@@ -177,7 +180,7 @@ group: sweep_0 {
                 polar_amp:long_name = "radar_backscatter_amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:coordinates = "azimuth range" ;
-                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
+                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
   } // group sweep_0
 
 // ... additional sweep_<n> groups follow the same layout, one per antenna revolution ...
@@ -204,6 +207,7 @@ variables:
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
         string platform_type ;
+                platform_type:long_name = "platform type" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -217,8 +221,8 @@ data:
 
 group: sweep_0 {
   dimensions:
-        time = 986 ;
-        range = 435 ;
+        time = 4500 ; // number of pulses in the sweep
+        range = 1000 ; // number of range gates
   variables:
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
@@ -236,6 +240,7 @@ group: sweep_0 {
                 azimuth:long_name = "radar antenna pointing direction" ;
                 azimuth:comment = "clockwise positive, relative to the bow of the ship, not North-oriented" ;
         string sweep_mode ;
+                sweep_mode:long_name = "sweep scan mode" ;
         ushort polar_amp(time, range) ;
                 polar_amp:scale_factor = 0.176738930567883 ;
                 polar_amp:add_offset = 0. ;
@@ -243,7 +248,7 @@ group: sweep_0 {
                 polar_amp:long_name = "radar_backscatter_amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:coordinates = "azimuth range" ;
-                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
+                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
   data:
         sweep_mode = "azimuth_surveillance" ;
 
@@ -278,6 +283,7 @@ group: radar_parameters {
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
         string polarization_mode ;
+                polarization_mode:long_name = "antenna polarization mode" ;
         float pulse_width ;
                 pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;

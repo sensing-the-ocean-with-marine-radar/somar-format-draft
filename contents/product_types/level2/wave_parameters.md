@@ -2,6 +2,7 @@
 title: Peak and mean wave parameters (L2b)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 9
 ---
 
@@ -27,10 +28,10 @@ The file holds the following variables.
 | `sea_surface_wave_significant_height`<br><small>[CF][cf-names]</small> | double `(time)`; `m` | Significant wave height. |
 | `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Peak wave direction: the direction the waves come from at the spectral maximum. |
 | `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Peak wave period: the period at the spectral maximum. |
-| `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Mean wave period. |
+| `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Mean wave period (e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute). |
 | `wave_signal`<br><small>SOMaR</small> | double `(time)`; dimensionless | Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
 | `background_noise`<br><small>SOMaR</small> | double `(time)`; dimensionless | Spectral density of the background noise in the radar images, used to derive the significant wave height. |
-| `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
 ## Minimal example
@@ -58,55 +59,67 @@ variables:
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
         double eastward_sea_water_velocity(time) ;
-                eastward_sea_water_velocity:long_name = "eastward component of the near surface current velocity" ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
                 eastward_sea_water_velocity:units = "m s-1" ;
                 eastward_sea_water_velocity:coordinates = "longitude latitude" ;
                 eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
         double northward_sea_water_velocity(time) ;
-                northward_sea_water_velocity:long_name = "northward component of the near surface current velocity" ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:coordinates = "longitude latitude" ;
                 northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_significant_height(time) ;
                 sea_surface_wave_significant_height:long_name = "significant wave height" ;
                 sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
                 sea_surface_wave_significant_height:units = "m" ;
                 sea_surface_wave_significant_height:coordinates = "longitude latitude" ;
                 sea_surface_wave_significant_height:grid_mapping = "crs" ;
+                sea_surface_wave_significant_height:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_from_direction_at_variance_spectral_density_maximum(time) ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:long_name = "peak wave direction" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_from_direction_at_variance_spectral_density_maximum" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:units = "degree" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:coordinates = "longitude latitude" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_period_at_variance_spectral_density_maximum(time) ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:long_name = "peak wave period" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_period_at_variance_spectral_density_maximum" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:units = "s" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:coordinates = "longitude latitude" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_mean_period(time) ;
                 sea_surface_wave_mean_period:long_name = "mean wave period" ;
                 sea_surface_wave_mean_period:standard_name = "sea_surface_wave_mean_period" ;
                 sea_surface_wave_mean_period:units = "s" ;
+                sea_surface_wave_mean_period:comment = "energy-weighted mean wave period Tm01 calculated from zeroth and first spectral moments" ;
                 sea_surface_wave_mean_period:coordinates = "longitude latitude" ;
                 sea_surface_wave_mean_period:grid_mapping = "crs" ;
+                sea_surface_wave_mean_period:ancillary_variables = "measurement_quality" ;
         double wave_signal(time) ;
                 wave_signal:long_name = "radar image spectral density of the wave signal" ;
                 wave_signal:units = "1" ;
                 wave_signal:coordinates = "longitude latitude" ;
                 wave_signal:grid_mapping = "crs" ;
+                wave_signal:ancillary_variables = "measurement_quality" ;
         double background_noise(time) ;
                 background_noise:long_name = "radar image spectral density of the background noise" ;
                 background_noise:units = "1" ;
                 background_noise:coordinates = "longitude latitude" ;
                 background_noise:grid_mapping = "crs" ;
+                background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
+                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
                 measurement_quality:flag_meanings = "good bad" ;
                 measurement_quality:flag_values = 0UB, 1UB ;
+                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 

@@ -2,6 +2,7 @@
 title: Surface wave two-dimensional frequency spectra (L2b)
 layout: default
 parent: Level 2 products
+grand_parent: SOMaR product types
 nav_order: 7
 ---
 
@@ -27,7 +28,7 @@ The file holds the following variables.
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Mean latitude of the analysis windows contributing to each measurement. |
 | `sea_surface_wave_directional_variance_spectral_density`<br><small>[CF][cf-names]</small> | double `(time, wave_frequency, sea_surface_wave_from_direction)`; `m2 s degree-1` | Wave energy density as a function of frequency and direction. |
-| `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
 ## Minimal example
@@ -53,7 +54,7 @@ variables:
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double wave_frequency(wave_frequency) ;
                 wave_frequency:long_name = "wave frequency" ;
-                wave_frequency:standard_name = "wave_frequency" ;
+                wave_frequency:standard_name = "sea_surface_wave_frequency" ;
                 wave_frequency:units = "s-1" ;
         double sea_surface_wave_from_direction(sea_surface_wave_from_direction) ;
                 sea_surface_wave_from_direction:long_name = "direction from which the waves are propagating" ;
@@ -73,10 +74,14 @@ variables:
                 sea_surface_wave_directional_variance_spectral_density:units = "m2 s degree-1" ;
                 sea_surface_wave_directional_variance_spectral_density:coordinates = "longitude latitude" ;
                 sea_surface_wave_directional_variance_spectral_density:grid_mapping = "crs" ;
+                sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
+                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
                 measurement_quality:flag_meanings = "good bad" ;
                 measurement_quality:flag_values = 0UB, 1UB ;
+                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 
