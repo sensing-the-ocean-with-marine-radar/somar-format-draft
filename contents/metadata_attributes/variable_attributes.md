@@ -31,7 +31,7 @@ These attributes define the physical meaning, units, valid ranges, and coordinat
 | `scale_factor`<br><small>[CF][cf-packed]</small> | Number | Factor by which stored values are multiplied to unpack them. |
 | `standard_name`<br><small>[CF][cf-standard-name]</small> | String; a name from the CF standard name table | Identifies the physical quantity. Given wherever a suitable CF standard name exists. |
 | `time_iso_8601`<br><small>SOMaR</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | Optional, on the scalar `time` variable of a time-bounded grid: the same instant as the variable's value in human-readable form. |
-| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS | The unit of the stored values. Variables use SI symbols (`m`, `degree`, `s`) in accordance with CF conventions and UDUNITS. Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). |
+| `units`<br><small>[CF][cf-units]</small> | String; a unit recognized by UDUNITS, or `dB` for uncalibrated logarithmic backscatter | The unit of the stored values. Variables use SI symbols (`m`, `degree`, `s`) in accordance with CF conventions and UDUNITS. Time variables use `"seconds since 1970-01-01T00:00:00Z"` (UNIX time). Uncalibrated radar backscatter uses `"1"` (linear) or `"dB"` (logarithmic). `dB` is not a UDUNITS unit, so generic CF checkers may flag it; SOMaR accepts it for consistency with FM 301. |
 | `valid_range`<br><small>[CF][cf-missing]</small> | Two numbers of the variable's type: minimum, maximum | The smallest and largest valid values. |
 {: .attribute-table }
 
