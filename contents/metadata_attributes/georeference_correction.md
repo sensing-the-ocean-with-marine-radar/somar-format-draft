@@ -14,7 +14,7 @@ This group is only present in [Level 1a](../product_types/level1/level1a.md) and
 
 | Variable | Values | Description |
 |---|---|---|
-| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degree` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship, including any constant bias of the heading sensor. |
+| `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degree` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship. A constant bias of the heading sensor is included here; the separate `heading_correction` of CfRadial 2.1 is not used. |
 | `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
 | `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
 | `position_offset_x`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard (see [Position offset](../georeferencing/index.md#position-offset)). |

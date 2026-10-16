@@ -41,12 +41,16 @@ These attributes are carried by coordinate reference system variables (conventio
 
 | Attribute | Values | Description |
 |---|---|---|
-| `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for point data, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)). |
+| `geographic_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; `"WGS 84"` | Azimuthal equidistant only: the name of the geographic coordinate reference system. Required by CF together with `horizontal_datum_name`, `prime_meridian_name`, and `reference_ellipsoid_name` because `projected_crs_name` is given. |
+| `grid_mapping_name`<br><small>[CF][cf-appendix-f]</small> | String; a grid mapping name from CF Appendix F. SOMaR uses **`latitude_longitude`** and **`azimuthal_equidistant`** | The type of coordinate reference system: geographic coordinates for longitude/latitude grids and series, an azimuthal equidistant projection for the local Cartesian grids (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)). |
+| `horizontal_datum_name`<br><small>[CF][cf-appendix-f]</small> | String; `"World Geodetic System 1984"` | Azimuthal equidistant only: the name of the geodetic datum. |
 | `inverse_flattening`<br><small>[CF][cf-appendix-f]</small> | Number | The inverse flattening of the reference ellipsoid. |
 | `latitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees north | Azimuthal equidistant only: the latitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
 | `longitude_of_prime_meridian`<br><small>[CF][cf-appendix-f]</small> | Number; degrees east | The longitude of the prime meridian of the geographic coordinate system. |
 | `longitude_of_projection_origin`<br><small>[CF][cf-azimuthal-equidistant]</small> | Number; degrees east | Azimuthal equidistant only: the longitude of the origin of the local grid, i.e. of the radar at the start of the measurement. |
+| `prime_meridian_name`<br><small>[CF][cf-appendix-f]</small> | String; `"Greenwich"` | Azimuthal equidistant only: the name of the prime meridian. |
 | `projected_crs_name`<br><small>[CF][cf-appendix-f]</small> | String; free text | The name of the projected coordinate reference system. |
+| `reference_ellipsoid_name`<br><small>[CF][cf-appendix-f]</small> | String; `"WGS 84"` | Azimuthal equidistant only: the name of the reference ellipsoid. |
 | `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; m | The semi-major axis of the reference ellipsoid. |
 {: .attribute-table }
 

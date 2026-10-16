@@ -135,6 +135,10 @@ group: time_20250115110031 {
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
                 crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
         double x(x) ;
                 x:long_name = "eastward distance from radar position at measurement start time" ;
                 x:standard_name = "projection_x_coordinate" ;
@@ -206,7 +210,6 @@ group: time_20250115110031 {
         double lower_wavenumber_bin_edge(wavenumber_bin) ;
                 lower_wavenumber_bin_edge:long_name = "lower edge of the wavenumber bin used by the current measurement" ;
                 lower_wavenumber_bin_edge:units = "m-1" ;
-                lower_wavenumber_bin_edge:grid_mapping = "crs" ;
   } // group time_20250115110031
 
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...

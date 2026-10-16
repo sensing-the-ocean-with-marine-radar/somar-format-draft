@@ -9,9 +9,9 @@ nav_order: 4
 
 SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](optional_global.md).
 The technical parameters of the radar are stored as variables.
-SOMaR does not define these itself but takes them from the WMO-CF Radial profile [FM 301][fm301], which already specifies them for radars in general (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)).
+SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
 
-Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table or section that defines each of them; all of them are optional.
+Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table that defines each of them; all of them are optional. Only the beam widths are part of the FM 301 `radar_parameters` group (Table 301-12). FM 301 stores the pulse and scan parameters per ray in each sweep group (Table 301-8) and `frequency` as a sweep coordinate (Table 301-6); collecting them as constants in `radar_parameters` is a SOMaR choice, since they rarely change for a marine radar.
 
 | Variable | Values | Description |
 |---|---|---|

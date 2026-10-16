@@ -54,7 +54,7 @@ variables:
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double wave_frequency(wave_frequency) ;
                 wave_frequency:long_name = "wave frequency" ;
-                wave_frequency:standard_name = "sea_surface_wave_frequency" ;
+                wave_frequency:standard_name = "wave_frequency" ;
                 wave_frequency:units = "s-1" ;
         double sea_surface_wave_from_direction(sea_surface_wave_from_direction) ;
                 sea_surface_wave_from_direction:long_name = "direction from which the waves are propagating" ;

@@ -17,9 +17,16 @@ The data are therefore still "raw", but no longer tied to the often proprietary 
 Radar data in polar coordinates already have an international standard, the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes, which was developed for weather radars from the earlier [CfRadial format][cfradial].
 Rather than define its own structure and vocabulary, SOMaR Level 1a draws on these documents in the following order:
 
-1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, units, and attributes of the variables. Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
+1. **FM 301** is followed wherever it defines what a marine radar needs: the organization of a file in sweeps, and the names, types, and attributes of the variables. Note that FM 301 refers to radar data in polar coordinates as "Level 2" data; in SOMaR they are Level 1a.
 2. **CfRadial 2.1** (draft of 2019) is followed for the parameters of moving platforms and for corrections to the recorded azimuth and range. FM 301 does not support moving platforms and omits these parts of CfRadial.
 3. **SOMaR** defines what neither document covers.
+
+SOMaR departs from FM 301 in the following points:
+
+- Units are written as UDUNITS symbols (`m`, `degree`, `s`) rather than `metres`, `degrees`, and `seconds`.
+- `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)).
+- `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
+- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `fixed_angle`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and the `time_coverage_start` and `time_coverage_end` variables in the root group (Table 301-4), whose role is taken by the ACDD global attributes of the same names. The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
 
 ## File structure
 

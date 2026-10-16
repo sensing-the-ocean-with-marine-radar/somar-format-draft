@@ -73,6 +73,10 @@ variables:
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
                 crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
