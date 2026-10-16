@@ -27,16 +27,16 @@ Known offsets of the recorded pointing direction, range, time, and platform posi
 Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
 
 - **Azimuth**: The azimuth of a pulse relative to true north, clockwise positive, is `azimuth + azimuth_correction + heading`.
-- **Range**: The corrected slant range is $R_s =$ `range + range_correction`. The ground range $R_g$ follows from the corrected slant range and the antenna height $h$ (`altitude`) above mean sea level as $R_g = \sqrt{R_s^2 - h^2}$ for $R_s \ge h$. Range gates where $R_s < h$ fall inside the platform near-field or nadir blind zone, do not intersect the sea surface, and are left unmapped or set to the `_FillValue` when projecting to horizontal coordinates.
+- **Range**: The corrected slant range $R_s$ is `range + range_correction`. The ground range $R_g$ follows from the corrected slant range and the antenna height $h$ (`altitude`) above mean sea level as $R_g = \sqrt{R_s^2 - h^2}$ for $R_s \ge h$. Range gates where $R_s < h$ fall inside the platform near-field or nadir blind zone, do not intersect the sea surface, and are left unmapped or set to the `_FillValue` when projecting to horizontal coordinates.
 - **Time**: The corrected time is `time + time_correction`.
-- **Platform position**:<a id="position-offset"></a> Where the position of a moving platform has been taken from a GPS antenna at a different location on the platform, `position_offset_x` and `position_offset_y` give the position of the radar antenna relative to the GPS antenna in a ship frame (x-axis positive to starboard, y-axis positive toward the bow). With the heading `H` (in degrees clockwise from true north, converted to radians for trigonometric evaluation), the radar antenna is located
+- **Platform position**:<a id="position-offset"></a> Where the position of a moving platform has been taken from a GPS antenna at a different location on the platform, `position_offset_x` and `position_offset_y` give the position of the radar antenna relative to the GPS antenna in a ship frame (x-axis positive to starboard, y-axis positive toward the bow). With heading $H$ (in degrees clockwise from true north, converted to radians for trigonometric evaluation), the radar antenna's displacement in meters east and north of the recorded position is:
 
-  ```
-  east  =  position_offset_x * cos(H) + position_offset_y * sin(H)
-  north = -position_offset_x * sin(H) + position_offset_y * cos(H)
-  ```
+    ```
+    east  =  position_offset_x * cos(H) + position_offset_y * sin(H)
+    north = -position_offset_x * sin(H) + position_offset_y * cos(H)
+    ```
 
-  meters east and north of the recorded position; the conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid. The offsets are horizontal distances for a level ship (roll and pitch are neglected); for a fixed platform, position offsets are not used. They replace the `latitude_correction` and `longitude_correction` of CfRadial 2.1, which are constant in degrees and therefore valid for a single heading only.
+    The conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid. The offsets are horizontal distances for a level ship (roll and pitch are neglected); for a fixed platform, position offsets are not used. They replace the `latitude_correction` and `longitude_correction` of CfRadial 2.1, which are constant in degrees and therefore valid for a single heading only.
 
 In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level1b_cartesian.md) and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
 
