@@ -28,6 +28,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software used to produce the file, to support reproducibility. |
 | `source`<br><small>[CF][cf-description]</small> | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. |
+| `station_id`<br><small>SOMaR</small> | String; short, lowercase identifier | The identifier of the platform used as the prefix of the [file name](../file_naming/index.md), e.g. `or`. |
 | `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. |
 | `time_coverage_end`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the latest observation contributing to the data in the file. For products organized in time-bounded groups of fixed window length, this is the end of the last window. |
 | `time_coverage_start`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the first observation contributing to the data in the file. |
@@ -59,6 +60,7 @@ The global attributes of a [near-surface current map](../product_types/level2/cu
                 :processing_level = "L2a" ;
                 :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ;
                 :source = "Shipboard marine X-band radar" ;
+                :station_id = "or" ;
                 :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
                 :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ;
