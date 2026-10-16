@@ -8,7 +8,7 @@ nav_order: 7
 
 # L2b: Surface wave frequency-direction spectra
 
-Frequency-direction spectra (`wave_frequency_direction_spectra`, short `wav_fdir`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
+Frequency-direction spectra (`wave_frequency_direction_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).

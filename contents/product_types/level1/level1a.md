@@ -8,7 +8,7 @@ nav_order: 1
 
 # L1a: "raw" radar data
 
-Level 1a polar radar "raw" data (`radar_polar_raw`, short `pol_raw`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
+Level 1a polar radar "raw" data (`radar_polar_raw`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
 Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
 The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
 

@@ -8,7 +8,7 @@ nav_order: 2
 
 # L2a: Roughness image mosaics
 
-Roughness image mosaics (`sea_surface_roughness_mosaic`, short `rough_mosaic`) provide temporally averaged sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter intensity images acquired while the platform moves along its trajectory.
+Roughness image mosaics (`sea_surface_roughness_mosaic`) provide temporally averaged sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter intensity images acquired while the platform moves along its trajectory.
 In contrast to [roughness images](roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over only a few tens of seconds (typically about 19 consecutive images, corresponding to 30 s), but the start of that averaging window differs from pixel to pixel.
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
 The mosaic therefore extends along the platform track beyond the footprint of a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.

@@ -8,7 +8,7 @@ nav_order: 8
 
 # L2b: Surface wave one-dimensional frequency spectra
 
-One-dimensional frequency spectra (`wave_frequency_spectra`, short `wav_f1d`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
+One-dimensional frequency spectra (`wave_frequency_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).

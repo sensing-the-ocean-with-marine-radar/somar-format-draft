@@ -8,7 +8,7 @@ nav_order: 6
 
 # L2a: Surface wave two-dimensional wavenumber spectra
 
-Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`, short `wav_k2d`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
+Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 They are retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](current_maps.md).
 By SOMaR convention, consistent with the from-direction used by the frequency-direction spectra, the wavenumber vectors point toward the direction from which the waves come, i.e. opposite to the direction of propagation.
 Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.

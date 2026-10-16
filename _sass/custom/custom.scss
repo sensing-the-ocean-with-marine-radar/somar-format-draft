@@ -57,7 +57,7 @@ table.product-table {
     min-width: 0;
   }
 
-  // Level | Product | Canonical product_type | Short abbreviation
+  // Level | Product | product_type
   th:nth-child(1),
   td:nth-child(1) {
     width: 10%;
@@ -65,15 +65,11 @@ table.product-table {
   }
 
   th:nth-child(2) {
-    width: 36%;
+    width: 50%;
   }
 
   th:nth-child(3) {
-    width: 36%;
-  }
-
-  th:nth-child(4) {
-    width: 18%;
+    width: 40%;
   }
 
   td code {
