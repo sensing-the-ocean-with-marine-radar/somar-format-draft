@@ -35,7 +35,8 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
-In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attributes.
+In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#map-products), the file carries the following global attributes.
+Since each drift vector is obtained from just two averaged images, which these attributes describe, the map attribute `number_of_images` is omitted.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -50,6 +51,9 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "sea_ice_drift" ;
+                :analysis_window_size = 720. ;
+                :analysis_window_spacing = 500. ;
+                :measurement_period_duration = 120. ;
                 :time_lag = 90. ;
                 :averaging_duration = 30. ;
 

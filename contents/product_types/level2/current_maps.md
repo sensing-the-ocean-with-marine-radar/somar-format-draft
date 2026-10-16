@@ -40,6 +40,10 @@ netcdf or_2025-01-15-11_currents {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "currents" ;
+                :analysis_window_size = 1245. ;
+                :analysis_window_spacing = 500. ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: time_20250115110031 {
   dimensions:
@@ -187,6 +191,10 @@ netcdf or_2025-01-15-11_currents_profile {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "currents_profile" ;
+                :analysis_window_size = 1245. ;
+                :analysis_window_spacing = 500. ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: time_20250115110031 {
   dimensions:

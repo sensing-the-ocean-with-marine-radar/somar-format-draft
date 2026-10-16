@@ -35,5 +35,12 @@ The coordinate variables `latitude` and `longitude` give the centers of the anal
 A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](current_maps.md#local-grid-form).
 The radar position for the period may optionally be stored in the scalar variables [`radar_longitude` and `radar_latitude`](../../georeferencing/index.md#radar-position).
 
-{: .open_issue }
-The processing parameters needed to interpret a map are not yet stored: the size and spacing of the analysis windows, the duration of the measurement period, and the number of images used.
+The processing parameters needed to interpret a map are recorded in the following global attributes, in addition to the [shared global attributes](../../metadata_attributes/index.md).
+
+| Attribute | Values | Description |
+|---|---|---|
+| `analysis_window_size`<br><small>SOMaR</small> | Number; `m` | The diameter of the circular analysis windows. |
+| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
+| `measurement_period_duration`<br><small>SOMaR</small> | Number; `s` | The duration of the radar image sequence used for each map. |
+| `number_of_images`<br><small>SOMaR</small> | Integer | The number of radar images used for each map. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
+{: .attribute-table }
