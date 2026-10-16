@@ -47,6 +47,7 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
         double time(time) ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of wave measurement" ;

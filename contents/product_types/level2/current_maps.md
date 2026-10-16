@@ -63,6 +63,7 @@ group: time_20250115110031 {
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of current measurement" ;
@@ -143,11 +144,7 @@ group: time_20250115110031 {
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
-                crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
-                crs:geographic_crs_name = "WGS 84" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
-                crs:reference_ellipsoid_name = "WGS 84" ;
-                crs:prime_meridian_name = "Greenwich" ;
         double x(x) ;
                 x:long_name = "eastward distance from radar position at measurement start time" ;
                 x:standard_name = "projection_x_coordinate" ;
@@ -224,6 +221,7 @@ group: time_20250115110031 {
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of current measurement" ;

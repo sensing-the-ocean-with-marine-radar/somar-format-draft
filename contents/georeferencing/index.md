@@ -53,7 +53,7 @@ SOMaR uses two coordinate reference systems:
 ### Geographic coordinates
 
 Used by wave products and standard Level 2 maps ([near-surface current maps](../product_types/level2/current_maps.md), [bathymetric maps](../product_types/level2/depth_maps.md), and [sea ice drift maps](../product_types/level2/sea_ice_drift.md)) on an Earth-fixed longitude/latitude grid.
-The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` and describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`):
+The `crs` variable specifies `grid_mapping_name = "latitude_longitude"`, describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the geodetic datum (`horizontal_datum_name`):
 
 ```
 variables:
@@ -62,6 +62,7 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
 data:
         crs = " " ;
 ```
@@ -73,7 +74,7 @@ Marine radars measure natively in meters, as range and bearing from the antenna.
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
 
-In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center, differing from a flat plane by less than a millimeter at 5 km. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the names of the projected and geographic coordinate reference systems, datum, ellipsoid, and prime meridian, which CF requires together. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
+In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center, differing from a flat plane by less than a millimeter at 5 km. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the name of the geodetic datum. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
 
 ```
 variables:
@@ -84,11 +85,7 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
-                crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
-                crs:geographic_crs_name = "WGS 84" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
-                crs:reference_ellipsoid_name = "WGS 84" ;
-                crs:prime_meridian_name = "Greenwich" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;

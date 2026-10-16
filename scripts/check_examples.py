@@ -45,12 +45,6 @@ DIMENSION_CAP = 3
 # Units the specification allows but UDUNITS does not define.
 EXTRA_UNITS = {"dB"}
 GEOSPATIAL_ATTRIBUTES = ("geospatial_lat_min", "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max")
-CRS_NAME_ATTRIBUTES = (
-    "geographic_crs_name",
-    "horizontal_datum_name",
-    "prime_meridian_name",
-    "reference_ellipsoid_name",
-)
 FILE_NAME = re.compile(
     r"^(?P<station>[a-z0-9]+)_\d{4}-\d{2}-\d{2}-\d{2}(-\d{2})?_"
     r"(?P<product>[a-z0-9_]+)$"
@@ -265,10 +259,6 @@ def check_header(groups, is_file, names, units_module, expected):
                 for target in unquote(attributes.get(attribute, "")).split():
                     if not resolve(groups, path, target):
                         errors.append(f'{where}: {attribute} names "{target}", which does not exist in scope')
-            if "projected_crs_name" in attributes:
-                missing = [a for a in CRS_NAME_ATTRIBUTES if a not in attributes]
-                if missing:
-                    errors.append(f"{where}: projected_crs_name requires {', '.join(missing)} (CF Appendix F)")
             meanings = unquote(attributes.get("flag_meanings", "")).split()
             for attribute in ("flag_values", "flag_masks"):
                 if attribute in attributes and len(attributes[attribute].split(",")) != len(meanings):
