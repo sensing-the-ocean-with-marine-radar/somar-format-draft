@@ -6,7 +6,6 @@ nav_order: 1
 ---
 
 # Data Format Conventions for Sensing the Ocean with Marine Radar
-SOMaR-data-formats-v{{ site.somar_version }}-{{ site.somar_status }}
 
 _The SOMaR community_
 
