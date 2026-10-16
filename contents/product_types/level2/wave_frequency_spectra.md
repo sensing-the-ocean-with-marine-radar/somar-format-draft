@@ -11,6 +11,7 @@ nav_order: 8
 One-dimensional frequency spectra (`wave_frequency_spectra`, short `wav_f1d`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -32,7 +33,7 @@ The file holds the following variables.
 
 ## Minimal example
 ```
-netcdf or_2025-01-15-11_wave_frequency_spectra_average {
+netcdf or_2025-01-15-11_wave_frequency_spectra {
 dimensions:
         time = 29 ;
         wave_frequency = 512 ;
@@ -93,6 +94,10 @@ variables:
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_frequency_spectra" ;
+                :analysis_window_size = 3840. ;
+                :number_of_analysis_windows = 6 ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }

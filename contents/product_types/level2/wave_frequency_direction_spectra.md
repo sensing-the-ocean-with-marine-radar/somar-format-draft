@@ -13,6 +13,7 @@ They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_s
 Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -36,7 +37,7 @@ The file holds the following variables.
 The example below is illustrative; it is not yet based on an existing NetCDF file.
 
 ```
-netcdf or_2025-01-15-11_wave_frequency_direction_spectra_average {
+netcdf or_2025-01-15-11_wave_frequency_direction_spectra {
 dimensions:
         time = 29 ;
         wave_frequency = 512 ;
@@ -88,6 +89,10 @@ variables:
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_frequency_direction_spectra" ;
+                :analysis_window_size = 3840. ;
+                :number_of_analysis_windows = 6 ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }

@@ -35,12 +35,25 @@ The coordinate variables `latitude` and `longitude` give the centers of the anal
 A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](current_maps.md#local-grid-form).
 The radar position for the period may optionally be stored in the scalar variables [`radar_longitude` and `radar_latitude`](../../georeferencing/index.md#radar-position).
 
-The processing parameters needed to interpret a map are recorded in the following global attributes, in addition to the [shared global attributes](../../metadata_attributes/index.md).
+The processing parameters of the maps are recorded in global attributes (see [Processing parameters](#processing-parameters)).
+
+## Wave products
+
+The wave products ([wavenumber spectra](wave_wavenumber_spectra.md), [frequency-direction spectra](wave_frequency_direction_spectra.md), [frequency spectra](wave_frequency_spectra.md), and [wave parameters](wave_parameters.md)) are retrieved within a small number of analysis windows that are spread across the radar field of view.
+Each measurement is the average over these analysis windows, and its `longitude` and `latitude` give their mean position (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
+The analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period.
+Their placement is left to the processor and should be described in the `comment` global attribute.
+A processor may, for example, place the windows at fixed bearings relative to the bow at the start of each period, and at the range that gives the best data coverage at the shortest range, since the wave signal deteriorates with range.
+
+## Processing parameters
+
+The processing parameters needed to interpret the [map products](#map-products) and the [wave products](#wave-products) are recorded in the following global attributes, in addition to the [shared global attributes](../../metadata_attributes/index.md).
 
 | Attribute | Values | Description |
 |---|---|---|
 | `analysis_window_size`<br><small>SOMaR</small> | Number; `m` | The diameter of the circular analysis windows. |
-| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
-| `measurement_period_duration`<br><small>SOMaR</small> | Number; `s` | The duration of the radar image sequence used for each map. |
-| `number_of_images`<br><small>SOMaR</small> | Integer | The number of radar images used for each map. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
+| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Map products only. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
+| `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Wave products only. The number of analysis windows averaged into each measurement. |
+| `measurement_period_duration`<br><small>SOMaR</small> | Number; `s` | The duration of the radar image sequence used for each map or wave measurement. |
+| `number_of_images`<br><small>SOMaR</small> | Integer | The number of radar images used for each map or wave measurement. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
 {: .attribute-table }

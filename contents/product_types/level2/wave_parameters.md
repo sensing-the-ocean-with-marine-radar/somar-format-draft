@@ -8,13 +8,11 @@ nav_order: 9
 
 # L2b: Peak and mean wave parameters
 
-Peak and mean wave parameters (`wave_parameters`, short `wav_params`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
+Peak and mean wave parameters (`wave_parameters`, short `wav_params`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
 To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_slope` and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
-
-{: .open_issue }
-A mean wave direction (`sea_surface_wave_from_direction`) is not yet included. Per-analysis-window wave products, the counterparts of the `_average` files (see [File naming](../../file_naming/index.md)), are not yet defined.
 
 ## Variables
 
@@ -32,6 +30,7 @@ The file holds the following variables.
 | `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Peak wave direction: the direction the waves come from at the spectral maximum. |
 | `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Peak wave period: the period at the spectral maximum. |
 | `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Mean wave period (e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute). |
+| `sea_surface_wave_from_direction`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Mean wave direction: the mean direction the waves come from (the definition should be documented in a `comment` attribute). |
 | `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
 | `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Spectral density of the background noise in the radar images, used to derive the significant wave height. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
@@ -39,7 +38,7 @@ The file holds the following variables.
 
 ## Minimal example
 ```
-netcdf or_2025-01-15-11_wave_parameters_average {
+netcdf or_2025-01-15-11_wave_parameters {
 dimensions:
         time = 29 ;
 variables:
@@ -104,6 +103,14 @@ variables:
                 sea_surface_wave_mean_period:coordinates = "longitude latitude" ;
                 sea_surface_wave_mean_period:grid_mapping = "crs" ;
                 sea_surface_wave_mean_period:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_from_direction(time) ;
+                sea_surface_wave_from_direction:long_name = "mean wave direction" ;
+                sea_surface_wave_from_direction:standard_name = "sea_surface_wave_from_direction" ;
+                sea_surface_wave_from_direction:units = "degree" ;
+                sea_surface_wave_from_direction:comment = "energy-weighted mean direction the waves come from, calculated from the first directional moments of the spectrum" ;
+                sea_surface_wave_from_direction:coordinates = "longitude latitude" ;
+                sea_surface_wave_from_direction:grid_mapping = "crs" ;
+                sea_surface_wave_from_direction:ancillary_variables = "measurement_quality" ;
         double wave_signal(time) ;
                 wave_signal:long_name = "radar image spectral density of the wave signal" ;
                 wave_signal:units = "1" ;
@@ -129,6 +136,10 @@ variables:
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_parameters" ;
+                :analysis_window_size = 3840. ;
+                :number_of_analysis_windows = 6 ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }

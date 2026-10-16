@@ -35,7 +35,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
-In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#map-products), the file carries the following global attributes.
+In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attributes.
 Since each drift vector is obtained from just two averaged images, which these attributes describe, the map attribute `number_of_images` is omitted.
 
 | Attribute | Values | Description |

@@ -50,7 +50,7 @@ CRS_NAME_ATTRIBUTES = (
 )
 FILE_NAME = re.compile(
     r"^(?P<station>[a-z0-9]+)_\d{4}-\d{2}-\d{2}-\d{2}(-\d{2})?_"
-    r"(?P<product>[a-z0-9_]+?)(_average)?$"
+    r"(?P<product>[a-z0-9_]+)$"
 )
 FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
 PLACEHOLDER = re.compile(r"^(\s*)group: (\w+) \{ \.\.\. \}.*$", re.M)

@@ -15,6 +15,7 @@ Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted; the variable name, `sea_surface_wave_wavenumber_variance_spectral_density`, is chosen so as not to be mistaken for that standard name.
 The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated against a reference wave data set; the parameters of this calibration are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -36,7 +37,7 @@ The file holds the following variables.
 
 ## Minimal example
 ```
-netcdf or_2025-01-15-11_wave_wavenumber_spectra_average {
+netcdf or_2025-01-15-11_wave_wavenumber_spectra {
 dimensions:
         time = 29 ;
         northward_wave_wavenumber = 512 ;
@@ -85,6 +86,10 @@ variables:
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_wavenumber_spectra" ;
+                :analysis_window_size = 3840. ;
+                :number_of_analysis_windows = 6 ;
+                :measurement_period_duration = 240. ;
+                :number_of_images = 160 ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }
