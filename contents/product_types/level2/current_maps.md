@@ -120,6 +120,7 @@ A processor whose analysis windows lie on a local grid around the radar stores t
 Only the variables that differ from the example above are shown:
 
 ```
+// excerpt: only the variables that differ
 group: time_20250115110031 {
   dimensions:
         y = 17 ;
@@ -205,9 +206,65 @@ group: time_20250115110031 {
         latitude = 17 ;
         longitude = 17 ;
   variables:
-        ... // crs, time, longitude, and latitude as for near-surface current maps above;
-            // eastward/northward_sea_water_velocity, mean_wavenumber, standard errors,
-            // number_of_wave_coordinates, and measurement_quality on (wavenumber_bin, latitude, longitude) ...
+        char crs ;
+                crs:grid_mapping_name = "latitude_longitude" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+        double longitude(longitude) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(latitude) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+        double mean_wavenumber(wavenumber_bin, latitude, longitude) ;
+                mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
+                mean_wavenumber:units = "m-1" ;
+                mean_wavenumber:grid_mapping = "crs" ;
+                mean_wavenumber:_FillValue = NaN ;
+        double eastward_sea_water_velocity_standard_error(wavenumber_bin, latitude, longitude) ;
+                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity_standard_error:units = "m s-1" ;
+                eastward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
+                eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        double northward_sea_water_velocity_standard_error(wavenumber_bin, latitude, longitude) ;
+                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity_standard_error:units = "m s-1" ;
+                northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
+                northward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        int number_of_wave_coordinates(wavenumber_bin, latitude, longitude) ;
+                number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
+                number_of_wave_coordinates:units = "1" ;
+                number_of_wave_coordinates:grid_mapping = "crs" ;
+                number_of_wave_coordinates:_FillValue = -1 ;
+        ubyte measurement_quality(wavenumber_bin, latitude, longitude) ;
+                measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
+                measurement_quality:valid_range = 0UB, 127UB ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB, 64UB ;
+                measurement_quality:standard_name = "quality_flag" ;
+                measurement_quality:grid_mapping = "crs" ;
+                measurement_quality:_FillValue = 255UB ;
         double lower_wavenumber_bin_edge(wavenumber_bin) ;
                 lower_wavenumber_bin_edge:long_name = "lower edge of the wavenumber bin used by the current measurement" ;
                 lower_wavenumber_bin_edge:units = "m-1" ;

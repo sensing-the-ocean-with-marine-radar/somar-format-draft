@@ -253,6 +253,7 @@ group: georeference_correction { ... } // as in the example under Georeference c
 If the position and heading are given per pulse instead, the variables of the `georeference` subgroup have the dimension `time`:
 
 ```
+// excerpt: only the variables that differ
   group: georeference {
     variables:
         double latitude(time) ;

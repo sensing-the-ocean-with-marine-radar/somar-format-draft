@@ -17,6 +17,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/product_types/` | Level 1 products (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
 | `contents/file_naming/` | File naming pattern and product naming recommendations |
 | `contents/about/` | About the SOMaR community |
+| `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |
 
@@ -30,6 +31,17 @@ bundle exec jekyll serve
 ```
 
 Then open <http://localhost:4000>. The built site is written to `_site/`.
+
+## Checking the examples
+
+The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, and the SOMaR rules for global attributes and file names:
+
+```sh
+pip install cf-units   # optional locally; without it, the unit checks are skipped
+python3 scripts/check_examples.py
+```
+
+The script requires `ncgen` and `ncdump` (e.g. from the `netcdf-bin` package) and runs in CI on every push and pull request. Every code block is checked except those whose first line is `// excerpt`. A line `group: <name> { ... }` stands for the example of that group on its Metadata page and is expanded before the build. Dimension lengths are capped at 3, so the `data:` sections of the examples must hold scalars only.
 
 ## Editing the specification
 

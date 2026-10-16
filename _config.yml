@@ -2,6 +2,11 @@ title: SOMaR Data Format v0.5 (draft)
 description: First draft of the community standard data format conventions for Sensing the Ocean with Marine Radar 
 theme: just-the-docs
 
+# Version of the specification, used in the Conventions attribute of the
+# examples (SOMaR-<somar_version>-<somar_status>); keep title in step.
+somar_version: "0.5"
+somar_status: "draft"
+
 url: https://sensing-the-ocean-with-marine-radar.github.io
 baseurl: /somar-format-draft
 
@@ -39,6 +44,7 @@ sass:
 
 # Placeholder pages for levels the format does not define yet.
 exclude:
+  - scripts/
   - contents/product_types/level0/
   - contents/product_types/level1/level1c.md
 

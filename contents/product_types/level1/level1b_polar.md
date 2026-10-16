@@ -191,6 +191,7 @@ group: georeference_correction { ... } // as in the example under Georeference c
 If the position and heading are given per pulse instead, the variables have the dimensions `(time, azimuth)`:
 
 ```
+// excerpt: only the variables that differ
         double latitude(time, azimuth) ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
