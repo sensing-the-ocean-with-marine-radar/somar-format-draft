@@ -34,6 +34,9 @@ For a moving platform, they have the dimension `time`, with one value per image;
 The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 For the same reason, `x` and `y` carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
 
+{: .open_issue }
+Only backscatter amplitude or power is specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](level1a.md#coherent-data)).
+
 ## Minimal example
 
 A radar on a moving platform.

@@ -36,6 +36,8 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 | `rays_angle_resolution`<br><small>SOMaR</small> | Number; degree | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution` (Table 301-8), which gives the angular spacing of rays that are indexed to a regular grid; the accompanying FM 301 flag `rays_are_indexed` is implied to be `"true"` and is not stored. |
 {: .attribute-table }
 
+{: .open_issue }
+Only backscatter amplitude or power is specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](level1a.md#coherent-data)).
 
 ## Position and heading
 

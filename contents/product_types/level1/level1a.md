@@ -83,7 +83,7 @@ The `coordinates` attribute is set to `"azimuth range"`.
 The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute must state whether the values refer to amplitude or power (see the [minimal example](#minimal-example)).
 
 {: .open_issue }
-Only backscatter amplitude or power is specified. Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variables are defined yet.
+<a id="coherent-data"></a>Only backscatter amplitude or power is specified, here and at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variables are defined yet at either level.
 
 ## Moving platforms
 
