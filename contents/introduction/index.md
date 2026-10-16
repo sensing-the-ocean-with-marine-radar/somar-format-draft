@@ -26,7 +26,7 @@ For discovery metadata, such as the creator, license, and coverage of a file, SO
 
 ## Terms
 
-- **Level 0** data are the radar recording as delivered by the instrument, in the manufacturer's format. SOMaR does not define them; [Level 1a](../product_types/level1/level1a.md) is their conversion to NetCDF.
+- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/level1/level1a.md) is their conversion to NetCDF.
 - A **sweep** is the sequence of pulses of one antenna revolution, or of one pass over the sector for a radar that scans a sector. It is the unit in which Level 1a data are stored.
 - An **image** is the Level 1b representation of one sweep.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
