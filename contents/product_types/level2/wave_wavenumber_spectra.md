@@ -49,7 +49,7 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 | `mtf_exponent`<br><small>SOMaR</small> | double; dimensionless | For `"power_law"`: the exponent β. Omitted otherwise. |
 {: .variable-table }
 
-A processor that uses a different predictor or a different form of the modulation transfer function sets the variable to `"other"` and describes its method in a `comment` attribute of that variable; a `references` attribute gives the publication.
+A processor that uses a different predictor or a different form of the modulation transfer function sets the variable to `"other"` and describes its method in a `comment` attribute of that variable; a `references` attribute gives the underlying scientific literature.
 
 The group carries the following attributes.
 
