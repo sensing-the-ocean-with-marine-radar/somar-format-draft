@@ -7,7 +7,7 @@ nav_order: 6
 
 # Example metadata
 
-This page illustrates how shared metadata (global attributes, coordinate reference systems, radar position, radar parameters, georeference corrections, and method references) appear in NetCDF CDL format across SOMaR products.
+This page illustrates how shared metadata (global attributes, coordinate reference systems, radar position, radar parameters, and georeference corrections) appear in NetCDF CDL format across SOMaR products.
 
 ## File-level metadata
 
@@ -174,16 +174,3 @@ group: georeference_correction {
         position_offset_y = -11.8 ;
   } // group georeference_correction
 ```
-
-## Method and calibration references
-
-Data and calibration variables can link to the underlying scientific literature or algorithm theoretical basis documents using the [`references`](variable_attributes.md#data-and-coordinate-variables) attribute (defined by [CF conventions][cf-description]). For example, an empirical calibration parameter or algorithm configuration variable citing the published method:
-
-```
-variables:
-        string mtf_form ;
-                mtf_form:long_name = "form of the modulation transfer function" ;
-                mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;
-```
-
-[cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
