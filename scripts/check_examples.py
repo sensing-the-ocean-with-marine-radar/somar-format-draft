@@ -238,7 +238,7 @@ def main():
     groups = canonical_groups()
     names = standard_name_table()
     expected = {
-        "conventions": f"CF-1.13, ACDD-1.3, SOMaR-{config_value('somar_version')}-{config_value('somar_status')}",
+        "conventions": f"CF-1.13, ACDD-1.3, SOMaR-{config_value('somar_version')}" + ("-draft" if config_value("somar_status") == "draft" else ""),
         "product_types": product_types(),
     }
 

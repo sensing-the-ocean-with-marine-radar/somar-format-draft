@@ -43,6 +43,14 @@ python3 scripts/check_examples.py
 
 The script requires `ncgen` and `ncdump` (e.g. from the `netcdf-bin` package) and runs in CI on every push and pull request. CI runs it as `python3 scripts/check_examples.py --strict`, which fails instead of skipping the unit checks when `cf-units` is missing; run it the same way locally to get the same result. On its first run, the script downloads the CF standard name table (version 95) from cfconventions.org and caches it in the system temporary directory, so it needs network access once. Every code block is checked except those whose first line is `// excerpt`. A line `group: <name> { ... }` stands for the example of that group on its Metadata page and is expanded before the build. Dimension lengths are capped at 3, so the `data:` sections of the examples must hold scalars only.
 
+## Releasing a version
+
+1. Set `somar_version` and `somar_status` in `_config.yml` (`"draft"` for a draft, `"released"` for a release).
+2. Update the `Conventions` attribute of the examples to match, e.g. `SOMaR-0.6-draft` or `SOMaR-1.0`; `scripts/check_examples.py` fails until they do.
+3. Tag the commit `v<major>.<minor>` (with a third number for corrections that change no file, e.g. `v1.0.1`) and publish it as a GitHub release whose notes list the changes that affect files. From version 1.0 on, also add an entry to a revision history page.
+
+Releases are archived with a DOI once the repository is enabled in [Zenodo's GitHub integration](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content).
+
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.

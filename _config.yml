@@ -2,8 +2,9 @@ title: SOMaR Data Format
 description: First draft of the community standard data format conventions for Sensing the Ocean with Marine Radar 
 theme: just-the-docs
 
-# Version of the specification, used in the Conventions attribute of the
-# examples (SOMaR-<somar_version>-<somar_status>).
+# Version of the specification: SOMaR-<somar_version> in the Conventions
+# attribute of the examples, with the suffix -draft while somar_status is
+# "draft" (see the Versioning section of index.md).
 somar_version: "0.5"
 somar_status: "draft"
 

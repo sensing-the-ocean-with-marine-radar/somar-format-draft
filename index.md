@@ -18,3 +18,12 @@ Wherever possible, SOMaR follows existing standards: the [NetCDF Climate and For
 This is version {{ site.somar_version }} of the SOMaR data format conventions, a {{ site.somar_status }} that is subject to change.
 Topics that are not yet decided are marked as open issues.
 Changes are tracked in the [repository history](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/commits/main), and comments and proposals are welcome as [issues](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/issues) or pull requests.
+
+### Versioning
+
+A SOMaR version is identified as `SOMaR-<major>.<minor>`, the string that files declare in their `Conventions` attribute (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md)).
+Before version 1.0, anything may change from one draft to the next.
+From 1.0 on, a minor version (1.1, 1.2) only adds or clarifies, so that a file valid under one minor version remains valid under the next; changes that can invalidate existing files require a new major version (2.0), and features to be removed are first marked as deprecated in a minor version.
+Corrections that change no file, such as clarified wording, do not change the version.
+The working copy published here carries the suffix `-draft` (e.g. `SOMaR-{{ site.somar_version }}-draft`); files written according to a draft declare that string, and released versions drop the suffix.
+Each draft or release that files may refer to is tagged and published as a [release](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/releases) of the repository, with notes on the changes that affect files.
