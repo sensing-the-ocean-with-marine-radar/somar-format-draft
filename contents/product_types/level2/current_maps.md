@@ -11,12 +11,7 @@ nav_order: 3
 Near-surface current maps (`currents`, short `cur`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with per-component standard errors and a `measurement_quality` bit flag.
 Each current vector is retrieved through a least-squares fit that minimizes the distance between the wave signal found in a wavenumber-frequency spectrum, computed from a radar backscatter intensity image sequence within a local circular analysis window, and the linear ocean wave dispersion relation, exploiting the current-induced Doppler shift of the surface wave field.
 Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight, the effective sensing depth depends on the wavenumber range of the wave signal used in the fit and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement. Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
-The analysis windows of one measurement period form a map that spans the radar footprint, and with a moving vessel the area covered changes from one period to the next.
-All maps belonging to one file are therefore stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, as for the [roughness images](roughness_images.md).
-Within each group, the variables are stored on a two-dimensional grid with the dimensions `(latitude, longitude)`, and the scalar variable `time` gives the start time of the period.
-Since the radar footprint is circular, the cells in the corners of the grid hold the `_FillValue`, as do the cells of analysis windows without a result.
-The coordinate variables `latitude` and `longitude` give the centers of the analysis windows. They are one-dimensional because the windows lie on an Earth-fixed lattice with a single longitude spacing per measurement period, so that each map is a rectangular grid in longitude and latitude (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)). A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](#local-grid-form) of a group.
-The radar position for the period may optionally be stored in the scalar variables `radar_longitude` and `radar_latitude`.
+The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](#local-grid-form).
 
 ## Variables
 

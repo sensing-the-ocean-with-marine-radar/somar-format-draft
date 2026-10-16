@@ -6,28 +6,9 @@ nav_order: 3
 
 # Metadata
 
-Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR product types](../product_types/index.md)). All SOMaR files are written using the NetCDF-4 format (`NETCDF4`), taking advantage of its hierarchical group structure and unsigned data types while adhering to CF conventions for group scoping.
-This chapter documents that shared metadata: the [mandatory global attributes](mandatory_global.md) that every SOMaR file must carry, [optional global attributes](optional_global.md) that are recommended where applicable, the [variable attributes](variable_attributes.md) attached to individual variables, the [radar parameters](radar_parameters.md) that describe the instrument, the [georeference correction parameters](georeference_correction.md) that store known offsets of pointing direction, range, time, and antenna position, and an [example metadata header](example.md) illustrating these conventions in CDL format.
+Every SOMaR NetCDF file carries a common core of metadata, stored as global attributes, variable attributes, and variables, in addition to whatever data variables and attributes are specific to its own product (documented alongside each product under [SOMaR product types](../product_types/index.md)). All SOMaR files must be written in the NetCDF-4 format (the HDF5-based enhanced data model, `NETCDF4`), which provides the hierarchical groups (such as sweep groups and time-bounded grids) and unsigned integer types (such as `ubyte`) that SOMaR uses; groups follow the scoping rules of CF 1.8 and later.
+This chapter documents that shared metadata: the [mandatory global attributes](mandatory_global.md) that every SOMaR file must carry, [optional global attributes](optional_global.md) that are recommended where applicable, the [variable attributes](variable_attributes.md) attached to individual variables, the [radar parameters](radar_parameters.md) that describe the instrument, the [georeference correction parameters](georeference_correction.md) that store known offsets of pointing direction, range, time, and antenna position, and the [wave calibration parameters](wave_calibration.md) shared by the surface wave products.
 For conventions locating SOMaR's polar data and time-bounded local grids in space, see [Georeferencing](../georeferencing/index.md); for file naming on disk, see [File naming](../file_naming/index.md).
-
-{% comment %}
-## Variables and attributes
-
-NetCDF stores information in two ways.
-A variable is a named array of values with a type, dimensions, and attributes of its own.
-An attribute is a label attached either to a variable or, as a global attribute, to the file as a whole.
-
-```
-variables:
-        float prt(time) ;                  // a variable
-                prt:units = "s" ;    // an attribute of that variable
-
-// global attributes:
-                :title = "..." ;           // an attribute of the file
-```
-
-As a rule of thumb, a quantity that can change from pulse to pulse or from sweep to sweep, or that is a number with units, is stored as a variable; a description of a variable or of the file is stored as an attribute.
-{% endcomment %}
 
 ## Reading the tables
 
@@ -37,6 +18,6 @@ In both cases, the convention that defines the attribute or variable is named in
 
 - **CF**: the attribute is defined by the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html), version 1.13, and is used as defined there.
 - **ACDD**: the attribute is defined by the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3), version 1.3, which complements CF with attributes describing who created a dataset, under which license, and what time span and area it covers.
-- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../product_types/level1/level1a.md) and for the [radar parameters](radar_parameters.md), leaving out what a marine radar does not need.
-- **CfRadial**: the attribute or variable is defined by the [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs), version 2.1 (draft of 2019), from which FM 301 was developed. SOMaR follows it only for the parameters of moving platforms and the georeference corrections, which FM 301 does not include (see [Georeferencing](../georeferencing/index.md)).
+- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial) and the [radar parameters](radar_parameters.md).
+- **CfRadial**: the attribute or variable is defined by the [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs), version 2.1 (draft of 2019), from which FM 301 was developed. SOMaR follows it for moving platforms and georeference corrections, which FM 301 does not include.
 - **SOMaR**: the attribute is defined by none of these conventions and is introduced by this document.

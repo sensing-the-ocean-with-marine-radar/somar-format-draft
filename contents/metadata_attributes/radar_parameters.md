@@ -27,6 +27,43 @@ Constant technical parameters of the radar antenna, pulse, and scan are stored i
 
 When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse).
 
-For examples showing these variables in NetCDF CDL format, see [Example metadata](example.md#radar-parameters) and [Level 1a data](../product_types/level1/level1a.md#example-for-a-moving-platform).
+## Example
+
+```
+group: radar_parameters {
+  variables:
+        float beam_width_h ;
+                beam_width_h:units = "degree" ;
+                beam_width_h:long_name = "horizontal antenna beam width" ;
+        float beam_width_v ;
+                beam_width_v:units = "degree" ;
+                beam_width_v:long_name = "vertical antenna beam width" ;
+        float frequency ;
+                frequency:units = "s-1" ;
+                frequency:long_name = "operating frequency of the radar" ;
+        string polarization_mode ;
+                polarization_mode:long_name = "antenna polarization mode" ;
+        float pulse_width ;
+                pulse_width:units = "s" ;
+                pulse_width:long_name = "length of the transmitted pulse" ;
+        float prt ;
+                prt:units = "s" ;
+                prt:long_name = "pulse repetition time" ;
+        float scan_rate ;
+                scan_rate:units = "degree s-1" ;
+                scan_rate:long_name = "antenna rotation rate" ;
+        int n_samples ;
+                n_samples:long_name = "number of samples contributing to each stored pulse" ;
+  data:
+        beam_width_h = 0.95 ;
+        beam_width_v = 20. ;
+        frequency = 9.41e+09 ;
+        polarization_mode = "vertical" ;
+        pulse_width = 5.e-08 ;
+        prt = 3.33e-04 ;
+        scan_rate = 240. ;
+        n_samples = 1 ;
+  } // group radar_parameters
+```
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

@@ -10,7 +10,7 @@ nav_order: 9
 
 Peak and mean wave parameters (`wave_parameters`, short `wav_params`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
 To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_slope` and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
-The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Calibration](wave_wavenumber_spectra.md#calibration)).
+The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -127,33 +127,7 @@ variables:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_parameters" ;
 
-group: wave_calibration {
-  variables:
-        double hs_intercept ;
-                hs_intercept:units = "m" ;
-                hs_intercept:long_name = "intercept of the significant wave height calibration" ;
-        double hs_slope ;
-                hs_slope:units = "m" ;
-                hs_slope:long_name = "slope of the significant wave height calibration" ;
-        string hs_predictor ;
-                hs_predictor:long_name = "quantity to which the significant wave height calibration is applied" ;
-        string mtf_form ;
-                mtf_form:long_name = "form of the modulation transfer function" ;
-                mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;
-        double mtf_exponent ;
-                mtf_exponent:units = "1" ;
-                mtf_exponent:long_name = "exponent of the power-law modulation transfer function" ;
-
-  // group attributes:
-                :calibration_reference = "MFWAM global wave data" ;
-                :calibration_date = "2025-01-06" ;
-  data:
-        hs_intercept = 0.1 ;
-        hs_slope = 1.5 ;
-        hs_predictor = "sqrt_signal_to_noise_ratio" ;
-        mtf_form = "power_law" ;
-        mtf_exponent = 1.2 ;
-  } // group wave_calibration
+group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }
 ```
 

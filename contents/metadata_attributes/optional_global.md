@@ -34,7 +34,36 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content. |
 {: .attribute-table }
 
-For an example showing these optional attributes in a file header alongside mandatory attributes, see [Example metadata](example.md#file-level-metadata).
+## Example
+
+The global attributes of a [near-surface current map](../product_types/level2/current_maps.md) file, with the mandatory and optional attributes:
+
+```
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "currents" ;
+                :creator_email = "famous.scientist@frori.org" ;
+                :creator_name = "Dr. Famous Scientist" ;
+                :date_created = "2025-01-15T12:05:00Z" ;
+                :geospatial_lat_max = 15.03 ;
+                :geospatial_lat_min = 14.9265 ;
+                :geospatial_lon_max = 145.96815 ;
+                :geospatial_lon_min = 145.8426 ;
+                :history = "20250115T120500Z: File creation time" ;
+                :institution = "Famous Radar Ocean Research Institute" ;
+                :institution_id = "https://ror.org/01abcde23" ;
+                :instrument = "Famous Radar Ocean Research Institute coherent-on-receive marine X-band radar" ;
+                :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ;
+                :platform = "R/V Ocean Research" ;
+                :platform_is_mobile = "true" ;
+                :processing_level = "L2a" ;
+                :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ;
+                :source = "Shipboard marine X-band radar" ;
+                :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
+                :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
+                :time_coverage_start = "2025-01-15T11:00:31.417000Z" ;
+                :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
+```
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3

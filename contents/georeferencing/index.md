@@ -1,7 +1,7 @@
 ---
 title: Georeferencing
 layout: default
-nav_order: 5
+nav_order: 4
 ---
 
 # Georeferencing
@@ -13,7 +13,7 @@ The `azimuth` variable holds the antenna angle as recorded by the radar relative
 This differs from FM 301, which defines `azimuth` relative to true north; SOMaR polar data are stored as recorded without modification.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
-The global attribute `platform_is_mobile` states whether the platform moves (`"true"` for a moving platform such as a ship, `"false"` for a fixed platform). FM 301 allows only `"false"`; in SOMaR it is assumed `"false"` if missing.
+Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md) (`"true"` or `"false"`; assumed `"false"` if missing).
 
 They are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft:
 
@@ -46,14 +46,25 @@ In Cartesian products such as [Level 1b Cartesian](../product_types/level1/level
 ## Coordinate reference system variables
 
 Georeferenced data variables reference a scalar `char` coordinate reference system (CRS) variable, conventionally named `crs`, through a `grid_mapping` attribute, following standard CF practice.
-All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](../metadata_attributes/variable_attributes.md#coordinate-reference-system-variables); for CDL examples of both systems, see [Example metadata](../metadata_attributes/example.md#coordinate-reference-system-variables).
+All attributes of the `crs` variable are listed, with their origin and permitted values, under [Variable attributes](../metadata_attributes/variable_attributes.md#coordinate-reference-system-variables).
 
 SOMaR uses two coordinate reference systems:
 
 ### Geographic coordinates
 
 Used by wave products and standard Level 2 maps ([near-surface current maps](../product_types/level2/current_maps.md), [bathymetric maps](../product_types/level2/depth_maps.md), and [sea ice drift maps](../product_types/level2/sea_ice_drift.md)) on an Earth-fixed longitude/latitude grid.
-The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` and describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`).
+The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` and describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`):
+
+```
+variables:
+        char crs ;
+                crs:grid_mapping_name = "latitude_longitude" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+data:
+        crs = " " ;
+```
 
 ### Time-bounded local grids
 
@@ -62,7 +73,32 @@ Marine radars measure natively in meters, as range and bearing from the antenna.
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
 
-In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center, differing from a flat plane by less than a millimeter at 5 km. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the names of the projected and geographic coordinate reference systems, datum, ellipsoid, and prime meridian, which CF requires together.
+In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center, differing from a flat plane by less than a millimeter at 5 km. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the names of the projected and geographic coordinate reference systems, datum, ellipsoid, and prime meridian, which CF requires together. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
+
+```
+variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 145.868167860183 ;
+                crs:latitude_of_projection_origin = 14.9952749946079 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:projected_crs_name = "WGS 84 / origin of coordinate system is radar location at measurement start time" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of radar measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+data:
+        crs = " " ;
+        time = 1736938831.417 ;
+```
 
 Because the origin changes as a platform moves, each local grid is valid only for a limited time window. Rather than one global grid for the whole file, roughness images, mosaics, and local-grid Level 2 maps store each time-bounded grid as a sibling NetCDF group named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and coordinate variables:
 - Each group carries a scalar `double` variable `time` giving the start time of the measurement (`units = "seconds since 1970-01-01T00:00:00Z"`), optionally complemented by a human-readable `time_iso_8601` string (see [Variable attributes](../metadata_attributes/variable_attributes.md)).
@@ -79,7 +115,22 @@ On the local grid, these maps store `x` and `y` with the `crs` of the local grid
 The conversion must be carried out on the ellipsoid; a spherical approximation must not be used, since it can displace positions by up to about 0.5% of their distance from the radar.
 The stored position is that of the center of the analysis window or, for wave products, the mean position of the analysis windows contributing to a measurement.
 
-<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` (see [Example metadata](../metadata_attributes/example.md#radar-position)). For current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for wave products, they have the dimension `time`.
+<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` . For current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for wave products, they have the dimension `time`.
+
+```
+variables:
+        double radar_longitude ;
+                radar_longitude:long_name = "longitude of radar at start of measurement" ;
+                radar_longitude:standard_name = "longitude" ;
+                radar_longitude:units = "degrees_east" ;
+        double radar_latitude ;
+                radar_latitude:long_name = "latitude of radar at start of measurement" ;
+                radar_latitude:standard_name = "latitude" ;
+                radar_latitude:units = "degrees_north" ;
+data:
+        radar_longitude = 145.86816786 ;
+        radar_latitude = 14.99527499 ;
+```
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs

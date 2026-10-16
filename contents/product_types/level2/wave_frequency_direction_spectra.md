@@ -12,7 +12,7 @@ Frequency-direction spectra (`wave_frequency_direction_spectra`, short `wav_fdir
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
-The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Calibration](wave_wavenumber_spectra.md#calibration)).
+The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
 ## Variables
@@ -89,33 +89,7 @@ variables:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "wave_frequency_direction_spectra" ;
 
-group: wave_calibration {
-  variables:
-        double hs_intercept ;
-                hs_intercept:units = "m" ;
-                hs_intercept:long_name = "intercept of the significant wave height calibration" ;
-        double hs_slope ;
-                hs_slope:units = "m" ;
-                hs_slope:long_name = "slope of the significant wave height calibration" ;
-        string hs_predictor ;
-                hs_predictor:long_name = "quantity to which the significant wave height calibration is applied" ;
-        string mtf_form ;
-                mtf_form:long_name = "form of the modulation transfer function" ;
-                mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;
-        double mtf_exponent ;
-                mtf_exponent:units = "1" ;
-                mtf_exponent:long_name = "exponent of the power-law modulation transfer function" ;
-
-  // group attributes:
-                :calibration_reference = "MFWAM global wave data" ;
-                :calibration_date = "2025-01-06" ;
-  data:
-        hs_intercept = 0.1 ;
-        hs_slope = 1.5 ;
-        hs_predictor = "sqrt_signal_to_noise_ratio" ;
-        mtf_form = "power_law" ;
-        mtf_exponent = 1.2 ;
-  } // group wave_calibration
+group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }
 ```
 

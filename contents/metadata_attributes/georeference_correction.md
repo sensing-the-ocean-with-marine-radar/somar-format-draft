@@ -10,7 +10,7 @@ nav_order: 5
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in a group named `georeference_correction` in the root group.
 This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
 
-This group is only present in [Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md) products, where coordinates are stored as recorded by the instrument and corrections have not been applied. In Cartesian and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)).
+The group is used only by [Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md) products; how the corrections are applied is described under [Georeferencing](../georeferencing/index.md#applying-georeference-corrections).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -21,6 +21,33 @@ This group is only present in [Level 1a](../product_types/level1/level1a.md) and
 | `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow (see [Position offset](../georeferencing/index.md#position-offset)). |
 {: .variable-table }
 
-For an example showing this group in NetCDF CDL format, see [Example metadata](example.md#georeference-correction-parameters) and [Level 1a data](../product_types/level1/level1a.md#example-for-a-moving-platform).
+## Example
+
+```
+group: georeference_correction {
+  variables:
+        float azimuth_correction ;
+                azimuth_correction:units = "degree" ;
+                azimuth_correction:long_name = "correction to azimuth values" ;
+        float range_correction ;
+                range_correction:units = "m" ;
+                range_correction:long_name = "correction to range values" ;
+        double time_correction ;
+                time_correction:units = "s" ;
+                time_correction:long_name = "correction to time values" ;
+        float position_offset_x ;
+                position_offset_x:units = "m" ;
+                position_offset_x:long_name = "position of radar antenna relative to GPS antenna, positive to starboard" ;
+        float position_offset_y ;
+                position_offset_y:units = "m" ;
+                position_offset_y:long_name = "position of radar antenna relative to GPS antenna, positive toward the bow" ;
+  data:
+        azimuth_correction = -1.3 ;
+        range_correction = -22.5 ;
+        time_correction = 0.35 ;
+        position_offset_x = 2.4 ;
+        position_offset_y = -11.8 ;
+  } // group georeference_correction
+```
 
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
