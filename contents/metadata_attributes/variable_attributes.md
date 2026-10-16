@@ -50,7 +50,7 @@ These attributes are carried by coordinate reference system variables (conventio
 | `semi_major_axis`<br><small>[CF][cf-appendix-f]</small> | Number; m | The semi-major axis of the reference ellipsoid. |
 {: .attribute-table }
 
-For examples showing coordinate reference system variables in NetCDF CDL format, see [Example metadata](example.md#coordinate-reference-system-variables).
+For examples showing coordinate reference system variables in NetCDF CDL format, see [Example metadata](example.md#coordinate-reference-system-variables); for method and calibration references, see [Method and calibration references](example.md#method-and-calibration-references).
 
 [cf-standard-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#standard-name
 [cf-long-name]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#long-name
