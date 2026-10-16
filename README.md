@@ -41,7 +41,7 @@ pip install cf-units   # optional locally; without it, the unit checks are skipp
 python3 scripts/check_examples.py
 ```
 
-The script requires `ncgen` and `ncdump` (e.g. from the `netcdf-bin` package) and runs in CI on every push and pull request. Every code block is checked except those whose first line is `// excerpt`. A line `group: <name> { ... }` stands for the example of that group on its Metadata page and is expanded before the build. Dimension lengths are capped at 3, so the `data:` sections of the examples must hold scalars only.
+The script requires `ncgen` and `ncdump` (e.g. from the `netcdf-bin` package) and runs in CI on every push and pull request. CI runs it as `python3 scripts/check_examples.py --strict`, which fails instead of skipping the unit checks when `cf-units` is missing; run it the same way locally to get the same result. On its first run, the script downloads the CF standard name table (version 95) from cfconventions.org and caches it in the system temporary directory, so it needs network access once. Every code block is checked except those whose first line is `// excerpt`. A line `group: <name> { ... }` stands for the example of that group on its Metadata page and is expanded before the build. Dimension lengths are capped at 3, so the `data:` sections of the examples must hold scalars only.
 
 ## Editing the specification
 
