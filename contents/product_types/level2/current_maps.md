@@ -187,6 +187,9 @@ In addition to the [shared global attributes](../../metadata_attributes/index.md
 | `wavenumber_bin_size`<br><small>SOMaR</small> | Number; `m-1` | The width of the wavenumber bands. |
 {: .attribute-table }
 
+{: .open_issue }
+The wavenumber bands are described by their lower edges and a global band width, which assumes bands of equal width and is not CF practice. A CF alternative is a coordinate variable `wavenumber_bin(wavenumber_bin)` holding the band centers, with a `bounds` attribute naming a variable `wavenumber_bin_bounds(wavenumber_bin, nv)` that holds the lower and upper edge of each band. It would replace both `lower_wavenumber_bin_edge` and `wavenumber_bin_size`, and would also allow bands of unequal width.
+
 ### Minimal example
 ```
 netcdf or_2025-01-15-11_currents_profile {
