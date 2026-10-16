@@ -13,6 +13,9 @@ To aid interpretation and quality assessment, the wave-signal and background-noi
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
+{: .open_issue }
+A mean wave direction (`sea_surface_wave_from_direction`) is not yet included. Per-analysis-window wave products, the counterparts of the `_average` files (see [File naming](../../file_naming/index.md)), are not yet defined.
+
 ## Variables
 
 The file holds the following variables.

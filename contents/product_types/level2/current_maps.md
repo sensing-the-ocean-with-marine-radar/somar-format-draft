@@ -13,6 +13,9 @@ Each current vector is retrieved through a least-squares fit that minimizes the 
 Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight, the effective sensing depth depends on the wavenumber range of the wave signal used in the fit and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement. Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](#local-grid-form).
 
+{: .open_issue }
+It is not yet specified whether the current is given relative to the ground (with the platform motion removed) or relative to the platform. The CF standard names imply velocities over ground, toward the direction of flow.
+
 ## Variables
 
 Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.

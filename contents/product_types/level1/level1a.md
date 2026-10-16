@@ -82,6 +82,9 @@ The data are stored in the units of the radar's analog-to-digital converters, us
 The `coordinates` attribute is set to `"azimuth range"`.
 The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute must state whether the values refer to amplitude or power (see the [minimal example](#minimal-example)).
 
+{: .open_issue }
+Only backscatter amplitude or power is specified. Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variables are defined yet.
+
 ## Moving platforms
 
 When `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per pulse (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).

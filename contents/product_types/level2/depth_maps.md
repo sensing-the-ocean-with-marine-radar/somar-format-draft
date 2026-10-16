@@ -13,6 +13,9 @@ As for the [near-surface current maps](current_maps.md), each depth is retrieved
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
+{: .open_issue }
+The vertical reference is not yet specified. Per CF, `sea_floor_depth_below_sea_surface` includes the tide. Tide-corrected depths would use `sea_floor_depth_below_mean_sea_level` or `sea_floor_depth_below_geoid`.
+
 ## Variables
 
 Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.

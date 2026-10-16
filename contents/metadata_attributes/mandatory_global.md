@@ -20,4 +20,7 @@ The WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-ma
 
 SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, but it does not require the attributes recommended by ACDD.
 
+{: .open_issue }
+It is under discussion whether to make more attributes mandatory (e.g. `title`, `institution`, `time_coverage_start`, `time_coverage_end`, `processing_level`). Also under discussion: recommending further ACDD attributes (`id`, `naming_authority`, `keywords`, `standard_name_vocabulary`, `project`), and a `station_id` attribute matching the [file name](../file_naming/index.md). How compliance is checked (e.g. with the CF checker) and how the `SOMaR-<version>` string is versioned are not yet specified.
+
 [cf-conventions]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#identification-of-conventions

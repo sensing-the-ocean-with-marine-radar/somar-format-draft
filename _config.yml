@@ -41,3 +41,9 @@ sass:
 exclude:
   - contents/product_types/level0/
   - contents/product_types/level1/level1c.md
+
+# Callouts marking topics the community has yet to decide.
+callouts:
+  open_issue:
+    title: Open issue
+    color: yellow

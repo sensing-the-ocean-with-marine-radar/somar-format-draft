@@ -14,6 +14,9 @@ Because the correlation is evaluated both forward and backward in time, two inde
 This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
+{: .open_issue }
+The time lag between the correlated images and the duration of the temporal averaging are not yet stored. The drift is presumably given over ground, but this is not yet stated.
+
 ## Variables
 
 Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.

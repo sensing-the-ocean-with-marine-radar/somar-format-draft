@@ -34,3 +34,6 @@ Since the radar footprint is circular, the cells in the corners of the grid hold
 The coordinate variables `latitude` and `longitude` give the centers of the analysis windows; they are one-dimensional because the windows lie on an Earth-fixed lattice (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
 A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](current_maps.md#local-grid-form).
 The radar position for the period may optionally be stored in the scalar variables [`radar_longitude` and `radar_latitude`](../../georeferencing/index.md#radar-position).
+
+{: .open_issue }
+The processing parameters needed to interpret a map are not yet stored: the size and spacing of the analysis windows, the duration of the measurement period, and the number of images used.
