@@ -145,22 +145,6 @@ group: radar_parameters {
   } // group radar_parameters
 ```
 
-When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse, shown below) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse):
-
-```
-group: sweep_0 {
-  dimensions:
-        time = 986 ;
-  variables:
-        float pulse_width(time) ;
-                pulse_width:units = "s" ;
-                pulse_width:long_name = "length of the transmitted pulse" ;
-        float prt(time) ;
-                prt:units = "s" ;
-                prt:long_name = "pulse repetition time" ;
-  } // group sweep_0
-```
-
 ## Georeference correction parameters
 
 Used by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store known sensor and antenna offsets relative to GPS in the root group (see [Georeference correction parameters](georeference_correction.md)):

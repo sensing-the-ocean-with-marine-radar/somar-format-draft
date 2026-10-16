@@ -25,7 +25,7 @@ Constant technical parameters of the radar antenna, pulse, and scan are stored i
 | `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
 {: .variable-table }
 
-Where pulse or scan parameters vary from sweep to sweep or from pulse to pulse, they are stored as variables in the sweep groups instead, alongside the data (see [Level 1a data](../product_types/level1/level1a.md#sweep-groups)). Parameters constant over a sweep are stored as scalars in that sweep group; where they vary from pulse to pulse, they carry the dimension `time`.
+When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse).
 
 For examples showing these variables in NetCDF CDL format, see [Example metadata](example.md#radar-parameters) and [Level 1a data](../product_types/level1/level1a.md#example-for-a-moving-platform).
 
