@@ -1,14 +1,14 @@
 ---
-title: Surface wave two-dimensional frequency spectra (L2b)
+title: Surface wave frequency-direction spectra (L2b)
 layout: default
 parent: Level 2 products
 grand_parent: SOMaR product types
 nav_order: 7
 ---
 
-# L2b: Surface wave two-dimensional frequency spectra
+# L2b: Surface wave frequency-direction spectra
 
-Two-dimensional frequency spectra (`frequency_direction_spectra`, short `wav_fdir`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
+Frequency-direction spectra (`wave_frequency_direction_spectra`, short `wav_fdir`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
 Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
@@ -36,7 +36,7 @@ The file holds the following variables.
 The example below is illustrative; it is not yet based on an existing NetCDF file.
 
 ```
-netcdf or_2025-01-15-11_frequency_direction_spectra_average {
+netcdf or_2025-01-15-11_wave_frequency_direction_spectra_average {
 dimensions:
         time = 29 ;
         wave_frequency = 512 ;
@@ -87,7 +87,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "frequency_direction_spectra" ;
+                :product_type = "wave_frequency_direction_spectra" ;
 
 group: wave_calibration {
   variables:

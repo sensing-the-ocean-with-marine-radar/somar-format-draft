@@ -22,9 +22,9 @@ In addition to the canonical `product_type` name, a recognized short abbreviatio
 | **L2a** | [Near-surface current profile maps](level2/current_maps.md#near-surface-current-profile-maps) | `currents_profile` | `cur_profile` |
 | **L2a** | [Bathymetric maps](level2/depth_maps.md) | `bathymetry` | `bathy` |
 | **L2a** | [Sea ice drift maps](level2/sea_ice_drift.md) | `sea_ice_drift` | `ice_drift` |
-| **L2a** | [Surface wave 2D wavenumber spectra](level2/wave_wavenumber_spectra.md) | `wavenumber_spectra` | `wav_k2d` |
-| **L2b** | [Surface wave 2D frequency spectra](level2/wave_frequency_direction_spectra.md) | `frequency_direction_spectra` | `wav_fdir` |
-| **L2b** | [Surface wave 1D frequency spectra](level2/wave_frequency_spectra.md) | `wave_spectrograms` | `wav_f1d` |
+| **L2a** | [Surface wave two-dimensional wavenumber spectra](level2/wave_wavenumber_spectra.md) | `wave_wavenumber_spectra` | `wav_k2d` |
+| **L2b** | [Surface wave frequency-direction spectra](level2/wave_frequency_direction_spectra.md) | `wave_frequency_direction_spectra` | `wav_fdir` |
+| **L2b** | [Surface wave one-dimensional frequency spectra](level2/wave_frequency_spectra.md) | `wave_frequency_spectra` | `wav_f1d` |
 | **L2b** | [Peak and mean wave parameters](level2/wave_parameters.md) | `wave_parameters` | `wav_params` |
 {: .product-table }
 

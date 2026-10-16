@@ -8,12 +8,12 @@ nav_order: 6
 
 # L2a: Surface wave two-dimensional wavenumber spectra
 
-Two-dimensional wavenumber spectra (`wavenumber_spectra`, short `wav_k2d`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
+Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`, short `wav_k2d`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 They are retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](current_maps.md).
 By SOMaR convention, consistent with the from-direction used by the frequency-direction spectra, the wavenumber vectors point toward the direction from which the waves come, i.e. opposite to the direction of propagation.
 Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
-The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted.
-The Level 2b [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
+The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted; the variable name, `sea_surface_wave_wavenumber_variance_spectral_density`, is chosen so as not to be mistaken for that standard name.
+The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated against a reference wave data set; the parameters of this calibration are recorded in the `wave_calibration` group (see [Calibration](#calibration)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
@@ -29,7 +29,7 @@ The file holds the following variables.
 | `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Northward wavenumber component, pointing in the direction the waves come from. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Mean latitude of the analysis windows contributing to each measurement. |
-| `sea_surface_wave_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Wave energy density as a function of the two wavenumber components. |
+| `sea_surface_wave_wavenumber_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Wave energy density as a function of the two wavenumber components. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
@@ -61,7 +61,7 @@ The group carries the following attributes.
 
 ## Minimal example
 ```
-netcdf or_2025-01-15-11_wavenumber_spectra_average {
+netcdf or_2025-01-15-11_wave_wavenumber_spectra_average {
 dimensions:
         time = 29 ;
         northward_wave_wavenumber = 512 ;
@@ -91,12 +91,12 @@ variables:
                 latitude:long_name = "mean latitude of wave measurement" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
-        double sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber) ;
-                sea_surface_wave_variance_spectral_density:long_name = "wave energy density two dimensional wavenumber spectrum" ;
-                sea_surface_wave_variance_spectral_density:units = "m4" ;
-                sea_surface_wave_variance_spectral_density:coordinates = "longitude latitude" ;
-                sea_surface_wave_variance_spectral_density:grid_mapping = "crs" ;
-                sea_surface_wave_variance_spectral_density:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber) ;
+                sea_surface_wave_wavenumber_variance_spectral_density:long_name = "wave energy density two dimensional wavenumber spectrum" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:units = "m4" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:coordinates = "longitude latitude" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:grid_mapping = "crs" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
@@ -109,7 +109,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "wavenumber_spectra" ;
+                :product_type = "wave_wavenumber_spectra" ;
 
 group: wave_calibration {
   variables:

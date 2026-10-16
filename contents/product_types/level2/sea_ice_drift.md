@@ -10,7 +10,7 @@ nav_order: 5
 
 Sea ice drift maps (`sea_ice_drift`, short `ice_drift`) provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
 Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter intensity images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.
-Because the correlation is evaluated both forward and backward in time, two independent drift vector estimates are reported for each analysis window: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward correlation, with its corresponding `correlation_coefficient`, and `eastward_sea_ice_velocity_alternative`/`northward_sea_ice_velocity_alternative` from the backward correlation, with `correlation_coefficient_alternative`.
+Because the correlation is evaluated both forward and backward in time, two independent drift vector estimates are reported for each analysis window: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward correlation, with its corresponding `correlation_coefficient`, and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward correlation, with `correlation_coefficient_backward`.
 This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
 As for the [near-surface current maps](current_maps.md), the analysis windows of one measurement period form a map that spans the radar footprint, and all maps belonging to one file are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>`. Within each group, the variables are stored on a two-dimensional `(latitude, longitude)` grid, on which the cells in the corners and those of analysis windows without a result hold the `_FillValue`, and the coordinate variables `latitude` and `longitude` give the centers of the analysis windows (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); a processor whose analysis windows lie on a local grid uses the [local-grid form](current_maps.md#local-grid-form) instead; the radar position for the period may optionally be stored in the scalar variables `radar_longitude` and `radar_latitude`.
 
@@ -27,9 +27,9 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the forward cross-correlation. |
 | `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the forward cross-correlation. |
 | `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the forward cross-correlation. |
-| `eastward_sea_ice_velocity_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the backward cross-correlation. |
-| `northward_sea_ice_velocity_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the backward cross-correlation. |
-| `correlation_coefficient_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the backward cross-correlation. |
+| `eastward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the backward cross-correlation. |
+| `northward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the backward cross-correlation. |
+| `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the backward cross-correlation. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
@@ -82,21 +82,21 @@ group: time_20250823120031 {
                 correlation_coefficient:units = "1" ;
                 correlation_coefficient:grid_mapping = "crs" ;
                 correlation_coefficient:_FillValue = NaN ;
-        double eastward_sea_ice_velocity_alternative(latitude, longitude) ;
-                eastward_sea_ice_velocity_alternative:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
-                eastward_sea_ice_velocity_alternative:units = "m s-1" ;
-                eastward_sea_ice_velocity_alternative:grid_mapping = "crs" ;
-                eastward_sea_ice_velocity_alternative:_FillValue = NaN ;
-        double northward_sea_ice_velocity_alternative(latitude, longitude) ;
-                northward_sea_ice_velocity_alternative:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
-                northward_sea_ice_velocity_alternative:units = "m s-1" ;
-                northward_sea_ice_velocity_alternative:grid_mapping = "crs" ;
-                northward_sea_ice_velocity_alternative:_FillValue = NaN ;
-        double correlation_coefficient_alternative(latitude, longitude) ;
-                correlation_coefficient_alternative:long_name = "maximum Pearson coefficient from backward cross-correlation" ;
-                correlation_coefficient_alternative:units = "1" ;
-                correlation_coefficient_alternative:grid_mapping = "crs" ;
-                correlation_coefficient_alternative:_FillValue = NaN ;
+        double eastward_sea_ice_velocity_backward(latitude, longitude) ;
+                eastward_sea_ice_velocity_backward:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
+                eastward_sea_ice_velocity_backward:units = "m s-1" ;
+                eastward_sea_ice_velocity_backward:grid_mapping = "crs" ;
+                eastward_sea_ice_velocity_backward:_FillValue = NaN ;
+        double northward_sea_ice_velocity_backward(latitude, longitude) ;
+                northward_sea_ice_velocity_backward:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
+                northward_sea_ice_velocity_backward:units = "m s-1" ;
+                northward_sea_ice_velocity_backward:grid_mapping = "crs" ;
+                northward_sea_ice_velocity_backward:_FillValue = NaN ;
+        double correlation_coefficient_backward(latitude, longitude) ;
+                correlation_coefficient_backward:long_name = "maximum Pearson coefficient from backward cross-correlation" ;
+                correlation_coefficient_backward:units = "1" ;
+                correlation_coefficient_backward:grid_mapping = "crs" ;
+                correlation_coefficient_backward:_FillValue = NaN ;
         ubyte measurement_quality(latitude, longitude) ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-7: bad)" ;
                 measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_too_high correlation_coefficient_too_low" ;

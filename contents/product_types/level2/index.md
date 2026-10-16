@@ -21,5 +21,5 @@ Level 2a products are the direct result of a retrieval applied to Level 1b image
 ## Level 2b
 
 Level 2b products are computed from Level 2a products and therefore inherit their sampling, calibration, and quality control.
-Currently all Level 2b products are surface wave products derived from the Level 2a two-dimensional wavenumber spectra: [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md).
+Currently all Level 2b products are surface wave products derived from the Level 2a two-dimensional wavenumber spectra: [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md).
 Like the wavenumber spectra, they are indexed by `time` with accompanying `longitude` and `latitude` and a `measurement_quality` flag.
