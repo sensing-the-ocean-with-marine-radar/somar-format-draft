@@ -88,3 +88,24 @@ strong > code,
 code strong {
   font-weight: 700;
 }
+
+// Draft status pill in the top bar (_includes/header_custom.html), in the
+// yellow of the Open issue callouts.
+.status-pill {
+  align-self: center;
+  flex-shrink: 0;
+  margin: 0 $sp-2;
+  padding: $sp-1 $sp-2;
+  border-radius: $border-radius;
+  background-color: $yellow-000;
+  color: $grey-dk-300;
+  font-size: $font-size-2;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $yellow-100;
+    text-decoration: none;
+  }
+}

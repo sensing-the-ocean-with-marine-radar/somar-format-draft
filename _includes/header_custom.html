@@ -1,0 +1,6 @@
+{%- comment -%}
+  Status pill in the top bar of every page; version and status from _config.yml.
+{%- endcomment -%}
+<a class="status-pill" href="{{ '/#status' | relative_url }}" title="Status of this specification">
+  {{ site.somar_status | capitalize }} v{{ site.somar_version }} &middot; subject to change
+</a>

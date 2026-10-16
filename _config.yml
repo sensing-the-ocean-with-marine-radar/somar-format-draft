@@ -34,6 +34,10 @@ nav_enabled: true
 # Supports true (default) or false
 heading_anchors: true
 
+# Footer: date of the last commit that changed a page (see _plugins/last_modified.rb)
+last_edit_timestamp: true
+last_edit_time_format: "%Y-%m-%d"
+
 # The just-the-docs theme (0.12.0, the latest release) still uses Sass features
 # that Dart Sass has deprecated. Silence those warnings, which come from the
 # theme's stylesheets rather than from this repository.
