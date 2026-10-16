@@ -35,6 +35,7 @@ Each page below documents the product-specific dimensions, variables, and attrib
 ## Terms
 
 - A **sweep** is the sequence of pulses of one antenna revolution, or of one pass over the sector for a radar that scans a sector. It is the unit in which Level 1a data are stored.
-- A **revolution** yields one **image** at Level 1b.
+- An **image** is the Level 1b representation of one sweep.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected.
+- An **averaging window** is the time span over which Level 1b images are averaged into one roughness image or one mosaic pixel.

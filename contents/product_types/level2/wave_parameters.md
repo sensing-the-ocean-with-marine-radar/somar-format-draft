@@ -9,7 +9,7 @@ nav_order: 9
 # L2b: Peak and mean wave parameters
 
 Peak and mean wave parameters (`wave_parameters`, short `wav_params`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period.
-To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_slope` and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis window (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_slope` and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Calibration](wave_wavenumber_spectra.md#calibration)).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
@@ -29,8 +29,8 @@ The file holds the following variables.
 | `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Peak wave direction: the direction the waves come from at the spectral maximum. |
 | `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Peak wave period: the period at the spectral maximum. |
 | `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Mean wave period (e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute). |
-| `wave_signal`<br><small>SOMaR</small> | double `(time)`; dimensionless | Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
-| `background_noise`<br><small>SOMaR</small> | double `(time)`; dimensionless | Spectral density of the background noise in the radar images, used to derive the significant wave height. |
+| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
+| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Spectral density of the background noise in the radar images, used to derive the significant wave height. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 

@@ -8,9 +8,9 @@ nav_order: 6
 
 # L2a: Surface wave two-dimensional wavenumber spectra
 
-Two-dimensional wavenumber spectra (`wavenumber_spectra`, short `wav_k2d`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each analysis window.
+Two-dimensional wavenumber spectra (`wavenumber_spectra`, short `wav_k2d`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 They are retrieved from the same dispersion-relation-based wavenumber-frequency analysis of local circular radar image analysis windows used for the [near-surface current retrieval](current_maps.md).
-Following oceanographic convention, the wavenumber vectors point in the direction from which the waves are propagating.
+By SOMaR convention, consistent with the from-direction used by the frequency-direction spectra, the wavenumber vectors point toward the direction from which the waves come, i.e. opposite to the direction of propagation.
 Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted.
 The Level 2b [two-dimensional frequency spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
@@ -46,7 +46,7 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 | `hs_slope`<br><small>SOMaR</small> | double; `m` | Slope of the significant wave height calibration. |
 | `hs_predictor`<br><small>SOMaR</small> | string; `"sqrt_signal_to_noise_ratio"`, `"signal_to_noise_ratio"`, or `"other"` | The quantity to which the slope and intercept are applied. |
 | `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or `"other"` | The form of the modulation transfer function. |
-| `mtf_exponent`<br><small>SOMaR</small> | double; dimensionless | For `"power_law"`: the exponent β. Omitted otherwise. |
+| `mtf_exponent`<br><small>SOMaR</small> | double; `1` | For `"power_law"`: the exponent β. Omitted otherwise. |
 {: .variable-table }
 
 A processor that uses a different predictor or a different form of the modulation transfer function sets the variable to `"other"` and describes its method in a `comment` attribute of that variable; a `references` attribute gives the underlying scientific literature.

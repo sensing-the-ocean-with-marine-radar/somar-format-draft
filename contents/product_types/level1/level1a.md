@@ -8,7 +8,7 @@ nav_order: 1
 
 # L1a: "raw" radar data
 
-Level 1a polar radar "raw" data (`radar_polar_raw`, short `pol_raw`) is the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
+Level 1a polar radar "raw" data (`radar_polar_raw`, short `pol_raw`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
 Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
 The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
 
@@ -87,7 +87,7 @@ ushort polar_amp(time, range) ;
         polar_amp:scale_factor = 0.176738930567883 ;
         polar_amp:add_offset = 0. ;
         polar_amp:_FillValue = 65535US ;
-        polar_amp:long_name = "radar_backscatter_amplitude" ;
+        polar_amp:long_name = "radar backscatter amplitude" ;
         polar_amp:units = "1" ;
         polar_amp:coordinates = "azimuth range" ;
         polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
@@ -154,12 +154,12 @@ group: sweep_0 {
         float azimuth(time) ;
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
-                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
         ushort polar_amp(time, range) ;
                 polar_amp:scale_factor = 0.176738930567883 ;
                 polar_amp:add_offset = 0. ;
                 polar_amp:_FillValue = 65535US ;
-                polar_amp:long_name = "radar_backscatter_amplitude" ;
+                polar_amp:long_name = "radar backscatter amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:coordinates = "azimuth range" ;
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
@@ -220,14 +220,14 @@ group: sweep_0 {
         float azimuth(time) ;
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
-                azimuth:comment = "clockwise positive, relative to the bow of the ship, not North-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
         string sweep_mode ;
                 sweep_mode:long_name = "sweep scan mode" ;
         ushort polar_amp(time, range) ;
                 polar_amp:scale_factor = 0.176738930567883 ;
                 polar_amp:add_offset = 0. ;
                 polar_amp:_FillValue = 65535US ;
-                polar_amp:long_name = "radar_backscatter_amplitude" ;
+                polar_amp:long_name = "radar backscatter amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:coordinates = "azimuth range" ;
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;

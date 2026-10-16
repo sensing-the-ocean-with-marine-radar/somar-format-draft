@@ -15,7 +15,7 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 - `station_id` is a short, lowercase, unique identifier for the originating platform, e.g. `or` for the fictional R/V Ocean Research used throughout this document's examples.
 - `<YYYY-MM-DD>-<HH>` is the UTC date and hour at which the file's data coverage begins. Most SOMaR products are aggregated into one file per hour; sub-hourly products additionally append a two-digit `-<MM>` minute field.
 - `product_name` is a short, snake_case name identifying the product, matching the canonical `product_type` attribute defined for the product (e.g. `radar_polar_raw`, `radar_polar_regularized`, `radar_cartesian`, `sea_surface_roughness`, `sea_surface_roughness_mosaic`, `currents`, `currents_profile`, `wavenumber_spectra`, `frequency_direction_spectra`, `wave_spectrograms`, `wave_parameters`, `bathymetry`, `sea_ice_drift`; see [SOMaR product types](../product_types/index.md)). Where compact filenames are desired, the recognized short abbreviation (e.g. `pol3d`, `cart3d`, `wav_k2d`, `wav_fdir`, `wav_f1d`, `wav_params`) may alternatively be used.
-- Level 2 products that represent an average across multiple analysis windows within each measurement interval (such as the wave products) carry an `_average` suffix (e.g. `wave_parameters_average.nc`) to distinguish them from their per-analysis-window counterparts.
+- Level 2 products that represent an average across multiple analysis windows within each measurement period (such as the wave products) carry an `_average` suffix (e.g. `wave_parameters_average.nc`) to distinguish them from per-analysis-window products, which SOMaR does not yet define.
 
 | Example filename | Product |
 |---|---|

@@ -26,10 +26,10 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Latitude of the centers of the analysis windows. |
 | `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the forward cross-correlation. |
 | `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the forward cross-correlation. |
-| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; dimensionless | Peak Pearson correlation coefficient of the forward cross-correlation. |
+| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the forward cross-correlation. |
 | `eastward_sea_ice_velocity_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the backward cross-correlation. |
 | `northward_sea_ice_velocity_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the backward cross-correlation. |
-| `correlation_coefficient_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; dimensionless | Peak Pearson correlation coefficient of the backward cross-correlation. |
+| `correlation_coefficient_alternative`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the backward cross-correlation. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 

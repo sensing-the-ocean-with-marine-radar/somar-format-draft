@@ -12,8 +12,8 @@ Roughness image mosaics (`sea_surface_roughness_mosaic`, short `rough_mosaic`) p
 In contrast to [roughness images](roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over only a few tens of seconds (typically about 19 consecutive images, corresponding to 30 s), but the start of that averaging window differs from pixel to pixel.
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
 The mosaic therefore extends along the platform track beyond the footprint of a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
-Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Introduction](../../introduction/index.md)).
-Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a lookup table flagging which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
+Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
+Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter intensity, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a flag variable recording which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
 Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 
 ## Variables
@@ -26,8 +26,8 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the measurement period. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the measurement period. |
-| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; dimensionless | Radar backscatter intensity averaged over a few tens of seconds for each grid cell, uncalibrated. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; dimensionless | Number of Level 1b images that contributed to each grid cell. |
+| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Radar backscatter intensity averaged over a few tens of seconds for each grid cell, uncalibrated. |
+| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Number of Level 1b images that contributed to each grid cell. |
 | `start_time_of_observations`<br><small>SOMaR</small> | float `(y, x)`; `s` | Start of the averaging for each grid cell, in seconds after `time`. |
 | `scan_sectors`<br><small>SOMaR</small> | byte `(y, x)`; `0b`, `1b`, `2b` | Part of the radar scan, relative to the target area, that the observations of each grid cell belong to: 0 preceding, 1 inside, 2 trailing. |
 {: .variable-table }
@@ -86,7 +86,7 @@ group: time_20250115111001 {
                 start_time_of_observations:units = "s" ;
                 start_time_of_observations:grid_mapping = "crs" ;
         byte scan_sectors(y, x) ;
-                scan_sectors:long_name = "scan sector lookup table" ;
+                scan_sectors:long_name = "part of the radar scan relative to the target area" ;
                 scan_sectors:flag_values = 0b, 1b, 2b ;
                 scan_sectors:flag_meanings = "preceding_target_area inside_target_area trailing_target_area" ;
                 scan_sectors:_FillValue = -1b ;

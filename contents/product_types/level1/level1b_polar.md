@@ -83,7 +83,7 @@ variables:
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
                 azimuth:rays_angle_resolution = 0.25f ;
-                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
@@ -94,7 +94,7 @@ variables:
                 pulse_time:units = "s" ;
                 pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
         float polar_amp(time, azimuth, range) ;
-                polar_amp:long_name = "radar_backscatter_amplitude" ;
+                polar_amp:long_name = "radar backscatter amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:azimuth_regularization = "nearest_neighbor" ;
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
@@ -148,7 +148,7 @@ variables:
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
                 azimuth:rays_angle_resolution = 0.25f ;
-                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not North-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
@@ -159,7 +159,7 @@ variables:
                 pulse_time:units = "s" ;
                 pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
         float polar_amp(time, azimuth, range) ;
-                polar_amp:long_name = "radar_backscatter_amplitude" ;
+                polar_amp:long_name = "radar backscatter amplitude" ;
                 polar_amp:units = "1" ;
                 polar_amp:azimuth_regularization = "nearest_neighbor" ;
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
