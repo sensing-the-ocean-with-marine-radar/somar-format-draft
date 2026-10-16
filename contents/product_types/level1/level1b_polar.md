@@ -28,7 +28,7 @@ The optional variable `pulse_time`, with the dimension `azimuth`, gives the time
 
 ## Position and heading
 
-The scalar variable `altitude` in the root group is required for all platforms (fixed and moving) and gives the height of the radar antenna above mean sea level; it is assumed constant.
+The scalar variables `altitude` and `platform_type` in the root group are required for all platforms (fixed and moving), as at [Level 1a](level1a.md#root-group); `altitude` gives the height of the radar antenna above mean sea level and is assumed constant.
 For a fixed platform, scalar `latitude` and `longitude` in the root group give the antenna position, as at [Level 1a](level1a.md#root-group).
 
 For a moving platform, the position and heading of the platform are stored in the root group using the variable names and units of CfRadial 2.1 (Section 5.4). As at Level 1a, they can be given in one of two ways:
@@ -72,6 +72,8 @@ variables:
                 altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
+        string platform_type ;
+                platform_type:long_name = "platform type" ;
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:calendar = "standard" ;
@@ -104,6 +106,7 @@ data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
         altitude = 43. ;
+        platform_type = "fixed" ;
 }
 ```
 

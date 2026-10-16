@@ -10,8 +10,8 @@ nav_order: 3
 
 Level 1b Cartesian images (`radar_cartesian`, short `cart3d`, a three-dimensional cube in Cartesian coordinates) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying Level 1a data.
 The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each revolution; this is an instance of the time-bounded local grid concept introduced in the [Introduction](../../introduction/index.md), since the grid origin moves with the platform from one image to the next.
-Grid cells that fall outside the calibrated field of view, for example those obstructed by platform superstructure, are blanked.
-As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"`); no radiometric calibration or temporal averaging is applied at this level.
+Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`.
+As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"`); no radiometric calibration or temporal averaging is applied at this level. As at Level 1a, the `comment` attribute of the data variable states whether the values are amplitude or power.
 
 ## Position and orientation
 
@@ -63,6 +63,8 @@ variables:
         float radar_backscatter_intensity(time, y, x) ;
                 radar_backscatter_intensity:long_name = "radar backscatter intensity in uncalibrated analog-to-digital converter units" ;
                 radar_backscatter_intensity:units = "1" ;
+                radar_backscatter_intensity:_FillValue = NaNf ;
+                radar_backscatter_intensity:comment = "backscatter power (I^2 + Q^2) in uncalibrated analog-to-digital units, mapped from polar coordinates by bilinear interpolation" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;

@@ -36,7 +36,7 @@ Used by all SOMaR products. The root group carries [mandatory](mandatory_global.
                 :source = "Shipboard marine X-band radar" ;
                 :summary = "The near-surface current vectors are obtained through least-squares fits ..." ;
                 :time_coverage_end = "2025-01-15T12:00:00.775429Z" ;
-                :time_coverage_start = "2025-01-15T11:10:01.357666Z" ;
+                :time_coverage_start = "2025-01-15T11:00:31.417000Z" ;
                 :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ;
 ```
 
@@ -82,10 +82,10 @@ variables:
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
 data:
         crs = " " ;
-        time = 1736939401.357666 ;
+        time = 1736938831.417 ;
 ```
 
 ## Radar position

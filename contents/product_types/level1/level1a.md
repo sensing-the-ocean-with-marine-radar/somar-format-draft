@@ -90,7 +90,7 @@ ushort polar_amp(time, range) ;
         polar_amp:long_name = "radar_backscatter_amplitude" ;
         polar_amp:units = "1" ;
         polar_amp:coordinates = "azimuth range" ;
-        polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital-converter (ADC)." ;
+        polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
 ```
 
 ## Moving platforms
@@ -196,8 +196,8 @@ variables:
                 :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_raw" ;
 data:
-        latitude = 14.9952749946079 ;
-        longitude = 145.868167860183 ;
+        latitude = 14.9958976192 ;
+        longitude = 145.8672647679 ;
         altitude = 18.5 ;
         platform_type = "ship" ;
 

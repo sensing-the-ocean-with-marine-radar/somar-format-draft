@@ -196,7 +196,7 @@ netcdf or_2025-01-15-11_currents_profile {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "currents_profile" ;
-                :wavenumber_bin_size = 0.00333564095198152 ;
+                :wavenumber_bin_size = 0.005 ;
 
 group: time_20250115110031 {
   dimensions:
