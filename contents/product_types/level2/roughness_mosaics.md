@@ -22,14 +22,14 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the measurement period. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the measurement period. |
-| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Radar backscatter intensity averaged over a few tens of seconds for each grid cell, uncalibrated. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Number of Level 1b images that contributed to each grid cell. |
-| `start_time_of_observations`<br><small>SOMaR</small> | float `(y, x)`; `s` | Start of the averaging for each grid cell, in seconds after `time`. |
-| `scan_sectors`<br><small>SOMaR</small> | byte `(y, x)`; `0b`, `1b`, `2b` | Part of the radar scan, relative to the target area, that the observations of each grid cell belong to: 0 preceding, 1 inside, 2 trailing. |
+| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
+| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required. Distance east of the radar antenna at the start of the measurement period. |
+| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required. Distance north of the radar antenna at the start of the measurement period. |
+| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Required. Radar backscatter intensity averaged over a few tens of seconds for each grid cell, uncalibrated. |
+| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Optional. Number of Level 1b images that contributed to each grid cell. |
+| `start_time_of_observations`<br><small>SOMaR</small> | float `(y, x)`; `s` | Required. Start of the averaging for each grid cell, in seconds after `time`. |
+| `scan_sectors`<br><small>SOMaR</small> | byte `(y, x)`; `0b`, `1b`, `2b` | Optional. Part of the radar scan, relative to the target area, that the observations of each grid cell belong to: 0 preceding, 1 inside, 2 trailing. |
 {: .variable-table }
 
 ## Minimal example

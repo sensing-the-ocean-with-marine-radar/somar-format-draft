@@ -30,7 +30,7 @@ Like the wavenumber spectra, they are indexed by `time` with accompanying `longi
 The analysis windows of one measurement period form a map that spans the radar footprint, and with a moving vessel the area covered changes from one period to the next.
 All maps belonging to one file are therefore stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` (UTC) after the start time of that period, as for the [roughness images](roughness_images.md).
 Within each group, the scalar variable `time` gives the start time of the period, and the variables are stored on a two-dimensional grid with the dimensions `(latitude, longitude)`.
-Since the radar footprint is circular, the cells in the corners of the grid hold the `_FillValue`, as do the cells of analysis windows without a result.
+Since the radar footprint is circular, the cells in the corners of the grid hold the `_FillValue`, as do the cells of analysis windows without a result or inside an [obstructed sector](../../metadata_attributes/radar_parameters.md#obstructed-sectors).
 The coordinate variables `latitude` and `longitude` give the centers of the analysis windows; they are one-dimensional because the windows lie on an Earth-fixed lattice (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
 A processor whose analysis windows lie on a local grid around the radar instead uses the [local-grid form](current_maps.md#local-grid-form).
 The radar position for the period may optionally be stored in the scalar variables [`radar_longitude` and `radar_latitude`](../../georeferencing/index.md#radar-position).
@@ -51,9 +51,9 @@ The processing parameters needed to interpret the [map products](#map-products) 
 
 | Attribute | Values | Description |
 |---|---|---|
-| `analysis_window_size`<br><small>SOMaR</small> | Number; `m` | The diameter of the circular analysis windows. |
-| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Map products only. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
-| `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Wave products only. The number of analysis windows averaged into each measurement. |
-| `measurement_period_duration`<br><small>SOMaR</small> | Number; `s` | The duration of the radar image sequence used for each map or wave measurement. |
-| `number_of_images`<br><small>SOMaR</small> | Integer | The number of radar images used for each map or wave measurement. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
+| `analysis_window_size`<br><small>SOMaR</small> | Number; `m` | Required. The diameter of the circular analysis windows. |
+| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Required for map products. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
+| `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Required for wave products. The number of analysis windows averaged into each measurement. |
+| `measurement_period_duration`<br><small>SOMaR</small> | Number; `s` | Required. The duration of the radar image sequence used for each map or wave measurement. |
+| `number_of_images`<br><small>SOMaR</small> | Integer | Required. The number of radar images used for each map or wave measurement. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
 {: .attribute-table }

@@ -20,12 +20,12 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the averaging window. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Distance east of the radar antenna at the start of the averaging window. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Distance north of the radar antenna at the start of the averaging window. |
-| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Radar backscatter intensity averaged over the window, uncalibrated. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Number of Level 1b images that contributed to each grid cell. |
+| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the averaging window. |
+| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required. Distance east of the radar antenna at the start of the averaging window. |
+| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required. Distance north of the radar antenna at the start of the averaging window. |
+| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Required. Radar backscatter intensity averaged over the window, uncalibrated. |
+| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Optional. Number of Level 1b images that contributed to each grid cell. |
 {: .variable-table }
 
 ## Minimal example

@@ -22,17 +22,17 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Start time of the measurement period. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Longitude of the centers of the analysis windows. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Latitude of the centers of the analysis windows. |
-| `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the forward cross-correlation. |
-| `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the forward cross-correlation. |
-| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the forward cross-correlation. |
-| `eastward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Eastward component of the sea ice drift, from the backward cross-correlation. |
-| `northward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Northward component of the sea ice drift, from the backward cross-correlation. |
-| `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Peak Pearson correlation coefficient of the backward cross-correlation. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
+| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
+| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
+| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
+| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
+| `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Eastward component of the sea ice drift, from the forward cross-correlation. |
+| `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Northward component of the sea ice drift, from the forward cross-correlation. |
+| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Required. Peak Pearson correlation coefficient of the forward cross-correlation. |
+| `eastward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward cross-correlation. |
+| `northward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward cross-correlation. |
+| `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Peak Pearson correlation coefficient of the backward cross-correlation. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
 In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attributes.
@@ -40,8 +40,8 @@ Since each drift vector is obtained from just two averaged images, which these a
 
 | Attribute | Values | Description |
 |---|---|---|
-| `time_lag`<br><small>SOMaR</small> | Number; `s` | The time between the two correlated images. |
-| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | The duration over which the radar backscatter intensity images are averaged to form each of the correlated images. |
+| `time_lag`<br><small>SOMaR</small> | Number; `s` | Required. The time between the two correlated images. |
+| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Required. The duration over which the radar backscatter intensity images are averaged to form each of the correlated images. |
 {: .attribute-table }
 
 ## Minimal example

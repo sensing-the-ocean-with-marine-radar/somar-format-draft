@@ -31,6 +31,8 @@ In addition to the canonical `product_type` name, a recognized short abbreviatio
 [Level 1](level1/index.md) products retain the radar's own measurement (backscatter intensity or amplitude in uncalibrated units), either pulse by pulse in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
 [Level 2](level2/index.md) products are geophysical variables, either retrieved directly from image sequences (Level 2a) or derived from those retrievals (Level 2b).
 Each page below documents the product-specific dimensions, variables, and attributes, with a minimal example, in addition to the [shared metadata](../metadata_attributes/index.md).
+The tables state for each variable and attribute whether it is required or optional.
+Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 
 {: .open_issue }
-Further products are not yet defined: wind speed and direction retrieved from radar backscatter, and masks of shadowed or blanked sectors (the valid field of view) at Level 1 and Level 2. Except at Level 1a, the product tables do not yet state which variables are required and which are optional.
+Wind speed and direction retrieved from radar backscatter are not yet defined.
