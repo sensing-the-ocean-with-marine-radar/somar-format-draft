@@ -10,13 +10,16 @@ nav_order: 5
 
 [Level 1a data](../product_types/level1/level1a.md) and [Level 1b polar images](../product_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 The `azimuth` variable holds the antenna angle as recorded by the radar relative to its zero direction; on a ship, this is typically the bow.
+This differs from FM 301, which defines `azimuth` relative to true north; SOMaR polar data are stored as recorded without modification.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
+
+The global attribute `platform_is_mobile` states whether the platform moves (`"true"` for a moving platform such as a ship, `"false"` for a fixed platform). FM 301 allows only `"false"`; in SOMaR it is assumed `"false"` if missing.
 
 They are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft:
 
 - Scalar `altitude` in the root group gives the height of the radar antenna above mean sea level; it is assumed constant for both fixed and moving platforms (FM 301).
 - For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
-- For a moving platform, platform position and orientation are recorded in `latitude`, `longitude`, and `heading` (CfRadial 2.1), provided either **per sweep** (at the start of each revolution) or **per pulse**:
+- For a moving platform (`platform_is_mobile = "true"`), platform position and orientation are recorded in `latitude` (double; `degrees_north`), `longitude` (double; `degrees_east`), and `heading` (float; `degree`, standard name `platform_orientation`), following CfRadial 2.1 (Section 5.4). All navigation variables within a group or subgroup must use the same representation, provided either **per sweep** (scalar at the start of each revolution, i.e. at the time of its first pulse; a SOMaR addition, as CfRadial defines them per pulse only) or **per pulse** (dimension `time`, keeping the full resolution of navigation data as in CfRadial):
   - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per pulse; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). In addition, FM 301 requires scalar `latitude` and `longitude` at file start in the root group.
   - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per pulse; see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
 
@@ -26,7 +29,7 @@ In polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b 
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in the optional `georeference_correction` group in the root group (see [Georeference correction parameters](../metadata_attributes/georeference_correction.md)).
 Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
 
-- **Azimuth**: The azimuth of a pulse relative to true north, clockwise positive, is `azimuth + azimuth_correction + heading`.
+- **Azimuth**: The azimuth of a pulse relative to true north, clockwise positive, is `azimuth + azimuth_correction + heading`, where `heading` is taken from the navigation variables (the `georeference` subgroup at Level 1a or the root group at Level 1b polar) and `azimuth_correction` from the `georeference_correction` group. For a fixed platform, there is no `heading`, and `azimuth_correction` is the direction of the radar's zero direction relative to true north.
 - **Range**: The corrected slant range $R_s$ is `range + range_correction`. The ground range $R_g$ follows from the corrected slant range and the antenna height $h$ (`altitude`) above mean sea level as $R_g = \sqrt{R_s^2 - h^2}$ for $R_s \ge h$. Range gates where $R_s \lt h$ fall inside the platform near-field or nadir blind zone, do not intersect the sea surface, and are left unmapped or set to the `_FillValue` when projecting to horizontal coordinates.
 - **Time**: The corrected time is `time + time_correction`.
 - **Platform position**:<a id="position-offset"></a> Where the position of a moving platform has been taken from a GPS antenna at a different location on the platform, `position_offset_x` and `position_offset_y` give the position of the radar antenna relative to the GPS antenna in a ship frame (x-axis positive to starboard, y-axis positive toward the bow). With heading $H$ (in degrees clockwise from true north, converted to radians for trigonometric evaluation), the radar antenna's displacement in meters east and north of the recorded position is:

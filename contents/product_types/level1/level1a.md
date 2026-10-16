@@ -35,13 +35,13 @@ A sweep comprises the pulses of one antenna revolution or, for a radar that scan
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Moving platforms](#moving-platforms)). |
-| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level. Needed to convert slant range to ground range. |
+| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
+| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
+| `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level; needed to convert slant range to ground range (see [Georeferencing](../../georeferencing/index.md#applying-georeference-corrections)). |
 | `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Required. Type of the platform. |
 {: .variable-table }
 
-The global attribute `platform_is_mobile` states whether the platform moves (see [Moving platforms](#moving-platforms)).
+The global attribute `platform_is_mobile` states whether the platform moves (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates) and [Optional global attributes](../../metadata_attributes/optional_global.md)).
 
 ## Sweep groups
 
@@ -53,7 +53,7 @@ A sweep group holds the following variables.
 |---|---|---|
 | `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
-| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Azimuth reference](#azimuth-reference)). |
+| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Optional. Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
 {: .variable-table }
 
@@ -88,16 +88,7 @@ ushort polar_amp(time, range) ;
 
 ## Moving platforms
 
-FM 301 requires the global attribute `platform_is_mobile` to be `"false"`.
-SOMaR also allows `"true"`, for a radar on a ship; the attribute is assumed to be `"false"` if missing.
-
-If `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform, with the variables defined in section 5.4 of CfRadial 2.1.
-The variables can be given in one of two ways, which must be the same for all variables of the subgroup:
-
-- **Per sweep.** The variables are scalar and give the values at the start of the sweep, i.e. at the time of its first pulse. This is the simpler option, matching the per-sweep option of [Level 1b polar images](level1b_polar.md) and the grid origin of [Level 1b Cartesian images](level1b_cartesian.md). It is a SOMaR addition; CfRadial defines the variables per pulse only.
-- **Per pulse.** The variables have the dimension `(time)` of the sweep and give the values for every pulse, as in CfRadial. This option keeps the full resolution of the navigation data.
-
-The antenna height above mean sea level is given by the required scalar `altitude` variable in the root group and is assumed constant.
+When `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per pulse (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -105,22 +96,6 @@ The antenna height above mean sea level is given by the required scalar `altitud
 | `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Required. Recorded longitude (WGS 84). |
 | `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Required. Heading of the platform relative to true north. |
 {: .variable-table }
-
-`latitude` and `longitude` are stored as recorded.
-Where they have been taken from a GPS antenna at a different location on the platform, the position of the radar antenna relative to the GPS antenna is given by `position_offset_x` and `position_offset_y` in the optional [`georeference_correction` group](../../metadata_attributes/georeference_correction.md) (see [Position offset](../../georeferencing/index.md#position-offset)) and is not applied.
-
-## Azimuth reference
-
-FM 301 defines `azimuth` relative to true north.
-At Level 1a, where the data must not be changed, `azimuth` is the antenna angle as recorded by the radar, relative to the radar's own zero direction; on a ship, this is typically the bow.
-The azimuth relative to true north is obtained as
-
-```
-azimuth + azimuth_correction + heading
-```
-
-where `heading` is taken from the `georeference` subgroup and `azimuth_correction` from the optional [`georeference_correction` group](../../metadata_attributes/georeference_correction.md); a missing variable counts as 0.
-For a fixed platform, there is no `heading`, and `azimuth_correction` is the direction of the radar's zero direction relative to true north.
 
 ## Minimal example
 
