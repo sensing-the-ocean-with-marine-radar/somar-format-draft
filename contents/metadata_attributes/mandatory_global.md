@@ -35,7 +35,7 @@ These positions are the values of all variables named `latitude` and `longitude`
 Depending on the product, they are the positions of the radar antenna (Level 1 products, roughness images, and roughness image mosaics), the centers of the analysis windows (map products), or their mean positions (wave products), in each case as stored, i.e. uncorrected in polar products (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)).
 Other positions, such as `radar_latitude` and `radar_longitude`, do not count.
 
-The bounds therefore enclose the positions of the data rather than the area observed, which extends beyond them by up to the maximum range of the radar or half the analysis window size; for a fixed platform, the minimum and maximum coincide.
+The bounds therefore enclose the positions of the data rather than the area observed, which extends beyond them by up to the maximum range of the radar or half the analysis window size; for a fixed platform, the minimum and maximum may coincide.
 ACDD describes these attributes as the bounds of the data; SOMaR narrows this to a definition that every writer can apply in the same way and that can be checked against the file.
 If the positions span the antimeridian, `geospatial_lon_min` is the westernmost and `geospatial_lon_max` the easternmost longitude, so that `geospatial_lon_min` is greater than `geospatial_lon_max`, as ACDD allows.
 
