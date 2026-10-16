@@ -169,27 +169,18 @@ group: time_20250115110031 {
 
 Near-surface current profile maps (`currents_profile`, short `cur_profile`) extend the near-surface current maps above by repeating the same dispersion-relation current fit for a set of distinct wavenumber bands rather than a single fixed wave-signal wavenumber range, providing an approximate vertical profile of near-surface current shear.
 The variables therefore have an additional dimension `wavenumber_bin`, i.e. `(wavenumber_bin, latitude, longitude)`, with one layer per wavenumber band; cells for which no fit was attempted hold the `_FillValue`.
-The lower bound of each wavenumber band is given by `lower_wavenumber_bin_edge`, which has the dimension `wavenumber_bin`, with the (fixed) band width given by the global attribute `wavenumber_bin_size`, both in `m-1`; as in the near-surface current maps, `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in that particular fit, and since the effective sensing depth increases with wavelength, the wavenumber-dependence of the current fits amounts to a measure of upper-ocean vertical current shear.
+The coordinate variable `wavenumber_bin` gives the center of each wavenumber band, and its `bounds` attribute names the variable `wavenumber_bin_bounds`, which holds the lower and upper edge of each band ([CF][cf], section 7.1), both in `m-1`, so the bands need not be of equal width; as in the near-surface current maps, `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in that particular fit, and since the effective sensing depth increases with wavelength, the wavenumber-dependence of the current fits amounts to a measure of upper-ocean vertical current shear.
 All other variables (current components, standard errors, `number_of_wave_coordinates`, `measurement_quality`) are defined identically to the near-surface current maps above.
 
 ### Variables
 
-The variables are those of the near-surface current maps, with the additional dimension `wavenumber_bin`, and the following variable.
+The variables are those of the near-surface current maps, with the additional dimension `wavenumber_bin`, and the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `lower_wavenumber_bin_edge`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Lower edge of each wavenumber band. |
+| `wavenumber_bin`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Center of each wavenumber band; its `bounds` attribute is `"wavenumber_bin_bounds"`. |
+| `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Lower and upper edge of each wavenumber band, with `nv = 2` ([CF][cf], section 7.1). |
 {: .variable-table }
-
-In addition to the [shared global attributes](../../metadata_attributes/index.md), the file carries the following global attribute.
-
-| Attribute | Values | Description |
-|---|---|---|
-| `wavenumber_bin_size`<br><small>SOMaR</small> | Number; `m-1` | The width of the wavenumber bands. |
-{: .attribute-table }
-
-{: .open_issue }
-The wavenumber bands are described by their lower edges and a global band width, which assumes bands of equal width and is not CF practice. A CF alternative is a coordinate variable `wavenumber_bin(wavenumber_bin)` holding the band centers, with a `bounds` attribute naming a variable `wavenumber_bin_bounds(wavenumber_bin, nv)` that holds the lower and upper edge of each band. It would replace both `lower_wavenumber_bin_edge` and `wavenumber_bin_size`, and would also allow bands of unequal width.
 
 ### Minimal example
 ```
@@ -198,11 +189,11 @@ netcdf or_2025-01-15-11_currents_profile {
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "currents_profile" ;
-                :wavenumber_bin_size = 0.005 ;
 
 group: time_20250115110031 {
   dimensions:
-        wavenumber_bin = 6 ;
+        wavenumber_bin = 13 ;
+        nv = 2 ;
         latitude = 17 ;
         longitude = 17 ;
   variables:
@@ -217,6 +208,11 @@ group: time_20250115110031 {
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+        double wavenumber_bin(wavenumber_bin) ;
+                wavenumber_bin:long_name = "center of the wavenumber band used by the current measurement" ;
+                wavenumber_bin:units = "m-1" ;
+                wavenumber_bin:bounds = "wavenumber_bin_bounds" ;
+        double wavenumber_bin_bounds(wavenumber_bin, nv) ;
         double longitude(longitude) ;
                 longitude:long_name = "center longitude of current measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -265,13 +261,36 @@ group: time_20250115110031 {
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:grid_mapping = "crs" ;
                 measurement_quality:_FillValue = 255UB ;
-        double lower_wavenumber_bin_edge(wavenumber_bin) ;
-                lower_wavenumber_bin_edge:long_name = "lower edge of the wavenumber bin used by the current measurement" ;
-                lower_wavenumber_bin_edge:units = "m-1" ;
   } // group time_20250115110031
 
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
+```
+
+In this example the 13 bands are contiguous and of equal width, covering wavelengths from 60 m down to 16.7 m; the upper edge of each band is the lower edge of the next.
+The values of the band variables are:
+
+```
+// excerpt: data of the wavenumber band variables
+data:
+
+ wavenumber_bin = 0.018346, 0.021681, 0.025017, 0.028353, 0.031688, 0.035024,
+    0.038360, 0.041695, 0.045031, 0.048367, 0.051702, 0.055038, 0.058374 ;
+
+ wavenumber_bin_bounds =
+  0.016678, 0.020014,
+  0.020014, 0.023349,
+  0.023349, 0.026685,
+  0.026685, 0.030021,
+  0.030021, 0.033356,
+  0.033356, 0.036692,
+  0.036692, 0.040028,
+  0.040028, 0.043363,
+  0.043363, 0.046699,
+  0.046699, 0.050035,
+  0.050035, 0.053370,
+  0.053370, 0.056706,
+  0.056706, 0.060042 ;
 ```
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
