@@ -105,9 +105,7 @@ data:
 
 ## Radar parameters
 
-Technical parameters of the radar are stored as variables (see [Radar parameters](radar_parameters.md)).
-
-The `radar_parameters` group is used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store constant antenna properties, operating frequency, and pulse and scan parameters in the root group:
+Used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store constant antenna properties, operating frequency, and pulse and scan parameters in the The `radar_parameters` group on root level (see [Radar parameters](radar_parameters.md)):
 
 ```
 group: radar_parameters {
@@ -147,7 +145,7 @@ group: radar_parameters {
 
 ## Georeference correction parameters
 
-Used by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store known sensor and antenna offsets relative to GPS in the root group (see [Georeference correction parameters](georeference_correction.md)):
+Used optionally by polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)) to store known sensor and antenna offsets relative to GPS in the `georeference_correction` group on root level (see [Georeference correction parameters](georeference_correction.md)):
 
 ```
 group: georeference_correction {
