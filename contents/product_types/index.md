@@ -34,4 +34,4 @@ The tables state for each variable and attribute whether it is required or optio
 Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 
 {: .open_issue }
-Wind speed and direction retrieved from radar backscatter are not yet defined.
+Wind speed and direction retrieved from radar backscatter are not yet defined, nor are products for coastal applications, such as the mapping of intertidal areas.
