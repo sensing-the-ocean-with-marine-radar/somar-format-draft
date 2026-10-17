@@ -54,7 +54,7 @@ SOMaR uses two coordinate reference systems:
 ### Geographic coordinates
 
 Used by wave products and standard Level 2 maps ([near-surface current maps](../product_types/level2/current_maps.md), [bathymetric maps](../product_types/level2/depth_maps.md), and [sea ice drift maps](../product_types/level2/sea_ice_drift.md)) on an Earth-fixed longitude/latitude grid.
-The `crs` variable specifies `grid_mapping_name = "latitude_longitude"`, describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the geodetic datum (`horizontal_datum_name`):
+The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` (see [Latitude-longitude](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#_latitude_longitude) in the CF conventions), describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the geodetic datum (`horizontal_datum_name`):
 
 ```
 variables:
