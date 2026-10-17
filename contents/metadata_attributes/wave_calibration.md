@@ -9,8 +9,8 @@ nav_order: 6
 
 Two steps of the wave retrieval rely on empirical parameters, which differ between processors. They are recorded in a group named `wave_calibration` in the root group of every surface wave product ([wavenumber spectra](../product_types/level2/wave_wavenumber_spectra.md), [frequency-direction spectra](../product_types/level2/wave_frequency_direction_spectra.md), [frequency spectra](../product_types/level2/wave_frequency_spectra.md), and [wave parameters](../product_types/level2/wave_parameters.md)), so that the calibration can be reproduced from the file.
 
-- The **modulation transfer function** M(k) converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by the squared magnitude of M(k). For the form `"power_law"`, that squared magnitude is proportional to k^β, where k is the wavenumber and β is given by `mtf_exponent`; a positive β thus reduces the energy at high wavenumbers relative to that at low wavenumbers.
-- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: Hs = `hs_intercept` + `hs_slope` × P, where the predictor P named by `hs_predictor` is typically the square root of the signal-to-noise ratio.
+- The **modulation transfer function** $M(k)$ converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by $\lvert M(k) \rvert^2$. For the form `"power_law"`, $\lvert M(k) \rvert^2 \propto k^{\beta}$, where $k$ is the wavenumber and $\beta$ is given by `mtf_exponent`; a positive $\beta$ thus reduces the energy at high wavenumbers relative to that at low wavenumbers.
+- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and the predictor $P$ named by `hs_predictor` is typically the square root of the signal-to-noise ratio.
 
 | Variable | Values | Description |
 |---|---|---|
@@ -18,7 +18,7 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 | `hs_slope`<br><small>SOMaR</small> | double; `m` | Slope of the significant wave height calibration. |
 | `hs_predictor`<br><small>SOMaR</small> | string; `"sqrt_signal_to_noise_ratio"`, `"signal_to_noise_ratio"`, or `"other"` | The quantity to which the slope and intercept are applied. |
 | `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or `"other"` | The form of the modulation transfer function. |
-| `mtf_exponent`<br><small>SOMaR</small> | double; `1` | For `"power_law"`: the exponent β. Omitted otherwise. |
+| `mtf_exponent`<br><small>SOMaR</small> | double; `1` | For `"power_law"`: the exponent $\beta$. Omitted otherwise. |
 {: .variable-table }
 
 A processor that uses a different predictor or a different form of the modulation transfer function sets the variable to `"other"` and describes its method in a `comment` attribute of that variable; a `references` attribute gives the underlying scientific literature.
