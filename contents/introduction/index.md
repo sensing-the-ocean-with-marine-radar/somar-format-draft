@@ -23,6 +23,7 @@ At the lowest level of processing, radar data in polar coordinates are already c
 SOMaR does not replicate this work: [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
 Neither document covers the products that follow, i.e. image sequences on regular grids and the geophysical variables retrieved from them; these are defined by SOMaR.
 For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3), which is designed to complement CF.
+The versions of these standards that SOMaR refers to are listed under [References](../references/index.md#standards-and-conventions).
 
 ## Terms
 

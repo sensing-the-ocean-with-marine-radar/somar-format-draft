@@ -27,6 +27,7 @@ They are located in space with variables from the WMO-CF Radial profile [FM 301]
 
 In polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)), `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied.
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in the optional `georeference_correction` group in the root group (see [Georeference correction parameters](../metadata_attributes/georeference_correction.md)).
+The azimuth, range, and time offsets of a ship-borne radar can be estimated from the imagery itself (McCann and Bell [2018](../references/index.md#mccann-bell-2018)).
 Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
 
 - **Azimuth**: The azimuth of a pulse relative to true north, clockwise positive, is `(azimuth + azimuth_correction + heading) mod 360`, where `heading` is taken from the navigation variables (the `georeference` subgroup at Level 1a or the root group at Level 1b polar) and `azimuth_correction` from the `georeference_correction` group. For a fixed platform, there is no `heading`, and `azimuth_correction` is the direction of the radar's zero direction relative to true north. With per-sweep navigation, the heading at the start of the sweep is applied to all its pulses, which is an approximation while the ship turns.

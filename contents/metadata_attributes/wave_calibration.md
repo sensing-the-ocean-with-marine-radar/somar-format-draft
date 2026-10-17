@@ -9,8 +9,8 @@ nav_order: 6
 
 Two steps of the wave retrieval rely on empirical parameters, which differ between processors. They are recorded in a group named `wave_calibration` in the root group of every surface wave product ([wavenumber spectra](../product_types/level2/wave_wavenumber_spectra.md), [frequency-direction spectra](../product_types/level2/wave_frequency_direction_spectra.md), [frequency spectra](../product_types/level2/wave_frequency_spectra.md), and [wave parameters](../product_types/level2/wave_parameters.md)), so that the calibration can be reproduced from the file.
 
-- The **modulation transfer function** $M(k)$ converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by $\lvert M(k) \rvert^2$. For the form `"power_law"`, $\lvert M(k) \rvert^2 \propto k^{\beta}$, where $k$ is the wavenumber and $\beta$ is given by `mtf_exponent`; a positive $\beta$ thus reduces the energy at high wavenumbers relative to that at low wavenumbers.
-- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and the predictor $P$ named by `hs_predictor` is typically the square root of the signal-to-noise ratio.
+- The **modulation transfer function** $M(k)$ converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by $\lvert M(k) \rvert^2$. For the form `"power_law"`, $\lvert M(k) \rvert^2 \propto k^{\beta}$, where $k$ is the wavenumber and $\beta$ is given by `mtf_exponent`; a positive $\beta$ thus reduces the energy at high wavenumbers relative to that at low wavenumbers (Nieto Borge et al. [2004](../references/index.md#nieto-borge-2004)).
+- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and the predictor $P$ named by `hs_predictor` is typically the square root of the signal-to-noise ratio (Nieto-Borge et al. [2008](../references/index.md#nieto-borge-2008)).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -44,6 +44,7 @@ group: wave_calibration {
                 hs_slope:long_name = "slope of the significant wave height calibration" ;
         string hs_predictor ;
                 hs_predictor:long_name = "quantity to which the significant wave height calibration is applied" ;
+                hs_predictor:references = "Nieto-Borge, J. C., K. Hessner, P. Jarabo-Amores, and D. de la Mata-Moya (2008), Signal-to-noise ratio analysis to estimate ocean wave heights from X-band marine radar image time series, IET Radar Sonar Navig., 2(1), 35-41, doi:10.1049/iet-rsn:20070027" ;
         string mtf_form ;
                 mtf_form:long_name = "form of the modulation transfer function" ;
                 mtf_form:references = "Nieto Borge, J. C., G. Rodriguez Rodriguez, K. Hessner, and P. Izquierdo Gonzalez (2004), Inversion of marine radar images for surface wave analysis, J. Atmos. Oceanic Technol., 21(8), 1291-1300, doi:10.1175/1520-0426(2004)021<1291:IOMRIF>2.0.CO;2" ;

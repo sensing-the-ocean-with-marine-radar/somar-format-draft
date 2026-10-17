@@ -8,6 +8,7 @@ nav_order: 5
 # Georeference correction parameters
 
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in a group named `georeference_correction` in the root group.
+For a ship-borne radar, the azimuth, range, and time offsets can be estimated from the imagery itself (McCann and Bell [2018](../references/index.md#mccann-bell-2018)).
 This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
 
 The group is used only by [Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md) products; how the corrections are applied is described under [Georeferencing](../georeferencing/index.md#applying-georeference-corrections).
