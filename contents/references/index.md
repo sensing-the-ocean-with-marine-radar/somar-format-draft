@@ -45,5 +45,5 @@ Unidata, UDUNITS-2. [https://docs.unidata.ucar.edu/udunits/current/](https://doc
 ISO 8601-1:2019, Date and time — Representations for information interchange — Part 1: Basic rules, amended by ISO 8601-1:2019/Amd 1:2022. International Organization for Standardization. [https://www.iso.org/standard/70907.html](https://www.iso.org/standard/70907.html).
 {: #iso8601 }
 
-NGA, 2014: Department of Defense World Geodetic System 1984 (WGS 84), NGA.STND.0036_1.0.0_WGS84. National Geospatial-Intelligence Agency. As a coordinate reference system: EPSG:4326, [https://epsg.org/crs_4326/WGS-84.html](https://epsg.org/crs_4326/WGS-84.html).
+NGA, 2014: Department of Defense World Geodetic System 1984 (WGS 84), NGA.STND.0036_1.0.0_WGS84. National Geospatial-Intelligence Agency, [https://nsgreg.nga.mil/doc/view?i=4085](https://nsgreg.nga.mil/doc/view?i=4085). As a coordinate reference system: EPSG:4326, [https://epsg.org/crs_4326/WGS-84.html](https://epsg.org/crs_4326/WGS-84.html).
 {: #wgs84 }
