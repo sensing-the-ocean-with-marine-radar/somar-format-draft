@@ -15,7 +15,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/metadata_attributes/` | Mandatory and optional global attributes, variable attributes, radar parameters, georeference correction parameters, wave calibration parameters |
 | `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
 | `contents/product_types/` | Level 1 products (polar raw data, regularized polar images, Cartesian images) and Level 2 products (Level 2a retrievals from image sequences, and Level 2b products derived from them) |
-| `contents/file_naming/` | File naming pattern and product naming recommendations |
+| `contents/file_naming/` | File naming pattern recommendations |
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
 | `contents/about/` | About the SOMaR community |
 | `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |
