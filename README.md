@@ -55,7 +55,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- Each product type has its own page under `contents/product_types/`, documenting its dimensions, variables, and attributes with a minimal CDL example. Attributes shared by all products belong in `contents/metadata_attributes/`.
+- Each product type has its own page under `contents/product_types/`, documenting its dimensions, variables, and attributes with a minimal CDL example. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Please propose changes through issues or pull requests.
 
 ## License and attribution
