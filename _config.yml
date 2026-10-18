@@ -50,7 +50,6 @@ sass:
 # Placeholder pages for levels the format does not define yet.
 exclude:
   - scripts/
-  - contents/product_types/level0/
   - contents/product_types/level1/level1c.md
 
 # Callouts marking topics the community has yet to decide.
