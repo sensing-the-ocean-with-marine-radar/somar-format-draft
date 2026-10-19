@@ -9,7 +9,7 @@ nav_order: 2
 Over the past decades, the Sensing the Ocean with Marine Radar (SOMaR) community has developed a set of techniques to extract oceanographic variables from marine radar data. However, the output data formats have not yet been standardized, and different formats are currently used across research groups. To make marine radar data findable, accessible, interoperable, and reusable (FAIR), and thereby facilitate their use and exchange well beyond the groups that produce them, SOMaR defines a common data format with standard products.
 
 ## Scope
-This document is tailored for use within the SOMaR community and applies to ocean radar data collected by radars typically used for navigation. These are primarily systems operating in the X or S band and equipped with rotating fan-beam antennas that scan the ocean surface.
+This document is tailored for use within the SOMaR community and applies to ocean radar data collected by radars typically used for navigation. These are primarily systems operating in the X or S band and equipped with fan-beam antennas that rotate to scan the ocean surface or are held at a fixed direction (pointing mode).
 
 ## Why a new format?
 
@@ -28,8 +28,8 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 ## Terms
 
 - **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/level1/level1a.md) is their conversion to NetCDF.
-- A **sweep** is the sequence of pulses of one antenna revolution, or of one pass over the sector for a radar that scans a sector. It is the unit in which Level 1a data are stored.
-- An **image** is the Level 1b representation of one sweep.
+- A **sweep** is the sequence of pulses of one antenna revolution, or of one pass over the sector for a radar that scans a sector, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data are stored.
+- An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected.
 - An **averaging window** is the time span over which Level 1b images are averaged into one roughness image or one mosaic pixel.

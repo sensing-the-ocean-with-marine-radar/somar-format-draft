@@ -26,12 +26,15 @@ SOMaR departs from FM 301 in the following points:
 - Units are written as UDUNITS symbols (`m`, `degree`, `s`) rather than `metres`, `degrees`, and `seconds`.
 - `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)).
 - `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
-- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `fixed_angle`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and the `time_coverage_start` and `time_coverage_end` variables in the root group (Table 301-4), whose role is taken by the ACDD global attributes of the same names. The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
+- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and the `time_coverage_start` and `time_coverage_end` variables in the root group (Table 301-4), whose role is taken by the ACDD global attributes of the same names. The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
+- `fixed_angle` is present only in pointing sweeps, where it holds the nominal azimuth in the same reference as `azimuth`. FM 301 makes it mandatory in all sweeps and defines it as the elevation angle in most sweep modes (Table 301-7).
 
 ## File structure
 
 A Level 1a file is organized in sweeps, as in FM 301.
 A sweep comprises the pulses of one antenna revolution or, for a radar that scans a sector, of one pass over the sector.
+For a radar in pointing mode, whose antenna is held at a fixed direction, a sweep is one dwell: an unbroken sequence of pulses at that direction, in line with FM 301, where a sweep is a subset of the data "over which certain fundamental conditions remain constant" (301.2.1.2), and CfRadial 2.1, where a pointing sweep is "a sequence of rays over some time period, at fixed azimuth and elevation" (Section 2).
+A new sweep starts when the direction changes or the recording is interrupted, so a file from an antenna that stays at one direction throughout holds a single sweep.
 
 - The **root group** holds the global attributes and the variables that apply to the whole file.
 - Each sweep is stored in a group named **`sweep_<n>`**, where `<n>` is the number of the sweep, starting at 0 and increasing in the order of acquisition.
@@ -61,7 +64,8 @@ A sweep group holds the following variables.
 | `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
-| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"sector"` | Optional. Whether the sweep is a full revolution or a sector scan. Assumed `"azimuth_surveillance"` if missing. |
+| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"`, `"sector"`, or `"pointing"` | Optional. Whether the sweep is a full revolution, a sector scan, or a dwell at a fixed direction. Assumed `"azimuth_surveillance"` if missing. |
+| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`, otherwise omitted. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-pulse `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
 {: .variable-table }
 
 The `range` variable carries the following attributes.
@@ -165,7 +169,7 @@ group: sweep_0 {
                 polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
   } // group sweep_0
 
-// ... additional sweep_<n> groups follow the same layout, one per antenna revolution ...
+// ... additional sweep_<n> groups follow the same layout, one per sweep ...
 }
 ```
 
@@ -259,7 +263,7 @@ group: sweep_0 {
     } // group georeference
   } // group sweep_0
 
-// ... additional sweep_<n> groups follow the same layout, one per antenna revolution ...
+// ... additional sweep_<n> groups follow the same layout, one per sweep ...
 
 group: radar_parameters { ... } // as in the example under Radar parameters
 group: georeference_correction { ... } // as in the example under Georeference correction parameters
@@ -285,6 +289,29 @@ If the position and heading are given per pulse instead, the variables of the `g
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north" ;
     } // group georeference
+```
+
+## Example for pointing mode
+
+A radar in pointing mode stores the same sweep variables, with `sweep_mode` set to `"pointing"` and the nominal direction in `fixed_angle`:
+
+```
+// excerpt: only the variables that differ
+group: sweep_0 {
+  dimensions:
+        time = 1800000 ; // number of pulses in the dwell, e.g. 10 min at 3000 Hz PRF
+        range = 1000 ; // number of range gates
+  variables:
+        string sweep_mode ;
+                sweep_mode:long_name = "sweep scan mode" ;
+        float fixed_angle ;
+                fixed_angle:units = "degree" ;
+                fixed_angle:long_name = "nominal antenna pointing direction" ;
+                fixed_angle:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
+  data:
+        sweep_mode = "pointing" ;
+        fixed_angle = 45. ;
+  } // group sweep_0
 ```
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
