@@ -9,7 +9,7 @@ nav_order: 5
 # L2a: Sea ice drift maps
 
 Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
-Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter intensity images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.
+Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.
 Because the correlation is evaluated both forward and backward in time, two independent drift vector estimates are reported for each analysis window: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward correlation, with its corresponding `correlation_coefficient`, and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward correlation, with `correlation_coefficient_backward`.
 This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
@@ -41,7 +41,7 @@ Since each drift vector is obtained from just two averaged images, which these a
 | Attribute | Values | Description |
 |---|---|---|
 | `time_lag`<br><small>SOMaR</small> | Number; `s` | Required. The time between the two correlated images. |
-| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Required. The duration over which the radar backscatter intensity images are averaged to form each of the correlated images. |
+| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Required. The duration over which the radar backscatter images are averaged to form each of the correlated images. |
 {: .attribute-table }
 
 ## Minimal example
