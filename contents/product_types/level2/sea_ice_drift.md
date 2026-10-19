@@ -29,8 +29,8 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Eastward component of the sea ice drift, from the forward cross-correlation. |
 | `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Northward component of the sea ice drift, from the forward cross-correlation. |
 | `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Required. Peak Pearson correlation coefficient of the forward cross-correlation. |
-| `eastward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward cross-correlation. |
-| `northward_sea_ice_velocity_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward cross-correlation. |
+| `eastward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward cross-correlation. |
+| `northward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward cross-correlation. |
 | `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Peak Pearson correlation coefficient of the backward cross-correlation. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
@@ -109,11 +109,13 @@ group: time_20250823120031 {
                 correlation_coefficient:_FillValue = NaN ;
         double eastward_sea_ice_velocity_backward(latitude, longitude) ;
                 eastward_sea_ice_velocity_backward:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
+                eastward_sea_ice_velocity_backward:standard_name = "eastward_sea_ice_velocity" ;
                 eastward_sea_ice_velocity_backward:units = "m s-1" ;
                 eastward_sea_ice_velocity_backward:grid_mapping = "crs" ;
                 eastward_sea_ice_velocity_backward:_FillValue = NaN ;
         double northward_sea_ice_velocity_backward(latitude, longitude) ;
                 northward_sea_ice_velocity_backward:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
+                northward_sea_ice_velocity_backward:standard_name = "northward_sea_ice_velocity" ;
                 northward_sea_ice_velocity_backward:units = "m s-1" ;
                 northward_sea_ice_velocity_backward:grid_mapping = "crs" ;
                 northward_sea_ice_velocity_backward:_FillValue = NaN ;
