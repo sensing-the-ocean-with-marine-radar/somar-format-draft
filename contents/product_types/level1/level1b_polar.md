@@ -24,7 +24,7 @@ In addition to the [position and heading](#position-and-heading), the file holds
 | `time`<br><small>[FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each revolution. |
 | `azimuth`<br><small>[FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), Table 301-7</small> | float `(azimuth)`; `degree` | Required. Regular azimuth axis, clockwise positive, relative to the radar's zero direction. |
 | `range`<br><small>[FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), Table 301-6</small> | float `(range)`; `m` | Required. Slant range to the center of each range bin. |
-| `pulse_time`<br><small>SOMaR</small> | float `(azimuth)`; `s` | Optional. Time of each azimuth bin after the start of its revolution, i.e. the time of the selected pulse, the correspondingly interpolated time, or the mean time of the averaged pulses. It is the same for all images, which assumes that the antenna rotates steadily. |
+| `ray_time`<br><small>SOMaR</small> | float `(azimuth)`; `s` | Optional. Time of each ray after the start of its revolution, i.e. the time of the selected Level 1a ray, the correspondingly interpolated time, or the mean time of the averaged rays. It is the same for all images, which assumes that the antenna rotates steadily. |
 | `backscatter_amplitude`, `backscatter_power`<br><small>SOMaR</small> | `(time, azimuth, range)`; `1` or `dB` | Exactly one is required. Uncalibrated backscatter amplitude or power, with the names and attributes described at [Level 1a](level1a.md#data-variables). |
 {: .variable-table }
 
@@ -32,7 +32,7 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 
 | Attribute | Values | Description |
 |---|---|---|
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample pulses recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest pulse, linear interpolation between the two adjacent pulses, or the mean of all pulses falling within each azimuth bin. Interpolation and averaging are done on linear power: amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, beforehand, and the result is converted back to the quantity and unit of the data variable. If the signal cannot be linearized, such as a log-compressed video signal, they are done on the stored values instead. Should be accompanied by a `comment` describing the method in words, which must also say when the stored values were used. |
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample rays recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest ray, linear interpolation between the two adjacent rays, or the mean of all rays falling within each azimuth bin. Interpolation and averaging are done on linear power: amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, beforehand, and the result is converted back to the quantity and unit of the data variable. If the signal cannot be linearized, such as a log-compressed video signal, they are done on the stored values instead. Should be accompanied by a `comment` describing the method in words, which must also say when the stored values were used. |
 | `rays_angle_resolution`<br><small>SOMaR</small> | Number; degree | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution` (Table 301-8), which gives the angular spacing of rays that are indexed to a regular grid; the accompanying FM 301 flag `rays_are_indexed` is implied to be `"true"` and is not stored. |
 {: .attribute-table }
 
@@ -47,7 +47,7 @@ For a fixed platform, scalar `latitude` and `longitude` in the root group give t
 For a moving platform, the position and heading of the platform are stored in the root group using the variable names and units of CfRadial 2.1 (Section 5.4). As at Level 1a, they can be given in one of two ways:
 
 - **Per sweep.** The variables have the dimension `(time)` and give the values at the start of each revolution (image).
-- **Per pulse.** The variables have the dimensions `(time, azimuth)` and give the values for every pulse (azimuth bin).
+- **Per ray.** The variables have the dimensions `(time, azimuth)` and give the values for every ray (azimuth bin).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -60,7 +60,7 @@ As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optio
 
 ## Radar parameters
 
-Like Level 1a, constant technical parameters of the radar antenna, pulse, and scan can be stored in an optional root-level group named [`radar_parameters`](../../metadata_attributes/radar_parameters.md). When pulse or scan parameters (such as `prt` or `scan_rate`) vary over time, they are stored in the root group instead, with dimension `time` (varying per revolution) or `(time, azimuth)` (varying per pulse).
+Like Level 1a, constant technical parameters of the radar antenna, pulse, and scan can be stored in an optional root-level group named [`radar_parameters`](../../metadata_attributes/radar_parameters.md). When pulse or scan parameters (such as `prt` or `scan_rate`) vary over time, they are stored in the root group instead, with dimension `time` (varying per revolution) or `(time, azimuth)` (varying per ray).
 
 ## Minimal example
 
@@ -103,14 +103,14 @@ variables:
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
-        float pulse_time(azimuth) ;
-                pulse_time:units = "s" ;
-                pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
+        float ray_time(azimuth) ;
+                ray_time:units = "s" ;
+                ray_time:long_name = "time of each ray after the start of the revolution" ;
         float backscatter_amplitude(time, azimuth, range) ;
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
-                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -176,14 +176,14 @@ variables:
                 range:spacing_is_constant = "true" ;
                 range:meters_to_center_of_first_gate = 3.75f ;
                 range:meters_between_gates = 7.5f ;
-        float pulse_time(azimuth) ;
-                pulse_time:units = "s" ;
-                pulse_time:long_name = "time of each azimuth bin after the start of the revolution" ;
+        float ray_time(azimuth) ;
+                ray_time:units = "s" ;
+                ray_time:long_name = "time of each ray after the start of the revolution" ;
         float backscatter_amplitude(time, azimuth, range) ;
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
-                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Pulses recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -206,7 +206,7 @@ group: georeference_correction { ... } // as in the example under Georeference c
 }
 ```
 
-If the position and heading are given per pulse instead, the variables have the dimensions `(time, azimuth)`:
+If the position and heading are given per ray instead, the variables have the dimensions `(time, azimuth)`:
 
 ```
 // excerpt: only the variables that differ

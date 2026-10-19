@@ -27,7 +27,7 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 | **L2b** | [Peak and mean wave parameters](level2/wave_parameters.md) | `wave_parameters` |
 {: .product-table }
 
-[Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either pulse by pulse in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
+[Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
 [Level 2](level2/index.md) products are geophysical variables, either retrieved directly from image sequences (Level 2a) or derived from those retrievals (Level 2b).
 Each page below documents the product-specific dimensions, variables, and attributes, with a minimal example, in addition to the [shared metadata](../metadata_attributes/index.md).
 The tables state for each variable and attribute whether it is required or optional.

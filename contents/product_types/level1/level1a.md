@@ -9,7 +9,7 @@ nav_order: 1
 # L1a: "raw" radar data
 
 Level 1a polar radar "raw" data (`radar_polar_raw`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified.
-Every pulse is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
+Every ray is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration.
 The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
 
 ## Relation to FM 301 and CfRadial
@@ -27,14 +27,14 @@ SOMaR departs from FM 301 in the following points:
 - `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)).
 - `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
 - Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number` and `instrument_type` in the root group (Table 301-4). The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
-- The root-group variables `time_coverage_start` and `time_coverage_end` (Table 301-4) are omitted. The times they hold, those of the first and last pulse in the file, are given instead by the ACDD global attributes of the same names, which CfRadial 2.1 also defines as copies of these variables (Section 4.1).
+- The root-group variables `time_coverage_start` and `time_coverage_end` (Table 301-4) are omitted. The times they hold, those of the first and last ray in the file, are given instead by the ACDD global attributes of the same names, which CfRadial 2.1 also defines as copies of these variables (Section 4.1).
 - `fixed_angle` is present only in pointing sweeps, where it holds the nominal azimuth in the same reference as `azimuth`. FM 301 makes it mandatory in all sweeps and defines it as the elevation angle in most sweep modes (Table 301-7).
 
 ## File structure
 
 A Level 1a file is organized in sweeps, as in FM 301.
-A sweep comprises the pulses of one antenna revolution.
-For a radar in pointing mode, whose antenna is held at a fixed direction, a sweep is one dwell: an unbroken sequence of pulses at that direction, in line with FM 301, where a sweep is a subset of the data "over which certain fundamental conditions remain constant" (301.2.1.2), and CfRadial 2.1, where a pointing sweep is "a sequence of rays over some time period, at fixed azimuth and elevation" (Section 2).
+A sweep comprises the rays of one antenna revolution.
+For a radar in pointing mode, whose antenna is held at a fixed direction, a sweep is one dwell: an unbroken sequence of rays at that direction, in line with FM 301, where a sweep is a subset of the data "over which certain fundamental conditions remain constant" (301.2.1.2), and CfRadial 2.1, where a pointing sweep is "a sequence of rays over some time period, at fixed azimuth and elevation" (Section 2).
 A new sweep starts when the direction changes or the recording is interrupted, so a file from an antenna that stays at one direction throughout holds a single sweep.
 
 - The **root group** holds the global attributes and the variables that apply to the whole file.
@@ -56,17 +56,17 @@ Whether the platform moves is stated by the global attribute [`platform_is_mobil
 
 ## Sweep groups
 
-The primary dimension of a sweep is `time`, with one entry per radar pulse (e.g. 4500 entries for a 1.5 s sweep at 3000 Hz PRF).
+The primary dimension of a sweep is `time`, with one entry per ray (e.g. 4500 entries for a 1.5 s sweep at 3000 Hz PRF).
 The secondary dimension is `range`.
 A sweep group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
+| `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each ray, as UNIX time. |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
-| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
+| `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each ray, clockwise positive, as recorded by the radar (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"pointing"` | Optional. Whether the sweep is a full revolution or a dwell at a fixed direction. Assumed `"azimuth_surveillance"` if missing. |
-| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`, otherwise omitted. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-pulse `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
+| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`, otherwise omitted. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-ray `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
 {: .variable-table }
 
 The `range` variable carries the following attributes.
@@ -78,7 +78,7 @@ The `range` variable carries the following attributes.
 | `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
 {: .attribute-table }
 
-Parameters describing the radar, pulse, and scan are typically kept constant and stored in the `radar_parameters` group in the root group (see [Radar parameters](../../metadata_attributes/radar_parameters.md)). Where they vary from sweep to sweep or from pulse to pulse, they are stored as variables in the sweep groups instead; where they vary from pulse to pulse, they carry the dimension `time`.
+Parameters describing the radar, pulse, and scan are typically kept constant and stored in the `radar_parameters` group in the root group (see [Radar parameters](../../metadata_attributes/radar_parameters.md)). Where they vary from sweep to sweep or from ray to ray, they are stored as variables in the sweep groups instead; where they vary from ray to ray, they carry the dimension `time`.
 
 ### Data variables
 
@@ -103,7 +103,7 @@ The `comment` attribute should describe how the values were derived from the rad
 
 ## Moving platforms
 
-When `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per pulse (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).
+When `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per ray (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -153,14 +153,14 @@ data:
 
 group: sweep_0 {
   dimensions:
-        time = 4500 ; // number of pulses in the sweep
+        time = 4500 ; // number of rays in the sweep
         range = 1000 ; // number of range gates
   variables:
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:calendar = "standard" ;
                 time:standard_name = "time" ;
-                time:long_name = "time of radar pulse" ;
+                time:long_name = "time of ray" ;
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
@@ -227,14 +227,14 @@ data:
 
 group: sweep_0 {
   dimensions:
-        time = 4500 ; // number of pulses in the sweep
+        time = 4500 ; // number of rays in the sweep
         range = 1000 ; // number of range gates
   variables:
         double time(time) ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:calendar = "standard" ;
                 time:standard_name = "time" ;
-                time:long_name = "time of radar pulse" ;
+                time:long_name = "time of ray" ;
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
@@ -282,7 +282,7 @@ group: georeference_correction { ... } // as in the example under Georeference c
 }
 ```
 
-If the position and heading are given per pulse instead, the variables of the `georeference` subgroup have the dimension `time`:
+If the position and heading are given per ray instead, the variables of the `georeference` subgroup have the dimension `time`:
 
 ```
 // excerpt: only the variables that differ
@@ -311,7 +311,7 @@ A radar in pointing mode stores the same sweep variables, with `sweep_mode` set 
 // excerpt: only the variables that differ
 group: sweep_0 {
   dimensions:
-        time = 1800000 ; // number of pulses in the dwell, e.g. 10 min at 3000 Hz PRF
+        time = 1800000 ; // number of rays in the dwell, e.g. 10 min at 3000 Hz PRF
         range = 1000 ; // number of range gates
   variables:
         string sweep_mode ;

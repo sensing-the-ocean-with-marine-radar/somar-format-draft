@@ -22,11 +22,11 @@ Constant technical parameters of the radar antenna, pulse, and scan are stored i
 | `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Length of the transmitted pulse. |
 | `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Pulse repetition time. |
 | `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float; `degree s-1` | Antenna rotation rate. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each stored pulse. 1 at Level 1a unless the radar itself averages pulses. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each ray. 1 at Level 1a unless the radar itself averages pulses. |
 | `obstructed_sectors`<br><small>SOMaR</small> | float `(obstructed_sector, nv)`; `degree` | Start and end azimuth of each sector of the field of view that is obstructed or blanked, for example by platform superstructure (see [Obstructed sectors](#obstructed-sectors)). |
 {: .variable-table }
 
-When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per pulse) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per pulse).
+When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
 
 ## Obstructed sectors
 
@@ -64,7 +64,7 @@ group: radar_parameters {
                 scan_rate:units = "degree s-1" ;
                 scan_rate:long_name = "antenna rotation rate" ;
         int n_samples ;
-                n_samples:long_name = "number of samples contributing to each stored pulse" ;
+                n_samples:long_name = "number of samples contributing to each ray" ;
         float obstructed_sectors(obstructed_sector, nv) ;
                 obstructed_sectors:units = "degree" ;
                 obstructed_sectors:long_name = "start and end azimuth of obstructed sectors, clockwise, relative to the bow" ;
