@@ -43,7 +43,6 @@ The wave products ([wavenumber spectra](wave_wavenumber_spectra.md), [frequency-
 Each measurement is the average over these analysis windows, and its `longitude` and `latitude` give their mean position (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
 The analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period.
 Their placement is left to the processor and should be described in the `comment` global attribute.
-A processor may, for example, place the windows at fixed bearings relative to the bow at the start of each period, and at the range that gives the best data coverage at the shortest range, since the wave signal deteriorates with range.
 
 ## Processing parameters
 
