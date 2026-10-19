@@ -29,6 +29,12 @@ aux_links_new_tab: true
 # Nav menu can also be selectively enabled or disabled using page variables or the minimal layout
 nav_enabled: true
 
+# Site search: also split on ":", "(", ")" and "," so that attribute and
+# variable names inside the CDL examples (e.g. measurement_quality:valid_range,
+# x(x)) are indexed as separate words.
+search:
+  tokenizer_separator: /[\s\-/:(),]+/
+
 # Heading anchor links appear on hover over h1-h6 tags in page content
 # allowing users to deep link to a particular heading on a page.
 #
