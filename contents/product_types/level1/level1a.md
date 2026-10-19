@@ -56,7 +56,7 @@ Whether the platform moves is stated by the global attribute [`platform_is_mobil
 
 ## Sweep groups
 
-The primary dimension of a sweep is `time`, with one entry per radar pulse; in NetCDF and FM 301, its dimension length is the number of pulses in that sweep (e.g. 4500 for a 1.5 s sweep at 3000 Hz PRF), while the timestamps of the individual pulses are stored in the coordinate variable `time(time)`.
+The primary dimension of a sweep is `time`, with one entry per radar pulse (e.g. 4500 entries for a 1.5 s sweep at 3000 Hz PRF).
 The secondary dimension is `range`.
 A sweep group holds the following variables.
 
