@@ -44,7 +44,7 @@ STANDARD_NAME_TABLE_URL = (
 DIMENSION_CAP = 3
 # Units the specification allows but UDUNITS does not define.
 EXTRA_UNITS = {"dB"}
-# Level 1 product types and the names of their backscatter variables, of which a file holds at least one.
+# Level 1 product types and the names of their backscatter variables, of which a file holds exactly one.
 LEVEL1_PRODUCT_TYPES = {"radar_polar_raw", "radar_polar_regularized", "radar_cartesian"}
 LEVEL1_DATA_VARIABLES = {"backscatter_amplitude", "backscatter_power"}
 GEOSPATIAL_ATTRIBUTES = ("geospatial_lat_min", "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max")
@@ -278,8 +278,10 @@ def check_header(groups, is_file, names, units_module, expected):
         product = unquote(root.get("product_type", ""))
         if product not in expected["product_types"]:
             errors.append(f'product_type "{product}" is not one of the product types in mandatory_global.md')
-        if product in LEVEL1_PRODUCT_TYPES and not any(LEVEL1_DATA_VARIABLES & group["variables"].keys() for group in groups.values()):
-            errors.append(f"no Level 1 data variable; expected one of {', '.join(sorted(LEVEL1_DATA_VARIABLES))}")
+        if product in LEVEL1_PRODUCT_TYPES:
+            found = set().union(*(LEVEL1_DATA_VARIABLES & group["variables"].keys() for group in groups.values()))
+            if len(found) != 1:
+                errors.append(f"has {len(found)} Level 1 data variables; expected exactly one of {', '.join(sorted(LEVEL1_DATA_VARIABLES))}")
         match = FILE_NAME.match(expected["file_name"])
         if not match:
             errors.append(f'file name "{expected["file_name"]}" does not follow the naming pattern')

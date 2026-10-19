@@ -82,9 +82,9 @@ Parameters describing the radar, pulse, and scan are typically kept constant and
 
 ### Data variables
 
-The radar measurement is stored in the sweep groups in variables with the dimensions `(time, range)` (FM 301, regulation 301.4.6 and Table 301-10).
-Their names are fixed by SOMaR and are the same at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)), so that the name identifies the quantity.
-A file holds at least one of the following variables, or both if the radar records both.
+The radar measurement is stored in each sweep group in a variable with the dimensions `(time, range)` (FM 301, regulation 301.4.6 and Table 301-10).
+Its name is fixed by SOMaR and are the same at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)), so that the name identifies the quantity.
+A file holds exactly one of the following variables; since power is the square of amplitude, storing both would duplicate the data.
 
 | Variable | Values | Description |
 |---|---|---|
