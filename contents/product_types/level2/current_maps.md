@@ -186,7 +186,7 @@ The variables are those of the near-surface current maps, with the additional di
 | Variable | Values | Description |
 |---|---|---|
 | `wavenumber_bin`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Required. Center of each wavenumber band; its `bounds` attribute is `"wavenumber_bin_bounds"`. |
-| `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Required. Lower and upper edge of each wavenumber band, with `nv = 2` ([CF][cf], section 7.1). |
+| `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Required. Lower and upper edge of each wavenumber band, along the dimension `nv` (number of vertices, as in [CF][cf] section 7.1), of size 2. |
 {: .variable-table }
 
 ### Minimal example
