@@ -26,7 +26,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software used to produce the file, to support reproducibility. |
 | `project`<br><small>[ACDD][acdd]</small> | String; free text | The scientific project(s) under which the data were collected, comma-separated. |
 | `source`<br><small>[CF][cf-description]</small> | String; free text | The method of production of the underlying data, e.g. the type of platform and sensor. |
-| `standard_name_vocabulary`<br><small>[ACDD][acdd]</small> | String; e.g. `CF Standard Name Table v95` | The version of the CF standard name table from which the `standard_name` attributes are taken. |
+| `standard_name_vocabulary`<br><small>[ACDD][acdd]</small> | String; e.g. `CF Standard Name Table v95` | The version of the CF standard name table from which the `standard_name` attributes are taken. The table is versioned separately from the CF conventions, so the CF version in `Conventions` does not identify it; if the attribute is missing, the table is the one SOMaR refers to (see [References](../references/index.md#cf-standard-names)). |
 | `station_id`<br><small>SOMaR</small> | String; short, lowercase identifier | The identifier of the platform used as the prefix of the [file name](../file_naming/index.md), e.g. `or`. |
 | `summary`<br><small>[ACDD][acdd]</small> | String; free text | A paragraph describing the file's content, analogous to an abstract: the retrieval method, processing parameters, and any caveats. |
 {: .attribute-table }
