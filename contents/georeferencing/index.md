@@ -113,7 +113,7 @@ Each measurement period therefore uses a single longitude spacing, chosen for it
 On the local grid, these maps store `x` and `y` with the `crs` of the local grid, together with two-dimensional `longitude` and `latitude`, which are obtained by inverting the local projection defined above, i.e. the azimuthal equidistant projection on the WGS 84 ellipsoid centered on the position of the radar antenna at the start of the measurement.
 The stored position is that of the center of the analysis window or, for wave products, the mean position of the analysis windows contributing to a measurement.
 
-<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the radar position that served as the origin for each measurement, in the variables `radar_longitude` and `radar_latitude` . For current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for wave products, they have the dimension `time`.
+<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the position of the radar antenna at the start of each measurement, which served as its origin, in the variables `radar_longitude` and `radar_latitude`. For current, bathymetric, and sea ice drift maps, they are scalar variables of each group; for wave products, they have the dimension `time`.
 
 ```
 variables:
