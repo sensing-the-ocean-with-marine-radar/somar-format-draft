@@ -82,13 +82,24 @@ Parameters describing the radar, pulse, and scan are typically kept constant and
 
 ### Data variables
 
-The radar measurement is stored in one or more variables with the dimensions `(time, range)` (FM 301, regulation 301.4.6 and Table 301-10).
+The radar measurement is stored in the sweep groups in variables with the dimensions `(time, range)` (FM 301, regulation 301.4.6 and Table 301-10).
+Their names are fixed by SOMaR and are the same at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)), so that the name identifies the quantity.
+A file holds at least one of the following variables, or both if the radar records both.
+
+| Variable | Values | Description |
+|---|---|---|
+| `backscatter_amplitude`<br><small>SOMaR</small> | `(time, range)`; `1` or `dB` | Backscatter amplitude, e.g. the square root of (I^2 + Q^2) or the video signal of the radar, in uncalibrated analog-to-digital converter units. |
+| `backscatter_power`<br><small>SOMaR</small> | `(time, range)`; `1` or `dB` | Backscatter power, e.g. (I^2 + Q^2), in uncalibrated analog-to-digital converter units. |
+{: .variable-table }
+
+The FM 301 field names (Table 301-10) are not used, since they denote calibrated moments of weather radars.
 The data are stored in the units of the radar's analog-to-digital converters, using the attributes `scale_factor`, `add_offset`, and `_FillValue`.
 The `coordinates` attribute is set to `"azimuth range"`.
-The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities, and the `comment` attribute must state whether the values refer to amplitude or power (see the [minimal example](#minimal-example)).
+The `units` attribute must be `"1"` or `"dB"` to indicate linear or logarithmic dimensionless units, as FM 301 also uses `dB` for logarithmic quantities.
+The `comment` attribute should describe how the values were derived from the radar signal (see the [minimal example](#minimal-example)).
 
 {: .open_issue }
-<a id="coherent-data"></a>Only backscatter amplitude or power is specified, here and at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variables are defined yet at either level.
+<a id="coherent-data"></a>Only backscatter amplitude and power are specified, here and at Level 1b ([polar](level1b_polar.md) and [Cartesian](level1b_cartesian.md)). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet at either level; they are to be added to the table above.
 
 ## Moving platforms
 
@@ -160,14 +171,14 @@ group: sweep_0 {
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction" ;
                 azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
-        ushort polar_amp(time, range) ;
-                polar_amp:scale_factor = 0.176738930567883 ;
-                polar_amp:add_offset = 0. ;
-                polar_amp:_FillValue = 65535US ;
-                polar_amp:long_name = "radar backscatter amplitude" ;
-                polar_amp:units = "1" ;
-                polar_amp:coordinates = "azimuth range" ;
-                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
+        ushort backscatter_amplitude(time, range) ;
+                backscatter_amplitude:scale_factor = 0.176738930567883 ;
+                backscatter_amplitude:add_offset = 0. ;
+                backscatter_amplitude:_FillValue = 65535US ;
+                backscatter_amplitude:long_name = "radar backscatter amplitude" ;
+                backscatter_amplitude:units = "1" ;
+                backscatter_amplitude:coordinates = "azimuth range" ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
   } // group sweep_0
 
 // ... additional sweep_<n> groups follow the same layout, one per sweep ...
@@ -236,14 +247,14 @@ group: sweep_0 {
                 azimuth:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
         string sweep_mode ;
                 sweep_mode:long_name = "sweep scan mode" ;
-        ushort polar_amp(time, range) ;
-                polar_amp:scale_factor = 0.176738930567883 ;
-                polar_amp:add_offset = 0. ;
-                polar_amp:_FillValue = 65535US ;
-                polar_amp:long_name = "radar backscatter amplitude" ;
-                polar_amp:units = "1" ;
-                polar_amp:coordinates = "azimuth range" ;
-                polar_amp:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
+        ushort backscatter_amplitude(time, range) ;
+                backscatter_amplitude:scale_factor = 0.176738930567883 ;
+                backscatter_amplitude:add_offset = 0. ;
+                backscatter_amplitude:_FillValue = 65535US ;
+                backscatter_amplitude:long_name = "radar backscatter amplitude" ;
+                backscatter_amplitude:units = "1" ;
+                backscatter_amplitude:coordinates = "azimuth range" ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ;
   data:
         sweep_mode = "azimuth_surveillance" ;
 
