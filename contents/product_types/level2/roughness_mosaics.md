@@ -32,7 +32,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `scan_sectors`<br><small>SOMaR</small> | byte `(y, x)`; `0b`, `1b`, `2b` | Optional. Part of the radar scan, relative to the target area, that the observations of each grid cell belong to: 0 preceding, 1 inside, 2 trailing. |
 {: .variable-table }
 
-The nominal length of the averaging window is recorded in the global attribute [`averaging_duration`](index.md#processing-parameters).
+The nominal length of the averaging window and the length of the measurement period are recorded in the global attributes [`averaging_duration` and `measurement_duration`](index.md#processing-parameters).
 
 ## Minimal example
 ```
@@ -46,6 +46,7 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :geospatial_lon_max = 145.94251 ;
                 :geospatial_lon_min = 145.88642 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :measurement_duration = 600. ;
                 :product_type = "sea_surface_roughness_mosaic" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
