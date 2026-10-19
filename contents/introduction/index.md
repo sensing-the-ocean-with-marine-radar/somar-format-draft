@@ -28,7 +28,7 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 ## Terms
 
 - **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/level1/level1a.md) is their conversion to NetCDF.
-- A **sweep** is the sequence of pulses of one antenna revolution, or of one pass over the sector for a radar that scans a sector, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data are stored.
+- A **sweep** is the sequence of pulses of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data are stored.
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected.

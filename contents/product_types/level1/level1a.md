@@ -32,7 +32,7 @@ SOMaR departs from FM 301 in the following points:
 ## File structure
 
 A Level 1a file is organized in sweeps, as in FM 301.
-A sweep comprises the pulses of one antenna revolution or, for a radar that scans a sector, of one pass over the sector.
+A sweep comprises the pulses of one antenna revolution.
 For a radar in pointing mode, whose antenna is held at a fixed direction, a sweep is one dwell: an unbroken sequence of pulses at that direction, in line with FM 301, where a sweep is a subset of the data "over which certain fundamental conditions remain constant" (301.2.1.2), and CfRadial 2.1, where a pointing sweep is "a sequence of rays over some time period, at fixed azimuth and elevation" (Section 2).
 A new sweep starts when the direction changes or the recording is interrupted, so a file from an antenna that stays at one direction throughout holds a single sweep.
 
@@ -64,7 +64,7 @@ A sweep group holds the following variables.
 | `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Time of each pulse, as UNIX time. |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each pulse, clockwise positive, as recorded by the radar (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
-| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"`, `"sector"`, or `"pointing"` | Optional. Whether the sweep is a full revolution, a sector scan, or a dwell at a fixed direction. Assumed `"azimuth_surveillance"` if missing. |
+| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"pointing"` | Optional. Whether the sweep is a full revolution or a dwell at a fixed direction. Assumed `"azimuth_surveillance"` if missing. |
 | `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`, otherwise omitted. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-pulse `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
 {: .variable-table }
 
