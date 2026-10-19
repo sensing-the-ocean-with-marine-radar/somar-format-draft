@@ -12,7 +12,7 @@ Level 1b Cartesian images (`radar_cartesian`, a three-dimensional cube in Cartes
 The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each revolution; since the grid origin moves with the platform from one image to the next, each image has its own origin, as in the [time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids), but all images share one `x`/`y` grid and are stored as a single cube.
 Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`; the obstructed sectors themselves may be recorded in the `radar_parameters` group (see [Obstructed sectors](../../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"` or `"dB"`); no radiometric calibration or temporal averaging is applied at this level, and the data variable carries one of the names defined at [Level 1a](level1a.md#data-variables), `backscatter_amplitude` or `backscatter_power`, which identifies the quantity.
-The mapping from polar to Cartesian coordinates is done on linear power, as for the [azimuth regularization](level1b_polar.md#variables) at Level 1b polar: amplitude is squared, and values in `dB` are converted to linear units, before interpolation, and the result is converted back to the quantity and unit of the data variable. If the signal cannot be linearized, such as a log-compressed video signal, the stored values are interpolated instead, and the `comment` must say so.
+The polar data are resampled onto the Cartesian grid by selection, interpolation, or averaging, and the method is recorded in `cartesian_resampling` (see [Resampling](#resampling)); as for the [azimuth regularization](level1b_polar.md#variables) at Level 1b polar, interpolation and averaging are done on linear power.
 
 ## Position and orientation
 
@@ -29,11 +29,20 @@ For a moving platform, they have the dimension `time`, with one value per image;
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin. |
 | `longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Required. Longitude (WGS 84) of the grid origin. |
 | `latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
-| `backscatter_amplitude`, `backscatter_power`<br><small>SOMaR</small> | float `(time, y, x)`; `1` or `dB` | Exactly one is required. Uncalibrated backscatter amplitude or power (see [Level 1a](level1a.md#data-variables)), with `_FillValue` and `comment`. |
+| `backscatter_amplitude`, `backscatter_power`<br><small>SOMaR</small> | float `(time, y, x)`; `1` or `dB` | Exactly one is required. Uncalibrated backscatter amplitude or power (see [Level 1a](level1a.md#data-variables)), with `_FillValue`, `cartesian_resampling` (see [Resampling](#resampling)), and `comment`. |
 {: .variable-table }
 
 The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 For the same reason, `x` and `y` carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
+
+## Resampling
+
+The resampling of the polar data onto the Cartesian grid is recorded in one attribute.
+
+| Attribute | Values | Description |
+|---|---|---|
+| `cartesian_resampling`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average`, `average_or_interpolation` | On the data variable: the method used to resample the polar data onto the Cartesian grid: selection of the polar sample closest to the cell center, bilinear interpolation in range and azimuth between the surrounding polar samples, the mean of all polar samples falling within the cell (cells holding no sample are set to `_FillValue`), or that mean where the cell holds at least one polar sample and linear interpolation where it holds none, typically at far range. Interpolation and averaging are done on linear power: amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, beforehand, and the result is converted back to the quantity and unit of the data variable. If the signal cannot be linearized, such as a log-compressed video signal, they are done on the stored values instead. Should be accompanied by a `comment` describing the method in words, which must also say when the stored values were used. |
+{: .attribute-table }
 
 {: .open_issue }
 Only backscatter amplitude and power are specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](level1a.md#coherent-data)).
@@ -72,6 +81,7 @@ variables:
                 backscatter_power:long_name = "radar backscatter power" ;
                 backscatter_power:units = "1" ;
                 backscatter_power:_FillValue = NaNf ;
+                backscatter_power:cartesian_resampling = "linear_interpolation" ;
                 backscatter_power:comment = "backscatter power (I^2 + Q^2) in uncalibrated analog-to-digital units, mapped from polar coordinates by bilinear interpolation of linear power" ;
 
 // global attributes:
