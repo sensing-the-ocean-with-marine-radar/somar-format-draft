@@ -34,7 +34,7 @@ The tables state for each variable and attribute whether it is required or optio
 Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 
 {: .open_issue }
-Radar product types that are not yet defined:
-* Wave spectrum partitioning results (wave parameters for wind sea and swell systems),
-* Wind speed and direction retrieved from radar backscatter,
-* Products for coastal applications, such as the mapping of intertidal areas.
+> Radar product types that are not yet defined:
+> * Wave spectrum partitioning results (wave parameters for wind sea and swell systems),
+> * Wind speed and direction retrieved from radar backscatter,
+> * Products for coastal applications, such as the mapping of intertidal areas.
