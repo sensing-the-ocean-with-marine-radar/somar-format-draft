@@ -32,7 +32,7 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected.
-- An **averaging window** is the time span over which Level 1b images are averaged into one roughness image or one mosaic pixel.
+- An **averaging window** is the time span over which Level 1b images are averaged into one roughness image or one mosaic pixel. Its nominal length is given by `averaging_duration`; for individual pixels it may be shorter.
 
 ## Document structure
 

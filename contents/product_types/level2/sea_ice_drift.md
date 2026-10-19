@@ -35,13 +35,12 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
 {: .variable-table }
 
-In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attributes.
-Since each drift vector is obtained from just two averaged images, which these attributes describe, the map attribute `number_of_images` is omitted.
+In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attribute.
+Since each drift vector is obtained from just two averaged images, which `time_lag` and the shared processing parameter [`averaging_duration`](index.md#processing-parameters) describe, the map attribute `number_of_images` is omitted.
 
 | Attribute | Values | Description |
 |---|---|---|
 | `time_lag`<br><small>SOMaR</small> | Number; `s` | Required. The time between the two correlated images. |
-| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Required. The duration over which the radar backscatter images are averaged to form each of the correlated images. |
 {: .attribute-table }
 
 ## Minimal example
@@ -61,7 +60,7 @@ netcdf or_2025-08-23-12_sea_ice_drift {
                 :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ;
                 :analysis_window_size = 720. ;
                 :analysis_window_spacing = 500. ;
-                :measurement_period_duration = 120. ;
+                :measurement_duration = 120. ;
                 :time_lag = 90. ;
                 :averaging_duration = 30. ;
 

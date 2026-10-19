@@ -50,7 +50,7 @@ netcdf or_2025-01-15-12_bathymetry {
                 :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
-                :measurement_period_duration = 240. ;
+                :measurement_duration = 240. ;
                 :number_of_images = 160 ;
 
 group: time_20250115120031 {

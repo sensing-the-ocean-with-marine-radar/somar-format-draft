@@ -20,6 +20,7 @@ These attributes define the physical meaning, units, valid ranges, and coordinat
 | `add_offset`<br><small>[CF][cf-packed]</small> | Number | Offset added to stored values after scaling. |
 | `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. |
 | `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
+| `cell_methods`<br><small>[CF][cf-cell-methods]</small> | String; `"<coordinate>: <method>"`, e.g. `"time: mean"` | The statistic a value represents over its cell along one of the variable's coordinates, e.g. a time mean over the averaging window. Not used where the statistic runs over something that is not a coordinate of the variable, such as the spectral means `sea_surface_wave_mean_period` or `mean_wavenumber`. A scalar coordinate variable named here must also be listed in `coordinates`. |
 | `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. |
 | `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. |
 | `flag_masks`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The bits that can be set independently in a flag variable, used in place of `flag_values` where several conditions can hold at once. A value of 0 means that no condition holds. |
@@ -59,6 +60,7 @@ For examples of both coordinate reference systems in NetCDF CDL format, see [Geo
 [cf-coordinates]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#coordinate-system
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cf-calendar]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#calendar
+[cf-cell-methods]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-methods
 [cf-packed]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#packed-data
 [cf-missing]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#missing-data
 [cf-ancillary]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#ancillary-data

@@ -147,7 +147,7 @@ variables:
                 :title = "Marine X-band radar peak and mean wave parameters from R/V Ocean Research" ;
                 :analysis_window_size = 3840. ;
                 :number_of_analysis_windows = 6 ;
-                :measurement_period_duration = 240. ;
+                :measurement_duration = 240. ;
                 :number_of_images = 160 ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters

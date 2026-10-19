@@ -11,7 +11,7 @@ nav_order: 1
 Roughness images (`sea_surface_roughness`) provide temporally averaged sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise while still resolving the length scales relevant to short wind waves.
 Because the underlying platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local Cartesian grid (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
 All time-bounded grids belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per averaging window, named `time_<YYYYMMDDHHMMSS>` after the start time of that window.
-Within each group, `mean_sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter power, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.
+Within each group, `sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"`), radar backscatter power, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.
 Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
 
 ## Variables
@@ -24,9 +24,11 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the averaging window. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required. Distance east of the radar antenna at the start of the averaging window. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required. Distance north of the radar antenna at the start of the averaging window. |
-| `mean_sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Required. Time mean of the radar backscatter power over the window, in linear, uncalibrated analog-to-digital converter units. Level 1b amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, before averaging. |
+| `sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` | Required. Time mean of the radar backscatter power over the window, in linear, uncalibrated analog-to-digital converter units. Level 1b amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, before averaging. Carries `cell_methods = "time: mean"` and `coordinates = "time"`. The averaging window of each grid cell starts at `time` and lasts at most `averaging_duration`; it may be shorter for some cells, as recorded by `number_of_observations`. |
 | `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Optional. Number of Level 1b images that contributed to each grid cell. |
 {: .variable-table }
+
+The nominal length of the averaging window is recorded in the global attribute [`averaging_duration`](index.md#processing-parameters).
 
 ## Minimal example
 ```
@@ -34,6 +36,7 @@ netcdf or_2025-01-15-11_sea_surface_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :averaging_duration = 30. ;
                 :geospatial_lat_max = 14.99528 ;
                 :geospatial_lat_min = 14.95348 ;
                 :geospatial_lon_max = 145.94251 ;
@@ -71,11 +74,13 @@ group: time_20250115110031 {
                 y:long_name = "northward distance from radar position at measurement start time" ;
                 y:standard_name = "projection_y_coordinate" ;
                 y:units = "m" ;
-        float mean_sea_surface_roughness(y, x) ;
-                mean_sea_surface_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
-                mean_sea_surface_roughness:units = "1" ;
-                mean_sea_surface_roughness:grid_mapping = "crs" ;
-                mean_sea_surface_roughness:ancillary_variables = "number_of_observations" ;
+        float sea_surface_roughness(y, x) ;
+                sea_surface_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
+                sea_surface_roughness:units = "1" ;
+                sea_surface_roughness:grid_mapping = "crs" ;
+                sea_surface_roughness:coordinates = "time" ;
+                sea_surface_roughness:cell_methods = "time: mean" ;
+                sea_surface_roughness:ancillary_variables = "number_of_observations" ;
         int number_of_observations(y, x) ;
                 number_of_observations:standard_name = "number_of_observations" ;
                 number_of_observations:long_name = "number of measurements from which the radar backscatter power averages have been derived" ;
