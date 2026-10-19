@@ -10,18 +10,24 @@ nav_order: 6
 Two steps of the wave retrieval rely on empirical parameters, which differ between processors. They are recorded in a group named `wave_calibration` in the root group of every surface wave product ([wavenumber spectra](../product_types/level2/wave_wavenumber_spectra.md), [frequency-direction spectra](../product_types/level2/wave_frequency_direction_spectra.md), [frequency spectra](../product_types/level2/wave_frequency_spectra.md), and [wave parameters](../product_types/level2/wave_parameters.md)), so that the calibration can be reproduced from the file.
 
 - The **modulation transfer function** $M(k)$ converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by $\lvert M(k) \rvert^2$. For the form `"power_law"`, $\lvert M(k) \rvert^2 \propto k^{\beta}$, where $k$ is the wavenumber and $\beta$ is given by `mtf_exponent`; a positive $\beta$ thus reduces the energy at high wavenumbers relative to that at low wavenumbers (Nieto Borge et al. [2004](../references/index.md#nieto-borge-2004)).
-- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and the predictor $P$ named by `hs_predictor` is typically the square root of the signal-to-noise ratio (Nieto-Borge et al. [2008](../references/index.md#nieto-borge-2008)).
+- The **significant wave height calibration** converts the signal-to-noise ratio, i.e. the ratio of the `wave_signal` to the `background_noise` reported with the [wavenumber spectra](../product_types/level2/wave_wavenumber_spectra.md) and the [wave parameters](../product_types/level2/wave_parameters.md), into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and the predictor $P$ is given by `hs_predictor` as an expression in `wave_signal` and `background_noise`, typically the square root of the signal-to-noise ratio, `sqrt(wave_signal / background_noise)` (Nieto-Borge et al. [2008](../references/index.md#nieto-borge-2008)).
 
 | Variable | Values | Description |
 |---|---|---|
 | `hs_intercept`<br><small>SOMaR</small> | double; `m` | Intercept of the significant wave height calibration. |
 | `hs_slope`<br><small>SOMaR</small> | double; `m` | Slope of the significant wave height calibration. |
-| `hs_predictor`<br><small>SOMaR</small> | string; `"sqrt_signal_to_noise_ratio"`, `"signal_to_noise_ratio"`, or `"other"` | The quantity to which the slope and intercept are applied. |
-| `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or `"other"` | The form of the modulation transfer function. |
+| `hs_predictor`<br><small>SOMaR</small> | string; an expression in `wave_signal` and `background_noise` (see below), e.g. `"sqrt(wave_signal / background_noise)"` | The predictor $P$ to which the slope and intercept are applied. |
+| `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or a name chosen by the processor (see below) | The form of the modulation transfer function. |
 | `mtf_exponent`<br><small>SOMaR</small> | double; `1` | For `"power_law"`: the exponent $\beta$. Omitted otherwise. |
 {: .variable-table }
 
-A processor that uses a different predictor or a different form of the modulation transfer function sets the variable to `"other"` and describes its method in a `comment` attribute of that variable; a `references` attribute gives the underlying scientific literature.
+The expression in `hs_predictor` may contain the variable names `wave_signal` and `background_noise`, numbers, the operators `+`, `-`, `*`, and `/`, parentheses, and the functions `sqrt` and `log10`; a predictor that is the wave signal alone, for example, is written `"wave_signal"`.
+In the wavenumber spectra and the wave parameters, which store `wave_signal` and `background_noise`, $P$ can thus be computed from the file; in the frequency-direction and frequency spectra, which do not, the expression documents the calibration of the wavenumber spectra they are derived from.
+
+A form of the modulation transfer function other than `"power_law"` or `"none"` is named by the processor with a short lowercase name with underscores, e.g. `"power_law_with_cutoff"`, so that files using the same form can be recognized.
+The `mtf_form` variable then carries a `comment` attribute describing the form, and its parameters are stored as further variables in the group whose names begin with `mtf_`.
+
+For either variable, a `references` attribute gives the underlying scientific literature.
 
 The group carries the following attributes.
 
@@ -58,7 +64,7 @@ group: wave_calibration {
   data:
         hs_intercept = 0.1 ;
         hs_slope = 1.5 ;
-        hs_predictor = "sqrt_signal_to_noise_ratio" ;
+        hs_predictor = "sqrt(wave_signal / background_noise)" ;
         mtf_form = "power_law" ;
         mtf_exponent = 1.2 ;
   } // group wave_calibration

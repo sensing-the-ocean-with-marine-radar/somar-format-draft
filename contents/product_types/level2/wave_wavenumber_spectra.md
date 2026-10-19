@@ -15,6 +15,7 @@ Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted; the variable name, `sea_surface_wave_wavenumber_variance_spectral_density`, is chosen so as not to be mistaken for that standard name.
 The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated against a reference wave data set; the parameters of this calibration are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The wave-signal and background-noise spectral densities from which the calibration derives the significant wave height may be stored in `wave_signal` and `background_noise`, as for the [wave parameters](wave_parameters.md).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
 
@@ -31,6 +32,8 @@ The file holds the following variables.
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `sea_surface_wave_wavenumber_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Required. Wave energy density as a function of the two wavenumber components. |
+| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
+| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used to derive the significant wave height. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Required. Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
@@ -74,6 +77,18 @@ variables:
                 sea_surface_wave_wavenumber_variance_spectral_density:coordinates = "longitude latitude" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:ancillary_variables = "measurement_quality" ;
+        double wave_signal(time) ;
+                wave_signal:long_name = "radar image spectral density of the wave signal" ;
+                wave_signal:units = "1" ;
+                wave_signal:coordinates = "longitude latitude" ;
+                wave_signal:grid_mapping = "crs" ;
+                wave_signal:ancillary_variables = "measurement_quality" ;
+        double background_noise(time) ;
+                background_noise:long_name = "radar image spectral density of the background noise" ;
+                background_noise:units = "1" ;
+                background_noise:coordinates = "longitude latitude" ;
+                background_noise:grid_mapping = "crs" ;
+                background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
