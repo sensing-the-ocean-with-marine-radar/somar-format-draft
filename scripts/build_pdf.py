@@ -12,9 +12,14 @@ pages) is joined into one HTML document:
 - Links between pages, and to headings on them, point into the document;
   other links to the site are made absolute.
 
-The document uses the site's stylesheet and MathJax configuration and is
-printed with headless Chromium (Playwright) once MathJax has typeset the
-equations. The combined HTML is written to a temporary directory only.
+The document uses the site's stylesheet and MathJax configuration, with
+Noto Sans and Source Code Pro in place of the system fonts of the site, which
+Linux lacks. The fonts are the static ones of Fontsource (from jsDelivr):
+Chromium embeds variable fonts, such as those of Google Fonts, as Type 3
+fonts, which PDF viewers render without hinting. The page footer cannot load
+web fonts and uses an installed Noto Sans (fonts-noto-core) if there is one. It is printed with headless Chromium
+(Playwright) once MathJax has typeset the equations and the fonts have
+loaded, so it needs network access. The combined HTML is written to a temporary directory only.
 
 A table of contents follows the title page. Chromium cannot number its
 entries, so the document is printed twice: the first print gives the page of
@@ -44,11 +49,21 @@ from pypdf import PdfReader
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_NAME = "somar-format.pdf"
 STYLESHEET = "assets/css/just-the-docs-default.css"
+FONT_STYLESHEETS = [
+    f"https://cdn.jsdelivr.net/npm/@fontsource/{font}/{style}.css"
+    for font, styles in (
+        ("noto-sans@5.2.10", ("300", "400", "400-italic", "500", "700")),
+        ("source-code-pro@5.2.7", ("400", "700")),
+    )
+    for style in styles
+]
+FONT_FAMILIES = ("Noto Sans", "Source Code Pro")
 
 PRINT_CSS = """
 @page { size: A4; margin: 18mm 16mm 20mm; }
 html, body { background: #fff; }
-body { margin: 0; }
+body { margin: 0; font-family: "Noto Sans", sans-serif; }
+code, pre, kbd, samp { font-family: "Source Code Pro", monospace !important; }
 .main-content { max-width: none; margin: 0; padding: 0; }
 section.pdf-section { break-before: page; }
 .title-page { text-align: center; padding-top: 30vh; }
@@ -75,7 +90,7 @@ tr, pre, .open_issue { break-inside: avoid; }
 """
 
 FOOTER = (
-    '<div style="width: 100%; font-size: 8px; color: #5c5962; '
+    '<div style="width: 100%; font-family: \'Noto Sans\', sans-serif; font-size: 8px; color: #5c5962; '
     'padding: 0 16mm; display: flex; justify-content: space-between;">'
     "<span>{title}</span>"
     '<span><span class="pageNumber"></span> / <span class="totalPages"></span></span>'
@@ -208,6 +223,8 @@ def build_document(site_dir, page_numbers):
     doc.head.append(doc.new_tag("meta", charset="utf-8"))
     doc.head.append(doc.new_tag("title"))
     doc.head.title.string = title
+    for href in FONT_STYLESHEETS:
+        doc.head.append(doc.new_tag("link", rel="stylesheet", href=href))
     style = doc.new_tag("style")
     style.string = read(os.path.join(site_dir, STYLESHEET)) + PRINT_CSS
     doc.head.append(style)
@@ -260,6 +277,17 @@ def print_pdf(html_path, output, title):
         page.goto(f"file://{html_path}", wait_until="networkidle")
         page.wait_for_function("window.MathJax && MathJax.startup && MathJax.startup.promise")
         page.evaluate("MathJax.startup.promise")
+        loaded = page.evaluate(
+            """async (families) => {
+                await document.fonts.ready;
+                return families.filter((family) => [...document.fonts].some(
+                    (face) => face.family.replace(/"/g, "") === family && face.status === "loaded"));
+            }""",
+            list(FONT_FAMILIES),
+        )
+        missing = [family for family in FONT_FAMILIES if family not in loaded]
+        if missing:
+            sys.exit(f"fonts not loaded: {', '.join(missing)}")
         page.pdf(
             path=output,
             format="A4",

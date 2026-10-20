@@ -56,7 +56,7 @@ bundle exec jekyll build
 python3 scripts/build_pdf.py _site
 ```
 
-The script writes `_site/somar-format.pdf`. It prints the pages with headless Chromium and needs network access to load MathJax. `pages.yml` builds the PDF before deploying the site, and `ci.yml` builds it on every push and pull request and uploads it as the `somar-format-pdf` artifact of the run.
+The script writes `_site/somar-format.pdf`. It prints the pages with headless Chromium and needs network access to load MathJax and the fonts (Noto Sans and Source Code Pro, from jsDelivr). The page footer uses an installed Noto Sans (`fonts-noto-core` on Debian and Ubuntu) and falls back to the default sans-serif font without it. `pages.yml` builds the PDF before deploying the site, and `ci.yml` builds it on every push and pull request and uploads it as the `somar-format-pdf` artifact of the run.
 
 ## Releasing a version
 

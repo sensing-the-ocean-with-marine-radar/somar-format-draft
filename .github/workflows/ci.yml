@@ -30,6 +30,7 @@ jobs:
         run: |
           pip install beautifulsoup4 pypdf playwright
           playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-core  # Noto Sans for the page footer
       - name: Build PDF
         run: python3 scripts/build_pdf.py _site
       - name: Upload PDF
