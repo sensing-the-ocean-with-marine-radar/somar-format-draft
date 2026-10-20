@@ -31,6 +31,8 @@ The file holds the following variables.
 | `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Required. Northward wavenumber component, pointing in the direction the waves come from. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
+| `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Wave products](index.md#wave-products)). |
+| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
 | `sea_surface_wave_wavenumber_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Required. Wave energy density as a function of the two wavenumber components. |
 | `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
 | `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
@@ -111,6 +113,8 @@ variables:
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar surface wave two-dimensional wavenumber spectra from R/V Ocean Research" ;
+                :analysis_window_motion = "earth_fixed" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 3840. ;
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;

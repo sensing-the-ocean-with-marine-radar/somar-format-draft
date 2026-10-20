@@ -15,7 +15,7 @@ They are divided into two sublevels according to how they are obtained: Level 2a
 
 Level 2a products are the direct result of a retrieval applied to Level 1b image sequences.
 [Roughness images](roughness_images.md) and [roughness image mosaics](roughness_mosaics.md) are mapped onto time-bounded local Cartesian grids stored as NetCDF groups.
-[Near-surface current maps](current_maps.md), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) are retrieved within overlapping analysis windows that follow the platform, and are stored as one two-dimensional map per measurement period, each in its own NetCDF group, on a regular longitude/latitude grid or, depending on the processor, on a local grid (see [Map products](#map-products)).
+[Near-surface current maps](current_maps.md), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) are retrieved within overlapping analysis windows, which are fixed to the Earth during a measurement period and span the radar footprint, so that the area covered moves with the platform from one period to the next, and are stored as one two-dimensional map per measurement period, each in its own NetCDF group, on a regular longitude/latitude grid or, depending on the processor, on a local grid (see [Map products](#map-products)).
 [Surface wave two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) give one spectrum per measurement along the platform's path, averaged over the analysis windows that contribute to it and indexed by `time` with accompanying `longitude` and `latitude`.
 
 ## Level 2b
@@ -41,12 +41,34 @@ The processing parameters of the maps are recorded in global attributes (see [Pr
 
 The wave products ([wavenumber spectra](wave_wavenumber_spectra.md), [frequency-direction spectra](wave_frequency_direction_spectra.md), [frequency spectra](wave_frequency_spectra.md), and [wave parameters](wave_parameters.md)) are retrieved within a small number of analysis windows that are spread across the radar field of view.
 Each measurement is the average over these analysis windows, and its `longitude` and `latitude` give their mean position (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
-The analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period.
+Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](#processing-parameters).
+Windows that move with the platform cover a track rather than a fixed area during the period.
+Their retrieval assumes that the wave field is spatially homogeneous along this track and that the platform moves at constant velocity during the period, and the mean platform velocity is subtracted afterwards from the current obtained.
+This velocity is stored as the speed over ground and course of the platform, in the variables `platform_speed_wrt_ground` and `platform_course` with the dimension `time`, which are required for windows that move with the platform and omitted otherwise:
+
+```
+// excerpt: the platform velocity of a measurement with platform-fixed analysis windows
+variables:
+        double platform_speed_wrt_ground(time) ;
+                platform_speed_wrt_ground:long_name = "mean platform speed over ground during the measurement" ;
+                platform_speed_wrt_ground:standard_name = "platform_speed_wrt_ground" ;
+                platform_speed_wrt_ground:units = "m s-1" ;
+                platform_speed_wrt_ground:coordinates = "longitude latitude" ;
+                platform_speed_wrt_ground:grid_mapping = "crs" ;
+        double platform_course(time) ;
+                platform_course:long_name = "mean platform course during the measurement" ;
+                platform_course:standard_name = "platform_course" ;
+                platform_course:units = "degree" ;
+                platform_course:coordinates = "longitude latitude" ;
+                platform_course:grid_mapping = "crs" ;
+```
+
 Their placement is left to the processor and should be described in the `comment` global attribute.
 
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
 Whether the frequencies and periods of the Level 2b products include this shift is given by [`wave_frequency_frame`](#processing-parameters).
+In windows that move with the platform, the observed frequencies are encounter frequencies, which are also shifted by the platform velocity; the Level 2b products give them as intrinsic or absolute frequencies all the same.
 
 ## Retrieval methods
 
@@ -79,6 +101,7 @@ The processing parameters needed to interpret the [roughness images](roughness_i
 
 | Attribute | Values | Description |
 |---|---|---|
+| `analysis_window_motion`<br><small>SOMaR</small> | String; `earth_fixed` or `platform_fixed` | Required for wave products. Whether the analysis windows are fixed to the Earth for the duration of a measurement period (`earth_fixed`) or move with the platform at a fixed bearing and range (`platform_fixed`; see [Wave products](#wave-products)). |
 | `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Required for map and wave products retrieved within analysis windows. The shape of the analysis windows, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the `comment` global attribute. |
 | `analysis_window_size`<br><small>SOMaR</small> | Number or pair of numbers; `m` | Required for map and wave products retrieved within analysis windows. The size of the analysis windows: the diameter of a `circle`, the side length of a `square`, or the east–west and north–south extents of a `rectangle`, in that order. |
 | `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Required for map products. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |

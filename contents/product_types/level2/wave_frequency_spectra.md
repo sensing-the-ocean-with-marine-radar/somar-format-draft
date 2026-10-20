@@ -26,6 +26,8 @@ The file holds the following variables.
 | `wave_frequency`<br><small>[CF][cf-names]</small> | double `(wave_frequency)`; `s-1` | Required. Wave frequency. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
+| `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Wave products](index.md#wave-products)). |
+| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
 | `sea_surface_wave_variance_spectral_density`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `m2 s` | Required. Wave energy density as a function of frequency. |
 | `sea_surface_wave_directional_spread`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Directional spread of the waves in each frequency band. |
 | `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Mean direction the waves come from in each frequency band. |
@@ -104,6 +106,8 @@ variables:
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar surface wave one-dimensional frequency spectra from R/V Ocean Research" ;
+                :analysis_window_motion = "earth_fixed" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 3840. ;
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;

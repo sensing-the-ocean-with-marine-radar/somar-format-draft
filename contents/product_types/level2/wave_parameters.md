@@ -10,7 +10,7 @@ nav_order: 10
 
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
 The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](index.md#processing-parameters).
-To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities (`wave_signal`, `background_noise`), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface (`sea_surface_wave_mean_square_slope`) for the shadowing method; the calibration applies `hs_slope` and `hs_intercept` to the predictor `hs_predictor` computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities (`wave_signal`, `background_noise`), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface (`sea_surface_wave_mean_square_slope`) for the shadowing method; the calibration applies `hs_slope` and `hs_intercept` to the predictor `hs_predictor` computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows, for platform-fixed windows after subtracting the platform velocity (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
@@ -25,8 +25,10 @@ The file holds the following variables.
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
-| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current from the same analysis windows. |
-| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current from the same analysis windows. |
+| `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Wave products](index.md#wave-products)). |
+| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
+| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current from the same analysis windows, for platform-fixed windows after subtracting the platform velocity. |
+| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current from the same analysis windows, for platform-fixed windows after subtracting the platform velocity. |
 | `sea_surface_wave_significant_height`<br><small>[CF][cf-names]</small> | double `(time)`; `m` | Required. Significant wave height. |
 | `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required. Peak wave direction: the direction the waves come from at the spectral maximum. |
 | `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Required. Peak wave period: the period at the spectral maximum. |
@@ -147,6 +149,8 @@ variables:
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar peak and mean wave parameters from R/V Ocean Research" ;
+                :analysis_window_motion = "earth_fixed" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 3840. ;
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;
