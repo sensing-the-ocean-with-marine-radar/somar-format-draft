@@ -15,9 +15,11 @@ is "// excerpt":
 Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
 scoping rules for references between variables, and the SOMaR rules for
-global attributes and file names. The spatial bounds are checked against
-the positions the example gives: scalar latitude and longitude values in
-the data sections and the projection origins of crs variables.
+global attributes and file names; the examples must carry the highly
+recommended global attributes as well as the mandatory ones. The spatial
+bounds are checked against the positions the example gives: scalar latitude
+and longitude values in the data sections and the projection origins of crs
+variables.
 
 Usage: python3 scripts/check_examples.py [--strict]
 
@@ -77,6 +79,12 @@ def product_types():
 def mandatory_attributes():
     text = read(os.path.join(ROOT, "contents/metadata_attributes/mandatory_global.md"))
     return [re.match(r"\| `(\w+)`", line).group(1) for line in text.splitlines() if line.startswith("| `")]
+
+
+def highly_recommended_attributes():
+    text = read(os.path.join(ROOT, "contents/metadata_attributes/optional_global.md"))
+    section = text.split("\n## Highly recommended\n", 1)[1].split("\n#", 1)[0]
+    return [re.match(r"\| `(\w+)`", line).group(1) for line in section.splitlines() if line.startswith("| `")]
 
 
 def canonical_groups():
@@ -182,7 +190,7 @@ def number(value):
 
 
 def positions(groups):
-    """Yield the known positions that the spatial bounds must enclose (see mandatory_global.md).
+    """Yield the known positions that the spatial bounds must enclose (see optional_global.md).
 
     These are the scalar latitude and longitude values in the data sections and, in groups
     without latitude and longitude variables, the projection origin of the crs variable.
@@ -271,6 +279,10 @@ def check_header(groups, is_file, names, units_module, expected):
         missing = [a for a in expected["mandatory_attributes"] if a not in root]
         if missing:
             errors.append(f"missing mandatory global attributes: {', '.join(missing)}")
+        # The examples model good practice, so they carry the highly recommended attributes too.
+        missing = [a for a in expected["highly_recommended_attributes"] if a not in root]
+        if missing:
+            errors.append(f"missing highly recommended global attributes: {', '.join(missing)}")
         errors += check_bounds(groups)
         conventions = unquote(root.get("Conventions", ""))
         if conventions != expected["conventions"]:
@@ -309,6 +321,7 @@ def main():
         "conventions": f"CF-1.13, ACDD-1.3, SOMaR-{config_value('somar_version')}" + ("-draft" if config_value("somar_status") == "draft" else ""),
         "product_types": product_types(),
         "mandatory_attributes": mandatory_attributes(),
+        "highly_recommended_attributes": highly_recommended_attributes(),
     }
 
     failures = checked = 0

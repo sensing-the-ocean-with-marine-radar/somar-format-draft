@@ -1,13 +1,48 @@
 ---
-title: Optional global attributes
+title: Recommended global attributes
 layout: default
 parent: Metadata
 nav_order: 2
 ---
 
-# Optional global attributes
+# Recommended global attributes
 
-In addition to the [mandatory global attributes](mandatory_global.md), the following global attributes are recommended where applicable, since they aid data discovery and provenance tracking but are not required for a file to be a valid SOMaR product.
+In addition to the [mandatory global attributes](mandatory_global.md), SOMaR recommends the following global attributes.
+They are not required for a file to be a valid SOMaR product, but they aid data discovery, citation, and provenance tracking.
+The convention an attribute is taken from is named in small print under the attribute (see [Metadata](index.md)).
+
+## Highly recommended
+
+Every SOMaR file should carry the following global attributes, regardless of processing level or product, unless its producer cannot supply them (see [Compliance](mandatory_global.md#compliance)).
+They give the file a title and an origin and locate it in time and space, which data catalogs use to find it.
+The time coverage and the spatial bounds follow from the file's content, so that the software writing a file can set them.
+
+| Attribute | Values | Description |
+|---|---|---|
+| `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
+| `geospatial_lat_min`<br><small>[ACDD][acdd]</small> | Number; degrees north | The southernmost latitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
+| `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east, between -180 and 180 | The easternmost longitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
+| `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east, between -180 and 180 | The westernmost longitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
+| `institution`<br><small>[CF][cf-description]</small> | String; free text | The institution responsible for producing the file. |
+| `time_coverage_end`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the latest observation contributing to the data in the file. For products that store one group or measurement per averaging window or measurement period, each identified by its start time, this is the end of the last averaging window or measurement period. |
+| `time_coverage_start`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC, fractional seconds permitted | The time of the first observation contributing to the data in the file. |
+| `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content. |
+{: .attribute-table }
+
+### Spatial bounds
+
+The `geospatial_lat_min`, `geospatial_lat_max`, `geospatial_lon_min`, and `geospatial_lon_max` attributes give the extremes of the positions stored in the file, so that they follow from its content alone.
+These positions are the values of all variables named `latitude` and `longitude`, in any group and excluding fill values, and, in groups without such variables, the projection origin of the `crs` variable (`latitude_of_projection_origin`, `longitude_of_projection_origin`).
+Depending on the product, they are the positions of the radar antenna (Level 1 products, roughness images, and roughness image mosaics), the centers of the analysis windows (map products), or their mean positions (wave products), in each case as stored, i.e. uncorrected in polar products (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)).
+Other positions, such as `radar_latitude` and `radar_longitude`, do not count.
+
+The bounds therefore enclose the positions of the data rather than the area observed, which extends beyond them by up to the maximum range of the radar or half the analysis window size; for a fixed platform, the minimum and maximum may coincide.
+ACDD describes these attributes as the bounds of the data; SOMaR narrows this to a definition that every writer can apply in the same way and that can be checked against the file.
+If the positions span the antimeridian, `geospatial_lon_min` is the westernmost and `geospatial_lon_max` the easternmost longitude, so that `geospatial_lon_min` is greater than `geospatial_lon_max`, as ACDD allows.
+
+## Recommended where applicable
+
+The following global attributes are recommended where they apply to the file.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -33,7 +68,7 @@ In addition to the [mandatory global attributes](mandatory_global.md), the follo
 
 ## Example
 
-The global attributes of a [near-surface current map](../product_types/level2/current_maps.md) file, with the mandatory and optional attributes:
+The global attributes of a [near-surface current map](../product_types/level2/current_maps.md) file, with the mandatory, highly recommended, and recommended attributes:
 
 ```
 // global attributes:
