@@ -1,7 +1,7 @@
 ---
 title: About SOMaR
 layout: default
-nav_order: 8
+nav_order: 9
 ---
 # The Sensing the Ocean with Marine Radar (SOMaR) Community
 

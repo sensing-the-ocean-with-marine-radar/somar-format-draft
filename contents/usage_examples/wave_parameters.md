@@ -1,7 +1,7 @@
 ---
 title: Peak and mean wave parameters (L2b)
 layout: default
-parent: Level 2 products
+parent: Usage examples
 grand_parent: SOMaR product types
 nav_order: 10
 ---

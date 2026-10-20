@@ -1,15 +1,17 @@
 ---
-title: Surface wave one-dimensional frequency spectra (L2b)
+title: Surface wave frequency-direction spectra (L2b)
 layout: default
-parent: Level 2 products
+parent: Usage examples
 grand_parent: SOMaR product types
-nav_order: 9
+nav_order: 8
 ---
 
-# L2b: Surface wave one-dimensional frequency spectra
+# L2b: Surface wave frequency-direction spectra
 
-One-dimensional frequency spectra (`wave_frequency_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
+Frequency-direction spectra (`wave_frequency_direction_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
+Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
+Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
@@ -23,20 +25,23 @@ The file holds the following variables.
 | `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
 | `wave_frequency`<br><small>[CF][cf-names]</small> | double `(wave_frequency)`; `s-1` | Required. Wave frequency. |
+| `sea_surface_wave_from_direction`<br><small>[CF][cf-names]</small> | double `(sea_surface_wave_from_direction)`; `degree` | Required. Direction the waves come from. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
-| `sea_surface_wave_variance_spectral_density`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `m2 s` | Required. Wave energy density as a function of frequency. |
-| `sea_surface_wave_directional_spread`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Directional spread of the waves in each frequency band. |
-| `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Mean direction the waves come from in each frequency band. |
+| `sea_surface_wave_directional_variance_spectral_density`<br><small>[CF][cf-names]</small> | double `(time, wave_frequency, sea_surface_wave_from_direction)`; `m2 s degree-1` | Required. Wave energy density as a function of frequency and direction. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Required. Quality flag: 0 is good, 1 is bad. |
 {: .variable-table }
 
 ## Minimal example
+
+The example below is illustrative; it is not yet based on an existing NetCDF file.
+
 ```
-netcdf or_2025-01-15-11_wave_frequency_spectra {
+netcdf or_2025-01-15-11_wave_frequency_direction_spectra {
 dimensions:
         time = 29 ;
         wave_frequency = 512 ;
+        sea_surface_wave_from_direction = 360 ;
 variables:
         char crs ;
                 crs:grid_mapping_name = "latitude_longitude" ;
@@ -53,6 +58,10 @@ variables:
                 wave_frequency:long_name = "wave frequency" ;
                 wave_frequency:standard_name = "wave_frequency" ;
                 wave_frequency:units = "s-1" ;
+        double sea_surface_wave_from_direction(sea_surface_wave_from_direction) ;
+                sea_surface_wave_from_direction:long_name = "direction from which the waves are propagating" ;
+                sea_surface_wave_from_direction:standard_name = "sea_surface_wave_from_direction" ;
+                sea_surface_wave_from_direction:units = "degree" ;
         double longitude(time) ;
                 longitude:long_name = "mean longitude of wave measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -61,27 +70,13 @@ variables:
                 latitude:long_name = "mean latitude of wave measurement" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
-        float sea_surface_wave_variance_spectral_density(time, wave_frequency) ;
-                sea_surface_wave_variance_spectral_density:long_name = "wave energy density frequency spectrum" ;
-                sea_surface_wave_variance_spectral_density:standard_name = "sea_surface_wave_variance_spectral_density" ;
-                sea_surface_wave_variance_spectral_density:units = "m2 s" ;
-                sea_surface_wave_variance_spectral_density:coordinates = "longitude latitude" ;
-                sea_surface_wave_variance_spectral_density:grid_mapping = "crs" ;
-                sea_surface_wave_variance_spectral_density:ancillary_variables = "measurement_quality" ;
-        float sea_surface_wave_directional_spread(time, wave_frequency) ;
-                sea_surface_wave_directional_spread:long_name = "wave directional spread in each frequency band" ;
-                sea_surface_wave_directional_spread:standard_name = "sea_surface_wave_directional_spread" ;
-                sea_surface_wave_directional_spread:units = "degree" ;
-                sea_surface_wave_directional_spread:coordinates = "longitude latitude" ;
-                sea_surface_wave_directional_spread:grid_mapping = "crs" ;
-                sea_surface_wave_directional_spread:ancillary_variables = "measurement_quality" ;
-        float sea_surface_wave_mean_from_direction(time, wave_frequency) ;
-                sea_surface_wave_mean_from_direction:long_name = "mean wave direction in each frequency band" ;
-                sea_surface_wave_mean_from_direction:standard_name = "sea_surface_wave_mean_from_direction" ;
-                sea_surface_wave_mean_from_direction:units = "degree" ;
-                sea_surface_wave_mean_from_direction:coordinates = "longitude latitude" ;
-                sea_surface_wave_mean_from_direction:grid_mapping = "crs" ;
-                sea_surface_wave_mean_from_direction:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction) ;
+                sea_surface_wave_directional_variance_spectral_density:long_name = "wave energy density two dimensional frequency spectrum" ;
+                sea_surface_wave_directional_variance_spectral_density:standard_name = "sea_surface_wave_directional_variance_spectral_density" ;
+                sea_surface_wave_directional_variance_spectral_density:units = "m2 s degree-1" ;
+                sea_surface_wave_directional_variance_spectral_density:coordinates = "longitude latitude" ;
+                sea_surface_wave_directional_variance_spectral_density:grid_mapping = "crs" ;
+                sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
@@ -99,10 +94,10 @@ variables:
                 :geospatial_lon_max = 145.9486 ;
                 :geospatial_lon_min = 145.8631 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
-                :product_type = "wave_frequency_spectra" ;
+                :product_type = "wave_frequency_direction_spectra" ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar surface wave one-dimensional frequency spectra from R/V Ocean Research" ;
+                :title = "Marine X-band radar surface wave frequency-direction spectra from R/V Ocean Research" ;
                 :analysis_window_size = 3840. ;
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;
