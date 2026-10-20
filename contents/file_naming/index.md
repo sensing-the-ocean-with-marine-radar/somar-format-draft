@@ -1,7 +1,7 @@
 ---
 title: File naming recommendations
 layout: default
-nav_order: 6
+nav_order: 7
 ---
 
 # File naming recommendations

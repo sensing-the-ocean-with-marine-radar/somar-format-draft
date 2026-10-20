@@ -2,7 +2,6 @@
 title: Surface wave two-dimensional wavenumber spectra (L2a)
 layout: default
 parent: Usage examples
-grand_parent: SOMaR product types
 nav_order: 7
 ---
 

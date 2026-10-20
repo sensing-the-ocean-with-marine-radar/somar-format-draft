@@ -2,7 +2,6 @@
 title: Near-surface current maps (L2a)
 layout: default
 parent: Usage examples
-grand_parent: SOMaR product types
 nav_order: 3
 ---
 
