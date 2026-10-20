@@ -18,7 +18,7 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 | **L2a** | [Roughness images](level2/roughness_images.md) | `sea_surface_roughness` |
 | **L2a** | [Roughness image mosaics](level2/roughness_mosaics.md) | `sea_surface_roughness_mosaic` |
 | **L2a** | [Near-surface current maps](level2/current_maps.md) | `currents` |
-| **L2a** | [Near-surface current profile maps](level2/current_maps.md#near-surface-current-profile-maps) | `currents_profile` |
+| **L2a** | [Near-surface current profile maps](level2/current_profile_maps.md) | `currents_profile` |
 | **L2a** | [Bathymetric maps](level2/depth_maps.md) | `bathymetry` |
 | **L2a** | [Sea ice drift maps](level2/sea_ice_drift.md) | `sea_ice_drift` |
 | **L2a** | [Surface wave two-dimensional wavenumber spectra](level2/wave_wavenumber_spectra.md) | `wave_wavenumber_spectra` |

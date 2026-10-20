@@ -26,7 +26,7 @@ Like the wavenumber spectra, they are indexed by `time` with accompanying `longi
 
 ## Map products
 
-[Near-surface current maps](current_maps.md), [current profile maps](current_maps.md#near-surface-current-profile-maps), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) share one structure.
+[Near-surface current maps](current_maps.md), [current profile maps](current_profile_maps.md), [bathymetric maps](depth_maps.md), and [sea ice drift maps](sea_ice_drift.md) share one structure.
 The analysis windows of one measurement period form a map that spans the radar footprint, and with a moving vessel the area covered changes from one period to the next.
 All maps belonging to one file are therefore stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` (UTC) after the start time of that period, as for the [roughness images](roughness_images.md).
 Within each group, the scalar variable `time` gives the start time of the period, and the variables are stored on a two-dimensional grid with the dimensions `(latitude, longitude)`.

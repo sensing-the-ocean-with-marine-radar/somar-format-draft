@@ -3,7 +3,7 @@ title: Surface wave one-dimensional frequency spectra (L2b)
 layout: default
 parent: Level 2 products
 grand_parent: SOMaR product types
-nav_order: 8
+nav_order: 9
 ---
 
 # L2b: Surface wave one-dimensional frequency spectra

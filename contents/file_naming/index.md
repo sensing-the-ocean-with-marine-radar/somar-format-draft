@@ -24,7 +24,7 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 | `or_2025-01-15-11_sea_surface_roughness.nc` | [Roughness images](../product_types/level2/roughness_images.md) |
 | `or_2025-01-15-11_sea_surface_roughness_mosaic.nc` | [Roughness image mosaics](../product_types/level2/roughness_mosaics.md) |
 | `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../product_types/level2/current_maps.md) |
-| `or_2025-01-15-11_currents_profile.nc` | [Near-surface current profile maps](../product_types/level2/current_maps.md) |
+| `or_2025-01-15-11_currents_profile.nc` | [Near-surface current profile maps](../product_types/level2/current_profile_maps.md) |
 | `or_2025-01-15-11_wave_wavenumber_spectra.nc` | [Surface wave two-dimensional wavenumber spectra](../product_types/level2/wave_wavenumber_spectra.md) |
 | `or_2025-01-15-11_wave_frequency_direction_spectra.nc` | [Surface wave frequency-direction spectra](../product_types/level2/wave_frequency_direction_spectra.md) |
 | `or_2025-01-15-11_wave_frequency_spectra.nc` | [Surface wave one-dimensional frequency spectra](../product_types/level2/wave_frequency_spectra.md) |

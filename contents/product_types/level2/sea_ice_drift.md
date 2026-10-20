@@ -3,7 +3,7 @@ title: Sea ice drift maps (L2a)
 layout: default
 parent: Level 2 products
 grand_parent: SOMaR product types
-nav_order: 5
+nav_order: 6
 ---
 
 # L2a: Sea ice drift maps
