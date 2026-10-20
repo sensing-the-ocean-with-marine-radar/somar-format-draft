@@ -1,5 +1,5 @@
 ---
-title: Level 1: products
+title: "Level 1: Radar data"
 layout: default
 parent: SOMaR product types
 nav_order: 1
