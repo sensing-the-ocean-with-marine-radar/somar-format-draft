@@ -22,6 +22,21 @@ jobs:
           cache-version: 1 # Increment this number if you need to re-download cached gems
       - name: Build with Jekyll
         run: bundle exec jekyll build
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install BeautifulSoup, pypdf, and Playwright
+        run: |
+          pip install beautifulsoup4 pypdf playwright
+          playwright install --with-deps chromium
+      - name: Build PDF
+        run: python3 scripts/build_pdf.py _site
+      - name: Upload PDF
+        uses: actions/upload-artifact@v7
+        with:
+          name: somar-format-pdf
+          path: _site/somar-format.pdf
 
   # Build and check the CDL examples of the specification
   examples:

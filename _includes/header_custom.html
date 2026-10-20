@@ -1,6 +1,10 @@
 {%- comment -%}
   Status pill in the top bar of every page; version and status from _config.yml.
+  PDF link: the whole specification, built by scripts/build_pdf.py on deployment.
 {%- endcomment -%}
 <a class="status-pill" href="{{ '/#status' | relative_url }}" title="Status of this specification">
   {{ site.somar_status | capitalize }} v{{ site.somar_version }}
+</a>
+<a class="pdf-link" href="{{ '/somar-format.pdf' | relative_url }}" title="The whole specification as a PDF">
+  PDF
 </a>

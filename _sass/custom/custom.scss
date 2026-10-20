@@ -105,3 +105,23 @@ code strong {
     text-decoration: none;
   }
 }
+
+// PDF link next to the status pill
+.pdf-link {
+  align-self: center;
+  flex-shrink: 0;
+  margin-right: $sp-2;
+  padding: $sp-1 $sp-2;
+  border-radius: $border-radius;
+  background-color: $grey-lt-100;
+  color: $grey-dk-300;
+  font-size: $font-size-2;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $grey-lt-200;
+    text-decoration: none;
+  }
+}

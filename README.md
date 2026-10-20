@@ -19,6 +19,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
 | `contents/about/` | About the SOMaR community |
 | `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |
+| `scripts/build_pdf.py` | Builds the PDF of the whole specification from the built site (see [Building the PDF](#building-the-pdf)) |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |
 
@@ -43,6 +44,19 @@ python3 scripts/check_examples.py
 ```
 
 The script requires `ncgen` and `ncdump` (e.g. from the `netcdf-bin` package) and runs in CI on every push and pull request. CI runs it as `python3 scripts/check_examples.py --strict`, which fails instead of skipping the unit checks when `cf-units` is missing; run it the same way locally to get the same result. On its first run, the script downloads the CF standard name table (version 95) from cfconventions.org and caches it in the system temporary directory, so it needs network access once. Every code block is checked except those whose first line is `// excerpt`. A line `group: <name> { ... }` stands for the example of that group on its Metadata page and is expanded before the build. Dimension lengths are capped at 3, so the `data:` sections of the examples must hold scalars only.
+
+## Building the PDF
+
+The PDF linked from the top bar of every page (`somar-format.pdf`) is built from the built site, with a table of contents and the pages in the order of the navigation:
+
+```sh
+pip install beautifulsoup4 pypdf playwright
+playwright install chromium
+bundle exec jekyll build
+python3 scripts/build_pdf.py _site
+```
+
+The script writes `_site/somar-format.pdf`. It prints the pages with headless Chromium and needs network access to load MathJax. `pages.yml` builds the PDF before deploying the site, and `ci.yml` builds it on every push and pull request and uploads it as the `somar-format-pdf` artifact of the run.
 
 ## Releasing a version
 

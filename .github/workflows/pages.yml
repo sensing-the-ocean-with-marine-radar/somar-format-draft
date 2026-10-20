@@ -47,6 +47,17 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Install BeautifulSoup, pypdf, and Playwright
+        run: |
+          pip install beautifulsoup4 pypdf playwright
+          playwright install --with-deps chromium
+      - name: Build PDF
+        # Writes ./_site/somar-format.pdf, linked from the top bar of every page
+        run: python3 scripts/build_pdf.py _site
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v5
