@@ -8,6 +8,9 @@ nav_order: 7
 
 ## Scientific literature
 
+Bell, P. S., 1999: Shallow water bathymetry derived from an analysis of X-band marine radar images of waves. *Coastal Eng.*, **37**, 513–527, [https://doi.org/10.1016/S0378-3839(99)00041-1](https://doi.org/10.1016/S0378-3839(99)00041-1).
+{: #bell-1999 }
+
 McCann, D. L., and P. S. Bell, 2018: A simple offset "calibration" method for the accurate geographic registration of ship-borne X-band radar intensity imagery. *IEEE Access*, **6**, 13939–13948, [https://doi.org/10.1109/ACCESS.2018.2814081](https://doi.org/10.1109/ACCESS.2018.2814081).
 {: #mccann-bell-2018 }
 

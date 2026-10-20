@@ -9,7 +9,7 @@ nav_order: 5
 # L2a: Bathymetric maps
 
 Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with a standard error and a `measurement_quality` bit flag.
-As for the [near-surface current maps](current_maps.md), each depth is retrieved by a least-squares fit of the wave signal in the wavenumber-frequency spectrum of a local analysis window to the ocean wave dispersion relation; here, however, the fit solves for water depth rather than current velocity, exploiting the depth-induced deviation from the deep-water dispersion relation.
+As for the [near-surface current maps](current_maps.md), each depth is retrieved by a least-squares fit of the wave signal in the wavenumber-frequency spectrum of a local analysis window to the ocean wave dispersion relation; here, however, the fit solves for water depth rather than current velocity, exploiting the depth-induced deviation from the deep-water dispersion relation (Bell [1999](../../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
