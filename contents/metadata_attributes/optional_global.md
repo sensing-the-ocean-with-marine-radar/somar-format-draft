@@ -24,7 +24,7 @@ They are the attributes that ACDD highly recommends, apart from `Conventions`, w
 | `title`<br><small>[CF][cf-description]</small> | String; free text | A short, human-readable description of the file's content. |
 {: .attribute-table }
 
-## Recommended where applicable
+## Recommended
 
 The following global attributes are recommended where they apply to the file.
 The time coverage and the spatial bounds follow from the file's content, so that the software writing a file can set them.
