@@ -9,9 +9,11 @@ nav_order: 6
 # L2a: Sea ice drift maps
 
 Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
-Each drift vector is retrieved by cross correlating a pair of temporally averaged radar backscatter images, computed within a local circular analysis window, that are separated by a short time lag; the offset between the two images at the correlation peak yields the drift vector.
-Because the correlation is evaluated both forward and backward in time, two independent drift vector estimates are reported for each analysis window: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward correlation, with its corresponding `correlation_coefficient`, and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward correlation, with `correlation_coefficient_backward`.
-This cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
+Each drift vector is retrieved from the displacement of the backscatter pattern between two radar images, which may be temporally averaged, separated by a short time lag.
+The method is named by [`retrieval_method`](index.md#retrieval-methods): for example, cross-correlation of the two images within a local analysis window, where the offset at the correlation peak yields the drift vector (`cross_correlation`; Lund et al. [2018](../../references/index.md#lund-2018)), or optical flow (`optical_flow`; Thomson et al. [2021](../../references/index.md#thomson-2021)).
+If the retrieval is also carried out backward in time, two independent drift vector estimates are reported for each location: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward retrieval and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward retrieval.
+A cross-correlation reports the peak correlation coefficients of both, `correlation_coefficient` and `correlation_coefficient_backward`.
+The cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
 As for the [near-surface currents](current_maps.md), the drift vector is given relative to the ground, with the platform motion removed, and points in the direction toward which the ice drifts.
@@ -26,17 +28,17 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
-| `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Eastward component of the sea ice drift, from the forward cross-correlation. |
-| `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Northward component of the sea ice drift, from the forward cross-correlation. |
-| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Required. Peak Pearson correlation coefficient of the forward cross-correlation. |
-| `eastward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward cross-correlation. |
-| `northward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward cross-correlation. |
+| `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Eastward component of the sea ice drift, from the forward retrieval. |
+| `northward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Northward component of the sea ice drift, from the forward retrieval. |
+| `correlation_coefficient`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Peak Pearson correlation coefficient of the forward cross-correlation. |
+| `eastward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward retrieval. |
+| `northward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward retrieval. |
 | `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Peak Pearson correlation coefficient of the backward cross-correlation. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attribute.
-Since each drift vector is obtained from just two averaged images, which `time_lag` and the shared processing parameter [`averaging_duration`](index.md#processing-parameters) describe, the map attribute `number_of_images` is omitted.
+Since each drift vector is obtained from just two images, which `time_lag` and, if the images are averaged, the shared processing parameter [`averaging_duration`](index.md#processing-parameters) describe, the map attribute `number_of_images` is omitted.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -58,9 +60,11 @@ netcdf or_2025-08-23-12_sea_ice_drift {
                 :time_coverage_end = "2025-08-23T12:59:59Z" ;
                 :time_coverage_start = "2025-08-23T12:00:00Z" ;
                 :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 720. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_duration = 120. ;
+                :retrieval_method = "cross_correlation" ;
                 :time_lag = 90. ;
                 :averaging_duration = 30. ;
 

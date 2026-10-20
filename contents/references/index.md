@@ -11,6 +11,18 @@ nav_order: 7
 Bell, P. S., 1999: Shallow water bathymetry derived from an analysis of X-band marine radar images of waves. *Coastal Eng.*, **37**, 513–527, [https://doi.org/10.1016/S0378-3839(99)00041-1](https://doi.org/10.1016/S0378-3839(99)00041-1).
 {: #bell-1999 }
 
+Campana, J., E. J. Terrill, and T. de Paolo, 2016: The development of an inversion technique to extract vertical current profiles from X-band radar observations. *J. Atmos. Oceanic Technol.*, **33**, 2015–2028, [https://doi.org/10.1175/JTECH-D-15-0145.1](https://doi.org/10.1175/JTECH-D-15-0145.1).
+{: #campana-2016 }
+
+Gangeskar, R., 2014: An algorithm for estimation of wave height from shadowing in X-band radar sea surface images. *IEEE Trans. Geosci. Remote Sens.*, **52**, 3373–3381, [https://doi.org/10.1109/TGRS.2013.2272701](https://doi.org/10.1109/TGRS.2013.2272701).
+{: #gangeskar-2014 }
+
+Lund, B., H. C. Graber, H. Tamura, C. O. Collins, and S. M. Varlamov, 2015: A new technique for the retrieval of near-surface vertical current shear from marine X-band radar images. *J. Geophys. Res. Oceans*, **120**, 8466–8486, [https://doi.org/10.1002/2015JC010961](https://doi.org/10.1002/2015JC010961).
+{: #lund-2015 }
+
+Lund, B., H. C. Graber, P. O. G. Persson, M. Smith, M. Doble, J. Thomson, and P. Wadhams, 2018: Arctic sea ice drift measured by shipboard marine radar. *J. Geophys. Res. Oceans*, **123**, 4298–4321, [https://doi.org/10.1029/2018JC013769](https://doi.org/10.1029/2018JC013769).
+{: #lund-2018 }
+
 McCann, D. L., and P. S. Bell, 2018: A simple offset "calibration" method for the accurate geographic registration of ship-borne X-band radar intensity imagery. *IEEE Access*, **6**, 13939–13948, [https://doi.org/10.1109/ACCESS.2018.2814081](https://doi.org/10.1109/ACCESS.2018.2814081).
 {: #mccann-bell-2018 }
 
@@ -23,8 +35,14 @@ Nieto-Borge, J. C., K. Hessner, P. Jarabo-Amores, and D. de la Mata-Moya, 2008: 
 Senet, C. M., J. Seemann, and F. Ziemer, 2001: The near-surface current velocity determined from image sequences of the sea surface. *IEEE Trans. Geosci. Remote Sens.*, **39**, 492–505, [https://doi.org/10.1109/36.911108](https://doi.org/10.1109/36.911108).
 {: #senet-2001 }
 
+Serafino, F., C. Lugni, and F. Soldovieri, 2010: A novel strategy for the surface current determination from marine X-band radar data. *IEEE Geosci. Remote Sens. Lett.*, **7**, 231–235, [https://doi.org/10.1109/LGRS.2009.2031878](https://doi.org/10.1109/LGRS.2009.2031878).
+{: #serafino-2010 }
+
 Stewart, R. H., and J. W. Joy, 1974: HF radio measurements of surface currents. *Deep-Sea Res. Oceanogr. Abstr.*, **21**, 1039–1049, [https://doi.org/10.1016/0011-7471(74)90066-7](https://doi.org/10.1016/0011-7471(74)90066-7).
 {: #stewart-joy-1974 }
+
+Thomson, J., B. Lund, J. Hargrove, M. M. Smith, J. Horstmann, and J. A. MacKinnon, 2021: Wave-driven flow along a compact marginal ice zone. *Geophys. Res. Lett.*, **48**, e2020GL090735, [https://doi.org/10.1029/2020GL090735](https://doi.org/10.1029/2020GL090735).
+{: #thomson-2021 }
 
 Young, I. R., W. Rosenthal, and F. Ziemer, 1985: A three-dimensional analysis of marine radar images for the determination of ocean wave directionality and surface currents. *J. Geophys. Res.*, **90**, 1049–1059, [https://doi.org/10.1029/JC090iC01p01049](https://doi.org/10.1029/JC090iC01p01049).
 {: #young-1985 }

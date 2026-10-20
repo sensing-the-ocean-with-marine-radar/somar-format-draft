@@ -9,7 +9,8 @@ nav_order: 10
 # L2b: Peak and mean wave parameters
 
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
-To aid interpretation and quality assessment, the wave-signal and background-noise spectral densities are also reported (`wave_signal`, `background_noise`); their ratio is the signal-to-noise ratio from which the significant wave height is derived with `hs_predictor`, `hs_slope`, and `hs_intercept`. They are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](index.md#processing-parameters).
+To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities (`wave_signal`, `background_noise`), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface (`sea_surface_wave_mean_square_slope`) for the shadowing method; the calibration applies `hs_slope` and `hs_intercept` to the predictor `hs_predictor` computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
@@ -31,9 +32,10 @@ The file holds the following variables.
 | `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Required. Peak wave period: the period at the spectral maximum. |
 | `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Required. Mean wave period (e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute). |
 | `sea_surface_wave_from_direction`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required. Mean wave direction: the mean direction the waves come from (the definition should be documented in a `comment` attribute). |
-| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used to derive the significant wave height. |
-| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used to derive the significant wave height. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Required. Quality flag: 0 is good, 1 is bad. |
+| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
+| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
+| `sea_surface_wave_mean_square_slope`<br><small>[CF][cf-names]</small> | double `(time)`; `1` | Optional. Mean square slope of the sea surface, used by the shadowing method to derive the significant wave height. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 ## Minimal example
@@ -126,10 +128,10 @@ variables:
                 background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
-                measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
-                measurement_quality:flag_meanings = "good bad" ;
-                measurement_quality:flag_values = 0UB, 1UB ;
-                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
+                measurement_quality:valid_range = 0UB, 63UB ;
                 measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
@@ -149,6 +151,7 @@ variables:
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;
                 :number_of_images = 160 ;
+                :wave_frequency_frame = "intrinsic" ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }

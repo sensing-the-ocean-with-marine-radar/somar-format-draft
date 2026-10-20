@@ -10,6 +10,7 @@ nav_order: 9
 
 One-dimensional frequency spectra (`wave_frequency_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
+The frequencies are intrinsic, i.e. relative to the moving water, if this dispersion relation omits the current, or absolute, i.e. relative to the ground, if it includes the Doppler shift by the current; which of the two is given by [`wave_frequency_frame`](index.md#processing-parameters).
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
@@ -28,7 +29,7 @@ The file holds the following variables.
 | `sea_surface_wave_variance_spectral_density`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `m2 s` | Required. Wave energy density as a function of frequency. |
 | `sea_surface_wave_directional_spread`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Directional spread of the waves in each frequency band. |
 | `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(time, wave_frequency)`; `degree` | Optional. Mean direction the waves come from in each frequency band. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Required. Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 ## Minimal example
@@ -84,10 +85,10 @@ variables:
                 sea_surface_wave_mean_from_direction:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
-                measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
-                measurement_quality:flag_meanings = "good bad" ;
-                measurement_quality:flag_values = 0UB, 1UB ;
-                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
+                measurement_quality:valid_range = 0UB, 63UB ;
                 measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
@@ -107,6 +108,7 @@ variables:
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;
                 :number_of_images = 160 ;
+                :wave_frequency_frame = "intrinsic" ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }

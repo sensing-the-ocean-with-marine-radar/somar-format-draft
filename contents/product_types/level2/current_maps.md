@@ -8,10 +8,12 @@ nav_order: 3
 
 # L2a: Near-surface current maps
 
-Near-surface current maps (`currents`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with per-component standard errors and a `measurement_quality` bit flag.
+Near-surface current maps (`currents`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
 As the CF standard names imply, the current vector is given relative to the ground, with the platform motion removed, and points in the direction toward which the water flows.
-Each current vector is retrieved through a least-squares fit that minimizes the distance between the wave signal found in a wavenumber-frequency spectrum, computed from a radar image sequence within a local circular analysis window, and the linear ocean wave dispersion relation, exploiting the current-induced Doppler shift of the surface wave field (Young et al. [1985](../../references/index.md#young-1985); Senet et al. [2001](../../references/index.md#senet-2001)).
-Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the fit and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement. Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
+Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.
+The method is named by [`retrieval_method`](index.md#retrieval-methods): for example, a least-squares fit that minimizes the distance between the wave signal and the dispersion relation (`dispersion_relation_least_squares_fit`; Young et al. [1985](../../references/index.md#young-1985); Senet et al. [2001](../../references/index.md#senet-2001)), or the maximization of the normalized scalar product between the spectrum and a filter following the dispersion relation (`normalized_scalar_product`; Serafino et al. [2010](../../references/index.md#serafino-2010)).
+The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and `number_of_wave_coordinates`, while other methods may report a `signal_to_noise_ratio`.
+Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the retrieval and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement. Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](#local-grid-form).
 
 ## Variables
@@ -26,11 +28,12 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
 | `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Eastward component of the near-surface current. |
 | `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Required. Northward component of the near-surface current. |
-| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Required. Mean wavenumber of the wave signal used in the fit, which indicates the effective sensing depth. |
-| `eastward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Standard error of the eastward component. |
-| `northward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Standard error of the northward component. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; `1` | Optional. Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
+| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Required. Mean wavenumber of the wave signal used in the retrieval, which indicates the effective sensing depth. |
+| `eastward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Standard error of the eastward component, e.g. from a least-squares fit. |
+| `northward_sea_water_velocity_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m s-1` | Optional. Standard error of the northward component, e.g. from a least-squares fit. |
+| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; `1` | Optional. Number of points of the wave signal in the wavenumber-frequency spectrum that were used in a least-squares fit. |
+| `signal_to_noise_ratio`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Signal-to-noise ratio of the current retrieval, as defined by the method; the definition is given in a `comment` attribute. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 ## Minimal example
@@ -48,10 +51,12 @@ netcdf or_2025-01-15-11_currents {
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_duration = 240. ;
                 :number_of_images = 160 ;
+                :retrieval_method = "dispersion_relation_least_squares_fit" ;
 
 group: time_20250115110031 {
   dimensions:

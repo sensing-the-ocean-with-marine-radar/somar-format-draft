@@ -8,8 +8,8 @@ nav_order: 5
 
 # L2a: Bathymetric maps
 
-Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with a standard error and a `measurement_quality` bit flag.
-As for the [near-surface current maps](current_maps.md), each depth is retrieved by a least-squares fit of the wave signal in the wavenumber-frequency spectrum of a local analysis window to the ocean wave dispersion relation; here, however, the fit solves for water depth rather than current velocity, exploiting the depth-induced deviation from the deep-water dispersion relation (Bell [1999](../../references/index.md#bell-1999)).
+Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with an optional standard error and a `measurement_quality` bit flag.
+As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](index.md#retrieval-methods), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 The maps are stored as described under [Map products](index.md#map-products): one group per measurement period, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form).
 
@@ -27,10 +27,10 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
 | `sea_floor_depth_below_sea_surface`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m` | Required. Water depth, from the sea surface to the sea floor. |
-| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Required. Mean wavenumber of the wave signal used in the fit. |
-| `sea_floor_depth_below_sea_surface_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m` | Optional. Standard error of the water depth. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; `1` | Optional. Number of points of the wave signal in the wavenumber-frequency spectrum that were used in the fit. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see `flag_meanings` in the example). |
+| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Required. Mean wavenumber of the wave signal used in the retrieval. |
+| `sea_floor_depth_below_sea_surface_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m` | Optional. Standard error of the water depth, e.g. from a least-squares fit. |
+| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; `1` | Optional. Number of points of the wave signal in the wavenumber-frequency spectrum that were used in a least-squares fit. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 ## Minimal example
@@ -48,10 +48,12 @@ netcdf or_2025-01-15-12_bathymetry {
                 :time_coverage_end = "2025-01-15T12:59:59Z" ;
                 :time_coverage_start = "2025-01-15T12:00:00Z" ;
                 :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ;
+                :analysis_window_shape = "circle" ;
                 :analysis_window_size = 1245. ;
                 :analysis_window_spacing = 500. ;
                 :measurement_duration = 240. ;
                 :number_of_images = 160 ;
+                :retrieval_method = "dispersion_relation_least_squares_fit" ;
 
 group: time_20250115120031 {
   dimensions:

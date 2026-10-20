@@ -10,6 +10,7 @@ nav_order: 8
 
 Frequency-direction spectra (`wave_frequency_direction_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
+The frequencies are intrinsic, i.e. relative to the moving water, if this dispersion relation omits the current, or absolute, i.e. relative to the ground, if it includes the Doppler shift by the current; which of the two is given by [`wave_frequency_frame`](index.md#processing-parameters).
 Following the nautical convention for waves, and the CF standard name `sea_surface_wave_from_direction`, the wave direction is the direction from which the waves come, in degrees clockwise from true north.
 Integrating over direction yields the [one-dimensional frequency spectra](wave_frequency_spectra.md).
 The calibration parameters of the wave retrieval are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
@@ -29,7 +30,7 @@ The file holds the following variables.
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `sea_surface_wave_directional_variance_spectral_density`<br><small>[CF][cf-names]</small> | double `(time, wave_frequency, sea_surface_wave_from_direction)`; `m2 s degree-1` | Required. Wave energy density as a function of frequency and direction. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; `0` or `1` | Required. Quality flag: 0 is good, 1 is bad. |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 ## Minimal example
@@ -79,10 +80,10 @@ variables:
                 sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ;
                 measurement_quality:standard_name = "quality_flag" ;
-                measurement_quality:long_name = "measurement quality (0: good, 1: bad)" ;
-                measurement_quality:flag_meanings = "good bad" ;
-                measurement_quality:flag_values = 0UB, 1UB ;
-                measurement_quality:valid_range = 0UB, 1UB ;
+                measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
+                measurement_quality:valid_range = 0UB, 63UB ;
                 measurement_quality:_FillValue = 255UB ;
                 measurement_quality:coordinates = "longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
@@ -102,6 +103,7 @@ variables:
                 :number_of_analysis_windows = 6 ;
                 :measurement_duration = 240. ;
                 :number_of_images = 160 ;
+                :wave_frequency_frame = "intrinsic" ;
 
 group: wave_calibration { ... } // as in the example under Wave calibration parameters
 }
