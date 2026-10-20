@@ -17,6 +17,12 @@ Nieto Borge, J. C., G. Rodríguez Rodríguez, K. Hessner, and P. Izquierdo Gonz�
 Nieto-Borge, J. C., K. Hessner, P. Jarabo-Amores, and D. de la Mata-Moya, 2008: Signal-to-noise ratio analysis to estimate ocean wave heights from X-band marine radar image time series. *IET Radar Sonar Navig.*, **2**, 35–41, [https://doi.org/10.1049/iet-rsn:20070027](https://doi.org/10.1049/iet-rsn:20070027).
 {: #nieto-borge-2008 }
 
+Stewart, R. H., and J. W. Joy, 1974: HF radio measurements of surface currents. *Deep-Sea Res. Oceanogr. Abstr.*, **21**, 1039–1049, [https://doi.org/10.1016/0011-7471(74)90066-7](https://doi.org/10.1016/0011-7471(74)90066-7).
+{: #stewart-joy-1974 }
+
+Young, I. R., W. Rosenthal, and F. Ziemer, 1985: A three-dimensional analysis of marine radar images for the determination of ocean wave directionality and surface currents. *J. Geophys. Res.*, **90**, 1049–1059, [https://doi.org/10.1029/JC090iC01p01049](https://doi.org/10.1029/JC090iC01p01049).
+{: #young-1985 }
+
 ## Standards and conventions
 
 The versions given are those SOMaR {{ site.somar_version }} refers to.
