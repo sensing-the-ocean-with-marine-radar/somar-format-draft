@@ -8,7 +8,7 @@ nav_order: 4
 
 # L2a: Near-surface current profile maps
 
-Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current fit for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear.
+Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current fit for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with increasing wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear.
 The variables therefore have an additional dimension `wavenumber_bin`, i.e. `(wavenumber_bin, latitude, longitude)`, with one layer per wavenumber band; cells for which no fit was attempted or for which the fit failed hold the `_FillValue`.
 The coordinate variable `wavenumber_bin` gives the center of each wavenumber band, and its `bounds` attribute names the variable `wavenumber_bin_bounds`, which holds the lower and upper edge of each band ([CF][cf], section 7.1), both in `m-1`, so the bands need not be of equal width; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in each fit.
 All other variables (current components, standard errors, `number_of_wave_coordinates`, `measurement_quality`) are defined identically to the [near-surface current maps](current_maps.md#variables).
