@@ -1,7 +1,7 @@
 ---
 title: Cartesian image sequences (L1b)
 layout: default
-parent: Level 1 products
+parent: "Level 1: Radar data"
 grand_parent: SOMaR product types
 nav_order: 3
 ---
