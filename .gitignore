@@ -20,3 +20,16 @@ __pycache__/
 
 # Ignore Claude settings
 .claude/
+
+# Ignore placeholders that the Claude Code sandbox mounts over these paths
+.bash_profile
+.bashrc
+.gitconfig
+.gitmodules
+.idea
+.mcp.json
+.profile
+.ripgreprc
+.vscode
+.zprofile
+.zshrc
