@@ -14,8 +14,9 @@ _site/
 .bundle/
 vendor/
 
-# Ignore the Python virtual environment of the scripts
+# Ignore the Python virtual environment and bytecode caches of the scripts
 .venv/
+__pycache__/
 
 # Ignore Claude settings
 .claude/
