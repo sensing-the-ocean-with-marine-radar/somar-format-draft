@@ -1,7 +1,7 @@
 ---
 title: Surface wave frequency-direction spectra (L2b)
 layout: default
-parent: Level 2 products
+parent: "Level 2: Geophysical quantities"
 grand_parent: SOMaR product types
 nav_order: 8
 ---

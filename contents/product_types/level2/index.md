@@ -1,5 +1,5 @@
 ---
-title: Level 2 products
+title: "Level 2: Geophysical quantities"
 layout: default
 parent: SOMaR product types
 nav_order: 2
