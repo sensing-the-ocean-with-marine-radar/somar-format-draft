@@ -13,6 +13,9 @@ This document is the first draft of the Sensing the Ocean with Marine Radar (SOM
 
 Wherever possible, SOMaR follows existing standards: the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html) throughout, the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3) for discovery metadata such as the creator, license, and coverage of a file, and, for radar data in polar coordinates, the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) together with the [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs) for moving platforms. What SOMaR adds is a way to store gridded products from a moving vessel, whose grids change location from one measurement to the next. The versions of these standards are listed under [References](contents/references/index.md#standards-and-conventions).
 
+{: .open_issue }
+> Add a light weight version: although full comlpliance with FM 301, CFRADIAL, and ACDD are desired, there should be a minimal version of the SOMaR standard to reduce usage barriers.
+ 
 ## Status
 
 This is version {{ site.somar_version }} of the SOMaR data format conventions, a {{ site.somar_status }} that is subject to change.
