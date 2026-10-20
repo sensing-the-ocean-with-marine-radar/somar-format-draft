@@ -35,7 +35,9 @@ netcdf or_2025-01-15-11_currents_profile {
                 :geospatial_lon_max = 145.96815 ;
                 :geospatial_lon_min = 145.8426 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > CURRENT PROFILES, EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > VERTICAL CURRENT SHEAR" ;
                 :product_type = "currents_profile" ;
+                :summary = "Near-surface current profiles from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in separate wavenumber bands, which sense different depths." ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar near-surface current profile maps from R/V Ocean Research" ;

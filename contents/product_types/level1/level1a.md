@@ -141,7 +141,9 @@ variables:
                 :geospatial_lon_max = 7.8853 ;
                 :geospatial_lon_min = 7.8853 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ;
                 :product_type = "radar_polar_raw" ;
+                :summary = "Raw marine X-band radar backscatter from a fixed platform, converted from the manufacturer's format into NetCDF with every ray kept and no interpolation or calibration." ;
                 :time_coverage_end = "2023-08-31T17:00:59Z" ;
                 :time_coverage_start = "2023-08-31T17:00:00Z" ;
                 :title = "Marine X-band radar raw data from a fixed platform" ;
@@ -214,8 +216,10 @@ variables:
                 :geospatial_lon_max = 145.86898 ;
                 :geospatial_lon_min = 145.8672647679 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ;
                 :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_raw" ;
+                :summary = "Raw marine X-band radar backscatter recorded on board R/V Ocean Research, converted from the manufacturer's format into NetCDF with every ray kept and no interpolation or calibration." ;
                 :time_coverage_end = "2025-01-15T11:00:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar raw data from R/V Ocean Research" ;

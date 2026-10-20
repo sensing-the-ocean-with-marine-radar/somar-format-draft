@@ -46,8 +46,10 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :geospatial_lon_max = 145.94251 ;
                 :geospatial_lon_min = 145.88642 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
                 :measurement_duration = 600. ;
                 :product_type = "sea_surface_roughness_mosaic" ;
+                :summary = "Sea surface roughness mosaics from a marine X-band radar on board R/V Ocean Research, assembled from 30 s averages of Cartesian backscatter images over 10 min measurement periods." ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar sea surface roughness image mosaics from R/V Ocean Research" ;

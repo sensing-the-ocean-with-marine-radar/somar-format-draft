@@ -20,7 +20,7 @@ The convention an attribute is taken from is named in small print under the attr
 
 The WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), which SOMaR follows for [Level 1a data](../product_types/level1/level1a.md), defines mandatory global attributes of its own (Tables 301-1 and 301-2). SOMaR does not require them: Level 1a files are not FM 301 files, so `Conventions` does not list the WMO-CF extensions and `wmo__cf_profile` is not set. Of those that SOMaR adopts, `institution` is highly recommended and `source`, `history`, and `platform_is_mobile` are recommended where applicable, and the FM 301 `instrument_name` is replaced by the ACDD `instrument` (see [Recommended global attributes](optional_global.md)).
 
-SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, and it borrows the ACDD term "highly recommended", but assigns the tiers itself. It highly recommends `title`, `institution`, the time coverage, and the spatial bounds, of which ACDD highly recommends only `title`; `summary` and `keywords`, which ACDD highly recommends, are recommended where applicable (see [Recommended global attributes](optional_global.md)).
+SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, and the ACDD term "highly recommended". ACDD requires no attribute; its highly recommended attributes are `title`, `summary`, `keywords`, and `Conventions`. SOMaR highly recommends the first three, makes `Conventions` mandatory, and also highly recommends `institution`, the time coverage, and the spatial bounds, which ACDD only recommends: they matter most for finding data from moving platforms, and the time coverage and the spatial bounds can be derived from the file's content (see [Recommended global attributes](optional_global.md)).
 
 ## Compliance
 
@@ -31,7 +31,7 @@ A file complies with SOMaR if:
 - it holds the dimensions, variables, and attributes that the page of its `product_type` marks as required (see [SOMaR product types](../product_types/index.md)), with the stated types, dimensions, and units;
 - any other attribute or variable it carries follows its definition, including restricted values such as those of `processing_level` or `platform_is_mobile`.
 
-The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs cannot find the file by its time, area, or origin, and users lack what they need to cite it.
+The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs cannot find the file by its content, time, area, or origin, and users lack what they need to cite it.
 A checker should report a missing highly recommended attribute as a warning rather than an error.
 The [file naming](../file_naming/index.md) is a recommendation and not part of compliance either.
 

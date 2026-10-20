@@ -119,7 +119,9 @@ variables:
                 :geospatial_lon_max = 7.8853 ;
                 :geospatial_lon_min = 7.8853 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
                 :product_type = "radar_polar_regularized" ;
+                :summary = "Marine X-band radar backscatter images from a fixed platform, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ;
                 :time_coverage_end = "2023-08-31T17:00:59Z" ;
                 :time_coverage_start = "2023-08-31T17:00:00Z" ;
                 :title = "Marine X-band radar polar images from a fixed platform" ;
@@ -192,8 +194,10 @@ variables:
                 :geospatial_lon_max = 145.86898 ;
                 :geospatial_lon_min = 145.8672647679 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
                 :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_regularized" ;
+                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ;
                 :time_coverage_end = "2025-01-15T11:00:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar polar images from R/V Ocean Research" ;

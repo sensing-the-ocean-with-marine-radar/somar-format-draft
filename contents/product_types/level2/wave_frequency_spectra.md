@@ -102,7 +102,9 @@ variables:
                 :geospatial_lon_max = 145.9486 ;
                 :geospatial_lon_min = 145.8631 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ;
                 :product_type = "wave_frequency_spectra" ;
+                :summary = "One-dimensional surface wave frequency spectra, with mean wave direction and directional spread, from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar surface wave one-dimensional frequency spectra from R/V Ocean Research" ;

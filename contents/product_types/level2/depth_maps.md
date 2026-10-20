@@ -44,7 +44,9 @@ netcdf or_2025-01-15-12_bathymetry {
                 :geospatial_lon_max = 146.042 ;
                 :geospatial_lon_min = 145.9175 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > OCEANS > BATHYMETRY/SEAFLOOR TOPOGRAPHY > WATER DEPTH" ;
                 :product_type = "bathymetry" ;
+                :summary = "Water depths from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ;
                 :time_coverage_end = "2025-01-15T12:59:59Z" ;
                 :time_coverage_start = "2025-01-15T12:00:00Z" ;
                 :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ;

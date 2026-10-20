@@ -42,7 +42,9 @@ netcdf or_2025-01-15-11_sea_surface_roughness {
                 :geospatial_lon_max = 145.94251 ;
                 :geospatial_lon_min = 145.86816 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
                 :product_type = "sea_surface_roughness" ;
+                :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ;
                 :time_coverage_end = "2025-01-15T11:59:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar sea surface roughness images from R/V Ocean Research" ;

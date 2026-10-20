@@ -91,7 +91,9 @@ variables:
                 :geospatial_lon_max = 145.86905 ;
                 :geospatial_lon_min = 145.86733 ;
                 :institution = "Famous Radar Ocean Research Institute" ;
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
                 :product_type = "radar_cartesian" ;
+                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, one per antenna revolution, mapped onto a regular Cartesian grid centered on the radar antenna at the start of each revolution." ;
                 :time_coverage_end = "2025-01-15T11:00:59Z" ;
                 :time_coverage_start = "2025-01-15T11:00:00Z" ;
                 :title = "Marine X-band radar Cartesian images from R/V Ocean Research" ;
