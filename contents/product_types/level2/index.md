@@ -1,12 +1,12 @@
 ---
-title: Level 2 products
+title: "Level 2: Geophysical quantities"
 layout: default
 parent: SOMaR product types
 nav_order: 2
 has_children: true
 ---
 
-# Level 2 products
+# Level 2: Geophysical quantities
 
 Level 2 products are geophysical quantities derived from sequences of Level 1b images, such as sea surface roughness, near-surface currents, bathymetry, sea ice drift, and surface waves.
 They are divided into two sublevels according to how they are obtained: Level 2a products are retrieved directly from the Level 1b image sequences, while Level 2b products are derived from Level 2a products rather than from the images themselves.
