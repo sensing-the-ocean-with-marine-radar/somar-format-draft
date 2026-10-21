@@ -44,7 +44,7 @@ Users must apply these constant offsets to the recorded values to obtain correct
 
     The conversion to `latitude` and `longitude` is carried out on the WGS 84 ellipsoid. The offsets are horizontal distances for a level ship (roll and pitch are neglected); for a fixed platform, position offsets are not used. They replace the `latitude_correction` and `longitude_correction` of CfRadial 2.1, which are constant in degrees and therefore valid for a single heading only.
 
-In Cartesian products such as [Level 1b Cartesian](../product_types/gridded.md#image-cube-with-moving-origin) and Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
+In [gridded](../product_types/gridded.md) and [spatially averaged](../product_types/spatially_averaged.md) products, i.e. the Level 1b Cartesian images and all Level 2 products, these corrections have already been applied during grid generation, so this group is omitted.
 
 ## Coordinate reference system variables
 
@@ -113,7 +113,7 @@ Because the origin changes as a platform moves, each local grid is valid only fo
 - Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
 From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/gridded.md#fixed-platform)).
-[Level 1b Cartesian images](../product_types/gridded.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
+[Level 1b Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) are stored as one cube instead, the third form of gridded products: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
 
 ## Positions of analysis windows
 

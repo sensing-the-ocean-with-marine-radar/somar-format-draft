@@ -16,7 +16,7 @@ The examples illustrate the definitions of the [SOMaR product types](../product_
 ## Reading the examples
 
 The example of each product is a typical file: it carries the recommended items, and the optional items that its retrieval method yields.
-Every item that a file may omit is marked by a trailing comment with its tier, `// highly recommended`, `// recommended`, or `// optional`, as given by the [global attributes](../metadata_attributes/optional_global.md), the [processing parameters](../metadata_attributes/processing_parameters.md), and the tables of the product: for a Level 1 product those of its page, for a Level 2 product those of its category page and its row in the product-type table there; unmarked items are required.
+Every item that a file may omit is marked by a trailing comment with its tier, `// highly recommended`, `// recommended`, or `// optional`, as given by the [global attributes](../metadata_attributes/optional_global.md), the [processing parameters](../metadata_attributes/processing_parameters.md), and the tables of the product's category page and its row in the product-type table there; unmarked items are required.
 The markers apply to global attributes, variables, and groups, and to the variable attributes that have a tier of their own; the other variable attributes, such as `units` and `long_name`, follow CF and the description of their variable.
 An item that the tables recommend but that a minimal file must keep is marked `// required:` with the reason, such as one of the [bulk wave parameters](../product_types/spatially_averaged.md#product-types), of which at least one is required, or `platform_is_mobile` in a file from a moving platform.
 

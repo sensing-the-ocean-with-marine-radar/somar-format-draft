@@ -56,7 +56,7 @@ The structure of a file depends on its category and on whether the platform move
 | | Moving platform | Fixed platform |
 |---|---|---|
 | **Polar products** | the position and heading of the platform per sweep or per ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)) | scalar `latitude` and `longitude` of the radar antenna |
-| **Gridded products** | one [time-bounded grid](gridded.md#time-bounded-grids) per measurement, each in its own `time_<YYYYMMDDHHMMSS>` group | a [single grid](gridded.md#fixed-platform) for the whole file, with the leading dimension `time` |
+| **Gridded products** | one [time-bounded grid](gridded.md#time-bounded-grids) per measurement, each in its own `time_<YYYYMMDDHHMMSS>` group; for Level 1b Cartesian images, one [image cube](gridded.md#image-cube-with-moving-origin) whose origin `longitude(time)`, `latitude(time)` moves with the platform | a [single grid](gridded.md#fixed-platform) for the whole file, with the leading dimension `time` |
 | **Spatially averaged products** | a [trajectory](spatially_averaged.md#moving-and-fixed-platforms): `longitude(time)` and `latitude(time)` | a [time series](spatially_averaged.md#moving-and-fixed-platforms): scalar `longitude` and `latitude` |
 
 ## Requirements
