@@ -30,7 +30,10 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
         string trajectory ; // recommended
                 trajectory:long_name = "name of the platform" ;
                 trajectory:cf_role = "trajectory_id" ;

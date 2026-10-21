@@ -14,15 +14,15 @@ is "// excerpt":
 
 Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
-scoping rules for references between variables, and the SOMaR rules for
-global attributes and file names, among them that a file whose structure
-is that of a moving platform sets platform_is_mobile to "true" and that a
-Level 2 file that sets it has that structure; the examples must carry the highly
-recommended global attributes as well as the mandatory ones, and the
-variables that the Level 2 variables they carry require (see
-level2_variables.md). The spatial
-bounds are checked against the positions the example gives: scalar latitude
-and longitude values in the data sections and the projection origins of crs
+scoping rules for references between variables and for the names of a
+coordinate reference system, and the SOMaR rules for global attributes and
+file names, among them that a file whose structure is that of a moving
+platform sets platform_is_mobile to "true" and that a Level 2 file that sets
+it has that structure; the examples must carry the highly recommended global
+attributes as well as the mandatory ones, and the variables that the Level 2
+variables they carry require (see level2_variables.md). The spatial bounds
+are checked against the positions the example gives: scalar latitude and
+longitude values in the data sections and the projection origins of crs
 variables.
 
 Items that a file may omit are marked by a trailing comment with their tier
@@ -84,6 +84,8 @@ CATEGORY_PAGES = ("contents/product_types/level2/gridded.md", "contents/product_
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 # The rules of the Level 2 variables: "Carried together with `x`." and "Requires `x`." (see level2_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
+# The names of a coordinate reference system, which CF requires all together if any is given (Appendix F).
+CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datum_name", "geographic_crs_name")
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 
@@ -494,6 +496,9 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                 for required in expected["variable_rules"].get(variable, []):
                     if not resolve(groups, path, required):
                         errors.append(f"{where}: requires {required}, which does not exist in scope (see level2_variables.md)")
+            names = [name for name in CRS_NAMES if name in attributes]
+            if names and len(names) < len(CRS_NAMES):
+                errors.append(f"{where}: has {', '.join(names)} but not {', '.join(n for n in CRS_NAMES if n not in names)}, which CF requires together")
             meanings = unquote(attributes.get("flag_meanings", "")).split()
             for attribute in ("flag_values", "flag_masks"):
                 if attribute in attributes and len(attributes[attribute].split(",")) != len(meanings):

@@ -58,7 +58,7 @@ SOMaR uses two coordinate reference systems:
 Used by [spatially averaged products](../product_types/level2/spatially_averaged.md) and by Level 2 maps on an Earth-fixed longitude/latitude grid (see [Gridded products](../product_types/level2/gridded.md#geographic-grid)).
 On these grids, `crs` is recommended rather than required: without it, the data variables carry no `grid_mapping` attribute, and `latitude` and `longitude` refer to WGS 84.
 The local grids below always require it, since its projection origin locates the grid.
-The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` (see [Latitude-longitude](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#_latitude_longitude) in the CF conventions), describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the geodetic datum (`horizontal_datum_name`):
+The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` (see [Latitude-longitude](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#_latitude_longitude) in the CF conventions), describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the reference ellipsoid, the prime meridian, the geodetic datum, and the geographic coordinate reference system (`reference_ellipsoid_name`, `prime_meridian_name`, `horizontal_datum_name`, `geographic_crs_name`), which CF requires together if any of them is given:
 
 ```
 variables:
@@ -67,7 +67,10 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
 data:
         crs = " " ;
 ```
@@ -79,7 +82,7 @@ Marine radars measure natively in meters, as range and bearing from the antenna.
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
 
-In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center; distances between other points on the plane differ from those on the ellipsoid by less than a millimeter within 5 km of the center and by a few millimeters within 10 km, far less than the range resolution of the radar. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the name of the geodetic datum. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
+In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant) in the CF conventions). This projection preserves distance and bearing from its center; distances between other points on the plane differ from those on the ellipsoid by less than a millimeter within 5 km of the center and by a few millimeters within 10 km, far less than the range resolution of the radar. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin (`longitude_of_projection_origin`, `latitude_of_projection_origin`), the reference ellipsoid, and the same four names as the geographic coordinates. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
 
 ```
 variables:
@@ -90,7 +93,10 @@ variables:
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
         double time ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of radar measurement" ;
