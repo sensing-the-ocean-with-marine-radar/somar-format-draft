@@ -1,7 +1,7 @@
 #---
 #title: Level 1c products
 #layout: default
-#parent: "Level 1: Radar data"
+#parent: SOMaR product types
 #nav_order: 2
 #---
 

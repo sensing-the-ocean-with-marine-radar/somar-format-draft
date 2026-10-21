@@ -15,7 +15,7 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 |:---:|---|---|---|
 | **L1a** | [Radar "raw" data](../annex/level1a.md) | [Polar](polar.md#product-types) | `radar_polar_raw` |
 | **L1b** | [Polar image sequences](../annex/level1b_polar.md) | [Polar](polar.md#product-types) | `radar_polar_regularized` |
-| **L1b** | [Cartesian image sequences](level1/level1b_cartesian.md) | [Gridded](level1/level1b_cartesian.md) | `radar_cartesian` |
+| **L1b** | [Cartesian image sequences](../annex/level1b_cartesian.md) | [Gridded](gridded.md#product-types) | `radar_cartesian` |
 | **L2a** | [Relative roughness images](../annex/relative_roughness_images.md) | [Gridded](gridded.md#product-types) | `relative_roughness` |
 | **L2a** | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) | [Gridded](gridded.md#product-types) | `relative_roughness_mosaic` |
 | **L2a** | [Near-surface current maps](../annex/current_maps.md) | [Gridded](gridded.md#product-types) | `currents` |
@@ -30,7 +30,7 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 
 ## Processing levels
 
-[Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](polar.md)) or as individual images, one per antenna revolution, with a regular azimuth axis ([Level 1b polar](polar.md#image-cube)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
+Level 1 products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](polar.md)) or as individual images, one per antenna revolution, with a regular azimuth axis ([Level 1b polar](polar.md#image-cube)) or on a local Cartesian grid ([Level 1b Cartesian](gridded.md#image-cube-with-moving-origin)), and serve as the input of the Level 2 retrievals.
 Level 2 products are geophysical quantities derived from sequences of Level 1b images, such as relative sea surface roughness, near-surface currents, bathymetry, sea ice drift, and surface waves.
 Level 2a products are the direct result of a retrieval applied to Level 1b image sequences: relative roughness images and mosaics, maps of near-surface currents, current profiles, bathymetry, and sea ice drift, and two-dimensional wavenumber spectra.
 Level 2b products are computed from Level 2a products and therefore inherit their sampling, calibration, and quality control; currently all of them are surface wave products derived from the two-dimensional wavenumber spectra.

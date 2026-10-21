@@ -66,7 +66,7 @@ Its `units` attribute is `"1"` or `"dB"`, as FM 301 also uses `dB` for logarithm
 The `comment` attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
 
 {: .open_issue }
-<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](level1/level1b_cartesian.md). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](../metadata_attributes/product_variables.md).
+<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](../metadata_attributes/product_variables.md).
 
 ## Moving platforms
 

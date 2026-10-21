@@ -8,7 +8,7 @@ nav_order: 3
 # L1b: Cartesian image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_cartesian` is defined on the page [Cartesian image sequences (L1b)](../product_types/level1/level1b_cartesian.md), which gives its dimensions, variables, and attributes.
+> This page is informative. The product type `radar_cartesian` is defined on the page [Cartesian image sequences (L1b)](../product_types/gridded.md#image-cube-with-moving-origin), which gives its dimensions, variables, and attributes.
 
 ## Example
 
