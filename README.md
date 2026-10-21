@@ -70,7 +70,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- Each Level 1 product type has its own page under `contents/product_types/level1/`. A Level 2 product type is a row in the product-type table of its category under `contents/product_types/level2/`, its variables are defined in `contents/metadata_attributes/product_variables.md`, and its example file is a page under `contents/annex/`, as is that of each Level 1 product. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
+- Each Level 1 product type has its own page under `contents/product_types/level1/`. A Level 2 product type is a row in the product-type table of its category page under `contents/product_types/`, its variables are defined in `contents/metadata_attributes/product_variables.md`, and its example file is a page under `contents/annex/`, as is that of each Level 1 product. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Please propose changes through issues or pull requests.
 
 ## License and attribution

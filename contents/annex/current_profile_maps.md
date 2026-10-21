@@ -8,7 +8,7 @@ nav_order: 7
 # L2a: Near-surface current profile maps
 
 {: .informative }
-> This page is informative. The product type `currents_profile` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
+> This page is informative. The product type `currents_profile` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
 
 Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current retrieval for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with increasing wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear (Lund et al. [2015](../references/index.md#lund-2015); Campana et al. [2016](../references/index.md#campana-2016)).
 The data variables therefore have an additional dimension `wavenumber_bin`, with one layer per wavenumber band, whose edges are given by `wavenumber_bin_bounds`, so that the bands need not be of equal width; cells for which no retrieval was attempted or for which the retrieval failed hold the `_FillValue`.

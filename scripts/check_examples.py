@@ -80,7 +80,7 @@ GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
 TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
 # The pages of the Level 2 categories, whose product-type tables list the Level 2 products.
-CATEGORY_PAGES = ("contents/product_types/level2/gridded.md", "contents/product_types/level2/spatially_averaged.md")
+CATEGORY_PAGES = ("contents/product_types/gridded.md", "contents/product_types/spatially_averaged.md")
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")

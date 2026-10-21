@@ -8,7 +8,7 @@ nav_order: 5
 # L2a: Relative roughness image mosaics
 
 {: .informative }
-> This page is informative. The product type `relative_roughness_mosaic` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
+> This page is informative. The product type `relative_roughness_mosaic` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
 
 Relative roughness image mosaics (`relative_roughness_mosaic`) provide temporally averaged relative sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
 In contrast to [relative roughness images](relative_roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging window differs from pixel to pixel.

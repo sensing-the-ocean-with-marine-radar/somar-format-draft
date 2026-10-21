@@ -55,7 +55,7 @@ SOMaR uses two coordinate reference systems:
 
 ### Geographic coordinates
 
-Used by [spatially averaged products](../product_types/level2/spatially_averaged.md) and by Level 2 maps on an Earth-fixed longitude/latitude grid (see [Gridded products](../product_types/level2/gridded.md#geographic-grid)).
+Used by [spatially averaged products](../product_types/spatially_averaged.md) and by Level 2 maps on an Earth-fixed longitude/latitude grid (see [Gridded products](../product_types/gridded.md#geographic-grid)).
 On these grids, `crs` is recommended rather than required: without it, the data variables carry no `grid_mapping` attribute, and `latitude` and `longitude` refer to WGS 84.
 The local grids below always require it, since its projection origin locates the grid.
 The `crs` variable specifies `grid_mapping_name = "latitude_longitude"` (see [Latitude-longitude](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#_latitude_longitude) in the CF conventions), describes the reference ellipsoid (`longitude_of_prime_meridian`, `semi_major_axis`, `inverse_flattening`), and names the reference ellipsoid, the prime meridian, the geodetic datum, and the geographic coordinate reference system (`reference_ellipsoid_name`, `prime_meridian_name`, `horizontal_datum_name`, `geographic_crs_name`), which CF requires together if any of them is given:
@@ -77,7 +77,7 @@ data:
 
 ### Time-bounded local grids
 
-Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([relative roughness images](../annex/relative_roughness_images.md) and [relative roughness image mosaics](../annex/relative_roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/level2/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
+Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([relative roughness images](../annex/relative_roughness_images.md) and [relative roughness image mosaics](../annex/relative_roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
 
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
@@ -112,12 +112,12 @@ Because the origin changes as a platform moves, each local grid is valid only fo
 - Each group carries a scalar `double` variable `time` giving the start time of the measurement (`units = "seconds since 1970-01-01T00:00:00Z"`), optionally complemented by a human-readable `time_iso_8601` string (see [Variable attributes](../metadata_attributes/variable_attributes.md)).
 - Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
-From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/level2/gridded.md#fixed-platform)).
+From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/gridded.md#fixed-platform)).
 [Level 1b Cartesian images](../product_types/level1/level1b_cartesian.md#position-and-orientation) are stored as one cube instead: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
 
 ## Positions of analysis windows
 
-Level 2 products that report `longitude` and `latitude` directly, i.e. the maps among the [gridded products](../product_types/level2/gridded.md) and the [spatially averaged products](../product_types/level2/spatially_averaged.md), are retrieved within analysis windows.
+Level 2 products that report `longitude` and `latitude` directly, i.e. the maps among the [gridded products](../product_types/gridded.md) and the [spatially averaged products](../product_types/spatially_averaged.md), are retrieved within analysis windows.
 Depending on the processor, the windows are placed on an Earth-fixed lattice in longitude and latitude or on the local grid, at known `x` and `y` distances east and north of the radar.
 On an Earth-fixed lattice, the latitude spacing is the same for all measurement periods, since a degree of latitude has nearly the same length everywhere, whereas a degree of longitude shrinks with the cosine of latitude.
 Each measurement period therefore uses a single longitude spacing, chosen for its latitude, which may differ from one period to the next; within a period, the maps are thus rectangular grids with one-dimensional `latitude` and `longitude` coordinate variables. From a fixed platform, the latitude of the windows does not change, and all periods share one grid.
