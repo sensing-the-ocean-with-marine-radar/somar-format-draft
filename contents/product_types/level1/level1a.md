@@ -191,7 +191,7 @@ group: sweep_0 {
 
 ## Example for a moving platform
 
-A radar on a ship, with the position and heading of the ship at the start of each sweep, the instruments they are taken from, and the [`radar_parameters`](../../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
+A radar on a ship, with the position and heading of the ship at the start of each sweep, the instrument they are taken from, and the [`radar_parameters`](../../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
 
 ```
 netcdf or_2025-01-15-11-00_radar_polar_raw {
@@ -267,20 +267,20 @@ group: sweep_0 {
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
                 latitude:long_name = "latitude of GPS antenna at the start of the sweep" ;
-                latitude:source = "GNSS receiver" ; // optional
+                latitude:source = "Kongsberg Seapath 380 GNSS-aided inertial navigation system (position, heading, and attitude)" ; // optional
                 latitude:sampling_frequency = 10. ; // optional
         double longitude ;
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the sweep" ;
-                longitude:source = "GNSS receiver" ; // optional
+                longitude:source = "Kongsberg Seapath 380 GNSS-aided inertial navigation system (position, heading, and attitude)" ; // optional
                 longitude:sampling_frequency = 10. ; // optional
         float heading ;
                 heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the sweep" ;
-                heading:source = "gyrocompass" ; // optional
-                heading:sampling_frequency = 1. ; // optional
+                heading:source = "Kongsberg Seapath 380 GNSS-aided inertial navigation system (position, heading, and attitude)" ; // optional
+                heading:sampling_frequency = 10. ; // optional
     } // group georeference
   } // group sweep_0
 
