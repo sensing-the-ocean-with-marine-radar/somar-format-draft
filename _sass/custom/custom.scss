@@ -77,6 +77,34 @@ table.product-table {
   }
 }
 
+// Product-type tables on the Level 2 category pages
+table.product-type-table {
+  width: 100%;
+  table-layout: fixed;
+
+  th,
+  td {
+    min-width: 0;
+  }
+
+  // Product | product_type | Variables
+  th:nth-child(1) {
+    width: 25%;
+  }
+
+  th:nth-child(2) {
+    width: 20%;
+  }
+
+  th:nth-child(3) {
+    width: 55%;
+  }
+
+  td code {
+    overflow-wrap: anywhere;
+  }
+}
+
 // Inline code inside strong elements (e.g. **`code`**): override the theme's
 // `:not(pre, figure) > code` font-weight of 400 so bold text renders properly.
 strong code,

@@ -3,7 +3,7 @@ title: Near-surface current profile maps (L2a)
 layout: default
 parent: "Level 2: Geophysical quantities"
 grand_parent: SOMaR product types
-nav_order: 4
+nav_order: 6
 ---
 
 # L2a: Near-surface current profile maps
@@ -12,7 +12,7 @@ Near-surface current profile maps (`currents_profile`) extend the [near-surface 
 The variables therefore have an additional dimension `wavenumber_bin`, i.e. `(wavenumber_bin, latitude, longitude)`, with one layer per wavenumber band; cells for which no retrieval was attempted or for which the retrieval failed hold the `_FillValue`.
 The coordinate variable `wavenumber_bin` gives the center of each wavenumber band, and its `bounds` attribute names the variable `wavenumber_bin_bounds`, which holds the lower and upper edge of each band ([CF][cf], section 7.1), both in `m-1`, so the bands need not be of equal width; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in each retrieval.
 All other variables (current components, the optional diagnostics, `measurement_quality`) are defined identically to the [near-surface current maps](current_maps.md#variables).
-The maps are stored in the same way, on a `(latitude, longitude)` grid or in the [local-grid form](current_maps.md#local-grid-form), whose variables are then on `(wavenumber_bin, y, x)`.
+The maps are stored in the same way, on a `(latitude, longitude)` grid or on the [local grid](gridded.md#local-grid), whose variables are then on `(wavenumber_bin, y, x)`.
 
 ## Variables
 

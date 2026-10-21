@@ -74,7 +74,7 @@ data:
 
 ### Time-bounded local grids
 
-Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([roughness images](../product_types/level2/roughness_images.md) and [roughness image mosaics](../product_types/level2/roughness_mosaics.md)) and local-grid [Level 2 maps](../product_types/level2/current_maps.md#local-grid-form) preserve this geometry on a radar-centric grid:
+Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([roughness images](../product_types/level2/roughness_images.md) and [roughness image mosaics](../product_types/level2/roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/level2/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
 
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).

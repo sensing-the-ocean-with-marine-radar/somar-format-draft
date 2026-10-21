@@ -27,7 +27,8 @@ Items that a file may omit are marked by a trailing comment with their tier
 ("// highly recommended", "// recommended", or "// optional"). The markers
 of global attributes and variables are checked against the tables of the
 global attribute pages, the processing parameters, and the page of the
-example. Each file example is also checked in its minimal form, without the
+example; for a Level 2 product, against the tables of its category page and
+its row in the product-type table there instead. Each file example is also checked in its minimal form, without the
 marked items; a block whose first line is "// minimal form" must equal the
 minimal form of the example with the same "netcdf" name.
 
@@ -75,8 +76,9 @@ GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
 # "required" marks an item that the tables recommend but the minimal file keeps.
 TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
-# Pages whose variables are defined on another page, whose tables therefore apply as well.
-INHERITED_TABLES = {"contents/product_types/level2/current_profile_maps.md": "contents/product_types/level2/current_maps.md"}
+# The pages of the Level 2 categories, whose product-type tables list the Level 2 products.
+CATEGORY_PAGES = ("contents/product_types/level2/gridded.md", "contents/product_types/level2/spatially_averaged.md")
+PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 # The rules of the Level 2 variables: "Carried together with `x`." and "Requires `x`." (see level2_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # Attributes whose references to omitted variables are dropped in the minimal form.
@@ -139,11 +141,24 @@ def table_tiers(text, strict=True):
     return {name: tier for name, tier in tiers.items() if name not in conflicts}
 
 
-def page_tiers(relative, text):
-    """Return {name: tier} from the tables of a page and of the page its variables come from."""
-    tiers = table_tiers(read(os.path.join(ROOT, INHERITED_TABLES[relative]))) if relative in INHERITED_TABLES else {}
-    tiers.update(table_tiers(text))
-    return tiers
+def registry():
+    """Return {product_type: (category page, {name: tier})} from the product-type tables of the categories.
+
+    The tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**" lines of a row.
+    """
+    products = {}
+    for page in CATEGORY_PAGES:
+        for line in read(os.path.join(ROOT, page)).splitlines():
+            if not (line.startswith("| [") and ":**" in line):
+                continue
+            cells = line.strip().strip("|").split("|")
+            tiers = {}
+            for part in cells[2].split("<br>"):
+                match = re.match(r"\s*\*\*(Required|Recommended|Optional):\*\*(.*)", part)
+                if match:
+                    tiers.update((name, match.group(1).lower()) for name in re.findall(r"`(\w+)`", match.group(2)))
+            products[re.search(r"`(\w+)`", cells[1]).group(1)] = (page, tiers)
+    return products
 
 
 def global_tiers():
@@ -509,6 +524,11 @@ def main():
     }
 
     tiers = global_tiers()
+    products = registry()
+    category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
+    unlisted = expected["product_types"] - LEVEL1_PRODUCT_TYPES - products.keys()
+    if unlisted:
+        sys.exit(f"product types missing from the product-type tables: {', '.join(sorted(unlisted))}")
     pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
     # The examples by file name, from which the written-out minimal forms are derived.
     examples = {block.split()[1]: block for page in pages for block in FENCE.findall(read(page)) if block.startswith("netcdf ")}
@@ -536,9 +556,15 @@ def main():
         for page in pages:
             relative = os.path.relpath(page, ROOT)
             text = read(page)
-            tiers_of_page = {**tiers, **page_tiers(relative, text)}
+            tiers_of_page = {**tiers, **table_tiers(text)}
             for number, block in enumerate(FENCE.findall(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
+                product = PRODUCT_TYPE.search(block)
+                if product and product.group(1) in products:
+                    category, row = products[product.group(1)]
+                    tiers_of_block = {**tiers, **category_tiers[category], **row}
+                else:
+                    tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):
                     # A written-out minimal form must equal the one derived from its example.
                     body = block.split("\n", 1)[1]
@@ -550,7 +576,7 @@ def main():
                         errors.append(f'differs from the minimal form of the example "netcdf {name}"')
                     forms = [("", body, True, errors)]
                 else:
-                    forms = [("", block, False, check_tiers(block, tiers_of_page))]
+                    forms = [("", block, False, check_tiers(block, tiers_of_block))]
                     if block.startswith("netcdf "):
                         forms.append((" (minimal form)", minimal(block), True, []))
                 for suffix, form, minimal_form, errors in forms:

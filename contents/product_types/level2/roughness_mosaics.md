@@ -3,7 +3,7 @@ title: Roughness image mosaics (L2a)
 layout: default
 parent: "Level 2: Geophysical quantities"
 grand_parent: SOMaR product types
-nav_order: 2
+nav_order: 4
 ---
 
 # L2a: Roughness image mosaics
