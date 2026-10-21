@@ -2,7 +2,7 @@
 title: Wave calibration parameters
 layout: default
 parent: Metadata
-nav_order: 6
+nav_order: 7
 ---
 
 # Wave calibration parameters

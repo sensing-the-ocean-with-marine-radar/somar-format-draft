@@ -16,7 +16,9 @@ Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
 scoping rules for references between variables, and the SOMaR rules for
 global attributes and file names; the examples must carry the highly
-recommended global attributes as well as the mandatory ones. The spatial
+recommended global attributes as well as the mandatory ones, and the
+variables that the Level 2 variables they carry require (see
+level2_variables.md). The spatial
 bounds are checked against the positions the example gives: scalar latitude
 and longitude values in the data sections and the projection origins of crs
 variables.
@@ -75,6 +77,8 @@ TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
 # Pages whose variables are defined on another page, whose tables therefore apply as well.
 INHERITED_TABLES = {"contents/product_types/level2/current_profile_maps.md": "contents/product_types/level2/current_maps.md"}
+# The rules of the Level 2 variables: "Carried together with `x`." and "Requires `x`." (see level2_variables.md).
+VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 
@@ -150,6 +154,19 @@ def global_tiers():
     text = read(os.path.join(ROOT, "contents/product_types/level2/index.md"))
     tiers.update(table_tiers(text.split("\n## Processing parameters\n", 1)[1].split("\n## ", 1)[0], strict=False))
     return tiers
+
+
+def variable_rules():
+    """Return {variable: [variables it requires]} from the descriptions in level2_variables.md."""
+    rules = {}
+    for line in read(os.path.join(ROOT, "contents/metadata_attributes/level2_variables.md")).splitlines():
+        if not line.startswith("| `"):
+            continue
+        cells = line.strip().strip("|").split("|")
+        name = re.match(r"\s*`(\w+)`", cells[0]).group(1)
+        for match in VARIABLE_RULE.finditer(cells[-1]):
+            rules.setdefault(name, []).extend(re.findall(r"`(\w+)`", match.group(1)))
+    return rules
 
 
 def canonical_groups():
@@ -432,6 +449,10 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                 for target in unquote(attributes.get(attribute, "")).split():
                     if not resolve(groups, path, target):
                         errors.append(f'{where}: {attribute} names "{target}", which does not exist in scope')
+            if is_file:
+                for required in expected["variable_rules"].get(variable, []):
+                    if not resolve(groups, path, required):
+                        errors.append(f"{where}: requires {required}, which does not exist in scope (see level2_variables.md)")
             meanings = unquote(attributes.get("flag_meanings", "")).split()
             for attribute in ("flag_values", "flag_masks"):
                 if attribute in attributes and len(attributes[attribute].split(",")) != len(meanings):
@@ -484,6 +505,7 @@ def main():
         "product_types": product_types(),
         "mandatory_attributes": mandatory_attributes(),
         "highly_recommended_attributes": highly_recommended_attributes(),
+        "variable_rules": variable_rules(),
     }
 
     tiers = global_tiers()
