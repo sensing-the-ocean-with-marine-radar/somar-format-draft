@@ -115,7 +115,7 @@ Position and heading are recommended rather than required, since a recording sys
 A file without them is not georeferenced: its azimuths remain relative to the radar's zero direction, and its rays cannot be located until navigation data are matched to them by `time`.
 `platform_is_mobile` is still `"true"` in such a file, so that readers know that navigation is needed, and the navigation variables can be added to the file later.
 
-Where navigation variables are present, their attributes [`source`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) and [`sampling_frequency`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) may name the instrument they are taken from, such as a multi-antenna GNSS position and attitude system, and the frequency at which it sampled them.
+Where navigation variables are present, their attributes [`source`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) and [`sampling_frequency`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) may name the instrument they are taken from, such as a GNSS receiver or a gyrocompass, and the frequency at which it sampled them.
 
 ## Examples
 
