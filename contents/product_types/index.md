@@ -30,7 +30,13 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 [Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
 [Level 2](level2/index.md) products are geophysical variables, either retrieved directly from image sequences (Level 2a) or derived from those retrievals (Level 2b).
 Each page below documents the product-specific dimensions, variables, and attributes, with a minimal example, in addition to the [shared metadata](../metadata_attributes/index.md).
-The tables state for each variable and attribute whether it is required or optional.
+The tables state for each variable and attribute whether it is required, recommended, or optional:
+
+- **Required** items are those without which a reader would misread the values or misplace them in time or space: the coordinates, the data variables that define the product, and the parameters that change what a value means.
+- **Recommended** items document how the data were obtained and how good they are, such as the processing parameters, the quality flag, and retrieval diagnostics. A file should carry them where its producer can supply them.
+- **Optional** items are further diagnostics and details that a producer may add.
+
+Only the required items are part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
 Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 
 {: .open_issue }

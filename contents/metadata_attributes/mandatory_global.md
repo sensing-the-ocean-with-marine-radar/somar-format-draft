@@ -32,7 +32,8 @@ A file complies with SOMaR if:
 - any other attribute or variable it carries follows its definition, including restricted values such as those of `processing_level` or `platform_is_mobile`.
 
 The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs and users cannot tell what the file contains.
-A checker should report a missing highly recommended attribute as a warning rather than an error.
-The [file naming](../file_naming/index.md) is a recommendation and not part of compliance either.
+The same holds for the variables and attributes that the product pages mark as recommended (see [SOMaR product types](../product_types/index.md)).
+A checker should report a missing highly recommended global attribute or recommended product item as a warning rather than an error.
+The [recommended global attributes](optional_global.md#recommended) and the [file naming](../file_naming/index.md) are not part of compliance either.
 
 [cf-conventions]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#identification-of-conventions
