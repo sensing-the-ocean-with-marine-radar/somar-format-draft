@@ -30,24 +30,24 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 The nominal length of the averaging window is recorded in the global attribute [`averaging_duration`](index.md#processing-parameters).
 
-## Minimal example
+## Example
 ```
 netcdf or_2025-01-15-11_sea_surface_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :averaging_duration = 30. ;
-                :geospatial_lat_max = 14.99528 ;
-                :geospatial_lat_min = 14.95348 ;
-                :geospatial_lon_max = 145.94251 ;
-                :geospatial_lon_min = 145.86816 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
+                :averaging_duration = 30. ; // recommended
+                :geospatial_lat_max = 14.99528 ; // recommended
+                :geospatial_lat_min = 14.95348 ; // recommended
+                :geospatial_lon_max = 145.94251 ; // recommended
+                :geospatial_lon_min = 145.86816 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :product_type = "sea_surface_roughness" ;
-                :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ;
-                :time_coverage_end = "2025-01-15T11:59:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar sea surface roughness images from R/V Ocean Research" ;
+                :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar sea surface roughness images from R/V Ocean Research" ; // highly recommended
 
 group: time_20250115110031 {
   dimensions:
@@ -67,7 +67,7 @@ group: time_20250115110031 {
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ; // optional
         double x(x) ;
                 x:long_name = "eastward distance from radar position at measurement start time" ;
                 x:standard_name = "projection_x_coordinate" ;
@@ -83,7 +83,7 @@ group: time_20250115110031 {
                 sea_surface_roughness:coordinates = "time" ;
                 sea_surface_roughness:cell_methods = "time: mean" ;
                 sea_surface_roughness:ancillary_variables = "number_of_observations" ;
-        int number_of_observations(y, x) ;
+        int number_of_observations(y, x) ; // optional
                 number_of_observations:standard_name = "number_of_observations" ;
                 number_of_observations:long_name = "number of measurements from which the radar backscatter power averages have been derived" ;
                 number_of_observations:units = "1" ;

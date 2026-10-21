@@ -62,7 +62,7 @@ As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optio
 
 Like Level 1a, constant technical parameters of the radar antenna, pulse, and scan can be stored in an optional root-level group named [`radar_parameters`](../../metadata_attributes/radar_parameters.md). When pulse or scan parameters (such as `prt` or `scan_rate`) vary over time, they are stored in the root group instead, with dimension `time` (varying per revolution) or `(time, azimuth)` (varying per ray).
 
-## Minimal example
+## Example
 
 A radar on a fixed platform.
 
@@ -98,31 +98,31 @@ variables:
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
-                range:spacing_is_constant = "true" ;
-                range:meters_to_center_of_first_gate = 3.75f ;
-                range:meters_between_gates = 7.5f ;
-        float ray_time(azimuth) ;
+                range:spacing_is_constant = "true" ; // optional
+                range:meters_to_center_of_first_gate = 3.75f ; // optional
+                range:meters_between_gates = 7.5f ; // optional
+        float ray_time(azimuth) ; // optional
                 ray_time:units = "s" ;
                 ray_time:long_name = "time of each ray after the start of the revolution" ;
         float backscatter_amplitude(time, azimuth, range) ;
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
-                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ; // recommended
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 54.1826 ;
-                :geospatial_lat_min = 54.1826 ;
-                :geospatial_lon_max = 7.8853 ;
-                :geospatial_lon_min = 7.8853 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
+                :geospatial_lat_max = 54.1826 ; // recommended
+                :geospatial_lat_min = 54.1826 ; // recommended
+                :geospatial_lon_max = 7.8853 ; // recommended
+                :geospatial_lon_min = 7.8853 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :product_type = "radar_polar_regularized" ;
-                :summary = "Marine X-band radar backscatter images from a fixed platform, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ;
-                :time_coverage_end = "2023-08-31T17:00:59Z" ;
-                :time_coverage_start = "2023-08-31T17:00:00Z" ;
-                :title = "Marine X-band radar polar images from a fixed platform" ;
+                :summary = "Marine X-band radar backscatter images from a fixed platform, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
+                :time_coverage_end = "2023-08-31T17:00:59Z" ; // recommended
+                :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
+                :title = "Marine X-band radar polar images from a fixed platform" ; // highly recommended
 data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
@@ -170,37 +170,37 @@ variables:
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;
-                range:spacing_is_constant = "true" ;
-                range:meters_to_center_of_first_gate = 3.75f ;
-                range:meters_between_gates = 7.5f ;
-        float ray_time(azimuth) ;
+                range:spacing_is_constant = "true" ; // optional
+                range:meters_to_center_of_first_gate = 3.75f ; // optional
+                range:meters_between_gates = 7.5f ; // optional
+        float ray_time(azimuth) ; // optional
                 ray_time:units = "s" ;
                 ray_time:long_name = "time of each ray after the start of the revolution" ;
         float backscatter_amplitude(time, azimuth, range) ;
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
-                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU). Rays recorded at irregular azimuths were regularized onto the azimuth grid by nearest-neighbor selection." ; // recommended
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 14.9958976192 ;
-                :geospatial_lat_min = 14.99471 ;
-                :geospatial_lon_max = 145.86898 ;
-                :geospatial_lon_min = 145.8672647679 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
-                :platform_is_mobile = "true" ;
+                :geospatial_lat_max = 14.9958976192 ; // recommended
+                :geospatial_lat_min = 14.99471 ; // recommended
+                :geospatial_lon_max = 145.86898 ; // recommended
+                :geospatial_lon_min = 145.8672647679 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
+                :platform_is_mobile = "true" ; // recommended
                 :product_type = "radar_polar_regularized" ;
-                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ;
-                :time_coverage_end = "2025-01-15T11:00:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar polar images from R/V Ocean Research" ;
+                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar polar images from R/V Ocean Research" ; // highly recommended
 data:
         altitude = 18.5 ;
 
-group: radar_parameters { ... } // as in the example under Radar parameters
-group: georeference_correction { ... } // as in the example under Georeference correction parameters
+group: radar_parameters { ... } // optional; as in the example under Radar parameters
+group: georeference_correction { ... } // optional; as in the example under Georeference correction parameters
 }
 ```
 

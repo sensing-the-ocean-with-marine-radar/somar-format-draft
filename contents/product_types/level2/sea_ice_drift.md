@@ -45,37 +45,37 @@ Since each drift vector is obtained from just two images, which `time_lag` and, 
 | `time_lag`<br><small>SOMaR</small> | Number; `s` | Recommended. The time between the two correlated images. |
 {: .attribute-table }
 
-## Minimal example
+## Example
 ```
 netcdf or_2025-08-23-12_sea_ice_drift {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 78.9987 ;
-                :geospatial_lat_min = 78.9012 ;
-                :geospatial_lon_max = 5.2276 ;
-                :geospatial_lon_min = 4.8123 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ;
+                :geospatial_lat_max = 78.9987 ; // recommended
+                :geospatial_lat_min = 78.9012 ; // recommended
+                :geospatial_lon_max = 5.2276 ; // recommended
+                :geospatial_lon_min = 4.8123 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
                 :product_type = "sea_ice_drift" ;
-                :summary = "Sea ice drift vectors from a marine X-band radar on board R/V Ocean Research, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ;
-                :time_coverage_end = "2025-08-23T12:59:59Z" ;
-                :time_coverage_start = "2025-08-23T12:00:00Z" ;
-                :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ;
-                :analysis_window_shape = "circle" ;
-                :analysis_window_size = 720. ;
-                :analysis_window_spacing = 500. ;
-                :measurement_duration = 120. ;
-                :retrieval_method = "cross_correlation" ;
-                :time_lag = 90. ;
-                :averaging_duration = 30. ;
+                :summary = "Sea ice drift vectors from a marine X-band radar on board R/V Ocean Research, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
+                :time_coverage_end = "2025-08-23T12:59:59Z" ; // recommended
+                :time_coverage_start = "2025-08-23T12:00:00Z" ; // recommended
+                :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ; // highly recommended
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 720. ; // recommended
+                :analysis_window_spacing = 500. ; // recommended
+                :measurement_duration = 120. ; // recommended
+                :retrieval_method = "cross_correlation" ; // recommended
+                :time_lag = 90. ; // recommended
+                :averaging_duration = 30. ; // recommended
 
 group: time_20250823120031 {
   dimensions:
         latitude = 32 ;
         longitude = 32 ;
   variables:
-        char crs ;
+        char crs ; // recommended
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
@@ -86,7 +86,7 @@ group: time_20250823120031 {
                 time:long_name = "start time of sea ice drift measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-08-23T12:00:31.417000Z" ;
+                time:time_iso_8601 = "2025-08-23T12:00:31.417000Z" ; // optional
         double longitude(longitude) ;
                 longitude:long_name = "center longitude of sea ice drift measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -107,29 +107,29 @@ group: time_20250823120031 {
                 northward_sea_ice_velocity:units = "m s-1" ;
                 northward_sea_ice_velocity:grid_mapping = "crs" ;
                 northward_sea_ice_velocity:_FillValue = NaN ;
-        double correlation_coefficient(latitude, longitude) ;
+        double correlation_coefficient(latitude, longitude) ; // optional
                 correlation_coefficient:long_name = "maximum Pearson coefficient from forward cross-correlation" ;
                 correlation_coefficient:units = "1" ;
                 correlation_coefficient:grid_mapping = "crs" ;
                 correlation_coefficient:_FillValue = NaN ;
-        double eastward_sea_ice_velocity_backward(latitude, longitude) ;
+        double eastward_sea_ice_velocity_backward(latitude, longitude) ; // optional
                 eastward_sea_ice_velocity_backward:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
                 eastward_sea_ice_velocity_backward:standard_name = "eastward_sea_ice_velocity" ;
                 eastward_sea_ice_velocity_backward:units = "m s-1" ;
                 eastward_sea_ice_velocity_backward:grid_mapping = "crs" ;
                 eastward_sea_ice_velocity_backward:_FillValue = NaN ;
-        double northward_sea_ice_velocity_backward(latitude, longitude) ;
+        double northward_sea_ice_velocity_backward(latitude, longitude) ; // optional
                 northward_sea_ice_velocity_backward:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
                 northward_sea_ice_velocity_backward:standard_name = "northward_sea_ice_velocity" ;
                 northward_sea_ice_velocity_backward:units = "m s-1" ;
                 northward_sea_ice_velocity_backward:grid_mapping = "crs" ;
                 northward_sea_ice_velocity_backward:_FillValue = NaN ;
-        double correlation_coefficient_backward(latitude, longitude) ;
+        double correlation_coefficient_backward(latitude, longitude) ; // optional
                 correlation_coefficient_backward:long_name = "maximum Pearson coefficient from backward cross-correlation" ;
                 correlation_coefficient_backward:units = "1" ;
                 correlation_coefficient_backward:grid_mapping = "crs" ;
                 correlation_coefficient_backward:_FillValue = NaN ;
-        ubyte measurement_quality(latitude, longitude) ;
+        ubyte measurement_quality(latitude, longitude) ; // recommended
                 measurement_quality:long_name = "measurement quality (0: good, 1-7: bad)" ;
                 measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_too_high correlation_coefficient_too_low" ;
                 measurement_quality:valid_range = 0UB, 7UB ;

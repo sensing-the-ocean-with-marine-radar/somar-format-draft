@@ -47,7 +47,7 @@ The resampling of the polar data onto the Cartesian grid is recorded in one attr
 {: .open_issue }
 Only backscatter amplitude and power are specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](level1a.md#coherent-data)).
 
-## Minimal example
+## Example
 
 A radar on a moving platform.
 
@@ -82,21 +82,21 @@ variables:
                 backscatter_power:units = "1" ;
                 backscatter_power:_FillValue = NaNf ;
                 backscatter_power:cartesian_resampling = "linear_interpolation" ;
-                backscatter_power:comment = "backscatter power (I^2 + Q^2) in uncalibrated analog-to-digital units, mapped from polar coordinates by bilinear interpolation of linear power" ;
+                backscatter_power:comment = "backscatter power (I^2 + Q^2) in uncalibrated analog-to-digital units, mapped from polar coordinates by bilinear interpolation of linear power" ; // recommended
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 14.99584 ;
-                :geospatial_lat_min = 14.99466 ;
-                :geospatial_lon_max = 145.86905 ;
-                :geospatial_lon_min = 145.86733 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
+                :geospatial_lat_max = 14.99584 ; // recommended
+                :geospatial_lat_min = 14.99466 ; // recommended
+                :geospatial_lon_max = 145.86905 ; // recommended
+                :geospatial_lon_min = 145.86733 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :product_type = "radar_cartesian" ;
-                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, one per antenna revolution, mapped onto a regular Cartesian grid centered on the radar antenna at the start of each revolution." ;
-                :time_coverage_end = "2025-01-15T11:00:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar Cartesian images from R/V Ocean Research" ;
+                :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, one per antenna revolution, mapped onto a regular Cartesian grid centered on the radar antenna at the start of each revolution." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar Cartesian images from R/V Ocean Research" ; // highly recommended
 }
 ```
 

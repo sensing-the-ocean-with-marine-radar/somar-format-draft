@@ -21,6 +21,14 @@ bounds are checked against the positions the example gives: scalar latitude
 and longitude values in the data sections and the projection origins of crs
 variables.
 
+Items that a file may omit are marked by a trailing comment with their tier
+("// highly recommended", "// recommended", or "// optional"). The markers
+of global attributes and variables are checked against the tables of the
+global attribute pages, the processing parameters, and the page of the
+example. Each file example is also checked in its minimal form, without the
+marked items; a block whose first line is "// minimal form" must equal the
+minimal form of the example with the same "netcdf" name.
+
 Usage: python3 scripts/check_examples.py [--strict]
 
 Without cf-units installed, the unit checks are skipped with a warning;
@@ -56,6 +64,19 @@ FILE_NAME = re.compile(
 )
 FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
 PLACEHOLDER = re.compile(r"^(\s*)group: (\w+) \{ \.\.\. \}.*$", re.M)
+# CDL lines, as written in the examples.
+DECLARATION = re.compile(r"^\s*(?:char|byte|ubyte|short|ushort|int|uint|int64|uint64|float|double|string) (\w+)(?:\(.*\))? ;")
+ATTRIBUTE = re.compile(r"^(\s*(?:string )?(\w*):(\w+) = )(.*?) ;")
+GROUP_OPEN = re.compile(r"^\s*group: (\w+) \{")
+GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
+# The tier with which a trailing comment marks an item that a minimal file may omit.
+# "required" marks an item that the tables recommend but the minimal file keeps.
+TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
+OMITTED_TIERS = ("highly recommended", "recommended", "optional")
+# Pages whose variables are defined on another page, whose tables therefore apply as well.
+INHERITED_TABLES = {"contents/product_types/level2/current_profile_maps.md": "contents/product_types/level2/current_maps.md"}
+# Attributes whose references to omitted variables are dropped in the minimal form.
+REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 
 
 def read(path):
@@ -81,10 +102,54 @@ def mandatory_attributes():
     return [re.match(r"\| `(\w+)`", line).group(1) for line in text.splitlines() if line.startswith("| `")]
 
 
-def highly_recommended_attributes():
+def recommended_global_section(heading):
     text = read(os.path.join(ROOT, "contents/metadata_attributes/optional_global.md"))
-    section = text.split("\n## Highly recommended\n", 1)[1].split("\n#", 1)[0]
+    section = text.split(f"\n## {heading}\n", 1)[1].split("\n## ", 1)[0]
     return [re.match(r"\| `(\w+)`", line).group(1) for line in section.splitlines() if line.startswith("| `")]
+
+
+def highly_recommended_attributes():
+    return recommended_global_section("Highly recommended")
+
+
+def table_tiers(text, strict=True):
+    """Return {name: tier} for the table rows whose description starts with a tier.
+
+    With strict, only "Required.", "Recommended.", or "Optional." count; otherwise the
+    word alone does, as in "Recommended for map products". Names listed with different
+    tiers in different rows are left out.
+    """
+    tiers, conflicts = {}, set()
+    pattern = r"\s*(Required|Recommended|Optional)" + (r"\." if strict else r"\b")
+    for line in text.splitlines():
+        if not line.startswith("| `"):
+            continue
+        cells = line.strip().strip("|").split("|")
+        match = re.match(pattern, cells[-1])
+        if not match:
+            continue
+        for name in re.findall(r"`(\w+)`", cells[0].split("<br>")[0]):
+            if tiers.get(name, match.group(1).lower()) != match.group(1).lower():
+                conflicts.add(name)
+            tiers[name] = match.group(1).lower()
+    return {name: tier for name, tier in tiers.items() if name not in conflicts}
+
+
+def page_tiers(relative, text):
+    """Return {name: tier} from the tables of a page and of the page its variables come from."""
+    tiers = table_tiers(read(os.path.join(ROOT, INHERITED_TABLES[relative]))) if relative in INHERITED_TABLES else {}
+    tiers.update(table_tiers(text))
+    return tiers
+
+
+def global_tiers():
+    """Return {name: tier} for the shared global attributes and the processing parameters."""
+    tiers = {name: "required" for name in mandatory_attributes()}
+    tiers.update((name, "highly recommended") for name in highly_recommended_attributes())
+    tiers.update((name, "recommended") for name in recommended_global_section("Recommended"))
+    text = read(os.path.join(ROOT, "contents/product_types/level2/index.md"))
+    tiers.update(table_tiers(text.split("\n## Processing parameters\n", 1)[1].split("\n## ", 1)[0], strict=False))
+    return tiers
 
 
 def canonical_groups():
@@ -140,6 +205,99 @@ def prepare(block, groups):
         return "".join(indent + line + "\n" for line in groups[name].splitlines())
 
     return cap_dimensions(PLACEHOLDER.sub(expand, cdl))
+
+
+def comment(line):
+    """Return the text of the line's trailing CDL comment, ignoring "//" inside strings."""
+    in_string = False
+    for i, char in enumerate(line):
+        if char == '"' and line[i - 1 : i] != "\\":
+            in_string = not in_string
+        elif not in_string and line.startswith("//", i):
+            return line[i + 2 :].strip()
+    return ""
+
+
+def tier(line):
+    match = TIER.match(comment(line))
+    return match.group(1) if match else None
+
+
+def minimal(block):
+    """Return the minimal form of an example: the block without the items marked as omissible.
+
+    A marked placeholder or group is dropped whole, a marked variable with its attributes
+    and data, and a marked attribute alone. References to dropped variables in
+    REFERENCE_ATTRIBUTES are removed with them; others are kept, so that dropping a variable
+    that something still refers to fails the check.
+    """
+    lines, dropped, stack, section, skip = [], set(), ["/"], None, None
+    for line in block.splitlines():
+        omitted = tier(line) in OMITTED_TIERS
+        if skip is not None:
+            match = GROUP_CLOSE.match(line)
+            if match and match.group(1) == skip:
+                skip = None
+            continue
+        if PLACEHOLDER.match(line):
+            if not omitted:
+                lines.append(line)
+            continue
+        match = GROUP_OPEN.match(line)
+        if match:
+            if omitted:
+                skip = match.group(1)
+                continue
+            stack.append(stack[-1].rstrip("/") + "/" + match.group(1))
+            section = None
+        elif GROUP_CLOSE.match(line):
+            stack.pop()
+        elif line.strip() in ("dimensions:", "variables:", "data:"):
+            section = line.strip()
+        elif DECLARATION.match(line):
+            if omitted:
+                dropped.add((stack[-1], DECLARATION.match(line).group(1)))
+                continue
+        elif ATTRIBUTE.match(line):
+            if omitted or (stack[-1], ATTRIBUTE.match(line).group(2)) in dropped:
+                continue
+        elif section == "data:" and re.match(r"^\s*(\w+) = ", line):
+            if (stack[-1], re.match(r"^\s*(\w+) = ", line).group(1)) in dropped:
+                continue
+        lines.append(line)
+    declared = {DECLARATION.match(line).group(1) for line in lines if DECLARATION.match(line)}
+    gone = {name for _, name in dropped} - declared
+    result = []
+    for line in lines:
+        match = ATTRIBUTE.match(line)
+        if match and match.group(3) in REFERENCE_ATTRIBUTES:
+            names = unquote(match.group(4)).split()
+            kept = [name for name in names if name not in gone]
+            if not kept:
+                continue
+            if kept != names:
+                line = f'{match.group(1)}"{" ".join(kept)}" ;'
+        result.append(line)
+    return "\n".join(result) + "\n"
+
+
+def check_tiers(block, tiers):
+    """Check the tier markers of global attributes and variables against the tables."""
+    errors = []
+    for line in block.splitlines():
+        match = ATTRIBUTE.match(line)
+        if match and match.group(2) == "":
+            kind, name = "global attribute", match.group(3)
+        elif DECLARATION.match(line):
+            kind, name = "variable", DECLARATION.match(line).group(1)
+        else:
+            continue
+        expected = tiers.get(name)
+        marked = tier(line) or "required"
+        if expected is None or marked == expected or (marked == "required" and expected == "recommended" and tier(line)):
+            continue
+        errors.append(f'{kind} {name} is marked as {marked}, but the tables make it {expected}')
+    return errors
 
 
 def parse_header(text):
@@ -229,6 +387,10 @@ def check_bounds(groups):
     return errors
 
 
+def normalized(text):
+    return [line.rstrip() for line in text.splitlines() if line.strip()]
+
+
 def unquote(value):
     return value[1:-1] if value.startswith('"') and value.endswith('"') else value
 
@@ -243,7 +405,7 @@ def resolve(groups, path, name):
         path = path.rsplit("/", 1)[0] or "/"
 
 
-def check_header(groups, is_file, names, units_module, expected):
+def check_header(groups, is_file, names, units_module, expected, minimal_form=False):
     errors = []
     entries, aliases = names
     for path, group in groups.items():
@@ -281,7 +443,7 @@ def check_header(groups, is_file, names, units_module, expected):
             errors.append(f"missing mandatory global attributes: {', '.join(missing)}")
         # The examples model good practice, so they carry the highly recommended attributes too.
         missing = [a for a in expected["highly_recommended_attributes"] if a not in root]
-        if missing:
+        if missing and not minimal_form:
             errors.append(f"missing highly recommended global attributes: {', '.join(missing)}")
         errors += check_bounds(groups)
         conventions = unquote(root.get("Conventions", ""))
@@ -324,43 +486,71 @@ def main():
         "highly_recommended_attributes": highly_recommended_attributes(),
     }
 
-    failures = checked = 0
-    with tempfile.TemporaryDirectory() as tmp:
-        for page in sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True)):
-            relative = os.path.relpath(page, ROOT)
-            for number, block in enumerate(FENCE.findall(read(page)), 1):
-                try:
-                    cdl = prepare(block, groups)
-                except ValueError as error:
-                    print(f"FAIL {relative}, block {number}: {error}")
-                    failures += 1
-                    continue
-                if cdl is None:
-                    continue
-                checked += 1
-                source = os.path.join(tmp, f"example{checked}.cdl")
-                target = os.path.join(tmp, f"example{checked}.nc")
-                with open(source, "w", encoding="utf-8") as f:
-                    f.write(cdl)
-                build = subprocess.run(["ncgen", "-k", "nc4", "-o", target, source], capture_output=True, text=True)
-                if build.returncode != 0:
-                    message = build.stderr.strip().replace(source, "block")
-                    print(f"FAIL {relative}, block {number}: ncgen: {message}")
-                    failures += 1
-                    continue
-                dump = subprocess.run(["ncdump", target], capture_output=True, text=True, check=True).stdout
-                is_file = cdl.startswith("netcdf ") and not cdl.startswith("netcdf fragment ")
-                expected["file_name"] = cdl.split()[1] if is_file else ""
-                errors = check_header(parse_header(dump), is_file, names, units_module, expected)
-                if errors:
-                    failures += 1
-                    print(f"FAIL {relative}, block {number}:")
-                    for error in errors:
-                        print(f"     {error}")
-                else:
-                    print(f"OK   {relative}, block {number}")
+    tiers = global_tiers()
+    pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
+    # The examples by file name, from which the written-out minimal forms are derived.
+    examples = {block.split()[1]: block for page in pages for block in FENCE.findall(read(page)) if block.startswith("netcdf ")}
 
-    print(f"{checked} examples checked, {failures} failed")
+    failures = checked = minimal_forms = 0
+    with tempfile.TemporaryDirectory() as tmp:
+
+        def check(block, minimal_form):
+            """Build a block and check it; return None if it is not checked, else its errors."""
+            cdl = prepare(block, groups)
+            if cdl is None:
+                return None
+            source = os.path.join(tmp, "example.cdl")
+            target = os.path.join(tmp, "example.nc")
+            with open(source, "w", encoding="utf-8") as f:
+                f.write(cdl)
+            build = subprocess.run(["ncgen", "-k", "nc4", "-o", target, source], capture_output=True, text=True)
+            if build.returncode != 0:
+                return ["ncgen: " + build.stderr.strip().replace(source, "block")]
+            dump = subprocess.run(["ncdump", target], capture_output=True, text=True, check=True).stdout
+            is_file = cdl.startswith("netcdf ") and not cdl.startswith("netcdf fragment ")
+            expected["file_name"] = cdl.split()[1] if is_file else ""
+            return check_header(parse_header(dump), is_file, names, units_module, expected, minimal_form)
+
+        for page in pages:
+            relative = os.path.relpath(page, ROOT)
+            text = read(page)
+            tiers_of_page = {**tiers, **page_tiers(relative, text)}
+            for number, block in enumerate(FENCE.findall(text), 1):
+                first = block.lstrip().splitlines()[0] if block.strip() else ""
+                if first.startswith("// minimal form"):
+                    # A written-out minimal form must equal the one derived from its example.
+                    body = block.split("\n", 1)[1]
+                    name = body.split()[1] if body.startswith("netcdf ") else ""
+                    errors = []
+                    if name not in examples:
+                        errors.append(f'no example "netcdf {name}" to derive the minimal form from')
+                    elif normalized(body) != normalized(minimal(examples[name])):
+                        errors.append(f'differs from the minimal form of the example "netcdf {name}"')
+                    forms = [("", body, True, errors)]
+                else:
+                    forms = [("", block, False, check_tiers(block, tiers_of_page))]
+                    if block.startswith("netcdf "):
+                        forms.append((" (minimal form)", minimal(block), True, []))
+                for suffix, form, minimal_form, errors in forms:
+                    label = f"{relative}, block {number}{suffix}"
+                    try:
+                        found = check(form, minimal_form)
+                    except ValueError as error:
+                        found = [str(error)]
+                    if found is None:
+                        break
+                    checked += not suffix
+                    minimal_forms += minimal_form
+                    errors += found
+                    if errors:
+                        failures += 1
+                        print(f"FAIL {label}:")
+                        for error in errors:
+                            print(f"     {error}")
+                    else:
+                        print(f"OK   {label}")
+
+    print(f"{checked} examples and {minimal_forms} minimal forms checked, {failures} failed")
     sys.exit(1 if failures else 0)
 
 

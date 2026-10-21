@@ -36,36 +36,36 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
-## Minimal example
+## Example
 ```
 netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 15.03 ;
-                :geospatial_lat_min = 14.9265 ;
-                :geospatial_lon_max = 145.96815 ;
-                :geospatial_lon_min = 145.8426 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ;
+                :geospatial_lat_max = 15.03 ; // recommended
+                :geospatial_lat_min = 14.9265 ; // recommended
+                :geospatial_lon_max = 145.96815 ; // recommended
+                :geospatial_lon_min = 145.8426 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
                 :product_type = "currents" ;
-                :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ;
-                :time_coverage_end = "2025-01-15T11:59:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ;
-                :analysis_window_shape = "circle" ;
-                :analysis_window_size = 1245. ;
-                :analysis_window_spacing = 500. ;
-                :measurement_duration = 240. ;
-                :number_of_images = 160 ;
-                :retrieval_method = "dispersion_relation_least_squares_fit" ;
+                :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ; // highly recommended
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 1245. ; // recommended
+                :analysis_window_spacing = 500. ; // recommended
+                :measurement_duration = 240. ; // recommended
+                :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_least_squares_fit" ; // recommended
 
 group: time_20250115110031 {
   dimensions:
         latitude = 17 ;
         longitude = 17 ;
   variables:
-        char crs ;
+        char crs ; // recommended
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
@@ -76,7 +76,7 @@ group: time_20250115110031 {
                 time:long_name = "start time of current measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ; // optional
         double longitude(longitude) ;
                 longitude:long_name = "center longitude of current measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -97,27 +97,27 @@ group: time_20250115110031 {
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:grid_mapping = "crs" ;
                 northward_sea_water_velocity:_FillValue = NaN ;
-        double mean_wavenumber(latitude, longitude) ;
+        double mean_wavenumber(latitude, longitude) ; // recommended
                 mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
                 mean_wavenumber:units = "m-1" ;
                 mean_wavenumber:grid_mapping = "crs" ;
                 mean_wavenumber:_FillValue = NaN ;
-        double eastward_sea_water_velocity_standard_error(latitude, longitude) ;
+        double eastward_sea_water_velocity_standard_error(latitude, longitude) ; // optional
                 eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity_standard_error:units = "m s-1" ;
                 eastward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        double northward_sea_water_velocity_standard_error(latitude, longitude) ;
+        double northward_sea_water_velocity_standard_error(latitude, longitude) ; // optional
                 northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity_standard_error:units = "m s-1" ;
                 northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 northward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        int number_of_wave_coordinates(latitude, longitude) ;
+        int number_of_wave_coordinates(latitude, longitude) ; // optional
                 number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
                 number_of_wave_coordinates:units = "1" ;
                 number_of_wave_coordinates:grid_mapping = "crs" ;
                 number_of_wave_coordinates:_FillValue = -1 ;
-        ubyte measurement_quality(latitude, longitude) ;
+        ubyte measurement_quality(latitude, longitude) ; // recommended
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
                 measurement_quality:valid_range = 0UB, 127UB ;

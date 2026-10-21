@@ -35,7 +35,7 @@ The file holds the following variables.
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
-## Minimal example
+## Example
 
 The example below is illustrative; it is not yet based on an existing NetCDF file.
 
@@ -46,7 +46,7 @@ dimensions:
         wave_frequency = 512 ;
         sea_surface_wave_from_direction = 360 ;
 variables:
-        char crs ;
+        char crs ; // recommended
                 crs:grid_mapping_name = "latitude_longitude" ;
                 crs:longitude_of_prime_meridian = 0. ;
                 crs:semi_major_axis = 6378137. ;
@@ -80,7 +80,7 @@ variables:
                 sea_surface_wave_directional_variance_spectral_density:coordinates = "longitude latitude" ;
                 sea_surface_wave_directional_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
-        ubyte measurement_quality(time) ;
+        ubyte measurement_quality(time) ; // recommended
                 measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
@@ -92,26 +92,26 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 15.0012 ;
-                :geospatial_lat_min = 14.9478 ;
-                :geospatial_lon_max = 145.9486 ;
-                :geospatial_lon_min = 145.8631 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ;
+                :geospatial_lat_max = 15.0012 ; // recommended
+                :geospatial_lat_min = 14.9478 ; // recommended
+                :geospatial_lon_max = 145.9486 ; // recommended
+                :geospatial_lon_min = 145.8631 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
                 :product_type = "wave_frequency_direction_spectra" ;
-                :summary = "Surface wave frequency-direction spectra from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ;
-                :time_coverage_end = "2025-01-15T11:59:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar surface wave frequency-direction spectra from R/V Ocean Research" ;
-                :analysis_window_motion = "earth_fixed" ;
-                :analysis_window_shape = "circle" ;
-                :analysis_window_size = 3840. ;
-                :number_of_analysis_windows = 6 ;
-                :measurement_duration = 240. ;
-                :number_of_images = 160 ;
-                :wave_frequency_frame = "intrinsic" ;
+                :summary = "Surface wave frequency-direction spectra from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar surface wave frequency-direction spectra from R/V Ocean Research" ; // highly recommended
+                :analysis_window_motion = "earth_fixed" ; // optional
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 3840. ; // recommended
+                :number_of_analysis_windows = 6 ; // recommended
+                :measurement_duration = 240. ; // recommended
+                :number_of_images = 160 ; // recommended
+                :wave_frequency_frame = "intrinsic" ; // recommended
 
-group: wave_calibration { ... } // as in the example under Wave calibration parameters
+group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
 }
 ```
 

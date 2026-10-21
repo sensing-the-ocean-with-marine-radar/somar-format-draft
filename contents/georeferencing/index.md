@@ -94,7 +94,7 @@ variables:
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ;
+                time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ; // optional
 data:
         crs = " " ;
         time = 1736938831.417 ;

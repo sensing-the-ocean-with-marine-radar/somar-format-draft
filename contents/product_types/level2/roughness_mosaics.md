@@ -34,25 +34,25 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 The nominal length of the averaging window and the length of the measurement period are recorded in the global attributes [`averaging_duration` and `measurement_duration`](index.md#processing-parameters).
 
-## Minimal example
+## Example
 ```
 netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :averaging_duration = 30. ;
-                :geospatial_lat_max = 14.98322 ;
-                :geospatial_lat_min = 14.95348 ;
-                :geospatial_lon_max = 145.94251 ;
-                :geospatial_lon_min = 145.88642 ;
-                :institution = "Famous Radar Ocean Research Institute" ;
-                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ;
-                :measurement_duration = 600. ;
+                :averaging_duration = 30. ; // recommended
+                :geospatial_lat_max = 14.98322 ; // recommended
+                :geospatial_lat_min = 14.95348 ; // recommended
+                :geospatial_lon_max = 145.94251 ; // recommended
+                :geospatial_lon_min = 145.88642 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
+                :measurement_duration = 600. ; // recommended
                 :product_type = "sea_surface_roughness_mosaic" ;
-                :summary = "Sea surface roughness mosaics from a marine X-band radar on board R/V Ocean Research, assembled from 30 s averages of Cartesian backscatter images over 10 min measurement periods." ;
-                :time_coverage_end = "2025-01-15T11:59:59Z" ;
-                :time_coverage_start = "2025-01-15T11:00:00Z" ;
-                :title = "Marine X-band radar sea surface roughness image mosaics from R/V Ocean Research" ;
+                :summary = "Sea surface roughness mosaics from a marine X-band radar on board R/V Ocean Research, assembled from 30 s averages of Cartesian backscatter images over 10 min measurement periods." ; // highly recommended
+                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :title = "Marine X-band radar sea surface roughness image mosaics from R/V Ocean Research" ; // highly recommended
 
 group: time_20250115111001 {
   dimensions:
@@ -72,7 +72,7 @@ group: time_20250115111001 {
                 time:long_name = "start time of radar measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ;
+                time:time_iso_8601 = "2025-01-15T11:10:01.357666Z" ; // optional
         double x(x) ;
                 x:long_name = "eastward distance from radar position at measurement start time" ;
                 x:standard_name = "projection_x_coordinate" ;
@@ -88,7 +88,7 @@ group: time_20250115111001 {
                 sea_surface_roughness:coordinates = "time" ;
                 sea_surface_roughness:cell_methods = "time: mean" ;
                 sea_surface_roughness:ancillary_variables = "number_of_observations start_time_of_observations scan_sectors" ;
-        int number_of_observations(y, x) ;
+        int number_of_observations(y, x) ; // optional
                 number_of_observations:standard_name = "number_of_observations" ;
                 number_of_observations:long_name = "number of measurements from which the radar backscatter power averages have been derived" ;
                 number_of_observations:units = "1" ;
@@ -97,7 +97,7 @@ group: time_20250115111001 {
                 start_time_of_observations:long_name = "start time of the radar backscatter power averages in seconds after the group time" ;
                 start_time_of_observations:units = "s" ;
                 start_time_of_observations:grid_mapping = "crs" ;
-        byte scan_sectors(y, x) ;
+        byte scan_sectors(y, x) ; // optional
                 scan_sectors:long_name = "part of the radar scan relative to the target area" ;
                 scan_sectors:flag_values = 0b, 1b, 2b ;
                 scan_sectors:flag_meanings = "preceding_target_area inside_target_area trailing_target_area" ;

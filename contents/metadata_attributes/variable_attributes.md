@@ -8,7 +8,7 @@ nav_order: 3
 # Variable attributes
 
 Unlike file-level global attributes, the attributes listed below qualify individual variables.
-Which attributes a given variable carries depends on the product type, as illustrated in the minimal examples under [SOMaR product types](../product_types/index.md).
+Which attributes a given variable carries depends on the product type, as illustrated in the examples under [SOMaR product types](../product_types/index.md).
 
 ## Data and coordinate variables
 
