@@ -8,7 +8,7 @@ nav_order: 1
 # L1a: "raw" radar data
 
 {: .informative }
-> This page is informative. The product type `radar_polar_raw` is defined on the page [Radar "raw" data (L1a)](../product_types/level1/level1a.md), which gives its dimensions, variables, and attributes.
+> This page is informative. The product type `radar_polar_raw` is defined on the page [Radar "raw" data (L1a)](../product_types/polar.md), which gives its dimensions, variables, and attributes.
 
 ## Example
 

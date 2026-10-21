@@ -11,8 +11,8 @@ nav_order: 3
 Level 1b Cartesian images (`radar_cartesian`, a three-dimensional cube in Cartesian coordinates) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying Level 1a data.
 The grid is defined in a local, radar-centric coordinate system whose origin is given by the `longitude`/`latitude` of the radar antenna at the start of each revolution; since the grid origin moves with the platform from one image to the next, each image has its own origin, as in the [time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids), but all images share one `x`/`y` grid and are stored as a single cube.
 Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`; the obstructed sectors themselves may be recorded in the `radar_parameters` group (see [Obstructed sectors](../../metadata_attributes/radar_parameters.md#obstructed-sectors)).
-As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"` or `"dB"`); no radiometric calibration or temporal averaging is applied at this level, and the data variable carries one of the names defined at [Level 1a](level1a.md#data-variables), `backscatter_amplitude` or `backscatter_power`, which identifies the quantity.
-The polar data are resampled onto the Cartesian grid by selection, interpolation, or averaging, and the method is recorded in `cartesian_resampling` (see [Resampling](#resampling)); as for the [azimuth regularization](level1b_polar.md#variables) at Level 1b polar, interpolation and averaging are done on linear power.
+As at Level 1a, values are stored in uncalibrated analog-to-digital converter units and are therefore dimensionless (`units = "1"` or `"dB"`); no radiometric calibration or temporal averaging is applied at this level, and the data variable carries one of the names defined at [Level 1a](../polar.md#data-variables), `backscatter_amplitude` or `backscatter_power`, which identifies the quantity.
+The polar data are resampled onto the Cartesian grid by selection, interpolation, or averaging, and the method is recorded in `cartesian_resampling` (see [Resampling](#resampling)); as for the [azimuth regularization](../polar.md#image-cube) at Level 1b polar, interpolation and averaging are done on linear power.
 
 ## Position and orientation
 
@@ -29,7 +29,7 @@ For a moving platform, they have the dimension `time`, with one value per image;
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin. |
 | `longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Required. Longitude (WGS 84) of the grid origin. |
 | `latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
-| `backscatter_amplitude`, `backscatter_power`<br><small>SOMaR</small> | float `(time, y, x)`; `1` or `dB` | Exactly one is required. Uncalibrated backscatter amplitude or power (see [Level 1a](level1a.md#data-variables)), with `_FillValue`, `cartesian_resampling` (see [Resampling](#resampling)), and `comment`. |
+| `backscatter_amplitude`, `backscatter_power`<br><small>SOMaR</small> | float `(time, y, x)`; `1` or `dB` | Exactly one is required. Uncalibrated backscatter amplitude or power (see [Level 1a](../polar.md#data-variables)), with `_FillValue`, `cartesian_resampling` (see [Resampling](#resampling)), and `comment`. |
 {: .variable-table }
 
 The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
@@ -45,7 +45,7 @@ The resampling of the polar data onto the Cartesian grid is recorded in one attr
 {: .attribute-table }
 
 {: .open_issue }
-Only backscatter amplitude and power are specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](level1a.md#coherent-data)).
+Only backscatter amplitude and power are specified. Variables for the data of coherent radars, such as phase or radial Doppler velocity, are not yet defined (see [Level 1a](../polar.md#coherent-data)).
 
 ## Example
 

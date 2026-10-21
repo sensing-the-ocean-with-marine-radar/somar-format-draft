@@ -13,8 +13,8 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 
 | Level | Product | Category | `product_type` |
 |:---:|---|---|---|
-| **L1a** | [Radar "raw" data](level1/level1a.md) | [Polar](level1/level1a.md) | `radar_polar_raw` |
-| **L1b** | [Polar image sequences](level1/level1b_polar.md) | [Polar](level1/level1b_polar.md) | `radar_polar_regularized` |
+| **L1a** | [Radar "raw" data](../annex/level1a.md) | [Polar](polar.md#product-types) | `radar_polar_raw` |
+| **L1b** | [Polar image sequences](../annex/level1b_polar.md) | [Polar](polar.md#product-types) | `radar_polar_regularized` |
 | **L1b** | [Cartesian image sequences](level1/level1b_cartesian.md) | [Gridded](level1/level1b_cartesian.md) | `radar_cartesian` |
 | **L2a** | [Relative roughness images](../annex/relative_roughness_images.md) | [Gridded](gridded.md#product-types) | `relative_roughness` |
 | **L2a** | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) | [Gridded](gridded.md#product-types) | `relative_roughness_mosaic` |
@@ -30,7 +30,7 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 
 ## Processing levels
 
-[Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images, one per antenna revolution, with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
+[Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](polar.md)) or as individual images, one per antenna revolution, with a regular azimuth axis ([Level 1b polar](polar.md#image-cube)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
 Level 2 products are geophysical quantities derived from sequences of Level 1b images, such as relative sea surface roughness, near-surface currents, bathymetry, sea ice drift, and surface waves.
 Level 2a products are the direct result of a retrieval applied to Level 1b image sequences: relative roughness images and mosaics, maps of near-surface currents, current profiles, bathymetry, and sea ice drift, and two-dimensional wavenumber spectra.
 Level 2b products are computed from Level 2a products and therefore inherit their sampling, calibration, and quality control; currently all of them are surface wave products derived from the two-dimensional wavenumber spectra.
@@ -40,7 +40,7 @@ How the Level 2 products were obtained is recorded in their [processing paramete
 
 Each product belongs to one of three categories, according to how its values are located in space:
 
-- **Polar products** (radar data in sensor coordinates) locate each value by the range and azimuth of the sensor, with the radar antenna at the origin: [Level 1a](level1/level1a.md) and [Level 1b polar](level1/level1b_polar.md).
+- [Polar products](polar.md) (radar data in sensor coordinates) locate each value by the range and azimuth of the sensor, with the radar antenna at the origin.
 - [Gridded products](gridded.md) (maps, images) give one value set for each cell of a grid that resolves the area covered: each analysis window, or each pixel of an image, keeps its own position.
 - [Spatially averaged products](spatially_averaged.md) (spectra, bulk parameters) combine several analysis windows into one value set per measurement, located at their mean position.
 

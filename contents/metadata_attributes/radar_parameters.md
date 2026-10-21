@@ -9,7 +9,7 @@ nav_order: 7
 
 SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](optional_global.md).
 The technical parameters of the radar are stored as variables.
-SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
+SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
 
 Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table that defines each of them; all of them are optional. Only the beam widths are part of the FM 301 `radar_parameters` group (Table 301-12). FM 301 stores the pulse and scan parameters per ray in each sweep group (Table 301-8) and `frequency` as a sweep coordinate (Table 301-6); collecting them as constants in `radar_parameters` is a SOMaR choice, since they rarely change for a marine radar.
 
@@ -26,7 +26,7 @@ Constant technical parameters of the radar antenna, pulse, and scan are stored i
 | `obstructed_sectors`<br><small>SOMaR</small> | float `(obstructed_sector, nv)`; `degree` | Start and end azimuth of each sector of the field of view that is obstructed or blanked, for example by platform superstructure (see [Obstructed sectors](#obstructed-sectors)). |
 {: .variable-table }
 
-When pulse or scan parameters vary, [Level 1a](../product_types/level1/level1a.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar](../product_types/level1/level1b_polar.md) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
+When pulse or scan parameters vary, [Level 1a](../product_types/polar.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar](../product_types/polar.md#image-cube) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
 
 ## Obstructed sectors
 

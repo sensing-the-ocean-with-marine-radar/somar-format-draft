@@ -8,7 +8,7 @@ nav_order: 2
 # L1b: Polar image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_polar_regularized` is defined on the page [Polar image sequences (L1b)](../product_types/level1/level1b_polar.md), which gives its dimensions, variables, and attributes.
+> This page is informative. The product type `radar_polar_regularized` is defined on the page [Polar image sequences (L1b)](../product_types/polar.md#image-cube), which gives its dimensions, variables, and attributes.
 
 ## Example
 

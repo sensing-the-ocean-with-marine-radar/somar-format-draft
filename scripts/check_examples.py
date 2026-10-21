@@ -60,8 +60,7 @@ STANDARD_NAME_TABLE_URL = (
 DIMENSION_CAP = 3
 # Units the specification allows but UDUNITS does not define.
 EXTRA_UNITS = {"dB"}
-# Level 1 product types and the names of their backscatter variables, of which a file holds exactly one.
-LEVEL1_PRODUCT_TYPES = {"radar_polar_raw", "radar_polar_regularized", "radar_cartesian"}
+# The backscatter variables of the Level 1 products, of which a file holds exactly one.
 LEVEL1_DATA_VARIABLES = {"backscatter_amplitude", "backscatter_power"}
 GEOSPATIAL_ATTRIBUTES = ("geospatial_lat_min", "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max")
 FILE_NAME = re.compile(
@@ -80,7 +79,7 @@ GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
 TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
 # The pages of the Level 2 categories, whose product-type tables list the Level 2 products.
-CATEGORY_PAGES = ("contents/product_types/gridded.md", "contents/product_types/spatially_averaged.md")
+CATEGORY_PAGES = ("contents/product_types/polar.md", "contents/product_types/gridded.md", "contents/product_types/spatially_averaged.md")
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
@@ -153,9 +152,10 @@ def level1_pages():
 
 
 def registry():
-    """Return {product_type: (category page, {name: tier})} from the product-type tables of the categories.
+    """Return {product_type: (category page, {name: tier}, level)} from the product-type tables of the categories.
 
-    The tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**" lines of a row.
+    The tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**" lines of a row,
+    and the level, such as "L1a", is given in parentheses after the name of the product.
     """
     products = {}
     for page in CATEGORY_PAGES:
@@ -168,7 +168,8 @@ def registry():
                 match = re.match(r"\s*\*\*(Required|Recommended|Optional):\*\*(.*)", part)
                 if match:
                     tiers.update((name, match.group(1).lower()) for name in re.findall(r"`(\w+)`", match.group(2)))
-            products[re.search(r"`(\w+)`", cells[1]).group(1)] = (page, tiers)
+            level = re.search(r"\((L\d[a-z])\)\s*$", cells[0]).group(1)
+            products[re.search(r"`(\w+)`", cells[1]).group(1)] = (page, tiers, level)
     return products
 
 
@@ -524,7 +525,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
             errors.append('has the structure of a moving platform, but platform_is_mobile is not "true"')
         elif mobile and not moving and product in expected["level2_product_types"]:
             errors.append('sets platform_is_mobile to "true", but has the structure of a fixed platform')
-        if product in LEVEL1_PRODUCT_TYPES:
+        if product in expected["level1_product_types"]:
             found = set().union(*(LEVEL1_DATA_VARIABLES & group["variables"].keys() for group in groups.values()))
             if len(found) != 1:
                 errors.append(f"has {len(found)} Level 1 data variables; expected exactly one of {', '.join(sorted(LEVEL1_DATA_VARIABLES))}")
@@ -563,10 +564,9 @@ def main():
     products = registry()
     category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
     level1 = {product: table_tiers(read(os.path.join(ROOT, page))) for product, page in level1_pages().items()}
-    if level1.keys() != LEVEL1_PRODUCT_TYPES:
-        sys.exit(f"the product types index links {', '.join(sorted(level1))} as Level 1 products")
-    expected["level2_product_types"] = set(products)
-    unlisted = expected["product_types"] - LEVEL1_PRODUCT_TYPES - products.keys()
+    expected["level1_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L1")} | level1.keys()
+    expected["level2_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L2")}
+    unlisted = expected["product_types"] - level1.keys() - products.keys()
     if unlisted:
         sys.exit(f"product types missing from the product-type tables: {', '.join(sorted(unlisted))}")
     pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
@@ -601,7 +601,7 @@ def main():
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
                 product = PRODUCT_TYPE.search(block)
                 if product and product.group(1) in products:
-                    category, row = products[product.group(1)]
+                    category, row, _ = products[product.group(1)]
                     tiers_of_block = {**tiers, **category_tiers[category], **row}
                 elif product and product.group(1) in level1:
                     tiers_of_block = {**tiers, **level1[product.group(1)]}

@@ -20,14 +20,14 @@ The CF conventions can describe each such grid but have no provision for a seque
 Each grid can thus have its own origin, extent, and resolution, while every variable within it still carries standard CF metadata.
 
 At the lowest level of processing, radar data in polar coordinates are already covered by an international standard, the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), which was developed for weather radars from the earlier [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs).
-SOMaR does not replicate this work: [Level 1a data](../product_types/level1/level1a.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
+SOMaR does not replicate this work: [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
 Neither document covers the products that follow, i.e. image sequences on regular grids and the geophysical variables retrieved from them; these are defined by SOMaR.
 For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3), which is designed to complement CF.
 The versions of these standards that SOMaR refers to are listed under [References](../references/index.md#standards-and-conventions).
 
 ## Terms
 
-- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/level1/level1a.md) is their conversion to NetCDF.
+- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/polar.md) is their conversion to NetCDF.
 - A **ray** is one stored azimuth sample of a sweep, i.e. the echo along one beam direction as a function of range, following FM 301. At Level 1a, a ray normally holds a single transmitted pulse, unless the radar itself averages pulses (`n_samples` > 1); at Level 1b polar, it is one bin of the regular azimuth axis.
 - A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data are stored.
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode.

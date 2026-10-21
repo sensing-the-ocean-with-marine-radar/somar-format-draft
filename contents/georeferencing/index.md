@@ -8,7 +8,7 @@ nav_order: 4
 
 ## Polar sensor coordinates
 
-[Level 1a data](../product_types/level1/level1a.md) and [Level 1b polar images](../product_types/level1/level1b_polar.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
+[Level 1a data](../product_types/polar.md) and [Level 1b polar images](../product_types/polar.md#image-cube) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 The `azimuth` variable holds the antenna angle as recorded by the radar relative to its zero direction; on a ship, this is typically the bow.
 This differs from FM 301, which defines `azimuth` relative to true north; SOMaR polar data are stored as recorded without modification.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
@@ -20,14 +20,14 @@ They are located in space with variables from the WMO-CF Radial profile [FM 301]
 - Scalar `altitude` in the root group gives the height of the radar antenna above mean sea level (FM 301). SOMaR assumes it constant for both fixed and moving platforms, whereas CfRadial 2.1 also allows `altitude(time)` in the `georeference` group.
 - For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
 - For a moving platform (`platform_is_mobile = "true"`), platform position and orientation should be recorded in `latitude` (double; `degrees_north`), `longitude` (double; `degrees_east`), and `heading` (float; `degree`, standard name `platform_orientation`), following CfRadial 2.1 (Section 5.4). All navigation variables within a group or subgroup must use the same representation, provided either **per sweep** (scalar at the start of each sweep, i.e. at the time of its first ray; a SOMaR addition, as CfRadial defines them per ray only) or **per ray** (dimension `time`, keeping the full resolution of navigation data as in CfRadial, which, like FM 301, indexes `time` by ray):
-  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
-  - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per ray; see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
+  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Level 1a data](../product_types/polar.md#moving-platforms)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
+  - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per ray; see [Level 1b polar images](../product_types/polar.md#moving-platforms)).
 
-  Position and heading are recommended rather than required for a moving platform, since they may not be available when the file is written, e.g. in real-time recording, or may be taken from a separate navigation data stream; a file without them is not georeferenced (see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)).
+  Position and heading are recommended rather than required for a moving platform, since they may not be available when the file is written, e.g. in real-time recording, or may be taken from a separate navigation data stream; a file without them is not georeferenced (see [Level 1a data](../product_types/polar.md#moving-platforms)).
 
 ## Applying georeference corrections
 
-In polar products ([Level 1a](../product_types/level1/level1a.md) and [Level 1b polar](../product_types/level1/level1b_polar.md)), `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied.
+In polar products ([Level 1a](../product_types/polar.md) and [Level 1b polar](../product_types/polar.md#image-cube)), `azimuth`, `range`, `time`, and platform position are stored as recorded by the instrument, and the corrections have not been applied.
 Known offsets of the recorded pointing direction, range, time, and platform position are stored in the optional `georeference_correction` group in the root group (see [Georeference correction parameters](../metadata_attributes/georeference_correction.md)).
 The azimuth, range, and time offsets of a ship-borne radar can be estimated from the imagery itself (McCann and Bell [2018](../references/index.md#mccann-bell-2018)).
 Users must apply these constant offsets to the recorded values to obtain corrected values; a missing variable is equivalent to a correction of 0:
