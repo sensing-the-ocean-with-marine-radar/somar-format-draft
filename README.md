@@ -12,9 +12,9 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | --- | --- |
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, terms, and document structure |
-| `contents/metadata_attributes/` | Mandatory and recommended global attributes, variable attributes, product variables, processing parameters, quality flags, radar parameters, georeference correction parameters, wave calibration parameters |
+| `contents/metadata_attributes/` | Mandatory and recommended global attributes, variable attributes, processing parameters, quality flags, radar parameters, georeference correction parameters, wave calibration parameters |
 | `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
-| `contents/product_types/` | The processing levels and the three categories of products, polar, gridded, and spatially averaged, each with its product-type table |
+| `contents/product_types/` | The processing levels, the three categories of products, polar, gridded, and spatially averaged, each with its product-type table, and the product variables |
 | `contents/annex/` | Informative example files of all products, with descriptions of the Level 2 products and their retrieval |
 | `contents/file_naming/` | File naming pattern recommendations |
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
@@ -70,7 +70,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/metadata_attributes/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
+- A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/product_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Please propose changes through issues or pull requests.
 
 ## License and attribution

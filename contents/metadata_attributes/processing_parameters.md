@@ -2,7 +2,7 @@
 title: Processing parameters
 layout: default
 parent: Metadata
-nav_order: 5
+nav_order: 4
 ---
 
 # Processing parameters

@@ -87,7 +87,7 @@ Within each group, the scalar variable `time` gives that start time, and the var
 
 Level 1b Cartesian images (`radar_cartesian`) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying [Level 1a data](polar.md).
 All images of a file share one grid of fixed extent and resolution, and only its origin, the position of the radar antenna at the start of each revolution, moves with the platform.
-They are therefore stored as a single cube in the root group, whose data variable, [`backscatter_amplitude` or `backscatter_power`](../metadata_attributes/product_variables.md), has the dimensions `(time, y, x)`, rather than as time-bounded grids, which would take thousands of groups for the short-lived images of one file.
+They are therefore stored as a single cube in the root group, whose data variable, [`backscatter_amplitude` or `backscatter_power`](product_variables.md), has the dimensions `(time, y, x)`, rather than as time-bounded grids, which would take thousands of groups for the short-lived images of one file.
 The grids of the Level 2 products, by contrast, can change their extent and dimensions from one measurement to the next with the motion of the ship, and are therefore stored as time-bounded grids.
 Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`.
 No radiometric calibration or temporal averaging is applied at this level.
@@ -175,7 +175,7 @@ variables:
 ## Variables
 
 The time-bounded grids and the single grid of the Level 2 products hold the following variables, in each `time_<YYYYMMDDHHMMSS>` group or in the root group of a file from a fixed platform, in addition to those of their product (see [Product types](#product-types)); the variables of the Level 1b Cartesian images are given under [Image cube with moving origin](#image-cube-with-moving-origin).
-The data variables of a product are defined under [Product variables](../metadata_attributes/product_variables.md), where `(…)` stands for the dimensions of the grid, preceded by `time` from a fixed platform.
+The data variables of a product are defined under [Product variables](product_variables.md), where `(…)` stands for the dimensions of the grid, preceded by `time` from a fixed platform.
 
 | Variable | Values | Description |
 |---|---|---|
@@ -196,7 +196,7 @@ The processing parameters of gridded products are recorded in global attributes 
 ## Product types
 
 The following products are gridded products.
-For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](../metadata_attributes/product_variables.md).
+For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
 
 | Product | `product_type` | Variables |
 |---|---|---|

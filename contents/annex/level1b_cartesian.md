@@ -8,7 +8,7 @@ nav_order: 3
 # L1b: Cartesian image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_cartesian` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
+> This page is informative. The product type `radar_cartesian` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
 
 ## Example
 

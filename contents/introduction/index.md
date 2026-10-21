@@ -37,8 +37,8 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 
 ## Document structure
 
-The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the variables of the products, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
+The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
 The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
-The [SOMaR product types](../product_types/index.md) chapter defines the products in three categories by their geometry, polar, gridded, and spatially averaged, from the Level 1 radar products to the Level 2 geophysical products, with their variables and structures.
+The [SOMaR product types](../product_types/index.md) chapter defines the products in three categories by their geometry, polar, gridded, and spatially averaged, from the Level 1 radar products to the Level 2 geophysical products, with their structures, and defines the variables that hold their data.
 The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
 Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each product, and for Level 2 a description of the product and of its retrieval.

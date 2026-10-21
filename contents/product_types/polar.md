@@ -60,13 +60,13 @@ The positions and directions are stored as recorded, and the optional [`georefer
 
 ## Data variables
 
-The radar measurement is stored in one data variable, [`backscatter_amplitude` or `backscatter_power`](../metadata_attributes/product_variables.md), with the dimensions `(time, range)` in a sweep (FM 301, regulation 301.4.6 and Table 301-10) and `(time, azimuth, range)` in an image cube.
+The radar measurement is stored in one data variable, [`backscatter_amplitude` or `backscatter_power`](product_variables.md), with the dimensions `(time, range)` in a sweep (FM 301, regulation 301.4.6 and Table 301-10) and `(time, azimuth, range)` in an image cube.
 A file holds exactly one of the two.
 Its `units` attribute is `"1"` or `"dB"`, as FM 301 also uses `dB` for logarithmic quantities, and in a sweep its `coordinates` attribute is `"azimuth range"`.
 The `comment` attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
 
 {: .open_issue }
-<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](../metadata_attributes/product_variables.md).
+<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](product_variables.md).
 
 ## Moving platforms
 
@@ -201,7 +201,7 @@ If the position and heading of a moving platform are given per ray instead of pe
 ## Product types
 
 The following products are polar products.
-For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](../metadata_attributes/product_variables.md).
+For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
 
 | Product | `product_type` | Variables |
 |---|---|---|

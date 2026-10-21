@@ -45,7 +45,7 @@ Each product belongs to one of three categories, according to how its values are
 - [Spatially averaged products](spatially_averaged.md) (spectra, bulk parameters) combine several analysis windows into one value set per measurement, located at their mean position.
 
 Each category page defines the structure that its products share and lists its products, in a product-type table, with the variables that each of them holds.
-The variables themselves are defined under [Product variables](../metadata_attributes/product_variables.md).
+The variables themselves are defined under [Product variables](product_variables.md).
 An example file of each product, and for Level 2 a description of the product and its retrieval, is given in the informative [Annex: Example products](../annex/index.md).
 All products carry the [shared metadata](../metadata_attributes/index.md) in addition.
 
@@ -73,7 +73,7 @@ Sectors of the field of view that are shadowed or blanked are recorded in the `r
 ## Adding a product type
 
 The product types are a closed list: a file whose content fits none of them is not a SOMaR file.
-A new product type is proposed as an [issue](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/issues) or pull request that gives its row in the product-type table of its category, the definitions of any new variables under [Product variables](../metadata_attributes/product_variables.md), and an example file for the annex.
+A new product type is proposed as an [issue](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/issues) or pull request that gives its row in the product-type table of its category, the definitions of any new variables under [Product variables](product_variables.md), and an example file for the annex.
 Adding a product type invalidates no existing file, so that it can be released in a minor version (see [Versioning](../../index.md#versioning)).
 
 {: .open_issue }

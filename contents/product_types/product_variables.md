@@ -1,17 +1,17 @@
 ---
 title: Product variables
 layout: default
-parent: Metadata
+parent: SOMaR product types
 nav_order: 4
 ---
 
 # Product variables
 
-This page defines the data, ancillary, and coordinate variables of the [SOMaR products](../product_types/index.md), apart from the coordinates, navigation, and quality flag that all products of a category share, which the page of the category defines.
-Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [SOMaR product types](../product_types/index.md)).
-The convention a variable is taken from is named in small print under it (see [Metadata](index.md#reading-the-tables)); a variable marked CF carries the CF standard name of the same name, unless its description says otherwise.
+This page defines the data, ancillary, and coordinate variables of the [SOMaR products](index.md), apart from the coordinates, navigation, and quality flag that all products of a category share, which the page of the category defines.
+Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [SOMaR product types](index.md)).
+The convention a variable is taken from is named in small print under it (see [Metadata](../metadata_attributes/index.md#reading-the-tables)); a variable marked CF carries the CF standard name of the same name, unless its description says otherwise.
 
-In the column of values, `(…)` stands for the dimensions that the products of a category share in their form: for polar products, `(time, range)` in the sweeps of [Level 1a](../product_types/polar.md) and `(time, azimuth, range)` in the image cube of [Level 1b polar](../product_types/polar.md#image-cube); for [gridded products](../product_types/gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform and in the image cube of [Level 1b Cartesian](../product_types/gridded.md#image-cube-with-moving-origin); for [spatially averaged products](../product_types/spatially_averaged.md), `(time)`.
+In the column of values, `(…)` stands for the dimensions that the products of a category share in their form: for polar products, `(time, range)` in the sweeps of [Level 1a](polar.md) and `(time, azimuth, range)` in the image cube of [Level 1b polar](polar.md#image-cube); for [gridded products](gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform and in the image cube of [Level 1b Cartesian](gridded.md#image-cube-with-moving-origin); for [spatially averaged products](spatially_averaged.md), `(time)`.
 Dimensions written beside it, such as `(…, wave_frequency)`, are added in the position shown.
 
 Some variables are only meaningful together with others.
@@ -47,15 +47,15 @@ Their descriptions state this in one of two forms, which apply in every product:
 | `sea_surface_wave_from_direction`<br><small>[CF][cf-names]</small> | double `(sea_surface_wave_from_direction)` or `(…)`; `degree` | Direction from which the waves come, in degrees clockwise from true north, following the nautical convention for waves. As a coordinate variable, the direction axis of a frequency-direction spectrum. As a data variable, the mean wave direction, whose definition should be documented in a `comment` attribute. |
 | `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(…)`; `degree` | Peak wave direction: the direction from which the waves come at the spectral maximum. |
 | `sea_surface_wave_mean_from_direction`<br><small>[CF][cf-names]</small> | float `(…, wave_frequency)`; `degree` | Mean direction from which the waves come in each frequency band. Requires `wave_frequency`. |
-| `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(…)`; `s` | Mean wave period, e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute. Intrinsic or absolute, as given by [`wave_frequency_frame`](processing_parameters.md). |
+| `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(…)`; `s` | Mean wave period, e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute. Intrinsic or absolute, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md). |
 | `sea_surface_wave_mean_square_slope`<br><small>[CF][cf-names]</small> | double `(…)`; `1` | Mean square slope of the sea surface, used by the shadowing method to derive the significant wave height. |
-| `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(…)`; `s` | Peak wave period: the period at the spectral maximum. Intrinsic or absolute, as given by [`wave_frequency_frame`](processing_parameters.md). |
+| `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(…)`; `s` | Peak wave period: the period at the spectral maximum. Intrinsic or absolute, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md). |
 | `sea_surface_wave_significant_height`<br><small>[CF][cf-names]</small> | double `(…)`; `m` | Significant wave height. |
 | `sea_surface_wave_variance_spectral_density`<br><small>[CF][cf-names]</small> | float `(…, wave_frequency)`; `m2 s` | Wave energy density as a function of wave frequency. Requires `wave_frequency`. |
 | `sea_surface_wave_wavenumber_variance_spectral_density`<br><small>SOMaR</small> | double `(…, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Calibrated wave energy density as a function of the two wavenumber components. It carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which `m4` cannot be converted, and the variable is named so as not to be mistaken for it. Requires `eastward_wave_wavenumber` and `northward_wave_wavenumber`. |
 | `signal_to_noise_ratio`<br><small>SOMaR</small> | double `(…)`; `1` | Signal-to-noise ratio of the current retrieval, as defined by the method; the definition is given in a `comment` attribute. |
 | `start_time_of_observations`<br><small>SOMaR</small> | float `(…)`; `s` | Start of the averaging of each grid cell of a relative roughness image mosaic, in seconds after `time`. |
-| `wave_frequency`<br><small>[CF][cf-names]</small> | double `(wave_frequency)`; `s-1` | Coordinate variable: wave frequency, intrinsic or absolute, as given by [`wave_frequency_frame`](processing_parameters.md). |
+| `wave_frequency`<br><small>[CF][cf-names]</small> | double `(wave_frequency)`; `s-1` | Coordinate variable: wave frequency, intrinsic or absolute, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md). |
 | `wave_signal`<br><small>SOMaR</small> | double `(…)`; `1` | Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. Carried together with `background_noise`. |
 | `wavenumber_bin`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Coordinate variable: the center of each wavenumber band of a current profile, cyclic. The current retrieval is repeated in each band, and since the effective sensing depth decreases with increasing wavenumber, the bands resolve the current at different depths. Data variables with this dimension carry it immediately before the dimensions of the horizontal grid. Its `bounds` attribute is `"wavenumber_bin_bounds"`. Requires `wavenumber_bin_bounds`. |
 | `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Lower and upper edge of each wavenumber band, along the dimension `nv` (number of vertices, as in [CF][cf-bounds] section 7.1) of size 2, so that the bands need not be of equal width. Requires `wavenumber_bin`. |

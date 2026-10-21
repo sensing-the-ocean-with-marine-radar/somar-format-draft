@@ -2,7 +2,7 @@
 title: Quality flags
 layout: default
 parent: Metadata
-nav_order: 6
+nav_order: 5
 ---
 
 # Quality flags

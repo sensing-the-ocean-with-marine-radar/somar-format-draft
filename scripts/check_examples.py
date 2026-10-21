@@ -179,7 +179,7 @@ def global_tiers():
 def variable_rules():
     """Return {variable: [variables it requires]} from the descriptions in product_variables.md."""
     rules = {}
-    for line in read(os.path.join(ROOT, "contents/metadata_attributes/product_variables.md")).splitlines():
+    for line in read(os.path.join(ROOT, "contents/product_types/product_variables.md")).splitlines():
         if not line.startswith("| `"):
             continue
         cells = line.strip().strip("|").split("|")

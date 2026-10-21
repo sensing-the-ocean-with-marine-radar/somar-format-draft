@@ -2,7 +2,7 @@
 title: Georeference correction parameters
 layout: default
 parent: Metadata
-nav_order: 8
+nav_order: 7
 ---
 
 # Georeference correction parameters

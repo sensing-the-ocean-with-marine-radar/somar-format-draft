@@ -8,7 +8,7 @@ nav_order: 2
 # L1b: Polar image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_polar_regularized` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
+> This page is informative. The product type `radar_polar_regularized` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
 
 ## Example
 

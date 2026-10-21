@@ -2,7 +2,7 @@
 title: Radar parameters
 layout: default
 parent: Metadata
-nav_order: 7
+nav_order: 6
 ---
 
 # Radar parameters
