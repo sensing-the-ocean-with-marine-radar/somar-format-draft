@@ -18,7 +18,7 @@ They are listed, with the variables that each of them holds, under [Product type
 
 A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude` give the mean position of the analysis windows that contribute to each measurement (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)), as described under [Moving and fixed platforms](#moving-and-fixed-platforms).
 The windows are spread across the radar field of view, and their placement is left to the processor and should be described in the `comment` global attribute.
-Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](index.md#processing-parameters).
+Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](../../metadata_attributes/processing_parameters.md).
 Windows that move with the platform cover a track rather than a fixed area during the period.
 Their retrieval assumes that the wave field is spatially homogeneous along this track and that the platform moves at constant velocity during the period, and the mean platform velocity is subtracted afterwards from the current obtained.
 This velocity is stored as the speed over ground and course of the platform, in the variables `platform_speed_wrt_ground` and `platform_course` with the dimension `time`, which are required for windows that move with the platform and omitted otherwise:
@@ -44,7 +44,7 @@ The near-surface current retrieved within the same analysis windows may be store
 
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
-Whether the frequencies and periods of the Level 2b products include this shift is given by [`wave_frequency_frame`](index.md#processing-parameters).
+Whether the frequencies and periods of the Level 2b products include this shift is given by [`wave_frequency_frame`](../../metadata_attributes/processing_parameters.md).
 In windows that move with the platform, the observed frequencies are encounter frequencies, which are also shifted by the platform velocity; the Level 2b products give them as intrinsic or absolute frequencies all the same.
 
 The wave energy density is calibrated, typically against a reference wave data set, and the parameters of this calibration should be recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
@@ -112,11 +112,11 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `station`<br><small>[CF][cf-dsg]</small> | string | Recommended from a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
 | `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Level 2 variables](../../metadata_attributes/level2_variables.md)). |
 | `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current retrieved within the same analysis windows. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../../metadata_attributes/quality_flags.md)). |
 {: .variable-table }
 
 The data variables carry `coordinates = "time longitude latitude"`, and `grid_mapping = "crs"` if the file holds a `crs`.
-The processing parameters of spatially averaged products are recorded in global attributes (see [Processing parameters](index.md#processing-parameters)).
+The processing parameters of spatially averaged products are recorded in global attributes (see [Processing parameters](../../metadata_attributes/processing_parameters.md)).
 
 ## Product types
 

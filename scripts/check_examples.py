@@ -177,8 +177,7 @@ def global_tiers():
     tiers = {name: "required" for name in mandatory_attributes()}
     tiers.update((name, "highly recommended") for name in highly_recommended_attributes())
     tiers.update((name, "recommended") for name in recommended_global_section("Recommended"))
-    text = read(os.path.join(ROOT, "contents/product_types/level2/index.md"))
-    tiers.update(table_tiers(text.split("\n## Processing parameters\n", 1)[1].split("\n## ", 1)[0], strict=False))
+    tiers.update(table_tiers(read(os.path.join(ROOT, "contents/metadata_attributes/processing_parameters.md")), strict=False))
     return tiers
 
 

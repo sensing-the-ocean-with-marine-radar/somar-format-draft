@@ -150,11 +150,11 @@ The data variables of a product are defined under [Level 2 variables](../../meta
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
 | `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional, for maps. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
 | `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional, for maps. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../../metadata_attributes/quality_flags.md)). |
 {: .variable-table }
 
 On the local grid, the data variables of a map carry `coordinates = "longitude latitude"`; on either grid, they carry `grid_mapping = "crs"` if the group holds a `crs`.
-The processing parameters of gridded products are recorded in global attributes (see [Processing parameters](index.md#processing-parameters)).
+The processing parameters of gridded products are recorded in global attributes (see [Processing parameters](../../metadata_attributes/processing_parameters.md)).
 
 ## Product types
 
