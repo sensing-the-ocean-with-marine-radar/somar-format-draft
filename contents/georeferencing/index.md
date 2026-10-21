@@ -77,7 +77,7 @@ data:
 
 ### Time-bounded local grids
 
-Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([roughness images](../annex/roughness_images.md) and [roughness image mosaics](../annex/roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/level2/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
+Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([relative roughness images](../annex/relative_roughness_images.md) and [relative roughness image mosaics](../annex/relative_roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/level2/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
 
 - `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
@@ -108,7 +108,7 @@ data:
         time = 1736938831.417 ;
 ```
 
-Because the origin changes as a platform moves, each local grid is valid only for a limited time window. Rather than one global grid for the whole file, roughness images, mosaics, and local-grid Level 2 maps from a moving platform store each time-bounded grid as a sibling NetCDF group named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and coordinate variables:
+Because the origin changes as a platform moves, each local grid is valid only for a limited time window. Rather than one global grid for the whole file, relative roughness images, mosaics, and local-grid Level 2 maps from a moving platform store each time-bounded grid as a sibling NetCDF group named `time_<YYYYMMDDHHMMSS>`, with its own `crs` and coordinate variables:
 - Each group carries a scalar `double` variable `time` giving the start time of the measurement (`units = "seconds since 1970-01-01T00:00:00Z"`), optionally complemented by a human-readable `time_iso_8601` string (see [Variable attributes](../metadata_attributes/variable_attributes.md)).
 - Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 

@@ -9,13 +9,13 @@ nav_order: 1
 # Gridded products
 
 Gridded products give one value set for each cell of a grid that resolves the area covered by a measurement: each analysis window, or each pixel of an image, keeps its own position.
-They comprise the roughness images and mosaics, which average Level 1b images on a local Cartesian grid, and the maps of near-surface currents, current profiles, bathymetry, and sea ice drift, which are retrieved within analysis windows.
+They comprise the relative roughness images and mosaics, which average Level 1b images on a local Cartesian grid, and the maps of near-surface currents, current profiles, bathymetry, and sea ice drift, which are retrieved within analysis windows.
 The products of this kind, and the variables that each of them holds, are listed under [Product types](#product-types).
 Their structure depends on whether the platform moves: a file from a moving platform, which must set the global attribute [`platform_is_mobile`](../../metadata_attributes/optional_global.md) to `"true"`, stores each measurement on its own [time-bounded grid](#time-bounded-grids), and a file from a fixed platform stores all measurements on a [single grid](#fixed-platform).
 
 ## Grids
 
-The cells of one measurement form a grid over the area it covers: the radar footprint for a map or a roughness image, and for a mosaic an area along the platform track.
+The cells of one measurement form a grid over the area it covers: the radar footprint for a map or a relative roughness image, and for a mosaic an area along the platform track.
 The grid is either the geographic grid or the local grid described below.
 Cells without a value hold the `_FillValue`: the cells in the corners of the grid, since the radar footprint is circular, and the cells of analysis windows without a result or inside an [obstructed sector](../../metadata_attributes/radar_parameters.md#obstructed-sectors).
 
@@ -27,9 +27,9 @@ On this grid, `crs` is recommended rather than required: without it, `latitude` 
 
 ### Local grid
 
-Roughness images and mosaics, and maps whose analysis windows lie on a local grid around the radar, are stored on the local grid of the measurement: `x` and `y` give the distance in meters east and north of the radar antenna at the start of the measurement, and `crs` describes the local azimuthal equidistant projection centered on that position (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
+Relative roughness images and mosaics, and maps whose analysis windows lie on a local grid around the radar, are stored on the local grid of the measurement: `x` and `y` give the distance in meters east and north of the radar antenna at the start of the measurement, and `crs` describes the local azimuthal equidistant projection centered on that position (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
 In this form, `crs` is required, since its projection origin locates the grid.
-A roughness image mosaic is stored on a single, larger local grid per measurement period, which extends along the platform track beyond the footprint of a single roughness image.
+A relative roughness image mosaic is stored on a single, larger local grid per measurement period, which extends along the platform track beyond the footprint of a single relative roughness image.
 Maps on the local grid also store two-dimensional `longitude` and `latitude`, so that every file gives the geographic position of each analysis window.
 For a map, the variables that differ from the geographic grid are:
 
@@ -81,7 +81,7 @@ group: time_20250115110031 {
 ## Time-bounded grids
 
 With a moving platform, the area covered changes from one measurement to the next, so that a file holds a sequence of grids rather than one grid sampled repeatedly.
-All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
+All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for relative roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
 Within each group, the scalar variable `time` gives that start time, and the variables are stored on the two-dimensional grid of the measurement.
 
 ## Fixed platform
@@ -90,7 +90,7 @@ From a fixed platform, every measurement covers the same area on the same grid, 
 The dimension `time` then precedes the dimensions of the grid, `(time, latitude, longitude)` on the geographic grid or `(time, y, x)` on the local grid, and the variable `time` gives the start time of each measurement.
 A single `crs` describes the grid; on the local grid, its projection origin is the position of the radar antenna.
 A file therefore holds measurements on one grid only, and a change of grid, such as a new analysis window spacing, starts a new file.
-Roughness image mosaics are not defined for a fixed platform, since a radar that does not move covers no more than the footprint of a roughness image.
+Relative roughness image mosaics are not defined for a fixed platform, since a radar that does not move covers no more than the footprint of a relative roughness image.
 A near-surface current map from a fixed platform holds, for example:
 
 ```
@@ -143,11 +143,11 @@ The data variables of a product are defined under [Level 2 variables](../../meta
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Required on the local grid, recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a roughness image. |
+| `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for roughness images and mosaics. Longitude of the centers of the analysis windows. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for roughness images and mosaics. Latitude of the centers of the analysis windows. |
+| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for relative roughness images and mosaics. Longitude of the centers of the analysis windows. |
+| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
 | `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional, for maps. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
 | `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional, for maps. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
@@ -163,8 +163,8 @@ For each, the table lists the data variables that it requires, recommends, or al
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Roughness images](../../annex/roughness_images.md) (L2a) | `sea_surface_roughness` | **Required:** `sea_surface_roughness`<br>**Optional:** `number_of_observations` |
-| [Roughness image mosaics](../../annex/roughness_mosaics.md) (L2a) | `sea_surface_roughness_mosaic` | **Required:** `sea_surface_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
+| [Relative roughness images](../../annex/relative_roughness_images.md) (L2a) | `relative_roughness` | **Required:** `relative_roughness`<br>**Optional:** `number_of_observations` |
+| [Relative roughness image mosaics](../../annex/relative_roughness_mosaics.md) (L2a) | `relative_roughness_mosaic` | **Required:** `relative_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
 | [Near-surface current maps](../../annex/current_maps.md) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
 | [Near-surface current profile maps](../../annex/current_profile_maps.md) (L2a) | `currents_profile` | **Required:** `wavenumber_bin`, `wavenumber_bin_bounds`, `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
 | [Bathymetric maps](../../annex/depth_maps.md) (L2a) | `bathymetry` | **Required:** `sea_floor_depth_below_sea_surface`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `sea_floor_depth_below_sea_surface_standard_error`, `number_of_wave_coordinates` |
@@ -172,8 +172,8 @@ For each, the table lists the data variables that it requires, recommends, or al
 {: .product-type-table }
 
 In current profile maps, all data variables, `measurement_quality` included, have the additional dimension `wavenumber_bin`, one layer per wavenumber band.
-Roughness images and mosaics are stored on the local grid; the maps on either grid.
-Roughness image mosaics are defined for moving platforms only.
+Relative roughness images and mosaics are stored on the local grid; the maps on either grid.
+Relative roughness image mosaics are defined for moving platforms only.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

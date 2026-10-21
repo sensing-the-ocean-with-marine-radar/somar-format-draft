@@ -1,26 +1,26 @@
 ---
-title: Roughness image mosaics (L2a)
+title: Relative roughness image mosaics (L2a)
 layout: default
 parent: "Annex: Example products"
 nav_order: 5
 ---
 
-# L2a: Roughness image mosaics
+# L2a: Relative roughness image mosaics
 
 {: .informative }
-> This page is informative. The product type `sea_surface_roughness_mosaic` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+> This page is informative. The product type `relative_roughness_mosaic` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
 
-Roughness image mosaics (`sea_surface_roughness_mosaic`) provide temporally averaged sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
-In contrast to [roughness images](roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging window differs from pixel to pixel.
+Relative roughness image mosaics (`relative_roughness_mosaic`) provide temporally averaged relative sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
+In contrast to [relative roughness images](relative_roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging window differs from pixel to pixel.
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
-The mosaic therefore extends along the platform track beyond the footprint of a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
-Like the roughness images, all mosaics of one file, typically covering one hour of a platform trajectory, are stored as sibling groups, one per measurement period, each on its own local grid.
-Within each group, `sea_surface_roughness` gives the averaged, still uncalibrated radar backscatter power, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and `scan_sectors` which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
+The mosaic therefore extends along the platform track beyond the footprint of a single relative roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
+Like the relative roughness images, all mosaics of one file, typically covering one hour of a platform trajectory, are stored as sibling groups, one per measurement period, each on its own local grid.
+Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter power, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and `scan_sectors` which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
 
 ## Example
 
 ```
-netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
+netcdf or_2025-01-15-11_relative_roughness_mosaic {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -33,11 +33,11 @@ netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :platform_is_mobile = "true" ; // required: the platform moves
                 :measurement_duration = 600. ; // recommended
-                :product_type = "sea_surface_roughness_mosaic" ;
+                :product_type = "relative_roughness_mosaic" ;
                 :summary = "Sea surface roughness mosaics from a marine X-band radar on board R/V Ocean Research, assembled from 30 s averages of Cartesian backscatter images over 10 min measurement periods." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
-                :title = "Marine X-band radar sea surface roughness image mosaics from R/V Ocean Research" ; // highly recommended
+                :title = "Marine X-band radar sea surface relative roughness image mosaics from R/V Ocean Research" ; // highly recommended
 
 group: time_20250115111001 {
   dimensions:
@@ -69,13 +69,13 @@ group: time_20250115111001 {
                 y:long_name = "northward distance from radar position at measurement start time" ;
                 y:standard_name = "projection_y_coordinate" ;
                 y:units = "m" ;
-        float sea_surface_roughness(y, x) ;
-                sea_surface_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
-                sea_surface_roughness:units = "1" ;
-                sea_surface_roughness:grid_mapping = "crs" ;
-                sea_surface_roughness:coordinates = "time" ;
-                sea_surface_roughness:cell_methods = "time: mean" ;
-                sea_surface_roughness:ancillary_variables = "number_of_observations start_time_of_observations scan_sectors" ;
+        float relative_roughness(y, x) ;
+                relative_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
+                relative_roughness:units = "1" ;
+                relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
+                relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:ancillary_variables = "number_of_observations start_time_of_observations scan_sectors" ;
         int number_of_observations(y, x) ; // optional
                 number_of_observations:standard_name = "number_of_observations" ;
                 number_of_observations:long_name = "number of measurements from which the radar backscatter power averages have been derived" ;

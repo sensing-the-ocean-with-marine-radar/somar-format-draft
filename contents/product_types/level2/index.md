@@ -8,13 +8,13 @@ has_children: true
 
 # Level 2: Geophysical quantities
 
-Level 2 products are geophysical quantities derived from sequences of Level 1b images, such as sea surface roughness, near-surface currents, bathymetry, sea ice drift, and surface waves.
+Level 2 products are geophysical quantities derived from sequences of Level 1b images, such as relative sea surface roughness, near-surface currents, bathymetry, sea ice drift, and surface waves.
 This page describes what all of them share: their processing levels, their two categories, the naming of retrieval methods, quality flags, and processing parameters.
 
 ## Processing levels
 
 Level 2 products are divided into two sublevels according to how they are obtained.
-Level 2a products are the direct result of a retrieval applied to Level 1b image sequences: roughness images and mosaics, maps of near-surface currents, current profiles, bathymetry, and sea ice drift, and two-dimensional wavenumber spectra.
+Level 2a products are the direct result of a retrieval applied to Level 1b image sequences: relative roughness images and mosaics, maps of near-surface currents, current profiles, bathymetry, and sea ice drift, and two-dimensional wavenumber spectra.
 Level 2b products are computed from Level 2a products and therefore inherit their sampling, calibration, and quality control; currently all of them are surface wave products derived from the two-dimensional wavenumber spectra.
 The level of each product is given in the product-type table of its category.
 
@@ -88,8 +88,8 @@ They document how the data were obtained and are recommended for the products na
 | `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Recommended for products retrieved within analysis windows: maps and spatially averaged products. The shape of the analysis windows, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the `comment` global attribute. |
 | `analysis_window_size`<br><small>SOMaR</small> | Number or pair of numbers; `m` | Recommended for products retrieved within analysis windows: maps and spatially averaged products. The size of the analysis windows: the diameter of a `circle`, the side length of a `square`, or the east–west and north–south extents of a `rectangle`, in that order. |
 | `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Recommended for maps. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
-| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for `sea_surface_roughness` and `sea_surface_roughness_mosaic`, and for `sea_ice_drift` whose images are averaged before the drift is retrieved. The nominal duration over which Level 1b images are averaged: into one roughness image or mosaic pixel, or into each of the two correlated images of a drift vector. The window of an individual grid cell may be shorter, but never longer. |
-| `measurement_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for `sea_surface_roughness_mosaic`, maps, and spatially averaged products. The duration of the radar image sequence used for each mosaic, map, or spatially averaged measurement. |
+| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for `relative_roughness` and `relative_roughness_mosaic`, and for `sea_ice_drift` whose images are averaged before the drift is retrieved. The nominal duration over which Level 1b images are averaged: into one relative roughness image or mosaic pixel, or into each of the two correlated images of a drift vector. The window of an individual grid cell may be shorter, but never longer. |
+| `measurement_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for `relative_roughness_mosaic`, maps, and spatially averaged products. The duration of the radar image sequence used for each mosaic, map, or spatially averaged measurement. |
 | `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Recommended for spatially averaged products. The number of analysis windows averaged into each measurement. |
 | `number_of_images`<br><small>SOMaR</small> | Integer | Recommended for maps and spatially averaged products. The number of radar images used for each map or spatially averaged measurement. Omitted for `sea_ice_drift`, whose maps are described by `time_lag` and `averaging_duration` instead. |
 | `retrieval_method`<br><small>SOMaR</small> | String; a name from [Retrieval methods](#retrieval-methods) or a name chosen by the processor | Recommended for maps; optional for the others. The method by which the product is retrieved. |

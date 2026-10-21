@@ -15,8 +15,8 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 | **L1a** | [Radar "raw" data](level1/level1a.md) | — | `radar_polar_raw` |
 | **L1b** | [Polar image sequences](level1/level1b_polar.md) | — | `radar_polar_regularized` |
 | **L1b** | [Cartesian image sequences](level1/level1b_cartesian.md) | — | `radar_cartesian` |
-| **L2a** | [Roughness images](../annex/roughness_images.md) | [Gridded](level2/gridded.md#product-types) | `sea_surface_roughness` |
-| **L2a** | [Roughness image mosaics](../annex/roughness_mosaics.md) | [Gridded](level2/gridded.md#product-types) | `sea_surface_roughness_mosaic` |
+| **L2a** | [Relative roughness images](../annex/relative_roughness_images.md) | [Gridded](level2/gridded.md#product-types) | `relative_roughness` |
+| **L2a** | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) | [Gridded](level2/gridded.md#product-types) | `relative_roughness_mosaic` |
 | **L2a** | [Near-surface current maps](../annex/current_maps.md) | [Gridded](level2/gridded.md#product-types) | `currents` |
 | **L2a** | [Near-surface current profile maps](../annex/current_profile_maps.md) | [Gridded](level2/gridded.md#product-types) | `currents_profile` |
 | **L2a** | [Bathymetric maps](../annex/depth_maps.md) | [Gridded](level2/gridded.md#product-types) | `bathymetry` |
