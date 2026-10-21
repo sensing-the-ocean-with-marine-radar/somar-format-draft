@@ -13,12 +13,10 @@ They comprise the roughness images and mosaics, which average Level 1b images on
 The products of this kind, and the variables that each of them holds, are listed under [Product types](#product-types).
 Their structure depends on whether the platform moves: a file from a moving platform, which must set the global attribute [`platform_is_mobile`](../../metadata_attributes/optional_global.md) to `"true"`, stores each measurement on its own [time-bounded grid](#time-bounded-grids), and a file from a fixed platform stores all measurements on a [single grid](#fixed-platform).
 
-## Time-bounded grids
+## Grids
 
 The cells of one measurement form a grid over the area it covers: the radar footprint for a map or a roughness image, and for a mosaic an area along the platform track.
-With a moving platform, this area changes from one measurement to the next, so that a file holds a sequence of grids rather than one grid sampled repeatedly.
-All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
-Within each group, the scalar variable `time` gives that start time, and the variables are stored on a two-dimensional grid, either the geographic grid or the local grid described below.
+The grid is either the geographic grid or the local grid described below.
 Cells without a value hold the `_FillValue`: the cells in the corners of the grid, since the radar footprint is circular, and the cells of analysis windows without a result or inside an [obstructed sector](../../metadata_attributes/radar_parameters.md#obstructed-sectors).
 
 ### Geographic grid
@@ -76,6 +74,12 @@ group: time_20250115110031 {
         ... // all other data variables likewise on (y, x), with grid_mapping and coordinates ...
   } // group time_20250115110031
 ```
+
+## Time-bounded grids
+
+With a moving platform, the area covered changes from one measurement to the next, so that a file holds a sequence of grids rather than one grid sampled repeatedly.
+All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
+Within each group, the scalar variable `time` gives that start time, and the variables are stored on the two-dimensional grid of the measurement.
 
 ## Fixed platform
 
