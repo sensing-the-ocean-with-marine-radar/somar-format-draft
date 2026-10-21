@@ -22,7 +22,7 @@ Level 2a products are the direct result of a retrieval applied to Level 1b image
 
 Level 2b products are computed from Level 2a products and therefore inherit their sampling, calibration, and quality control.
 Currently all Level 2b products are surface wave products derived from the Level 2a two-dimensional wavenumber spectra: [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md).
-Like the wavenumber spectra, they are indexed by `time` with accompanying `longitude` and `latitude` and a `measurement_quality` bit flag.
+Like the wavenumber spectra, they are indexed by `time` with accompanying `longitude` and `latitude`, and carry a recommended `measurement_quality` bit flag.
 
 ## Map products
 
@@ -85,32 +85,34 @@ The method of a product is named by the global attribute [`retrieval_method`](#p
 Another method is named by the processor with a short lowercase name with underscores, so that files using the same method can be recognized; the method is then described in the `comment` global attribute.
 For any method, the underlying literature is given in the `references` global attribute of [CF][cf-description].
 
-Each product requires only the variables that every method yields, such as the current vector and `measurement_quality`.
+Each product requires only the variables that every method yields, such as the current vector, and recommends the quality flag `measurement_quality`.
 The diagnostics that only some methods yield are optional, and SOMaR names the known ones so that processors using the same method store them alike: the standard errors and `number_of_wave_coordinates` of a least-squares fit, the `signal_to_noise_ratio` of the current retrieval, and the `correlation_coefficient` of a cross-correlation.
 A processor may store further diagnostics; the variables they describe list them in their `ancillary_variables` attribute.
 
 ## Quality flags
 
-Every Level 2 product carries a `measurement_quality` variable of type `ubyte`, a bit flag in the sense of [CF][cf-flags]: 0 means that the measurement passed all checks, and each bit that is set marks a check that it failed.
+Level 2 products should carry a `measurement_quality` variable of type `ubyte`, a bit flag in the sense of [CF][cf-flags]: 0 means that the measurement passed all checks, and each bit that is set marks a check that it failed.
+A product without quality control omits the variable rather than storing 0, so that a missing `measurement_quality` means that no checks were applied.
 The checks depend on the retrieval method and the processor, and are therefore defined by each file through the `flag_masks` and `flag_meanings` attributes.
 The flag meanings used in the examples are recommended for the checks they describe, so that the same check carries the same name in the files of different processors.
 
 ## Processing parameters
 
 The processing parameters needed to interpret the [roughness images](roughness_images.md), the [roughness image mosaics](roughness_mosaics.md), the [map products](#map-products), and the [wave products](#wave-products) are recorded in the following global attributes, in addition to the [shared global attributes](../../metadata_attributes/index.md).
+They document how the data were obtained and are recommended for the products named in each row, except `analysis_window_motion`, which is optional: windows that move with the platform require further variables, so its default cannot be mistaken.
 
 | Attribute | Values | Description |
 |---|---|---|
-| `analysis_window_motion`<br><small>SOMaR</small> | String; `earth_fixed` or `platform_fixed` | Required for wave products. Whether the analysis windows are fixed to the Earth for the duration of a measurement period (`earth_fixed`) or move with the platform at a fixed bearing and range (`platform_fixed`; see [Wave products](#wave-products)). |
-| `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Required for map and wave products retrieved within analysis windows. The shape of the analysis windows, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the `comment` global attribute. |
-| `analysis_window_size`<br><small>SOMaR</small> | Number or pair of numbers; `m` | Required for map and wave products retrieved within analysis windows. The size of the analysis windows: the diameter of a `circle`, the side length of a `square`, or the east–west and north–south extents of a `rectangle`, in that order. |
-| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Required for map products. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
-| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Required for [roughness images](roughness_images.md) and [roughness image mosaics](roughness_mosaics.md), and for [sea ice drift maps](sea_ice_drift.md) whose images are averaged before the drift is retrieved. The nominal duration over which Level 1b images are averaged: into one roughness image or mosaic pixel, or into each of the two correlated images of a drift vector. The window of an individual grid cell may be shorter, but never longer. |
-| `measurement_duration`<br><small>SOMaR</small> | Number; `s` | Required for [roughness image mosaics](roughness_mosaics.md), map products, and wave products. The duration of the radar image sequence used for each mosaic, map, or wave measurement. |
-| `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Required for wave products. The number of analysis windows averaged into each measurement. |
-| `number_of_images`<br><small>SOMaR</small> | Integer | Required for map and wave products. The number of radar images used for each map or wave measurement. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
-| `retrieval_method`<br><small>SOMaR</small> | String; a name from [Retrieval methods](#retrieval-methods) or a name chosen by the processor | Required for map products; optional for the others. The method by which the product is retrieved. |
-| `wave_frequency_frame`<br><small>SOMaR</small> | String; `intrinsic` or `absolute` | Required for [frequency-direction spectra](wave_frequency_direction_spectra.md), [frequency spectra](wave_frequency_spectra.md), and [wave parameters](wave_parameters.md). The frame of reference of the wave frequencies and periods: `intrinsic` relative to the moving water, with the Doppler shift by the current removed, or `absolute` relative to the ground, with the Doppler shift included. |
+| `analysis_window_motion`<br><small>SOMaR</small> | String; `earth_fixed` or `platform_fixed` | Optional, for wave products. Whether the analysis windows are fixed to the Earth for the duration of a measurement period (`earth_fixed`) or move with the platform at a fixed bearing and range (`platform_fixed`; see [Wave products](#wave-products)). Assumed `earth_fixed` if missing; `platform_fixed` requires `platform_speed_wrt_ground` and `platform_course`. |
+| `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Recommended for map and wave products retrieved within analysis windows. The shape of the analysis windows, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the `comment` global attribute. |
+| `analysis_window_size`<br><small>SOMaR</small> | Number or pair of numbers; `m` | Recommended for map and wave products retrieved within analysis windows. The size of the analysis windows: the diameter of a `circle`, the side length of a `square`, or the east–west and north–south extents of a `rectangle`, in that order. |
+| `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Recommended for map products. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
+| `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for [roughness images](roughness_images.md) and [roughness image mosaics](roughness_mosaics.md), and for [sea ice drift maps](sea_ice_drift.md) whose images are averaged before the drift is retrieved. The nominal duration over which Level 1b images are averaged: into one roughness image or mosaic pixel, or into each of the two correlated images of a drift vector. The window of an individual grid cell may be shorter, but never longer. |
+| `measurement_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for [roughness image mosaics](roughness_mosaics.md), map products, and wave products. The duration of the radar image sequence used for each mosaic, map, or wave measurement. |
+| `number_of_analysis_windows`<br><small>SOMaR</small> | Integer | Recommended for wave products. The number of analysis windows averaged into each measurement. |
+| `number_of_images`<br><small>SOMaR</small> | Integer | Recommended for map and wave products. The number of radar images used for each map or wave measurement. Omitted for [sea ice drift maps](sea_ice_drift.md), which are described by `time_lag` and `averaging_duration` instead. |
+| `retrieval_method`<br><small>SOMaR</small> | String; a name from [Retrieval methods](#retrieval-methods) or a name chosen by the processor | Recommended for map products; optional for the others. The method by which the product is retrieved. |
+| `wave_frequency_frame`<br><small>SOMaR</small> | String; `intrinsic` or `absolute` | Recommended for [frequency-direction spectra](wave_frequency_direction_spectra.md), [frequency spectra](wave_frequency_spectra.md), and [wave parameters](wave_parameters.md). The frame of reference of the wave frequencies and periods: `intrinsic` relative to the moving water, with the Doppler shift by the current removed, or `absolute` relative to the ground, with the Doppler shift included. Assumed `intrinsic` if missing; since nothing else in the file shows the frame, it should be stated even when it is `intrinsic`. |
 {: .attribute-table }
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents

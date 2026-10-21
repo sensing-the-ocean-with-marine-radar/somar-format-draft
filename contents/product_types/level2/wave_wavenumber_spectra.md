@@ -14,7 +14,7 @@ By SOMaR convention, consistent with the from-direction used by the frequency-di
 Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
 The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted; the variable name, `sea_surface_wave_wavenumber_variance_spectral_density`, is chosen so as not to be mistaken for that standard name.
 The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
-The wave energy density is calibrated, typically against a reference wave data set; the parameters of this calibration are recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The wave energy density is calibrated, typically against a reference wave data set; the parameters of this calibration should be recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 The quantities from which the calibration derives the significant wave height may be stored as for the [wave parameters](wave_parameters.md): `wave_signal` and `background_noise` for the signal-to-noise ratio method, or `sea_surface_wave_mean_square_slope` for the shadowing method.
 The analysis windows and the processing parameters are described under [Wave products](index.md#wave-products) and [Processing parameters](index.md#processing-parameters).
 The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
@@ -25,7 +25,7 @@ The file holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
 | `eastward_wave_wavenumber`<br><small>SOMaR</small> | double `(eastward_wave_wavenumber)`; `m-1` | Required. Eastward wavenumber component, pointing in the direction the waves come from. |
 | `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Required. Northward wavenumber component, pointing in the direction the waves come from. |
@@ -37,7 +37,7 @@ The file holds the following variables.
 | `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
 | `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
 | `sea_surface_wave_mean_square_slope`<br><small>[CF][cf-names]</small> | double `(time)`; `1` | Optional. Mean square slope of the sea surface, used by the shadowing method to derive the significant wave height. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 

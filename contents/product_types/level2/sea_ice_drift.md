@@ -24,7 +24,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
+| `crs`<br><small>[CF][cf]</small> | char | Required in the [local-grid form](current_maps.md#local-grid-form), recommended on a `(latitude, longitude)` grid. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
@@ -34,7 +34,7 @@ Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
 | `eastward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Eastward component of the sea ice drift, from the backward retrieval. |
 | `northward_sea_ice_velocity_backward`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m s-1` | Optional. Northward component of the sea ice drift, from the backward retrieval. |
 | `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(latitude, longitude)`; `1` | Optional. Peak Pearson correlation coefficient of the backward cross-correlation. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Required. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
+| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
 In addition to the [shared global attributes](../../metadata_attributes/index.md) and the [processing parameters of map products](index.md#processing-parameters), the file carries the following global attribute.
@@ -42,7 +42,7 @@ Since each drift vector is obtained from just two images, which `time_lag` and, 
 
 | Attribute | Values | Description |
 |---|---|---|
-| `time_lag`<br><small>SOMaR</small> | Number; `s` | Required. The time between the two correlated images. |
+| `time_lag`<br><small>SOMaR</small> | Number; `s` | Recommended. The time between the two correlated images. |
 {: .attribute-table }
 
 ## Minimal example

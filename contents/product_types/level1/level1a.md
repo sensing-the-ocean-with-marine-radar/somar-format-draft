@@ -26,7 +26,7 @@ SOMaR departs from FM 301 in the following points:
 - Units are written as UDUNITS symbols (`m`, `degree`, `s`) rather than `metres`, `degrees`, and `seconds`.
 - `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)).
 - `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
-- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number` and `instrument_type` in the root group (Table 301-4). The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
+- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and `platform_type` in the root group (Table 301-4). Whether the platform moves, and thus whether its position and heading are recorded for every sweep or ray, is stated by the global attribute `platform_is_mobile` instead; the global attributes `platform` and `source` describe the platform in words. The `standard_name` and `axis` attributes of `range` (Table 301-6) are not required.
 - The root-group variables `time_coverage_start` and `time_coverage_end` (Table 301-4) are omitted. The times they hold, those of the first and last ray in the file, are given instead by the ACDD global attributes of the same names, which CfRadial 2.1 also defines as copies of these variables (Section 4.1).
 - `fixed_angle` is present only in pointing sweeps, where it holds the nominal azimuth in the same reference as `azimuth`. FM 301 makes it mandatory in all sweeps and defines it as the elevation angle in most sweep modes (Table 301-7).
 
@@ -49,7 +49,6 @@ A new sweep starts when the direction changes or the recording is interrupted, s
 | `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
 | `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
 | `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level; needed to convert slant range to ground range (see [Georeferencing](../../georeferencing/index.md#applying-georeference-corrections)). |
-| `platform_type`<br><small>[FM 301][fm301], Tables 301-4, 301-15</small> | string; `"fixed"` or `"ship"` | Required. Type of the platform. |
 {: .variable-table }
 
 Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../../metadata_attributes/optional_global.md).
@@ -73,7 +72,7 @@ The `range` variable carries the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
-| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; m | The spacing of the range bins. Required if `spacing_is_constant` is `true`. |
+| `meters_between_gates`<br><small>[FM 301][fm301], Table 301-6</small> | Number; m | The spacing of the range bins, which also follows from the `range` values. |
 | `meters_to_center_of_first_gate`<br><small>[FM 301][fm301], Table 301-6</small> | Number; m | The range to the center of the first range bin. |
 | `spacing_is_constant`<br><small>[FM 301][fm301], Table 301-6</small> | String; `true` or `false` | Whether the range bins are equally spaced. |
 {: .attribute-table }
@@ -131,8 +130,6 @@ variables:
                 altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
-        string platform_type ;
-                platform_type:long_name = "platform type" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -151,7 +148,6 @@ data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
         altitude = 43. ;
-        platform_type = "fixed" ;
 
 group: sweep_0 {
   dimensions:
@@ -206,8 +202,6 @@ variables:
                 altitude:units = "m" ;
                 altitude:standard_name = "altitude" ;
                 altitude:long_name = "height of radar antenna above mean sea level" ;
-        string platform_type ;
-                platform_type:long_name = "platform type" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -227,7 +221,6 @@ data:
         latitude = 14.9958976192 ;
         longitude = 145.8672647679 ;
         altitude = 18.5 ;
-        platform_type = "ship" ;
 
 group: sweep_0 {
   dimensions:

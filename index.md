@@ -14,9 +14,7 @@ This document is the first draft of the Sensing the Ocean with Marine Radar (SOM
 Wherever possible, SOMaR follows existing standards: the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html) throughout, the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3) for discovery metadata such as the creator, license, and coverage of a file, and, for radar data in polar coordinates, the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) together with the [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs) for moving platforms. What SOMaR adds is a way to store gridded products from a moving vessel, whose grids change location from one measurement to the next. The versions of these standards are listed under [References](contents/references/index.md#standards-and-conventions).
 
 To keep the bar for adoption low, SOMaR has no separate lightweight version: it requires only the global attributes that tell a reader how to interpret a file, `Conventions` and `product_type`, and highly recommends a `title`, `summary`, and `keywords` that describe it for discovery (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md#compliance)).
-
-{: .open_issue }
-> Review which of the variables and attributes that the product pages mark as required a reader needs to interpret the data, and make the others optional or highly recommended, so that a minimal SOMaR file stays easy to write.
+Likewise, the product pages require only what a reader needs to read the values and locate them in time and space, and recommend what documents how the data were obtained and how good they are, such as processing parameters and quality flags (see [SOMaR product types](contents/product_types/index.md)).
 
 ## Status
 
