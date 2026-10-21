@@ -1,32 +1,26 @@
 ---
-title: Near-surface current profile maps (L2a)
+title: Near-surface current maps (L2a)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
+parent: "Annex: Example products"
 nav_order: 6
 ---
 
-# L2a: Near-surface current profile maps
+# L2a: Near-surface current maps
 
-Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current retrieval for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with increasing wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear (Lund et al. [2015](../../references/index.md#lund-2015); Campana et al. [2016](../../references/index.md#campana-2016)).
-The variables therefore have an additional dimension `wavenumber_bin`, i.e. `(wavenumber_bin, latitude, longitude)`, with one layer per wavenumber band; cells for which no retrieval was attempted or for which the retrieval failed hold the `_FillValue`.
-The coordinate variable `wavenumber_bin` gives the center of each wavenumber band, and its `bounds` attribute names the variable `wavenumber_bin_bounds`, which holds the lower and upper edge of each band ([CF][cf], section 7.1), both in `m-1`, so the bands need not be of equal width; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used in each retrieval.
-All other variables (current components, the optional diagnostics, `measurement_quality`) are defined identically to the [near-surface current maps](current_maps.md#variables).
-The maps are stored in the same way, on a `(latitude, longitude)` grid or on the [local grid](gridded.md#local-grid), whose variables are then on `(wavenumber_bin, y, x)`.
+{: .informative }
+> This page is informative. The product type `currents` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
 
-## Variables
-
-The variables are those of the [near-surface current maps](current_maps.md#variables), with the additional dimension `wavenumber_bin`, and the following variables.
-
-| Variable | Values | Description |
-|---|---|---|
-| `wavenumber_bin`<br><small>SOMaR</small> | double `(wavenumber_bin)`; `m-1` | Required. Center of each wavenumber band; its `bounds` attribute is `"wavenumber_bin_bounds"`. |
-| `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Required. Lower and upper edge of each wavenumber band, along the dimension `nv` (number of vertices, as in [CF][cf] section 7.1), of size 2. |
-{: .variable-table }
+Near-surface current maps (`currents`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
+Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.
+The method is named by [`retrieval_method`](../product_types/level2/index.md#retrieval-methods): for example, a least-squares fit that minimizes the distance between the wave signal and the dispersion relation (`dispersion_relation_least_squares_fit`; Young et al. [1985](../references/index.md#young-1985); Senet et al. [2001](../references/index.md#senet-2001)), or the maximization of the normalized scalar product between the spectrum and a filter following the dispersion relation (`normalized_scalar_product`; Serafino et al. [2010](../references/index.md#serafino-2010)).
+The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and `number_of_wave_coordinates`, while other methods may report a `signal_to_noise_ratio`.
+Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the retrieval and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
+The example shows a map on the geographic grid; the variables that differ on the local grid are shown under [Local grid](../product_types/level2/gridded.md#local-grid).
 
 ## Example
+
 ```
-netcdf or_2025-01-15-11_currents_profile {
+netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -35,13 +29,13 @@ netcdf or_2025-01-15-11_currents_profile {
                 :geospatial_lon_max = 145.96815 ; // recommended
                 :geospatial_lon_min = 145.8426 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
-                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > CURRENT PROFILES, EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > VERTICAL CURRENT SHEAR" ; // highly recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
                 :platform_is_mobile = "true" ; // required: the platform moves
-                :product_type = "currents_profile" ;
-                :summary = "Near-surface current profiles from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in separate wavenumber bands, which sense different depths." ; // highly recommended
+                :product_type = "currents" ;
+                :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
-                :title = "Marine X-band radar near-surface current profile maps from R/V Ocean Research" ; // highly recommended
+                :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 1245. ; // recommended
                 :analysis_window_spacing = 500. ; // recommended
@@ -51,8 +45,6 @@ netcdf or_2025-01-15-11_currents_profile {
 
 group: time_20250115110031 {
   dimensions:
-        wavenumber_bin = 13 ;
-        nv = 2 ;
         latitude = 17 ;
         longitude = 17 ;
   variables:
@@ -68,11 +60,6 @@ group: time_20250115110031 {
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time:time_iso_8601 = "2025-01-15T11:00:31.417000Z" ; // optional
-        double wavenumber_bin(wavenumber_bin) ;
-                wavenumber_bin:long_name = "center of the wavenumber band used by the current measurement" ;
-                wavenumber_bin:units = "m-1" ;
-                wavenumber_bin:bounds = "wavenumber_bin_bounds" ;
-        double wavenumber_bin_bounds(wavenumber_bin, nv) ;
         double longitude(longitude) ;
                 longitude:long_name = "center longitude of current measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -81,39 +68,39 @@ group: time_20250115110031 {
                 latitude:long_name = "center latitude of current measurement" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
-        double eastward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+        double eastward_sea_water_velocity(latitude, longitude) ;
                 eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
                 eastward_sea_water_velocity:units = "m s-1" ;
                 eastward_sea_water_velocity:grid_mapping = "crs" ;
                 eastward_sea_water_velocity:_FillValue = NaN ;
-        double northward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+        double northward_sea_water_velocity(latitude, longitude) ;
                 northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:grid_mapping = "crs" ;
                 northward_sea_water_velocity:_FillValue = NaN ;
-        double mean_wavenumber(wavenumber_bin, latitude, longitude) ; // recommended
+        double mean_wavenumber(latitude, longitude) ; // recommended
                 mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
                 mean_wavenumber:units = "m-1" ;
                 mean_wavenumber:grid_mapping = "crs" ;
                 mean_wavenumber:_FillValue = NaN ;
-        double eastward_sea_water_velocity_standard_error(wavenumber_bin, latitude, longitude) ; // optional
+        double eastward_sea_water_velocity_standard_error(latitude, longitude) ; // optional
                 eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity_standard_error:units = "m s-1" ;
                 eastward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        double northward_sea_water_velocity_standard_error(wavenumber_bin, latitude, longitude) ; // optional
+        double northward_sea_water_velocity_standard_error(latitude, longitude) ; // optional
                 northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near-surface current velocity" ;
                 northward_sea_water_velocity_standard_error:units = "m s-1" ;
                 northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 northward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        int number_of_wave_coordinates(wavenumber_bin, latitude, longitude) ; // optional
+        int number_of_wave_coordinates(latitude, longitude) ; // optional
                 number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
                 number_of_wave_coordinates:units = "1" ;
                 number_of_wave_coordinates:grid_mapping = "crs" ;
                 number_of_wave_coordinates:_FillValue = -1 ;
-        ubyte measurement_quality(wavenumber_bin, latitude, longitude) ; // recommended
+        ubyte measurement_quality(latitude, longitude) ; // recommended
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
                 measurement_quality:valid_range = 0UB, 127UB ;
@@ -126,32 +113,3 @@ group: time_20250115110031 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
 ```
-
-In this example the 13 bands are contiguous and of equal width, covering wavelengths from 60 m down to 16.7 m; the upper edge of each band is the lower edge of the next.
-The values of the band variables are:
-
-```
-// excerpt: data of the wavenumber band variables
-data:
-
- wavenumber_bin = 0.018346, 0.021681, 0.025017, 0.028353, 0.031688, 0.035024,
-    0.038360, 0.041695, 0.045031, 0.048367, 0.051702, 0.055038, 0.058374 ;
-
- wavenumber_bin_bounds =
-  0.016678, 0.020014,
-  0.020014, 0.023349,
-  0.023349, 0.026685,
-  0.026685, 0.030021,
-  0.030021, 0.033356,
-  0.033356, 0.036692,
-  0.036692, 0.040028,
-  0.040028, 0.043363,
-  0.043363, 0.046699,
-  0.046699, 0.050035,
-  0.050035, 0.053370,
-  0.053370, 0.056706,
-  0.056706, 0.060042 ;
-```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

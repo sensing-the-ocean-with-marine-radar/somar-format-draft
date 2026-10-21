@@ -1,47 +1,21 @@
 ---
 title: Peak and mean wave parameters (L2b)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
-nav_order: 12
+parent: "Annex: Example products"
+nav_order: 13
 ---
 
 # L2b: Peak and mean wave parameters
 
+{: .informative }
+> This page is informative. The product type `wave_parameters` is one of the [spatially averaged products](../product_types/level2/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
-The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](index.md#processing-parameters).
+The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](../product_types/level2/index.md#processing-parameters).
 To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities (`wave_signal`, `background_noise`), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface (`sea_surface_wave_mean_square_slope`) for the shadowing method; the calibration applies `hs_slope` and `hs_intercept` to the predictor `hs_predictor` computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows, for platform-fixed windows after subtracting the platform velocity (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
-The calibration parameters of the wave retrieval should be recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
-The analysis windows and the processing parameters are described under [Spatially averaged products](spatially_averaged.md#measurements) and [Processing parameters](index.md#processing-parameters).
-The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
-
-## Variables
-
-The file holds the following variables.
-Of the five bulk wave parameters, significant wave height, peak period, peak direction, mean period, and mean direction, each is recommended, and at least one is required.
-
-| Variable | Values | Description |
-|---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
-| `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Spatially averaged products](spatially_averaged.md#measurements)). |
-| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
-| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current from the same analysis windows, for platform-fixed windows after subtracting the platform velocity. |
-| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current from the same analysis windows, for platform-fixed windows after subtracting the platform velocity. |
-| `sea_surface_wave_significant_height`<br><small>[CF][cf-names]</small> | double `(time)`; `m` | Recommended. Significant wave height. |
-| `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Recommended. Peak wave direction: the direction the waves come from at the spectral maximum. |
-| `sea_surface_wave_period_at_variance_spectral_density_maximum`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Recommended. Peak wave period: the period at the spectral maximum. |
-| `sea_surface_wave_mean_period`<br><small>[CF][cf-names]</small> | double `(time)`; `s` | Recommended. Mean wave period (e.g. $T_{m01}$ or $T_{m02}$; the spectral moment definition should be documented in a `comment` attribute). |
-| `sea_surface_wave_from_direction`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Recommended. Mean wave direction: the mean direction the waves come from (the definition should be documented in a `comment` attribute). |
-| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
-| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
-| `sea_surface_wave_mean_square_slope`<br><small>[CF][cf-names]</small> | double `(time)`; `1` | Optional. Mean square slope of the sea surface, used by the shadowing method to derive the significant wave height. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
-{: .variable-table }
 
 ## Example
+
 ```
 netcdf or_2025-01-15-11_wave_parameters {
 dimensions:
@@ -177,6 +151,3 @@ variables:
 group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
 }
 ```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

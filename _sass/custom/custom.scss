@@ -57,7 +57,7 @@ table.product-table {
     min-width: 0;
   }
 
-  // Level | Product | product_type
+  // Level | Product | Category | product_type
   th:nth-child(1),
   td:nth-child(1) {
     width: 10%;
@@ -65,11 +65,15 @@ table.product-table {
   }
 
   th:nth-child(2) {
-    width: 50%;
+    width: 40%;
   }
 
   th:nth-child(3) {
-    width: 40%;
+    width: 20%;
+  }
+
+  th:nth-child(4) {
+    width: 30%;
   }
 
   td code {

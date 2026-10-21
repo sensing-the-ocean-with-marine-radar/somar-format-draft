@@ -1,40 +1,24 @@
 ---
 title: Roughness image mosaics (L2a)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
-nav_order: 4
+parent: "Annex: Example products"
+nav_order: 5
 ---
 
 # L2a: Roughness image mosaics
+
+{: .informative }
+> This page is informative. The product type `sea_surface_roughness_mosaic` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
 
 Roughness image mosaics (`sea_surface_roughness_mosaic`) provide temporally averaged sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
 In contrast to [roughness images](roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging window differs from pixel to pixel.
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
 The mosaic therefore extends along the platform track beyond the footprint of a single roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
-Like the roughness images, all mosaics belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per measurement period, named `time_<YYYYMMDDHHMMSS>` after the start time of that period, and each group carries its own time-bounded local Cartesian grid (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
-Within each group, `sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"` or `"dB"`), radar backscatter power, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` records when the averaging of each grid cell started, and `scan_sectors` is a flag variable recording which part of the radar scan relative to the target area (`preceding_target_area`, `inside_target_area`, `trailing_target_area`) the observations of each grid cell belong to.
-Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
-
-## Variables
-
-Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
-
-| Variable | Values | Description |
-|---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required. Distance east of the radar antenna at the start of the measurement period. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required. Distance north of the radar antenna at the start of the measurement period. |
-| `sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` or `dB` | Required. Time mean of the radar backscatter power over the averaging window of each grid cell, in uncalibrated analog-to-digital converter units. Level 1b amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, before averaging, and the mean is stored in linear (`1`) or logarithmic (`dB`) units. If the signal cannot be linearized, such as a log-compressed video signal, the mean is taken over the stored Level 1b values instead, the units are `1`, and the `comment` must say so. Carries `cell_methods = "time: mean"`, or `"time: mean (comment: computed on linear power)"` when the units are `dB`, and `coordinates = "time"`. The averaging window of each grid cell starts at `time + start_time_of_observations` and lasts at most `averaging_duration`; it may be shorter for some cells, as recorded by `number_of_observations`. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Optional. Number of Level 1b images that contributed to each grid cell. |
-| `start_time_of_observations`<br><small>SOMaR</small> | float `(y, x)`; `s` | Required. Start of the averaging for each grid cell, in seconds after `time`. |
-| `scan_sectors`<br><small>SOMaR</small> | byte `(y, x)`; `0b`, `1b`, `2b` | Optional. Part of the radar scan, relative to the target area, that the observations of each grid cell belong to: 0 preceding, 1 inside, 2 trailing. |
-{: .variable-table }
-
-The nominal length of the averaging window and the length of the measurement period are recorded in the global attributes [`averaging_duration` and `measurement_duration`](index.md#processing-parameters).
+Like the roughness images, all mosaics of one file, typically covering one hour of a platform trajectory, are stored as sibling groups, one per measurement period, each on its own local grid.
+Within each group, `sea_surface_roughness` gives the averaged, still uncalibrated radar backscatter power, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and `scan_sectors` which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
 
 ## Example
+
 ```
 netcdf or_2025-01-15-11_sea_surface_roughness_mosaic {
 
@@ -109,6 +93,3 @@ group: time_20250115111001 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes) ...
 }
 ```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

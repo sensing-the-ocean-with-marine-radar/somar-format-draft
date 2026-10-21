@@ -1,47 +1,23 @@
 ---
 title: Surface wave two-dimensional wavenumber spectra (L2a)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
-nav_order: 9
+parent: "Annex: Example products"
+nav_order: 10
 ---
 
 # L2a: Surface wave two-dimensional wavenumber spectra
 
+{: .informative }
+> This page is informative. The product type `wave_wavenumber_spectra` is one of the [spatially averaged products](../product_types/level2/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+
 Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
-They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation (Young et al. [1985](../../references/index.md#young-1985)).
-By SOMaR convention, consistent with the from-direction used by the frequency-direction spectra, the wavenumber vectors point toward the direction from which the waves come, i.e. opposite to the direction of propagation.
-Wavenumbers are cyclic, i.e. the reciprocal of the wavelength, in `m-1`.
-The spectrum carries no `standard_name`: CF defines `sea_surface_wave_variance_spectral_density` for frequency spectra, in units of `m2 s`, to which the units of a wavenumber spectrum, `m4`, cannot be converted; the variable name, `sea_surface_wave_wavenumber_variance_spectral_density`, is chosen so as not to be mistaken for that standard name.
+They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation (Young et al. [1985](../references/index.md#young-1985)).
 The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
-The wave energy density is calibrated, typically against a reference wave data set; the parameters of this calibration should be recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
+The wave energy density is calibrated, typically against a reference wave data set (see [Wave calibration parameters](../metadata_attributes/wave_calibration.md)).
 The quantities from which the calibration derives the significant wave height may be stored as for the [wave parameters](wave_parameters.md): `wave_signal` and `background_noise` for the signal-to-noise ratio method, or `sea_surface_wave_mean_square_slope` for the shadowing method.
-The analysis windows and the processing parameters are described under [Spatially averaged products](spatially_averaged.md#measurements) and [Processing parameters](index.md#processing-parameters).
-The `longitude` and `latitude` of each measurement give the mean position of the analysis windows that contribute to it (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)); the radar position itself may optionally be stored in `radar_longitude` and `radar_latitude`.
-
-## Variables
-
-The file holds the following variables.
-
-| Variable | Values | Description |
-|---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
-| `eastward_wave_wavenumber`<br><small>SOMaR</small> | double `(eastward_wave_wavenumber)`; `m-1` | Required. Eastward wavenumber component, pointing in the direction the waves come from. |
-| `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Required. Northward wavenumber component, pointing in the direction the waves come from. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
-| `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Spatially averaged products](spatially_averaged.md#measurements)). |
-| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
-| `sea_surface_wave_wavenumber_variance_spectral_density`<br><small>SOMaR</small> | double `(time, northward_wave_wavenumber, eastward_wave_wavenumber)`; `m4` | Required. Wave energy density as a function of the two wavenumber components. |
-| `wave_signal`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the wave signal in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
-| `background_noise`<br><small>SOMaR</small> | double `(time)`; `1` | Optional. Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. |
-| `sea_surface_wave_mean_square_slope`<br><small>[CF][cf-names]</small> | double `(time)`; `1` | Optional. Mean square slope of the sea surface, used by the shadowing method to derive the significant wave height. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
-{: .variable-table }
-
 
 ## Example
+
 ```
 netcdf or_2025-01-15-11_wave_wavenumber_spectra {
 dimensions:
@@ -133,6 +109,3 @@ variables:
 group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
 }
 ```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

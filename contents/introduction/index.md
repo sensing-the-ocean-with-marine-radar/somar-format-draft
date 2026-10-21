@@ -14,7 +14,7 @@ This document is tailored for use within the SOMaR community and applies to ocea
 ## Why a new format?
 
 The primary reason for developing a new format is that marine radar data are often collected from moving vessels, so that gridded products cover an area that moves with the vessel.
-Each measurement period of the [near-surface current maps](../product_types/level2/current_maps.md), for example, yields a map over the radar footprint, and by the next period that footprint has moved on: a file holds a sequence of maps on different grids rather than one grid sampled repeatedly.
+Each measurement period of the [near-surface current maps](../annex/current_maps.md), for example, yields a map over the radar footprint, and by the next period that footprint has moved on: a file holds a sequence of maps on different grids rather than one grid sampled repeatedly.
 The same holds for the other Level 2 maps and for radar images mapped onto a local Cartesian grid whose origin moves with the vessel.
 The CF conventions can describe each such grid but have no provision for a sequence of grids whose location changes; SOMaR therefore defines how such sequences are stored, using NetCDF-4 groups (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids) and [Gridded products](../product_types/level2/gridded.md#time-bounded-grids)).
 Each grid can thus have its own origin, extent, and resolution, while every variable within it still carries standard CF metadata.
@@ -37,7 +37,8 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 
 ## Document structure
 
-The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, and the radar, georeference correction, and wave calibration parameters.
+The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the variables of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
 The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
-The [SOMaR product types](../product_types/index.md) chapter defines each product in turn, from Level 1 radar products to Level 2 geophysical products, with its variables, its grid, and an example.
-Finally, the [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
+The [SOMaR product types](../product_types/index.md) chapter defines the products, from the Level 1 radar products, each with a structure of its own, to the two categories of Level 2 geophysical products, gridded and spatially averaged, with their variables and grids.
+The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
+Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each Level 2 product, with a description of the product and of its retrieval.

@@ -70,7 +70,7 @@ If the positions span the antimeridian, `geospatial_lon_min` is the westernmost 
 
 ## Example
 
-The global attributes of a [near-surface current map](../product_types/level2/current_maps.md) file, with the mandatory, highly recommended, and recommended attributes:
+The global attributes of a [near-surface current map](../annex/current_maps.md) file, with the mandatory, highly recommended, and recommended attributes:
 
 ```
 // global attributes:

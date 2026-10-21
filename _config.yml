@@ -63,3 +63,6 @@ callouts:
   open_issue:
     title: Open issue
     color: yellow
+  informative:
+    title: Informative
+    color: blue

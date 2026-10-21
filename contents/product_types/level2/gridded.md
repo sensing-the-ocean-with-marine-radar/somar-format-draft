@@ -153,12 +153,12 @@ For each, the table lists the data variables that it requires, recommends, or al
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Roughness images](roughness_images.md) (L2a) | `sea_surface_roughness` | **Required:** `sea_surface_roughness`<br>**Optional:** `number_of_observations` |
-| [Roughness image mosaics](roughness_mosaics.md) (L2a) | `sea_surface_roughness_mosaic` | **Required:** `sea_surface_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
-| [Near-surface current maps](current_maps.md) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
-| [Near-surface current profile maps](current_profile_maps.md) (L2a) | `currents_profile` | **Required:** `wavenumber_bin`, `wavenumber_bin_bounds`, `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
-| [Bathymetric maps](depth_maps.md) (L2a) | `bathymetry` | **Required:** `sea_floor_depth_below_sea_surface`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `sea_floor_depth_below_sea_surface_standard_error`, `number_of_wave_coordinates` |
-| [Sea ice drift maps](sea_ice_drift.md) (L2a) | `sea_ice_drift` | **Required:** `eastward_sea_ice_velocity`, `northward_sea_ice_velocity`<br>**Optional:** `correlation_coefficient`, `eastward_sea_ice_velocity_backward`, `northward_sea_ice_velocity_backward`, `correlation_coefficient_backward` |
+| [Roughness images](../../annex/roughness_images.md) (L2a) | `sea_surface_roughness` | **Required:** `sea_surface_roughness`<br>**Optional:** `number_of_observations` |
+| [Roughness image mosaics](../../annex/roughness_mosaics.md) (L2a) | `sea_surface_roughness_mosaic` | **Required:** `sea_surface_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
+| [Near-surface current maps](../../annex/current_maps.md) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
+| [Near-surface current profile maps](../../annex/current_profile_maps.md) (L2a) | `currents_profile` | **Required:** `wavenumber_bin`, `wavenumber_bin_bounds`, `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |
+| [Bathymetric maps](../../annex/depth_maps.md) (L2a) | `bathymetry` | **Required:** `sea_floor_depth_below_sea_surface`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `sea_floor_depth_below_sea_surface_standard_error`, `number_of_wave_coordinates` |
+| [Sea ice drift maps](../../annex/sea_ice_drift.md) (L2a) | `sea_ice_drift` | **Required:** `eastward_sea_ice_velocity`, `northward_sea_ice_velocity`<br>**Optional:** `correlation_coefficient`, `eastward_sea_ice_velocity_backward`, `northward_sea_ice_velocity_backward`, `correlation_coefficient_backward` |
 {: .product-type-table }
 
 In current profile maps, all data variables, `measurement_quality` included, have the additional dimension `wavenumber_bin`, one layer per wavenumber band.

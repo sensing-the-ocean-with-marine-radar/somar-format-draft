@@ -1,39 +1,23 @@
 ---
 title: Bathymetric maps (L2a)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
-nav_order: 7
+parent: "Annex: Example products"
+nav_order: 8
 ---
 
 # L2a: Bathymetric maps
 
+{: .informative }
+> This page is informative. The product type `bathymetry` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+
 Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with an optional standard error and a `measurement_quality` bit flag.
-As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](index.md#retrieval-methods), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../../references/index.md#bell-1999)).
+As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](../product_types/level2/index.md#retrieval-methods), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
-The maps are stored as described under [Gridded products](gridded.md#time-bounded-grids): one group per measurement period, on a `(latitude, longitude)` grid or on the [local grid](gridded.md#local-grid).
 
-As the CF standard name implies, the depth is the water depth below the actual sea surface during the measurement period, as sensed by the waves, and therefore includes the tide and other sea level variations.
-The depths are not tide-corrected; users who need depths relative to a fixed vertical datum, such as mean sea level, must apply the correction themselves.
-
-## Variables
-
-Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
-
-| Variable | Values | Description |
-|---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required on the [local grid](gridded.md#local-grid), recommended on a `(latitude, longitude)` grid. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)`; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)`; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
-| `sea_floor_depth_below_sea_surface`<br><small>[CF][cf-names]</small> | double `(latitude, longitude)`; `m` | Required. Water depth, from the sea surface to the sea floor. |
-| `mean_wavenumber`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m-1` | Recommended. Mean wavenumber of the wave signal used in the retrieval. |
-| `sea_floor_depth_below_sea_surface_standard_error`<br><small>SOMaR</small> | double `(latitude, longitude)`; `m` | Optional. Standard error of the water depth, e.g. from a least-squares fit. |
-| `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(latitude, longitude)`; `1` | Optional. Number of points of the wave signal in the wavenumber-frequency spectrum that were used in a least-squares fit. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(latitude, longitude)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
-{: .variable-table }
+The depths are not tide-corrected (see [Level 2 variables](../metadata_attributes/level2_variables.md)); users who need depths relative to a fixed vertical datum, such as mean sea level, must apply the correction themselves.
 
 ## Example
+
 ```
 netcdf or_2025-01-15-12_bathymetry {
 
@@ -117,6 +101,3 @@ group: time_20250115120031 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
 ```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

@@ -1,36 +1,21 @@
 ---
 title: Roughness images (L2a)
 layout: default
-parent: "Level 2: Geophysical quantities"
-grand_parent: SOMaR product types
-nav_order: 3
+parent: "Annex: Example products"
+nav_order: 4
 ---
 
 # L2a: Roughness images
 
+{: .informative }
+> This page is informative. The product type `sea_surface_roughness` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+
 Roughness images (`sea_surface_roughness`) provide temporally averaged sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
-Because the underlying platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local Cartesian grid (see [Time-bounded local grids](../../georeferencing/index.md#time-bounded-local-grids)).
-All time-bounded grids belonging to one file (typically covering one hour of a platform trajectory) are stored as sibling NetCDF groups, one group per averaging window, named `time_<YYYYMMDDHHMMSS>` after the start time of that window.
-Within each group, `sea_surface_roughness` gives the temporally averaged, still uncalibrated and dimensionless (`units = "1"` or `"dB"`), radar backscatter power, with `number_of_observations` as an ancillary variable recording how many Level 1b images contributed to each grid cell.
-Each group carries its own local, radar-centric projection (`crs`), consistent with the Level 1b grid definition, together with the coordinate variables `x` and `y`, which give the distance in meters east and north of the radar (see [Georeferencing](../../georeferencing/index.md#time-bounded-local-grids)).
-
-## Variables
-
-Each `time_<YYYYMMDDHHMMSS>` group holds the following variables.
-
-| Variable | Values | Description |
-|---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the averaging window. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required. Distance east of the radar antenna at the start of the averaging window. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required. Distance north of the radar antenna at the start of the averaging window. |
-| `sea_surface_roughness`<br><small>SOMaR</small> | float `(y, x)`; `1` or `dB` | Required. Time mean of the radar backscatter power over the window, in uncalibrated analog-to-digital converter units. Level 1b amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, before averaging, and the mean is stored in linear (`1`) or logarithmic (`dB`) units. If the signal cannot be linearized, such as a log-compressed video signal, the mean is taken over the stored Level 1b values instead, the units are `1`, and the `comment` must say so. Carries `cell_methods = "time: mean"`, or `"time: mean (comment: computed on linear power)"` when the units are `dB`, and `coordinates = "time"`. The averaging window of each grid cell starts at `time` and lasts at most `averaging_duration`; it may be shorter for some cells, as recorded by `number_of_observations`. |
-| `number_of_observations`<br><small>[CF][cf-names]</small> | int `(y, x)`; `1` | Optional. Number of Level 1b images that contributed to each grid cell. |
-{: .variable-table }
-
-The nominal length of the averaging window is recorded in the global attribute [`averaging_duration`](index.md#processing-parameters).
+Because the platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
+Within each group, `sea_surface_roughness` gives the averaged, still uncalibrated radar backscatter power, and `number_of_observations` records how many Level 1b images contributed to each grid cell.
 
 ## Example
+
 ```
 netcdf or_2025-01-15-11_sea_surface_roughness {
 
@@ -94,6 +79,3 @@ group: time_20250115110031 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging window ...
 }
 ```
-
-[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
