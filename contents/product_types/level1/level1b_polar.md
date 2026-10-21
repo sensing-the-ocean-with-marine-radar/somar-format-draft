@@ -44,17 +44,19 @@ Only backscatter amplitude and power are specified. Variables for the data of co
 The scalar variable `altitude` in the root group is required for all platforms (fixed and moving), as at [Level 1a](level1a.md#root-group); it gives the height of the radar antenna above mean sea level and is assumed constant.
 For a fixed platform, scalar `latitude` and `longitude` in the root group give the antenna position, as at [Level 1a](level1a.md#root-group).
 
-For a moving platform, the position and heading of the platform are stored in the root group using the variable names and units of CfRadial 2.1 (Section 5.4). As at Level 1a, they can be given in one of two ways:
+For a moving platform, the position and heading of the platform should be stored in the root group using the variable names and units of CfRadial 2.1 (Section 5.4). As at Level 1a, they can be given in one of two ways:
 
 - **Per sweep.** The variables have the dimension `(time)` and give the values at the start of each revolution (image).
 - **Per ray.** The variables have the dimensions `(time, azimuth)` and give the values for every ray (azimuth bin).
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_north` | Required. Recorded latitude (WGS 84). |
-| `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)` or `(time, azimuth)`; `degree` | Required. Heading of the platform relative to true north. |
+| `latitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_north` | Recommended for a moving platform. Recorded latitude (WGS 84). |
+| `longitude`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | double `(time)` or `(time, azimuth)`; `degrees_east` | Recommended for a moving platform. Recorded longitude (WGS 84). |
+| `heading`<br><small>[CfRadial 2.1](https://github.com/NCAR/CfRadial/tree/master/docs), Section 5.4</small> | float `(time)` or `(time, azimuth)`; `degree` | Recommended for a moving platform. Heading of the platform relative to true north. |
 {: .variable-table }
+
+As at [Level 1a](level1a.md#moving-platforms), position and heading are recommended rather than required, since they may not be available when the file is written or may be taken from a separate navigation data stream; a file without them is not georeferenced until navigation data are matched to its images by `time`, and the attributes `source` and `sampling_frequency` may describe the navigation variables where they are present.
 
 As at Level 1a, `latitude` and `longitude` are stored as recorded, and the optional [`georeference_correction` group](../../metadata_attributes/georeference_correction.md) gives the known offsets of azimuth, range, time, and antenna position.
 
@@ -150,15 +152,15 @@ variables:
                 time:calendar = "standard" ;
                 time:standard_name = "time" ;
                 time:long_name = "start time of radar measurement" ;
-        double latitude(time) ;
+        double latitude(time) ; // recommended
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
                 latitude:long_name = "latitude of GPS antenna at the start of the revolution" ;
-        double longitude(time) ;
+        double longitude(time) ; // recommended
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the revolution" ;
-        float heading(time) ;
+        float heading(time) ; // recommended
                 heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the revolution" ;
@@ -190,7 +192,7 @@ variables:
                 :geospatial_lon_min = 145.8672647679 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
-                :platform_is_mobile = "true" ; // recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "radar_polar_regularized" ;
                 :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended

@@ -46,8 +46,8 @@ A new sweep starts when the direction changes or the recording is interrupted, s
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required. Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
-| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required. Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
+| `latitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_north` | Required for a fixed platform, recommended for a moving one (see [Moving platforms](#moving-platforms)). Latitude of the radar antenna (WGS 84). For a moving platform, the recorded latitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
+| `longitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `degrees_east` | Required for a fixed platform, recommended for a moving one (see [Moving platforms](#moving-platforms)). Longitude of the radar antenna (WGS 84). For a moving platform, the recorded longitude at the start of the file (see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates)). |
 | `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level; needed to convert slant range to ground range (see [Georeferencing](../../georeferencing/index.md#applying-georeference-corrections)). |
 {: .variable-table }
 
@@ -102,14 +102,20 @@ The `comment` attribute should describe how the values were derived from the rad
 
 ## Moving platforms
 
-When `platform_is_mobile` is `"true"`, each sweep group has a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per ray (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).
+When `platform_is_mobile` is `"true"`, each sweep group should have a subgroup named `georeference` that holds the position and heading of the platform (CfRadial 2.1, Section 5.4), given either per sweep (scalar) or per ray (dimension `time`); see [Georeferencing](../../georeferencing/index.md#polar-sensor-coordinates).
 
 | Variable | Values | Description |
 |---|---|---|
-| `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_north` | Required. Recorded latitude (WGS 84). |
-| `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Required. Recorded longitude (WGS 84). |
-| `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Required. Heading of the platform relative to true north. |
+| `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_north` | Recommended for a moving platform. Recorded latitude (WGS 84). |
+| `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double; `degrees_east` | Recommended for a moving platform. Recorded longitude (WGS 84). |
+| `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float; `degree` | Recommended for a moving platform. Heading of the platform relative to true north. |
 {: .variable-table }
+
+Position and heading are recommended rather than required, since a recording system may not receive them in real time, or a producer may prefer to take them from a separate navigation data stream.
+A file without them is not georeferenced: its azimuths remain relative to the radar's zero direction, and its rays cannot be located until navigation data are matched to them by `time`.
+`platform_is_mobile` is still `"true"` in such a file, so that readers know that navigation is needed, and the navigation variables can be added to the file later.
+
+Where navigation variables are present, their attributes [`source`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) and [`sampling_frequency`](../../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) may name the instrument they are taken from, such as a GNSS receiver or a gyrocompass, and the frequency at which it sampled them.
 
 ## Example
 
@@ -185,16 +191,16 @@ group: sweep_0 {
 
 ## Example for a moving platform
 
-A radar on a ship, with the position and heading of the ship at the start of each sweep, and the [`radar_parameters`](../../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
+A radar on a ship, with the position and heading of the ship at the start of each sweep, the instruments they are taken from, and the [`radar_parameters`](../../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
 
 ```
 netcdf or_2025-01-15-11-00_radar_polar_raw {
 variables:
-        double latitude ;
+        double latitude ; // recommended
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
                 latitude:long_name = "latitude of GPS antenna at the start of the file" ;
-        double longitude ;
+        double longitude ; // recommended
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the file" ;
@@ -211,7 +217,7 @@ variables:
                 :geospatial_lon_min = 145.8672647679 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ; // highly recommended
-                :platform_is_mobile = "true" ; // recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "radar_polar_raw" ;
                 :summary = "Raw marine X-band radar backscatter recorded on board R/V Ocean Research, converted from the manufacturer's format into NetCDF with every ray kept and no interpolation or calibration." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended
@@ -255,20 +261,26 @@ group: sweep_0 {
   data:
         sweep_mode = "azimuth_surveillance" ;
 
-  group: georeference {
+  group: georeference { // recommended
     variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
                 latitude:standard_name = "latitude" ;
                 latitude:long_name = "latitude of GPS antenna at the start of the sweep" ;
+                latitude:source = "GNSS receiver" ; // optional
+                latitude:sampling_frequency = 10. ; // optional
         double longitude ;
                 longitude:units = "degrees_east" ;
                 longitude:standard_name = "longitude" ;
                 longitude:long_name = "longitude of GPS antenna at the start of the sweep" ;
+                longitude:source = "GNSS receiver" ; // optional
+                longitude:sampling_frequency = 10. ; // optional
         float heading ;
                 heading:units = "degree" ;
                 heading:standard_name = "platform_orientation" ;
                 heading:long_name = "heading of the platform relative to true north at the start of the sweep" ;
+                heading:source = "gyrocompass" ; // optional
+                heading:sampling_frequency = 1. ; // optional
     } // group georeference
   } // group sweep_0
 
@@ -283,7 +295,7 @@ If the position and heading are given per ray instead, the variables of the `geo
 
 ```
 // excerpt: only the variables that differ
-  group: georeference {
+  group: georeference { // recommended
     variables:
         double latitude(time) ;
                 latitude:units = "degrees_north" ;

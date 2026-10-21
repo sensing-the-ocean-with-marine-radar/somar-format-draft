@@ -13,15 +13,17 @@ The `azimuth` variable holds the antenna angle as recorded by the radar relative
 This differs from FM 301, which defines `azimuth` relative to true north; SOMaR polar data are stored as recorded without modification.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
-Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md) (`"true"` or `"false"`; assumed `"false"` if missing).
+Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md) (`"true"` or `"false"`; assumed `"false"` if missing, so that polar products from a moving platform must set it to `"true"`).
 
 They are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft:
 
 - Scalar `altitude` in the root group gives the height of the radar antenna above mean sea level (FM 301). SOMaR assumes it constant for both fixed and moving platforms, whereas CfRadial 2.1 also allows `altitude(time)` in the `georeference` group.
 - For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
-- For a moving platform (`platform_is_mobile = "true"`), platform position and orientation are recorded in `latitude` (double; `degrees_north`), `longitude` (double; `degrees_east`), and `heading` (float; `degree`, standard name `platform_orientation`), following CfRadial 2.1 (Section 5.4). All navigation variables within a group or subgroup must use the same representation, provided either **per sweep** (scalar at the start of each sweep, i.e. at the time of its first ray; a SOMaR addition, as CfRadial defines them per ray only) or **per ray** (dimension `time`, keeping the full resolution of navigation data as in CfRadial, which, like FM 301, indexes `time` by ray):
-  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). In addition, FM 301 requires scalar `latitude` and `longitude` at file start in the root group.
+- For a moving platform (`platform_is_mobile = "true"`), platform position and orientation should be recorded in `latitude` (double; `degrees_north`), `longitude` (double; `degrees_east`), and `heading` (float; `degree`, standard name `platform_orientation`), following CfRadial 2.1 (Section 5.4). All navigation variables within a group or subgroup must use the same representation, provided either **per sweep** (scalar at the start of each sweep, i.e. at the time of its first ray; a SOMaR addition, as CfRadial defines them per ray only) or **per ray** (dimension `time`, keeping the full resolution of navigation data as in CfRadial, which, like FM 301, indexes `time` by ray):
+  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
   - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per ray; see [Level 1b polar images](../product_types/level1/level1b_polar.md#position-and-heading)).
+
+  Position and heading are recommended rather than required for a moving platform, since they may not be available when the file is written, e.g. in real-time recording, or may be taken from a separate navigation data stream; a file without them is not georeferenced (see [Level 1a data](../product_types/level1/level1a.md#moving-platforms)).
 
 ## Applying georeference corrections
 

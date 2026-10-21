@@ -27,7 +27,7 @@ SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD als
 A file complies with SOMaR if:
 
 - it complies with the CF conventions of the version named in `Conventions`, which can be checked with an existing CF checker such as [`cfchecks`](https://github.com/cedadev/cf-checker) or the [IOOS compliance checker](https://github.com/ioos/compliance-checker), although their support for NetCDF groups varies;
-- it carries the mandatory global attributes, with values as specified above;
+- it carries the mandatory global attributes, with values as specified above, and, if it is a polar product (Level 1a or Level 1b polar) from a moving platform, `platform_is_mobile = "true"`;
 - it holds the dimensions, variables, and attributes that the page of its `product_type` marks as required (see [SOMaR product types](../product_types/index.md)), with the stated types, dimensions, and units;
 - any other attribute or variable it carries follows its definition, including restricted values such as those of `processing_level` or `platform_is_mobile`.
 
