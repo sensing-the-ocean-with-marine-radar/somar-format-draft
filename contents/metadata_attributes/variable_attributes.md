@@ -21,6 +21,7 @@ These attributes define the physical meaning, units, valid ranges, and coordinat
 | `ancillary_variables`<br><small>[CF][cf-ancillary]</small> | String; blank-separated list of variable names | Variables that qualify this one, such as observation counts or quality flags. |
 | `calendar`<br><small>[CF][cf-calendar]</small> | String; a CF calendar name. SOMaR uses **`standard`** | The calendar in which a time variable is expressed. |
 | `cell_methods`<br><small>[CF][cf-cell-methods]</small> | String; `"<coordinate>: <method>"`, optionally followed by `" (comment: <text>)"`, e.g. `"time: mean"` | The statistic a value represents over its cell along one of the variable's coordinates, e.g. a time mean over the averaging window. A comment in parentheses may qualify the method, e.g. `"time: mean (comment: computed on linear power)"` for a mean stored in `dB`. Not used where the statistic runs over something that is not a coordinate of the variable, such as the spectral means `sea_surface_wave_mean_period` or `mean_wavenumber`. A scalar coordinate variable named here must also be listed in `coordinates`. |
+| `cf_role`<br><small>[CF][cf-dsg]</small> | String; `trajectory_id` or `timeseries_id` | On the identifier variable of a [spatially averaged product](../product_types/level2/spatially_averaged.md#moving-and-fixed-platforms), `trajectory` or `station`: marks it as the identifier of the trajectory or time series, in the sense of CF discrete sampling geometries. |
 | `comment`<br><small>[CF][cf-description]</small> | String; free text | Additional information about the variable. |
 | `coordinates`<br><small>[CF][cf-coordinates]</small> | String; blank-separated list of variable names | Auxiliary coordinate variables of a data variable. |
 | `flag_masks`<br><small>[CF][cf-flags]</small> | List of values of the variable's type | The bits that can be set independently in a flag variable, used in place of `flag_values` where several conditions can hold at once. A value of 0 means that no condition holds. |
@@ -63,6 +64,7 @@ For examples of both coordinate reference systems in NetCDF CDL format, see [Geo
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cf-calendar]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#calendar
 [cf-cell-methods]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-methods
+[cf-dsg]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#discrete-sampling-geometries
 [cf-packed]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#packed-data
 [cf-missing]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#missing-data
 [cf-ancillary]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#ancillary-data

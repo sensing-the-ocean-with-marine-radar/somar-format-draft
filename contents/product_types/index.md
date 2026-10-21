@@ -61,6 +61,7 @@ netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "currents" ;
 
 group: time_20250115110031 {

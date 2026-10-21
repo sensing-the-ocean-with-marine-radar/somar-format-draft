@@ -55,6 +55,9 @@ variables:
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
+        string trajectory ; // recommended
+                trajectory:long_name = "name of the platform" ;
+                trajectory:cf_role = "trajectory_id" ;
         double time(time) ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of wave measurement" ;
@@ -77,19 +80,22 @@ variables:
         double sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber) ;
                 sea_surface_wave_wavenumber_variance_spectral_density:long_name = "wave energy density two dimensional wavenumber spectrum" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:units = "m4" ;
-                sea_surface_wave_wavenumber_variance_spectral_density:coordinates = "longitude latitude" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:coordinates = "time longitude latitude" ;
+                sea_surface_wave_wavenumber_variance_spectral_density:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_wavenumber_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         double wave_signal(time) ; // optional
                 wave_signal:long_name = "radar image spectral density of the wave signal" ;
                 wave_signal:units = "1" ;
-                wave_signal:coordinates = "longitude latitude" ;
+                wave_signal:coordinates = "time longitude latitude" ;
+                wave_signal:cell_methods = "area: mean" ; // recommended
                 wave_signal:grid_mapping = "crs" ;
                 wave_signal:ancillary_variables = "measurement_quality" ;
         double background_noise(time) ; // optional
                 background_noise:long_name = "radar image spectral density of the background noise" ;
                 background_noise:units = "1" ;
-                background_noise:coordinates = "longitude latitude" ;
+                background_noise:coordinates = "time longitude latitude" ;
+                background_noise:cell_methods = "area: mean" ; // recommended
                 background_noise:grid_mapping = "crs" ;
                 background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended
@@ -99,17 +105,19 @@ variables:
                 measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
                 measurement_quality:valid_range = 0UB, 63UB ;
                 measurement_quality:_FillValue = 255UB ;
-                measurement_quality:coordinates = "longitude latitude" ;
+                measurement_quality:coordinates = "time longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :featureType = "trajectory" ; // recommended
                 :geospatial_lat_max = 15.0012 ; // recommended
                 :geospatial_lat_min = 14.9478 ; // recommended
                 :geospatial_lon_max = 145.9486 ; // recommended
                 :geospatial_lon_min = 145.8631 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "wave_wavenumber_spectra" ;
                 :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar on board R/V Ocean Research, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended

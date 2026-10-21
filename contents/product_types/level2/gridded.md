@@ -11,12 +11,13 @@ nav_order: 1
 Gridded products give one value set for each cell of a grid that resolves the area covered by a measurement: each analysis window, or each pixel of an image, keeps its own position.
 They comprise the roughness images and mosaics, which average Level 1b images on a local Cartesian grid, and the maps of near-surface currents, current profiles, bathymetry, and sea ice drift, which are retrieved within analysis windows.
 The products of this kind, and the variables that each of them holds, are listed under [Product types](#product-types).
+Their structure depends on whether the platform moves: a file from a moving platform, which must set the global attribute [`platform_is_mobile`](../../metadata_attributes/optional_global.md) to `"true"`, stores each measurement on its own [time-bounded grid](#time-bounded-grids), and a file from a fixed platform stores all measurements on a [single grid](#fixed-platform).
 
 ## Time-bounded grids
 
 The cells of one measurement form a grid over the area it covers: the radar footprint for a map or a roughness image, and for a mosaic an area along the platform track.
 With a moving platform, this area changes from one measurement to the next, so that a file holds a sequence of grids rather than one grid sampled repeatedly.
-All grids of one file are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
+All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
 Within each group, the scalar variable `time` gives that start time, and the variables are stored on a two-dimensional grid, either the geographic grid or the local grid described below.
 Cells without a value hold the `_FillValue`: the cells in the corners of the grid, since the radar footprint is circular, and the cells of analysis windows without a result or inside an [obstructed sector](../../metadata_attributes/radar_parameters.md#obstructed-sectors).
 
@@ -76,21 +77,69 @@ group: time_20250115110031 {
   } // group time_20250115110031
 ```
 
+## Fixed platform
+
+From a fixed platform, every measurement covers the same area on the same grid, and all measurements of a file are stored on a single grid in the root group, without `time_<YYYYMMDDHHMMSS>` groups.
+The dimension `time` then precedes the dimensions of the grid, `(time, latitude, longitude)` on the geographic grid or `(time, y, x)` on the local grid, and the variable `time` gives the start time of each measurement.
+A single `crs` describes the grid; on the local grid, its projection origin is the position of the radar antenna.
+A file therefore holds measurements on one grid only, and a change of grid, such as a new analysis window spacing, starts a new file.
+Roughness image mosaics are not defined for a fixed platform, since a radar that does not move covers no more than the footprint of a roughness image.
+A near-surface current map from a fixed platform holds, for example:
+
+```
+dimensions:
+        time = 15 ;
+        latitude = 17 ;
+        longitude = 17 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "latitude_longitude" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double longitude(longitude) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(latitude) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(time, latitude, longitude) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(time, latitude, longitude) ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+```
+
 ## Variables
 
-Each `time_<YYYYMMDDHHMMSS>` group holds the following variables, in addition to those of its product (see [Product types](#product-types)).
-The data variables of a product are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md), where `(…)` stands for the dimensions of the grid.
+Each `time_<YYYYMMDDHHMMSS>` group, or the root group of a file from a fixed platform, holds the following variables, in addition to those of its product (see [Product types](#product-types)).
+The data variables of a product are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md), where `(…)` stands for the dimensions of the grid, preceded by `time` from a fixed platform.
 
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Required on the local grid, recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a roughness image. |
+| `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a roughness image. |
 | `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for roughness images and mosaics. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for roughness images and mosaics. Latitude of the centers of the analysis windows. |
-| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional, for maps. Longitude of the radar antenna at the start of the measurement period (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
-| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional, for maps. Latitude of the radar antenna at the start of the measurement period. |
+| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional, for maps. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
+| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional, for maps. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
@@ -114,6 +163,7 @@ For each, the table lists the data variables that it requires, recommends, or al
 
 In current profile maps, all data variables, `measurement_quality` included, have the additional dimension `wavenumber_bin`, one layer per wavenumber band.
 Roughness images and mosaics are stored on the local grid; the maps on either grid.
+Roughness image mosaics are defined for moving platforms only.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html

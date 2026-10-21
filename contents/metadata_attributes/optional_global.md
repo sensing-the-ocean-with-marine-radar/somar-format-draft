@@ -34,6 +34,7 @@ The time coverage and the spatial bounds follow from the file's content, so that
 | `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
 | `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
 | `date_created`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC | The date on which this version of the data was created. It must agree with the creation time recorded in `history`; changes to metadata alone do not alter it. |
+| `featureType`<br><small>[CF][cf-dsg]</small> | String; `trajectory` or `timeSeries` | For [spatially averaged products](../product_types/level2/spatially_averaged.md#moving-and-fixed-platforms): the CF discrete sampling geometry that the file follows, `trajectory` from a moving platform and `timeSeries` from a fixed one. Not used by other products, which are not discrete sampling geometries. |
 | `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
 | `geospatial_lat_min`<br><small>[ACDD][acdd]</small> | Number; degrees north | The southernmost latitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
 | `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east, between -180 and 180 | The easternmost longitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
@@ -45,7 +46,7 @@ The time coverage and the spatial bounds follow from the file's content, so that
 | `keywords_vocabulary`<br><small>[ACDD][acdd]</small> | String; free text | The controlled vocabulary from which the `keywords` are taken, e.g. `GCMD Science Keywords`. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
-| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. Required, as `true`, in polar products (Level 1a and Level 1b polar) from a moving platform, which should then record the position and heading of the platform for every sweep or every ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). Assumed `false` if missing. |
+| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. Required, as `true`, in every file from a moving platform. Polar products (Level 1a and Level 1b polar) should then record the position and heading of the platform for every sweep or every ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)), and Level 2 products take the structure of a moving platform (see [Gridded products](../product_types/level2/gridded.md) and [Spatially averaged products](../product_types/level2/spatially_averaged.md#moving-and-fixed-platforms)). Assumed `false` if missing. |
 | `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software used to produce the file, to support reproducibility. |
 | `project`<br><small>[ACDD][acdd]</small> | String; free text | The scientific project(s) under which the data were collected, comma-separated. |
@@ -90,7 +91,7 @@ The global attributes of a [near-surface current map](../product_types/level2/cu
                 :keywords_vocabulary = "GCMD Science Keywords" ; // recommended
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ; // recommended
                 :platform = "R/V Ocean Research" ; // recommended
-                :platform_is_mobile = "true" ; // recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :processing_level = "L2a" ; // recommended
                 :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ; // recommended
                 :project = "FRORI Coastal Currents Experiment" ; // recommended
@@ -106,3 +107,4 @@ The global attributes of a [near-surface current map](../product_types/level2/cu
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
+[cf-dsg]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#discrete-sampling-geometries

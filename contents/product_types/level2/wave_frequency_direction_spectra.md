@@ -52,6 +52,9 @@ variables:
                 crs:semi_major_axis = 6378137. ;
                 crs:inverse_flattening = 298.257223563 ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
+        string trajectory ; // recommended
+                trajectory:long_name = "name of the platform" ;
+                trajectory:cf_role = "trajectory_id" ;
         double time(time) ;
                 time:calendar = "standard" ;
                 time:long_name = "start time of wave measurement" ;
@@ -77,7 +80,8 @@ variables:
                 sea_surface_wave_directional_variance_spectral_density:long_name = "wave energy density two dimensional frequency spectrum" ;
                 sea_surface_wave_directional_variance_spectral_density:standard_name = "sea_surface_wave_directional_variance_spectral_density" ;
                 sea_surface_wave_directional_variance_spectral_density:units = "m2 s degree-1" ;
-                sea_surface_wave_directional_variance_spectral_density:coordinates = "longitude latitude" ;
+                sea_surface_wave_directional_variance_spectral_density:coordinates = "time longitude latitude" ;
+                sea_surface_wave_directional_variance_spectral_density:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_directional_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended
@@ -87,17 +91,19 @@ variables:
                 measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
                 measurement_quality:valid_range = 0UB, 63UB ;
                 measurement_quality:_FillValue = 255UB ;
-                measurement_quality:coordinates = "longitude latitude" ;
+                measurement_quality:coordinates = "time longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :featureType = "trajectory" ; // recommended
                 :geospatial_lat_max = 15.0012 ; // recommended
                 :geospatial_lat_min = 14.9478 ; // recommended
                 :geospatial_lon_max = 145.9486 ; // recommended
                 :geospatial_lon_min = 145.8631 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "wave_frequency_direction_spectra" ;
                 :summary = "Surface wave frequency-direction spectra from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended

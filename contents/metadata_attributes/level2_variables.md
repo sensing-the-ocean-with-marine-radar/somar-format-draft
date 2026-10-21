@@ -11,7 +11,7 @@ This page defines the data, ancillary, and coordinate variables of the [Level 2 
 Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [SOMaR product types](../product_types/index.md)).
 The convention a variable is taken from is named in small print under it (see [Metadata](index.md#reading-the-tables)); a variable marked CF carries the CF standard name of the same name, unless its description says otherwise.
 
-In the column of values, `(…)` stands for the dimensions of a single value set of the product: the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, for products on a grid, and `(time)` for products indexed by measurement.
+In the column of values, `(…)` stands for the dimensions that the products of a category share: for [gridded products](../product_types/level2/gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform; for [spatially averaged products](../product_types/level2/spatially_averaged.md), `(time)`.
 Dimensions written beside it, such as `(…, wave_frequency)`, are added in the position shown.
 
 Some variables are only meaningful together with others.

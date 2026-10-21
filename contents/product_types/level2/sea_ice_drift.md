@@ -57,6 +57,7 @@ netcdf or_2025-08-23-12_sea_ice_drift {
                 :geospatial_lon_min = 4.8123 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "sea_ice_drift" ;
                 :summary = "Sea ice drift vectors from a marine X-band radar on board R/V Ocean Research, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
                 :time_coverage_end = "2025-08-23T12:59:59Z" ; // recommended

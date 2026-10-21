@@ -16,7 +16,7 @@ They are listed, with the variables that each of them holds, under [Product type
 
 ## Measurements
 
-A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude`, with the same dimension, give the mean position of the analysis windows that contribute to each measurement (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)).
+A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude` give the mean position of the analysis windows that contribute to each measurement (see [Georeferencing](../../georeferencing/index.md#positions-of-analysis-windows)), as described under [Moving and fixed platforms](#moving-and-fixed-platforms).
 The windows are spread across the radar field of view, and their placement is left to the processor and should be described in the `comment` global attribute.
 Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](index.md#processing-parameters).
 Windows that move with the platform cover a track rather than a fixed area during the period.
@@ -30,13 +30,13 @@ variables:
                 platform_speed_wrt_ground:long_name = "mean platform speed over ground during the measurement" ;
                 platform_speed_wrt_ground:standard_name = "platform_speed_wrt_ground" ;
                 platform_speed_wrt_ground:units = "m s-1" ;
-                platform_speed_wrt_ground:coordinates = "longitude latitude" ;
+                platform_speed_wrt_ground:coordinates = "time longitude latitude" ;
                 platform_speed_wrt_ground:grid_mapping = "crs" ;
         double platform_course(time) ;
                 platform_course:long_name = "mean platform course during the measurement" ;
                 platform_course:standard_name = "platform_course" ;
                 platform_course:units = "degree" ;
-                platform_course:coordinates = "longitude latitude" ;
+                platform_course:coordinates = "time longitude latitude" ;
                 platform_course:grid_mapping = "crs" ;
 ```
 
@@ -47,25 +47,71 @@ In windows that move with the platform, the observed frequencies are encounter f
 
 The wave energy density is calibrated, typically against a reference wave data set, and the parameters of this calibration should be recorded in the `wave_calibration` group (see [Wave calibration parameters](../../metadata_attributes/wave_calibration.md)).
 
+## Moving and fixed platforms
+
+The layout of a file follows the [discrete sampling geometries][cf-dsg] of CF, according to whether the platform moves:
+
+- From a moving platform, which must set the global attribute [`platform_is_mobile`](../../metadata_attributes/optional_global.md) to `"true"`, the measurements form a **trajectory**: `longitude` and `latitude` have the dimension `time`, since the mean position of the windows moves with the platform.
+- From a fixed platform, they form a **time series**: `longitude` and `latitude` are scalar, since the windows are fixed to the Earth and their mean position does not change. Windows that move with the platform do not apply, and `analysis_window_motion` is omitted or `earth_fixed`.
+
+The file should declare its layout by the global attribute `featureType`, `"trajectory"` or `"timeSeries"`, and identify the trajectory or time series by a scalar string variable, `trajectory` with `cf_role = "trajectory_id"` or `station` with `cf_role = "timeseries_id"`, such as the name of the platform or cruise.
+The data variables carry `coordinates = "time longitude latitude"`, which CF requires of discrete sampling geometries.
+Since the location of a discrete sampling geometry is a point, CF provides for data that are averaged over an area by assigning them a representative position ([CF][cf-dsg], section 9.1), here the mean position of the windows; the data variables that hold averaged quantities should state this averaging by `cell_methods = "area: mean"` ([CF][cf-cell-methods], section 7.3).
+Wave parameters from a fixed platform hold, for example:
+
+```
+dimensions:
+        time = 29 ;
+variables:
+        string station ; // recommended
+                station:long_name = "name of the radar station" ;
+                station:cf_role = "timeseries_id" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of wave measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double longitude ;
+                longitude:long_name = "mean longitude of wave measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude ;
+                latitude:long_name = "mean latitude of wave measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double sea_surface_wave_significant_height(time) ;
+                sea_surface_wave_significant_height:long_name = "significant wave height" ;
+                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
+                sea_surface_wave_significant_height:units = "m" ;
+                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
+                sea_surface_wave_significant_height:cell_methods = "area: mean" ; // recommended
+
+// global attributes:
+                :featureType = "timeSeries" ; // recommended
+```
+
 ## Variables
 
 The file holds the following variables, in addition to those of its product (see [Product types](#product-types)).
 The data variables of a product are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md), where `(…)` stands for the dimension `time`.
+Where the dimensions differ between a moving and a fixed platform, the second is that of a fixed platform.
 
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
-| `longitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
-| `latitude`<br><small>[CF][cf-names]</small> | double `(time)`; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
+| `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
+| `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Measurements](#measurements)). |
 | `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
-| `radar_longitude`<br><small>SOMaR</small> | double `(time)`; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
-| `radar_latitude`<br><small>SOMaR</small> | double `(time)`; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
+| `radar_longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement (see [Georeferencing](../../georeferencing/index.md#radar-position)). |
+| `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
+| `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended from a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
+| `station`<br><small>[CF][cf-dsg]</small> | string | Recommended from a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
-The data variables carry `coordinates = "longitude latitude"`, and `grid_mapping = "crs"` if the file holds a `crs`.
+The data variables carry `coordinates = "time longitude latitude"`, and `grid_mapping = "crs"` if the file holds a `crs`.
 The processing parameters of spatially averaged products are recorded in global attributes (see [Processing parameters](index.md#processing-parameters)).
 
 ## Product types
@@ -86,3 +132,5 @@ Their current vector is obtained from the same analysis windows as the wave para
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-dsg]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#discrete-sampling-geometries
+[cf-cell-methods]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-methods

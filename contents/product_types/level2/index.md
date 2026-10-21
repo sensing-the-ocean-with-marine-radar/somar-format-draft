@@ -25,6 +25,13 @@ Level 2 products fall into two categories, according to how a measurement is loc
 - [Gridded products](gridded.md) (maps, images) give one value set for each cell of a grid that resolves the area covered: each analysis window, or each pixel of an image, keeps its own position.
 - [Spatially averaged products](spatially_averaged.md) (spectra, bulk parameters) combine several analysis windows into one value set per measurement, located at their mean position.
 
+The structure of a file depends on its category and on whether the platform moves, which a file from a moving platform states by setting [`platform_is_mobile`](../../metadata_attributes/optional_global.md) to `"true"`:
+
+| | Moving platform | Fixed platform |
+|---|---|---|
+| **Gridded products** | one [time-bounded grid](gridded.md#time-bounded-grids) per measurement, each in its own `time_<YYYYMMDDHHMMSS>` group | a [single grid](gridded.md#fixed-platform) for the whole file, with the leading dimension `time` |
+| **Spatially averaged products** | a [trajectory](spatially_averaged.md#moving-and-fixed-platforms): `longitude(time)` and `latitude(time)` | a [time series](spatially_averaged.md#moving-and-fixed-platforms): scalar `longitude` and `latitude` |
+
 Each category page defines the structure that its products share and lists its products with the variables that each of them holds.
 The variables themselves are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md).
 

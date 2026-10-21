@@ -48,6 +48,7 @@ netcdf or_2025-01-15-11_currents {
                 :geospatial_lon_min = 145.8426 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
+                :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "currents" ;
                 :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended

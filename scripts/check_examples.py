@@ -5,8 +5,8 @@ Every fenced code block in contents/**/*.md is checked unless its first line
 is "// excerpt":
 
 - Blocks starting with "netcdf" are built as they are; blocks starting with
-  "variables:", "group:", or "// global attributes:" are wrapped in a
-  "netcdf fragment { ... }" first.
+  "dimensions:", "variables:", "group:", or "// global attributes:" are
+  wrapped in a "netcdf fragment { ... }" first.
 - Placeholders of the form "group: <name> { ... }" are replaced by the
   canonical group of that name, taken from the examples on the Metadata pages.
 - Dimension lengths are capped at 3 so that the built files stay small; the
@@ -15,7 +15,9 @@ is "// excerpt":
 Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
 scoping rules for references between variables, and the SOMaR rules for
-global attributes and file names; the examples must carry the highly
+global attributes and file names, among them that a file whose structure
+is that of a moving platform sets platform_is_mobile to "true" and that a
+Level 2 file that sets it has that structure; the examples must carry the highly
 recommended global attributes as well as the mandatory ones, and the
 variables that the Level 2 variables they carry require (see
 level2_variables.md). The spatial
@@ -225,7 +227,7 @@ def prepare(block, groups):
         return None
     if first.startswith("netcdf "):
         cdl = block
-    elif first.startswith(("variables:", "group:", "// global attributes:")):
+    elif first.startswith(("dimensions:", "variables:", "group:", "// global attributes:")):
         cdl = "netcdf fragment {\n" + block + "}\n"
     else:
         return None
@@ -333,11 +335,12 @@ def check_tiers(block, tiers):
 
 
 def parse_header(text):
-    """Parse "ncdump" output into {group path: {"variables": {...}, "attributes": {...}, "data": {...}}}.
+    """Parse "ncdump" output into {group path: {"variables": {...}, "attributes": {...}, "data": {...}, "dimensions": {...}}}.
 
-    "data" holds the values of variables whose data section gives a single number.
+    "data" holds the values of variables whose data section gives a single number, and
+    "dimensions" the dimension names of each variable.
     """
-    groups = {"/": {"variables": {}, "attributes": {}, "data": {}}}
+    groups = {"/": {"variables": {}, "attributes": {}, "data": {}, "dimensions": {}}}
     stack = ["/"]
     section = None
     for line in text.splitlines():
@@ -345,7 +348,7 @@ def parse_header(text):
         match = re.match(r"group: (\w+) \{$", stripped)
         if match:
             path = stack[-1].rstrip("/") + "/" + match.group(1)
-            groups[path] = {"variables": {}, "attributes": {}, "data": {}}
+            groups[path] = {"variables": {}, "attributes": {}, "data": {}, "dimensions": {}}
             stack.append(path)
             section = None
             continue
@@ -367,9 +370,10 @@ def parse_header(text):
             target = group["attributes"] if variable == "" else group["variables"].setdefault(variable, {})
             target[attribute] = value
             continue
-        match = re.match(r"^\w+ (\w+)(\(.*\))? ;$", stripped)
+        match = re.match(r"^\w+ (\w+)(?:\((.*)\))? ;$", stripped)
         if match:
             group["variables"].setdefault(match.group(1), {})
+            group["dimensions"][match.group(1)] = tuple(d.strip() for d in (match.group(2) or "").split(",") if d.strip())
     return groups
 
 
@@ -395,6 +399,21 @@ def positions(groups):
             longitude = number(crs.get("longitude_of_projection_origin"))
             if latitude is not None and longitude is not None:
                 yield path, latitude, longitude
+
+
+def moving_structure(groups):
+    """Whether a file has the structure of a moving platform.
+
+    That is time-bounded grids (groups named time_<YYYYMMDDHHMMSS>), georeference
+    subgroups, or a longitude that varies with time.
+    """
+    for path, group in groups.items():
+        name = path.rsplit("/", 1)[-1]
+        if re.fullmatch(r"time_\d{14}", name) or name == "georeference":
+            return True
+        if "time" in group["dimensions"].get("longitude", ()):
+            return True
+    return False
 
 
 def check_bounds(groups):
@@ -488,6 +507,12 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
         product = unquote(root.get("product_type", ""))
         if product not in expected["product_types"]:
             errors.append(f'product_type "{product}" is not one of the product types in mandatory_global.md')
+        mobile = unquote(root.get("platform_is_mobile", "")) == "true"
+        moving = moving_structure(groups)
+        if moving and not mobile:
+            errors.append('has the structure of a moving platform, but platform_is_mobile is not "true"')
+        elif mobile and not moving and product in expected["level2_product_types"]:
+            errors.append('sets platform_is_mobile to "true", but has the structure of a fixed platform')
         if product in LEVEL1_PRODUCT_TYPES:
             found = set().union(*(LEVEL1_DATA_VARIABLES & group["variables"].keys() for group in groups.values()))
             if len(found) != 1:
@@ -526,6 +551,7 @@ def main():
     tiers = global_tiers()
     products = registry()
     category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
+    expected["level2_product_types"] = set(products)
     unlisted = expected["product_types"] - LEVEL1_PRODUCT_TYPES - products.keys()
     if unlisted:
         sys.exit(f"product types missing from the product-type tables: {', '.join(sorted(unlisted))}")
