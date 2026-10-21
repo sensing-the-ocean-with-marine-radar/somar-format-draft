@@ -40,7 +40,7 @@ variables:
                 platform_course:grid_mapping = "crs" ;
 ```
 
-The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after subtracting the mean platform velocity (see [Level 2 variables](../../metadata_attributes/level2_variables.md)).
+The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after subtracting the mean platform velocity (see [Product variables](../../metadata_attributes/product_variables.md)).
 
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
@@ -95,7 +95,7 @@ variables:
 ## Variables
 
 The file holds the following variables, in addition to those of its product (see [Product types](#product-types)).
-The data variables of a product are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md), where `(…)` stands for the dimension `time`.
+The data variables of a product are defined under [Product variables](../../metadata_attributes/product_variables.md), where `(…)` stands for the dimension `time`.
 Where the dimensions differ between a moving and a fixed platform, the second is that of a fixed platform.
 
 | Variable | Values | Description |
@@ -110,7 +110,7 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
 | `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended from a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
 | `station`<br><small>[CF][cf-dsg]</small> | string | Recommended from a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
-| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Level 2 variables](../../metadata_attributes/level2_variables.md)). |
+| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Product variables](../../metadata_attributes/product_variables.md)). |
 | `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current retrieved within the same analysis windows. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../../metadata_attributes/quality_flags.md)). |
 {: .variable-table }
@@ -121,7 +121,7 @@ The processing parameters of spatially averaged products are recorded in global 
 ## Product types
 
 The following products are spatially averaged products.
-For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md).
+For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](../../metadata_attributes/product_variables.md).
 
 | Product | `product_type` | Variables |
 |---|---|---|

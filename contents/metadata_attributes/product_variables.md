@@ -1,17 +1,17 @@
 ---
-title: Level 2 variables
+title: Product variables
 layout: default
 parent: Metadata
 nav_order: 4
 ---
 
-# Level 2 variables
+# Product variables
 
-This page defines the data, ancillary, and coordinate variables of the [Level 2 products](../product_types/level2/index.md), apart from the coordinates and quality flag that all products of a kind share.
+This page defines the data, ancillary, and coordinate variables of the [SOMaR products](../product_types/index.md), apart from the coordinates, navigation, and quality flag that all products of a category share, which the page of the category defines.
 Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [SOMaR product types](../product_types/index.md)).
 The convention a variable is taken from is named in small print under it (see [Metadata](index.md#reading-the-tables)); a variable marked CF carries the CF standard name of the same name, unless its description says otherwise.
 
-In the column of values, `(…)` stands for the dimensions that the products of a category share: for [gridded products](../product_types/level2/gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform; for [spatially averaged products](../product_types/level2/spatially_averaged.md), `(time)`.
+In the column of values, `(…)` stands for the dimensions that the products of a category share in their form: for polar products, `(time, range)` in the sweeps of [Level 1a](../product_types/level1/level1a.md) and `(time, azimuth, range)` in the image cube of [Level 1b polar](../product_types/level1/level1b_polar.md); for [gridded products](../product_types/level2/gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform and in the image cube of [Level 1b Cartesian](../product_types/level1/level1b_cartesian.md); for [spatially averaged products](../product_types/level2/spatially_averaged.md), `(time)`.
 Dimensions written beside it, such as `(…, wave_frequency)`, are added in the position shown.
 
 Some variables are only meaningful together with others.
@@ -20,6 +20,8 @@ Their descriptions state this in one of two forms, which apply in every product:
 | Variable | Values | Description |
 |---|---|---|
 | `background_noise`<br><small>SOMaR</small> | double `(…)`; `1` | Spectral density of the background noise in the radar images, used by the signal-to-noise ratio method to derive the significant wave height. Carried together with `wave_signal`. |
+| `backscatter_amplitude`<br><small>SOMaR</small> | `(…)`; `1` or `dB` | Backscatter amplitude, e.g. the square root of (I^2 + Q^2) or the video signal of the radar, in uncalibrated analog-to-digital converter units. The name is the same at every level, so that it identifies the quantity; the FM 301 field names (Table 301-10) are not used, since they denote calibrated moments of weather radars. The values are stored in the units of the analog-to-digital converters, using `scale_factor`, `add_offset`, and `_FillValue`; `units` is `"1"` or `"dB"` for linear or logarithmic dimensionless units, and `comment` should describe how the values were derived from the radar signal. A file holds either this variable or `backscatter_power`, not both, since power is the square of amplitude. |
+| `backscatter_power`<br><small>SOMaR</small> | `(…)`; `1` or `dB` | Backscatter power, e.g. (I^2 + Q^2), in uncalibrated analog-to-digital converter units, stored as `backscatter_amplitude`. A file holds either this variable or `backscatter_amplitude`, not both. |
 | `correlation_coefficient`<br><small>SOMaR</small> | double `(…)`; `1` | Peak Pearson correlation coefficient of the forward cross-correlation from which the sea ice drift is retrieved. |
 | `correlation_coefficient_backward`<br><small>SOMaR</small> | double `(…)`; `1` | Peak Pearson correlation coefficient of the backward cross-correlation. Requires `eastward_sea_ice_velocity_backward` and `northward_sea_ice_velocity_backward`. |
 | `eastward_sea_ice_velocity`<br><small>[CF][cf-names]</small> | double `(…)`; `m s-1` | Eastward component of the sea ice drift, from the forward retrieval, i.e. from the earlier to the later of two radar images. As the CF standard name implies, the drift is given relative to the ground, with the platform motion removed, and points in the direction toward which the ice drifts. Carried together with `northward_sea_ice_velocity`. |
@@ -35,6 +37,7 @@ Their descriptions state this in one of two forms, which apply in every product:
 | `northward_wave_wavenumber`<br><small>SOMaR</small> | double `(northward_wave_wavenumber)`; `m-1` | Coordinate variable: the northward wavenumber component of a two-dimensional wavenumber spectrum, defined as `eastward_wave_wavenumber`. |
 | `number_of_observations`<br><small>[CF][cf-names]</small> | int `(…)`; `1` | Number of Level 1b images that contributed to each grid cell of a relative roughness image or mosaic. |
 | `number_of_wave_coordinates`<br><small>SOMaR</small> | int `(…)`; `1` | Number of points of the wave signal in the wavenumber-frequency spectrum that were used in a least-squares fit. |
+| `ray_time`<br><small>SOMaR</small> | float `(azimuth)`; `s` | Time of each ray of a polar image cube after the start of its revolution, i.e. the time of the selected Level 1a ray, the correspondingly interpolated time, or the mean time of the averaged rays. It is the same for all images, which assumes that the antenna rotates steadily. |
 | `relative_roughness`<br><small>SOMaR</small> | float `(…)`; `1` or `dB` | Relative sea surface roughness: the time mean of the radar backscatter power over the averaging window of each grid cell, in uncalibrated analog-to-digital converter units, which is relative because it is not calibrated against a measure of the sea surface roughness. Level 1b amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, before averaging, and the mean is stored in linear (`1`) or logarithmic (`dB`) units. If the signal cannot be linearized, such as a log-compressed video signal, the mean is taken over the stored Level 1b values instead, the units are `1`, and the `comment` must say so. Carries `cell_methods = "time: mean"`, or `"time: mean (comment: computed on linear power)"` when the units are `dB`, and `coordinates = "time"`. The averaging window of each grid cell starts at `time`, or at `time + start_time_of_observations` in a mosaic, and lasts at most `averaging_duration`; it may be shorter for some cells, as recorded by `number_of_observations`. |
 | `scan_sectors`<br><small>SOMaR</small> | byte `(…)`; `0b`, `1b`, `2b` | Flag variable of a relative roughness image mosaic: the part of the radar scan, relative to the target area, that the observations of each grid cell belong to, with the `flag_meanings` `preceding_target_area` (0), `inside_target_area` (1), and `trailing_target_area` (2). |
 | `sea_floor_depth_below_sea_surface`<br><small>[CF][cf-names]</small> | double `(…)`; `m` | Water depth, from the sea surface to the sea floor. As the CF standard name implies, it is the depth below the actual sea surface during the measurement period, as sensed by the waves, and therefore includes the tide and other sea level variations; it is not tide-corrected. |

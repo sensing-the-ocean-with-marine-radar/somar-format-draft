@@ -33,4 +33,4 @@ The structure of a file depends on its category and on whether the platform move
 | **Spatially averaged products** | a [trajectory](spatially_averaged.md#moving-and-fixed-platforms): `longitude(time)` and `latitude(time)` | a [time series](spatially_averaged.md#moving-and-fixed-platforms): scalar `longitude` and `latitude` |
 
 Each category page defines the structure that its products share and lists its products with the variables that each of them holds.
-The variables themselves are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md).
+The variables themselves are defined under [Product variables](../../metadata_attributes/product_variables.md).

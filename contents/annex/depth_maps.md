@@ -8,13 +8,13 @@ nav_order: 8
 # L2a: Bathymetric maps
 
 {: .informative }
-> This page is informative. The product type `bathymetry` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+> This page is informative. The product type `bathymetry` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
 
 Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) at a set of analysis locations along the platform trajectory, together with an optional standard error and a `measurement_quality` bit flag.
 As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval-methods), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 
-The depths are not tide-corrected (see [Level 2 variables](../metadata_attributes/level2_variables.md)); users who need depths relative to a fixed vertical datum, such as mean sea level, must apply the correction themselves.
+The depths are not tide-corrected (see [Product variables](../metadata_attributes/product_variables.md)); users who need depths relative to a fixed vertical datum, such as mean sea level, must apply the correction themselves.
 
 ## Example
 

@@ -138,7 +138,7 @@ variables:
 ## Variables
 
 Each `time_<YYYYMMDDHHMMSS>` group, or the root group of a file from a fixed platform, holds the following variables, in addition to those of its product (see [Product types](#product-types)).
-The data variables of a product are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md), where `(…)` stands for the dimensions of the grid, preceded by `time` from a fixed platform.
+The data variables of a product are defined under [Product variables](../../metadata_attributes/product_variables.md), where `(…)` stands for the dimensions of the grid, preceded by `time` from a fixed platform.
 
 | Variable | Values | Description |
 |---|---|---|
@@ -159,7 +159,7 @@ The processing parameters of gridded products are recorded in global attributes 
 ## Product types
 
 The following products are gridded products.
-For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Level 2 variables](../../metadata_attributes/level2_variables.md).
+For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](../../metadata_attributes/product_variables.md).
 
 | Product | `product_type` | Variables |
 |---|---|---|

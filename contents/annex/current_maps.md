@@ -8,7 +8,7 @@ nav_order: 6
 # L2a: Near-surface current maps
 
 {: .informative }
-> This page is informative. The product type `currents` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+> This page is informative. The product type `currents` is one of the [gridded products](../product_types/level2/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
 
 Near-surface current maps (`currents`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) at a set of analysis locations along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
 Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.

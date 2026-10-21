@@ -28,7 +28,7 @@ A file complies with SOMaR if:
 
 - it complies with the CF conventions of the version named in `Conventions`, which can be checked with an existing CF checker such as [`cfchecks`](https://github.com/cedadev/cf-checker) or the [IOOS compliance checker](https://github.com/ioos/compliance-checker), although their support for NetCDF groups varies;
 - it carries the mandatory global attributes, with values as specified above, and, if it is from a moving platform, `platform_is_mobile = "true"`;
-- it holds the dimensions, variables, and attributes that are marked as required for its `product_type`, with the stated types, dimensions, and units: for a Level 1 product, on its page; for a Level 2 product, on the page of its category and in its row of the product-type table there, with the variables as defined under [Level 2 variables](level2_variables.md) (see [SOMaR product types](../product_types/index.md));
+- it holds the dimensions, variables, and attributes that are marked as required for its `product_type`, with the stated types, dimensions, and units: for a Level 1 product, on its page; for a Level 2 product, on the page of its category and in its row of the product-type table there, with the variables as defined under [Product variables](product_variables.md) (see [SOMaR product types](../product_types/index.md));
 - any other attribute or variable it carries follows its definition, including restricted values such as those of `processing_level` or `platform_is_mobile`.
 
 The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs and users cannot tell what the file contains.

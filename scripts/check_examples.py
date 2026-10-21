@@ -19,8 +19,8 @@ coordinate reference system, and the SOMaR rules for global attributes and
 file names, among them that a file whose structure is that of a moving
 platform sets platform_is_mobile to "true" and that a Level 2 file that sets
 it has that structure; the examples must carry the highly recommended global
-attributes as well as the mandatory ones, and the variables that the Level 2
-variables they carry require (see level2_variables.md). The spatial bounds
+attributes as well as the mandatory ones, and the variables that the product
+variables they carry require (see product_variables.md). The spatial bounds
 are checked against the positions the example gives: scalar latitude and
 longitude values in the data sections and the projection origins of crs
 variables.
@@ -82,7 +82,7 @@ OMITTED_TIERS = ("highly recommended", "recommended", "optional")
 # The pages of the Level 2 categories, whose product-type tables list the Level 2 products.
 CATEGORY_PAGES = ("contents/product_types/level2/gridded.md", "contents/product_types/level2/spatially_averaged.md")
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
-# The rules of the Level 2 variables: "Carried together with `x`." and "Requires `x`." (see level2_variables.md).
+# The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # The names of a coordinate reference system, which CF requires all together if any is given (Appendix F).
 CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datum_name", "geographic_crs_name")
@@ -182,9 +182,9 @@ def global_tiers():
 
 
 def variable_rules():
-    """Return {variable: [variables it requires]} from the descriptions in level2_variables.md."""
+    """Return {variable: [variables it requires]} from the descriptions in product_variables.md."""
     rules = {}
-    for line in read(os.path.join(ROOT, "contents/metadata_attributes/level2_variables.md")).splitlines():
+    for line in read(os.path.join(ROOT, "contents/metadata_attributes/product_variables.md")).splitlines():
         if not line.startswith("| `"):
             continue
         cells = line.strip().strip("|").split("|")
@@ -494,7 +494,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
             if is_file:
                 for required in expected["variable_rules"].get(variable, []):
                     if not resolve(groups, path, required):
-                        errors.append(f"{where}: requires {required}, which does not exist in scope (see level2_variables.md)")
+                        errors.append(f"{where}: requires {required}, which does not exist in scope (see product_variables.md)")
             names = [name for name in CRS_NAMES if name in attributes]
             if names and len(names) < len(CRS_NAMES):
                 errors.append(f"{where}: has {', '.join(names)} but not {', '.join(n for n in CRS_NAMES if n not in names)}, which CF requires together")

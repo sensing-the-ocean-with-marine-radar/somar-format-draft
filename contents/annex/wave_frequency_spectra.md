@@ -8,7 +8,7 @@ nav_order: 12
 # L2b: Surface wave one-dimensional frequency spectra
 
 {: .informative }
-> This page is informative. The product type `wave_frequency_spectra` is one of the [spatially averaged products](../product_types/level2/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
+> This page is informative. The product type `wave_frequency_spectra` is one of the [spatially averaged products](../product_types/level2/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../metadata_attributes/product_variables.md).
 
 One-dimensional frequency spectra (`wave_frequency_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread (`sea_surface_wave_directional_spread`) and mean wave direction (`sea_surface_wave_mean_from_direction`) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
