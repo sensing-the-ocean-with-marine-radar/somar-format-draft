@@ -82,7 +82,7 @@ nav.pdf-toc .depth-2 { padding-left: 3em; }
 pre, pre code { white-space: pre-wrap !important; overflow-wrap: anywhere; }
 /* The site sets the font size on <code> only, so the lines of a code block
    keep the spacing of the body text; give it to <pre> instead. */
-pre.highlight { font-size: 0.5em; line-height: 1.0; }
+pre.highlight { font-size: 0.75em; line-height: 1.4; }
 pre.highlight code { font-size: inherit; }
 .highlight, .table-wrapper { overflow: visible !important; }
 h1, h2, h3, h4, h5, h6 { break-after: avoid; }
