@@ -40,6 +40,8 @@ variables:
                 platform_course:grid_mapping = "crs" ;
 ```
 
+The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after subtracting the mean platform velocity (see [Level 2 variables](../../metadata_attributes/level2_variables.md)).
+
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
 Whether the frequencies and periods of the Level 2b products include this shift is given by [`wave_frequency_frame`](index.md#processing-parameters).
@@ -108,6 +110,8 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
 | `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended from a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
 | `station`<br><small>[CF][cf-dsg]</small> | string | Recommended from a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
+| `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Level 2 variables](../../metadata_attributes/level2_variables.md)). |
+| `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current retrieved within the same analysis windows. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](index.md#quality-flags)). |
 {: .variable-table }
 
@@ -124,11 +128,10 @@ For each, the table lists the data variables that it requires, recommends, or al
 | [Surface wave two-dimensional wavenumber spectra](../../annex/wave_wavenumber_spectra.md) (L2a) | `wave_wavenumber_spectra` | **Required:** `eastward_wave_wavenumber`, `northward_wave_wavenumber`, `sea_surface_wave_wavenumber_variance_spectral_density`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
 | [Surface wave frequency-direction spectra](../../annex/wave_frequency_direction_spectra.md) (L2b) | `wave_frequency_direction_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_from_direction`, `sea_surface_wave_directional_variance_spectral_density` |
 | [Surface wave one-dimensional frequency spectra](../../annex/wave_frequency_spectra.md) (L2b) | `wave_frequency_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_variance_spectral_density`<br>**Optional:** `sea_surface_wave_directional_spread`, `sea_surface_wave_mean_from_direction` |
-| [Peak and mean wave parameters](../../annex/wave_parameters.md) (L2b) | `wave_parameters` | **Recommended:** `sea_surface_wave_significant_height`, `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`, `sea_surface_wave_period_at_variance_spectral_density_maximum`, `sea_surface_wave_mean_period`, `sea_surface_wave_from_direction`<br>**Optional:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`, `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
+| [Peak and mean wave parameters](../../annex/wave_parameters.md) (L2b) | `wave_parameters` | **Recommended:** `sea_surface_wave_significant_height`, `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`, `sea_surface_wave_period_at_variance_spectral_density_maximum`, `sea_surface_wave_mean_period`, `sea_surface_wave_from_direction`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
 {: .product-type-table }
 
 Of the five bulk wave parameters that the peak and mean wave parameters recommend, at least one is required.
-Their current vector is obtained from the same analysis windows as the wave parameters.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
