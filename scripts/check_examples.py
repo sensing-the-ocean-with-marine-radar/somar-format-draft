@@ -29,8 +29,9 @@ Items that a file may omit are marked by a trailing comment with their tier
 ("// highly recommended", "// recommended", or "// optional"). The markers
 of global attributes and variables are checked against the tables of the
 global attribute pages, the processing parameters, and the page of the
-example; for a Level 2 product, against the tables of its category page and
-its row in the product-type table there instead. Each file example is also checked in its minimal form, without the
+example; for a product type, against the tables of its page instead, as
+linked from the product types index for Level 1, and for Level 2 those of
+its category page and its row in the product-type table there. Each file example is also checked in its minimal form, without the
 marked items; a block whose first line is "// minimal form" must equal the
 minimal form of the example with the same "netcdf" name.
 
@@ -141,6 +142,12 @@ def table_tiers(text, strict=True):
                 conflicts.add(name)
             tiers[name] = match.group(1).lower()
     return {name: tier for name, tier in tiers.items() if name not in conflicts}
+
+
+def level1_pages():
+    """Return {product_type: page} for the Level 1 products, from the table of the product types index."""
+    text = read(os.path.join(ROOT, "contents/product_types/index.md"))
+    return {product: "contents/product_types/" + page for page, product in re.findall(r"\]\((level1/\w+\.md)\) \| [^|]* \| `(\w+)`", text)}
 
 
 def registry():
@@ -551,6 +558,9 @@ def main():
     tiers = global_tiers()
     products = registry()
     category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
+    level1 = {product: table_tiers(read(os.path.join(ROOT, page))) for product, page in level1_pages().items()}
+    if level1.keys() != LEVEL1_PRODUCT_TYPES:
+        sys.exit(f"the product types index links {', '.join(sorted(level1))} as Level 1 products")
     expected["level2_product_types"] = set(products)
     unlisted = expected["product_types"] - LEVEL1_PRODUCT_TYPES - products.keys()
     if unlisted:
@@ -589,6 +599,8 @@ def main():
                 if product and product.group(1) in products:
                     category, row = products[product.group(1)]
                     tiers_of_block = {**tiers, **category_tiers[category], **row}
+                elif product and product.group(1) in level1:
+                    tiers_of_block = {**tiers, **level1[product.group(1)]}
                 else:
                     tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):

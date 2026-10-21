@@ -15,7 +15,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/metadata_attributes/` | Mandatory and recommended global attributes, variable attributes, Level 2 variables, radar parameters, georeference correction parameters, wave calibration parameters |
 | `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
 | `contents/product_types/` | Level 1 products (polar raw data, regularized polar images, Cartesian images) and the two categories of Level 2 products (gridded and spatially averaged), with the product-type tables |
-| `contents/annex/` | Informative example files of the Level 2 products, with descriptions of the products and their retrieval |
+| `contents/annex/` | Informative example files of all products, with descriptions of the Level 2 products and their retrieval |
 | `contents/file_naming/` | File naming pattern recommendations |
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
 | `contents/about/` | About the SOMaR community |
@@ -70,7 +70,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- Each Level 1 product type has its own page under `contents/product_types/level1/`. A Level 2 product type is a row in the product-type table of its category under `contents/product_types/level2/`, its variables are defined in `contents/metadata_attributes/level2_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
+- Each Level 1 product type has its own page under `contents/product_types/level1/`. A Level 2 product type is a row in the product-type table of its category under `contents/product_types/level2/`, its variables are defined in `contents/metadata_attributes/level2_variables.md`, and its example file is a page under `contents/annex/`, as is that of each Level 1 product. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Please propose changes through issues or pull requests.
 
 ## License and attribution

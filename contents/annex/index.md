@@ -10,7 +10,7 @@ has_children: true
 {: .informative }
 > This annex is informative.
 
-This annex gives a complete example file of each Level 2 product type, as the header of a NetCDF file in CDL, together with a description of the product and of its retrieval.
+This annex gives a complete example file of each product type, as the header of a NetCDF file in CDL, and for the Level 2 products a description of the product and of its retrieval.
 The examples illustrate the definitions of the [SOMaR product types](../product_types/index.md) but do not add to them; where an example and a definition differ, the definition applies.
 
 ## Reading the examples

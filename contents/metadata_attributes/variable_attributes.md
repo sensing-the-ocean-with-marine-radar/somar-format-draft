@@ -8,7 +8,7 @@ nav_order: 3
 # Variable attributes
 
 Unlike file-level global attributes, the attributes listed below qualify individual variables.
-Which attributes a given variable carries depends on the product type, as illustrated in the examples of the [Level 1 products](../product_types/level1/index.md) and in the [Annex: Example products](../annex/index.md).
+Which attributes a given variable carries depends on the product type, as illustrated in the examples of the [Annex: Example products](../annex/index.md).
 
 ## Data and coordinate variables
 

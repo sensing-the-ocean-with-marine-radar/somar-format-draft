@@ -28,10 +28,10 @@ Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, wh
 {: .product-table }
 
 [Level 1](level1/index.md) products retain the radar's own measurement (backscatter amplitude or power in uncalibrated units), either ray by ray in the sensor's polar geometry ([Level 1a](level1/level1a.md)) or as individual images with a regular azimuth axis ([Level 1b polar](level1/level1b_polar.md)) or on a local Cartesian grid ([Level 1b Cartesian](level1/level1b_cartesian.md)).
-Each of them has a structure of its own and forms a category of its own: its page documents its dimensions, variables, and attributes, with an example.
+Each of them has a structure of its own and forms a category of its own: its page documents its dimensions, variables, and attributes.
 [Level 2](level2/index.md) products are geophysical variables, either retrieved directly from image sequences (Level 2a) or derived from those retrievals (Level 2b).
 They fall into two categories, [gridded products](level2/gridded.md) and [spatially averaged products](level2/spatially_averaged.md), whose pages document the structure that the products of a category share and, in a product-type table, the data variables of each product; the variables themselves are defined under [Level 2 variables](../metadata_attributes/level2_variables.md).
-An example file of each Level 2 product, with a description of the product and its retrieval, is given in the informative [Annex: Example products](../annex/index.md).
+An example file of each product, and for Level 2 a description of the product and its retrieval, is given in the informative [Annex: Example products](../annex/index.md).
 All products carry the [shared metadata](../metadata_attributes/index.md) in addition.
 The tables state for each variable and attribute whether it is required, recommended, or optional:
 

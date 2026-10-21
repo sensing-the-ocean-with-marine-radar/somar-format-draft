@@ -41,4 +41,4 @@ The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR
 The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
 The [SOMaR product types](../product_types/index.md) chapter defines the products, from the Level 1 radar products, each with a structure of its own, to the two categories of Level 2 geophysical products, gridded and spatially averaged, with their variables and grids.
 The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
-Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each Level 2 product, with a description of the product and of its retrieval.
+Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each product, and for Level 2 a description of the product and of its retrieval.
