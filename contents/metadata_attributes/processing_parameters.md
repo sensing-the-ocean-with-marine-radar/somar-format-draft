@@ -12,8 +12,8 @@ They document how the data were obtained; each row states the products for which
 
 | Attribute | Values | Description |
 |---|---|---|
-| `analysis_window_motion`<br><small>SOMaR</small> | String; `earth_fixed` or `platform_fixed` | Optional for spatially averaged products. Whether the analysis windows are fixed to the Earth for the duration of a measurement period (`earth_fixed`) or move with the platform at a fixed bearing and range (`platform_fixed`; see [Measurements](../product_types/spatially_averaged.md#measurements)). Assumed `earth_fixed` if missing; `platform_fixed` requires `platform_speed_wrt_ground` and `platform_course`. |
-| `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Recommended for maps and spatially averaged products. The shape of the analysis windows within which these products are retrieved, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the `comment` global attribute. |
+| `analysis_window_motion`<br><small>SOMaR</small> | String; `earth_fixed` or `platform_fixed` | Optional for spatially averaged products. Whether the analysis windows are fixed to the Earth for the duration of a measurement period (`earth_fixed`) or move with the platform at a fixed bearing and range (`platform_fixed`; see [Measurements](../product_types/spatially_averaged.md#measurements)). Assumed `earth_fixed` if missing; `platform_fixed` requires [`platform_speed_wrt_ground`](../product_types/spatially_averaged.md#platform_speed_wrt_ground) and [`platform_course`](../product_types/spatially_averaged.md#platform_course). |
+| `analysis_window_shape`<br><small>SOMaR</small> | String; `circle`, `square`, `rectangle`, or a name chosen by the processor | Recommended for maps and spatially averaged products. The shape of the analysis windows within which these products are retrieved, which defines `analysis_window_size`. A shape other than these three is named with a short lowercase name with underscores and described in the [`comment`](optional_global.md#comment) global attribute. |
 | `analysis_window_size`<br><small>SOMaR</small> | Number or pair of numbers; `m` | Recommended for maps and spatially averaged products. The size of the analysis windows: the diameter of a `circle`, the side length of a `square`, or the east–west and north–south extents of a `rectangle`, in that order. |
 | `analysis_window_spacing`<br><small>SOMaR</small> | Number; `m` | Recommended for maps. The distance between the centers of neighboring analysis windows, i.e. the grid spacing of the map. |
 | `averaging_duration`<br><small>SOMaR</small> | Number; `s` | Recommended for relative roughness images and mosaics and for `sea_ice_drift`. The nominal duration over which Level 1b images are averaged: into one relative roughness image or mosaic pixel, or, for a sea ice drift map whose images are averaged before the drift is retrieved, into each of the two correlated images of a drift vector. The window of an individual grid cell may be shorter, but never longer. |
@@ -28,7 +28,7 @@ They document how the data were obtained; each row states the products for which
 ## Retrieval methods
 
 SOMaR defines the content of the Level 2 products, not the methods by which they are retrieved.
-The method of a product is named by the global attribute [`retrieval_method`](#processing-parameters), using one of the following names where it applies.
+The method of a product is named by the global attribute [`retrieval_method`](#retrieval_method), using one of the following names where it applies.
 
 | Name | Products | Description |
 |---|---|---|

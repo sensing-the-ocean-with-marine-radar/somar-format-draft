@@ -22,6 +22,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |
 | `scripts/build_pdf.py` | Builds the PDF of the whole specification from the built site (see [Building the PDF](#building-the-pdf)) |
 | `scripts/check_links.py` | Checks the internal links and anchors of the built site (see [Building the PDF](#building-the-pdf)) |
+| `scripts/link_items.py` | Links the names in the descriptions of the attribute and variable tables to the rows of the other tables that define them; with `--check`, as in CI, it lists the missing links instead |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site and the PDF and checks the examples and links on pushes and pull requests; `pages.yml` checks and deploys them to GitHub Pages |
 
@@ -75,6 +76,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
 - A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/product_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Each product page of the annex begins with the table of its file contents, which summarizes the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
+- In the descriptions of the attribute and variable tables, the first mention of an item defined in another table links to its row; `python3 scripts/link_items.py` adds these links, and CI checks them. A name that the script cannot resolve, such as `time`, which several tables define, stays plain, and a value is written in quotes, such as `"trajectory"`, so that it is not taken for a name.
 - A tier that depends on the file is written in the fixed form described under [Requirements](contents/product_types/index.md#requirements), such as "Required on the local grid; recommended on the geographic grid.", so that `scripts/check_examples.py` can resolve it for each example.
 - Please propose changes through issues or pull requests.
 
@@ -84,6 +86,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - [ ] The descriptions of the affected products in the annex are reread and still agree with the definitions.
 - [ ] A new conditional tier uses the fixed form; a new condition is added to the description under Requirements and to `scripts/check_examples.py`.
 - [ ] A new section of a category page whose tables apply to some of its products only, such as the sweeps of Level 1a on the page of the polar products, is added to `SECTION_SCOPES` in `scripts/check_examples.py`; otherwise its rows apply to every product of the category.
+- [ ] `python3 scripts/link_items.py` is run after editing a definition table, so that the names it mentions link to their definitions.
 - [ ] `bundle exec jekyll build` and `python3 scripts/check_links.py _site` pass, so that the links to the definitions resolve.
 
 ## License and attribution

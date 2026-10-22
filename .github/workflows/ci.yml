@@ -58,3 +58,5 @@ jobs:
           pip install cf-units
       - name: Check examples
         run: python3 scripts/check_examples.py --strict
+      - name: Check the links of the definition tables
+        run: python3 scripts/link_items.py --check

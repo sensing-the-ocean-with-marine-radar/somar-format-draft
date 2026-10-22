@@ -64,6 +64,8 @@ jobs:
       - name: Check examples
         # Keeps failing examples off the published site
         run: python3 scripts/check_examples.py --strict
+      - name: Check the links of the definition tables
+        run: python3 scripts/link_items.py --check
       - name: Build PDF
         # Writes ./_site/somar-format.pdf, linked from the top bar of every page
         run: python3 scripts/build_pdf.py _site

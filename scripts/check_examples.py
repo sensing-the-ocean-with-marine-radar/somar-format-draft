@@ -153,6 +153,8 @@ VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md
 ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
 # Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
 METERS_PER_DEGREE = 111320.0
+# A link whose text is a code span, as the descriptions of the tables link names to their definitions.
+LINKED_CODE = re.compile(r"\[(`[^`\]]+`)\]\([^)\s]*\)")
 # The types of NetCDF variables, as named in the Values columns of the tables.
 NETCDF_TYPES = ("char", "byte", "ubyte", "short", "ushort", "int", "uint", "int64", "uint64", "float", "double", "string")
 # The sections of the category pages whose tables apply to some of the products only, by the
@@ -178,9 +180,24 @@ LAYOUT_GROUP = re.compile(r"^(?:sweep_\d+|time_\d{14})$")
 DSG_COORDINATES = {"time", "time_bounds", "longitude", "latitude", "trajectory", "station"}
 
 
+# Texts that stand in for pages while check_link_independence parses them.
+TEXT_OVERRIDES = {}
+
+
 def read(path):
+    if path in TEXT_OVERRIDES:
+        return TEXT_OVERRIDES[path]
     with open(path, encoding="utf-8") as f:
         return f.read()
+
+
+def unlink(text):
+    """Return the text with each link whose text is a code span, [`x`](...), replaced by the code span alone.
+
+    The descriptions of the tables link the names they mention to their definitions
+    (see scripts/link_items.py); the parsers of their rules and conditions read them without.
+    """
+    return LINKED_CODE.sub(r"\1", text)
 
 
 def config_value(key):
@@ -224,7 +241,7 @@ def table_tiers(text, strict=True):
         if not line.startswith("| `"):
             continue
         cells = line.strip().strip("|").split("|")
-        match = re.match(pattern, cells[-1])
+        match = re.match(pattern, unlink(cells[-1]))
         if not match:
             continue
         for name in re.findall(r"`(\w+)`", cells[0].split("<br>")[0]):
@@ -483,7 +500,7 @@ def resolved_tiers(page, facts, groups_of_products):
             scope = groups_of_products[scope]
         if scope is not None and facts["product"] not in scope:
             continue
-        found = resolved_tier(line.strip().strip("|").split("|")[-1], facts)
+        found = resolved_tier(unlink(line.strip().strip("|").split("|")[-1]), facts)
         if found is None:
             continue
         name = match.group(1)
@@ -544,7 +561,7 @@ def value_specs(text, scopes, product):
                     continue
                 cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
                 name = re.match(r"`(\w+)`", cells[0]).group(1)
-                shape, _, units = cells[1].partition(";")
+                shape, _, units = unlink(cells[1]).partition(";")
                 types = set(re.findall(rf"\b({'|'.join(NETCDF_TYPES)})\b", shape)) or None
                 forms = []
                 for segment in re.split(r",? or |, ", shape):
@@ -745,7 +762,7 @@ def variable_rules():
             continue
         cells = line.strip().strip("|").split("|")
         name = re.match(r"\s*`(\w+)`", cells[0]).group(1)
-        for match in VARIABLE_RULE.finditer(cells[-1]):
+        for match in VARIABLE_RULE.finditer(unlink(cells[-1])):
             rules.setdefault(name, []).extend(re.findall(r"`(\w+)`", match.group(1)))
     return rules
 
@@ -1292,6 +1309,41 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
     return errors
 
 
+def check_link_independence(products, groups_of_products):
+    """Check that the parsers of the tables give the same results when every name in their descriptions is a link.
+
+    The rules, the tiers, and the value specifications are parsed from the descriptions of
+    the tables, which link the names they mention to their definitions; a parser that read the
+    links instead of the names would lose rules or conditions without failing.
+    """
+    def parse():
+        examples = [(block, PRODUCT_TYPE.search(block).group(1))
+                    for page in sorted(glob.glob(os.path.join(ROOT, "contents/annex/*.md")))
+                    for block in FENCE.findall(read(page)) if block.startswith("netcdf ") and PRODUCT_TYPE.search(block)]
+        return (variable_rules(), global_tiers(), attribute_tiers(), registry(),
+                {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES},
+                [product_tiers(block, product, products, groups_of_products) for block, product in examples],
+                {product: product_value_specs(product, products, groups_of_products) for product in products})
+
+    def link_all(line):
+        if not line.startswith("| `"):
+            return line
+        cells = line.split("|")
+        cells[-2] = re.sub(r"(?<!\[)`(\w+)`(?!\])", r"[`\1`](#\1)", cells[-2])
+        return "|".join(cells)
+
+    plain = parse()
+    pages = glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True)
+    TEXT_OVERRIDES.update({page: "\n".join(link_all(line) for line in read(page).splitlines()) for page in pages})
+    try:
+        linked = parse()
+    finally:
+        TEXT_OVERRIDES.clear()
+    names = ("rules", "global tiers", "attribute tiers", "product types", "category tiers", "product tiers", "value specifications")
+    return [f"the {name} of the tables change when their descriptions link the names they mention"
+            for name, a, b in zip(names, plain, linked) if a != b]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--strict", action="store_true", help="fail if cf-units is not installed")
@@ -1325,6 +1377,9 @@ def main():
     expected["level2_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L2")}
     expected["product_tiers"] = {p: row for p, (_, row, _) in products.items()}
     variable_attribute_tiers = attribute_tiers()
+    errors = check_link_independence(products, groups_of_products)
+    if errors:
+        sys.exit("\n".join(errors))
     lists = {"the product-type tables": set(products), **product_type_lists()}
     for where, listed in lists.items():
         if listed != expected["product_types"]:
