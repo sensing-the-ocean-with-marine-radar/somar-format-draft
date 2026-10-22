@@ -66,6 +66,9 @@ CONVENTION_URLS = {
 }
 # The bibliography, which cites the conventions with their URLs written out.
 REFERENCES = "contents/references/index.md"
+# A reference-style link, [text][label], and the definition of a label, [label]: URL.
+REFERENCE_LINK = re.compile(r"(?<!!)\[((?:[^\[\]`]|`[^`]*`)*)\]\[([\w-]*)\]")
+REFERENCE_DEFINITION = re.compile(r"^\[([\w-]+)\]: (\S+)")
 URL = re.compile(r"https?://[^\s)>\]\"]+")
 
 
@@ -238,6 +241,48 @@ def text_problems(page, lines):
     return problems
 
 
+def resolved(page, url):
+    """Return the target of a link as (page, fragment), with the path resolved against the page."""
+    if re.match(r"https?://", url):
+        return tuple(url.split("#", 1)) if "#" in url else (url, "")
+    path, _, fragment = url.partition("#")
+    destination = posixpath.normpath(posixpath.join(posixpath.dirname(page), path)) if path else page
+    if destination.endswith("/") or not posixpath.splitext(destination)[1]:
+        destination = posixpath.join(destination, "index.md")
+    return destination, fragment
+
+
+def repeat_problems(page, lines):
+    """Return [(line number, message)] for a link in the text to a target that the same section (##) already links to.
+
+    Citations, each a reference of its own, and tables, which follow the rule of the
+    definition tables, are left out.
+    """
+    labels = {m.group(1): m.group(2) for m in map(REFERENCE_DEFINITION.match, lines) if m}
+    problems, seen, code = [], {}, False
+    for number, line in enumerate(lines, 1):
+        if line.startswith("```"):
+            code = not code
+            continue
+        heading = HEADING.match(line)
+        if heading and not code and len(heading.group(1)) <= 2:
+            seen = {}
+            continue
+        if code or line.startswith("|") or REFERENCE_DEFINITION.match(line):
+            continue
+        links = [(m.start(), m.group(1), m.group(2)) for m in LINK.finditer(line)]
+        links += [(m.start(), m.group(1), labels.get(m.group(2) or m.group(1), "")) for m in REFERENCE_LINK.finditer(line)]
+        for _, text, url in sorted(links):
+            if not url or "references/index.md" in url:
+                continue
+            key = resolved(page, url)
+            if key in seen:
+                problems.append((number, f"the link [{text}] repeats the link of line {seen[key]} to the same target in this section"))
+            else:
+                seen[key] = number
+    return problems
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="list the missing links and fail if there are any")
@@ -257,7 +302,7 @@ def main():
                     f.write("\n".join(out))
                 print(f"{page}: {len(added)} links added")
         # The problems that the script reports but does not fix.
-        found += convention_problems(page, out) + text_problems(page, out)
+        found += convention_problems(page, out) + text_problems(page, out) + repeat_problems(page, out)
         for number, message in sorted(found):
             print(f"{page}:{number}: {message}")
         problems += len(found)

@@ -8,7 +8,7 @@ nav_order: 4
 # Product variables
 
 This page defines the data, ancillary, and coordinate variables of the [SOMaR products](index.md), apart from the coordinates, navigation, and quality flag that all products of a category share, which the page of the category defines.
-Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [SOMaR product types](index.md)).
+Each variable keeps its meaning in every product that carries it; which products require, recommend, or allow it is stated with the products (see [Categories](index.md#categories)).
 The convention a variable is taken from is named in small print under it (see [Metadata](../metadata_attributes/index.md#reading-the-tables)); a variable marked CF carries the CF standard name of the same name, unless its description says otherwise.
 
 In the column of values, `(…)` stands for the dimensions that the products of a category share in their form: for polar products, `(time, range)` in the sweeps of [Level 1a](polar.md) and of [Level 1b pulse-averaged pointing data](polar.md#averaged-sweeps) and `(time, azimuth, range)` in the image cube of [Level 1b polar](polar.md#image-cube); for [gridded products](gridded.md), the dimensions of the horizontal grid, such as `(latitude, longitude)` or `(y, x)`, preceded by `time` from a fixed platform and in the image cube of [Level 1b Cartesian](gridded.md#image-cube-with-moving-origin); for [spatially averaged products](spatially_averaged.md), `(time)`.

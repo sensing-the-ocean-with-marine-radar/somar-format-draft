@@ -18,9 +18,9 @@ The convention an attribute is taken from is named in small print under the attr
 | `product_type`<br><small>SOMaR</small> | String; one of `radar_polar_raw`, `radar_polar_regularized`, `radar_polar_averaged`, `radar_cartesian`, `relative_roughness`, `relative_roughness_mosaic`, `currents`, `currents_profile`, `bathymetry`, `sea_ice_drift`, `wave_wavenumber_spectra`, `wave_frequency_direction_spectra`, `wave_frequency_spectra`, `wave_parameters` | The specific SOMaR product type of the file's content (see [SOMaR product types](../product_types/index.md)). |
 {: .mandatory-attribute-table }
 
-The WMO-CF Radial profile [FM 301][fm301], which SOMaR follows for [Level 1a data](../product_types/polar.md), defines mandatory global attributes of its own (Tables 301-1 and 301-2). SOMaR does not require them: Level 1a files are not FM 301 files, so `Conventions` does not list the WMO-CF extensions and `wmo__cf_profile` is not set. Of those that SOMaR adopts, `comment`, `history`, `institution`, `references`, and `source` are recommended, `platform_is_mobile` is required for a moving platform, and the FM 301 `instrument_name` is replaced by the ACDD `instrument` (see [Recommended global attributes](optional_global.md)).
+The WMO-CF Radial profile [FM 301][fm301], which SOMaR follows for [Level 1a data](../product_types/polar.md), defines mandatory global attributes of its own (Tables 301-1 and 301-2). SOMaR does not require them: Level 1a files are not FM 301 files, so `Conventions` does not list the WMO-CF extensions and `wmo__cf_profile` is not set. Of those that SOMaR adopts, `comment`, `history`, `institution`, `references`, and `source` are recommended, `platform_is_mobile` is required for a moving platform, and the FM 301 `instrument_name` is replaced by the ACDD `instrument` (see [Recommended](optional_global.md#recommended)).
 
-SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, and the ACDD terms "highly recommended" and "recommended". ACDD requires no attribute; of those that it highly recommends, `title`, `summary`, `keywords`, and `Conventions`, SOMaR highly recommends the first three and makes `Conventions` mandatory. The other ACDD attributes that SOMaR adopts, among them `institution`, the time coverage, and the spatial bounds, which ACDD recommends, and `platform`, `instrument`, and `keywords_vocabulary`, which ACDD suggests, are recommended (see [Recommended global attributes](optional_global.md)).
+SOMaR adopts ACDD attribute names wherever it defines an attribute that ACDD also defines, and the ACDD terms "highly recommended" and "recommended". ACDD requires no attribute; of those that it highly recommends, `title`, `summary`, `keywords`, and `Conventions`, SOMaR highly recommends the first three and makes `Conventions` mandatory. The other ACDD attributes that SOMaR adopts, among them `institution`, the time coverage, and the spatial bounds, which ACDD recommends, and `platform`, `instrument`, and `keywords_vocabulary`, which ACDD suggests, are recommended.
 
 ## Compliance
 
@@ -32,7 +32,7 @@ A file complies with SOMaR if:
 - any other attribute or variable it carries follows its definition, including restricted values such as those of `processing_level` or `platform_is_mobile`.
 
 The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs and users cannot tell what the file contains.
-The same holds for the variables and attributes that are marked as recommended for its `product_type` (see [SOMaR product types](../product_types/index.md)).
+The same holds for the variables and attributes that are marked as recommended for its `product_type` (see [Requirements](../product_types/index.md#requirements)).
 A checker should report a missing highly recommended global attribute or recommended product item as a warning rather than an error.
 The [recommended global attributes](optional_global.md#recommended) and the [file naming](../file_naming/index.md) are not part of compliance either.
 
