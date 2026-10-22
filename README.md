@@ -22,7 +22,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |
 | `scripts/build_pdf.py` | Builds the PDF of the whole specification from the built site (see [Building the PDF](#building-the-pdf)) |
 | `scripts/check_links.py` | Checks the internal links and anchors of the built site (see [Building the PDF](#building-the-pdf)) |
-| `scripts/link_items.py` | Links the names in the descriptions of the attribute and variable tables to the rows of the other tables that define them; with `--check`, as in CI, it lists the missing links instead |
+| `scripts/link_items.py` | Links the names of attributes and variables, in the tables and in the text, to the rows that define them, and checks the links of the text against the rule under [Links](#links); with `--check`, as in CI, it lists the missing links instead |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site and the PDF and checks the examples and links on pushes and pull requests; `pages.yml` checks and deploys them to GitHub Pages |
 
@@ -76,9 +76,20 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
 - A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/product_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
 - Each product page of the annex begins with the table of its file contents, which summarizes the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
-- In the descriptions of the attribute and variable tables, the first mention of an item defined in another table links to its row; `python3 scripts/link_items.py` adds these links, and CI checks them. A name that the script cannot resolve, such as `time`, which several tables define, stays plain, and a value is written in quotes, such as `"trajectory"`, so that it is not taken for a name.
+- Links follow the rule under [Links](#links).
 - A tier that depends on the file is written in the fixed form described under [Requirements](contents/product_types/index.md#requirements), such as "Required on the local grid; recommended on the geographic grid.", so that `scripts/check_examples.py` can resolve it for each example.
 - Please propose changes through issues or pull requests.
+
+### Links
+
+1. In each section (one `##` heading), the first mention of a target outside the section is linked, and no target is linked twice.
+2. A link points to the closest anchor: the row of an item, the section of a topic, the top of a page only for the page as a whole. A group name, such as `radar_parameters`, links to its page.
+3. An attribute or variable is linked on its first mention: in the description of a table row, if another table defines it; in the text, per section, if another page defines it. The link text is the name alone, as `` [`name`](…) ``. Every row of an attribute or variable table has an id for this (see `_plugins/table_rows.rb`).
+4. The conventions (CF, the CF standard name table, ACDD, FM 301, CfRadial, UDUNITS) are linked reference-style, as `[CF][cf]` with the URL at the foot of the page, with one URL each, for the version SOMaR pins: CF 1.13, the standard name table of the version the example check uses, ACDD 1.3. UDUNITS, of which SOMaR pins no version, links to its current documentation. Other external links are inline.
+5. Literature is cited as author and linked year, such as "Young et al. [1985](contents/references/index.md#young-1985)", to its entry on the References page.
+6. A "see …" reference uses the heading of its target as its link text.
+
+`python3 scripts/link_items.py` adds the links of rule 3, and `--check`, which CI runs, fails on a missing one, on a repeated link (rule 1), on a link text that mixes code and words (rule 3), and on an inline or unversioned link to a convention (rule 4). A name that the script cannot resolve, such as `time`, which several tables define, stays plain. A value is written in quotes, such as `"trajectory"`, and a product type follows the words "product type", so that neither is taken for the name of an item. Which topics to link (rule 1), the anchor (rule 2), and the text of a "see …" reference (rule 6) are left to the author.
 
 ### Checklist for a change to a definition
 
@@ -86,7 +97,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - [ ] The descriptions of the affected products in the annex are reread and still agree with the definitions.
 - [ ] A new conditional tier uses the fixed form; a new condition is added to the description under Requirements and to `scripts/check_examples.py`.
 - [ ] A new section of a category page whose tables apply to some of its products only, such as the sweeps of Level 1a on the page of the polar products, is added to `SECTION_SCOPES` in `scripts/check_examples.py`; otherwise its rows apply to every product of the category.
-- [ ] `python3 scripts/link_items.py` is run after editing a definition table, so that the names it mentions link to their definitions.
+- [ ] `python3 scripts/link_items.py` is run after editing tables or text, so that the names link to their definitions; "see …" references use the heading of their target.
 - [ ] `bundle exec jekyll build` and `python3 scripts/check_links.py _site` pass, so that the links to the definitions resolve.
 
 ## License and attribution
