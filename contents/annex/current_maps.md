@@ -13,7 +13,7 @@ nav_order: 7
 Near-surface current maps (`currents`) provide the horizontal near-surface current vector (`eastward_sea_water_velocity`, `northward_sea_water_velocity`) in a set of analysis windows along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
 Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.
 The method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval-methods): for example, a least-squares fit that minimizes the distance between the wave signal and the dispersion relation (`dispersion_relation_least_squares_fit`; Young et al. [1985](../references/index.md#young-1985); Senet et al. [2001](../references/index.md#senet-2001)), or the maximization of the normalized scalar product between the spectrum and a filter following the dispersion relation (`normalized_scalar_product`; Serafino et al. [2010](../references/index.md#serafino-2010)).
-The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and `number_of_wave_coordinates`, while other methods may report a `signal_to_noise_ratio`.
+The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and `number_of_fitted_spectral_points`, while other methods may report a `signal_to_noise_ratio`.
 Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the retrieval and can be approximated as 4–8% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 The example shows a map on the geographic grid; the variables that differ on the local grid are shown under [Local grid](../product_types/gridded.md#local-grid).
 
@@ -98,11 +98,11 @@ group: time_20250115110031 {
                 northward_sea_water_velocity_standard_error:units = "m s-1" ;
                 northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
                 northward_sea_water_velocity_standard_error:_FillValue = NaN ;
-        int number_of_wave_coordinates(latitude, longitude) ; // optional
-                number_of_wave_coordinates:long_name = "number of wave coordinates used by the current measurement" ;
-                number_of_wave_coordinates:units = "1" ;
-                number_of_wave_coordinates:grid_mapping = "crs" ;
-                number_of_wave_coordinates:_FillValue = -1 ;
+        int number_of_fitted_spectral_points(latitude, longitude) ; // optional
+                number_of_fitted_spectral_points:long_name = "number of points of the wavenumber-frequency spectrum used in the least-squares fit" ;
+                number_of_fitted_spectral_points:units = "1" ;
+                number_of_fitted_spectral_points:grid_mapping = "crs" ;
+                number_of_fitted_spectral_points:_FillValue = -1 ;
         ubyte measurement_quality(latitude, longitude) ; // recommended
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;

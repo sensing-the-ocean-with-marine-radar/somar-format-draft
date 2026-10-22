@@ -41,7 +41,7 @@ Another method is named by the processor with a short lowercase name with unders
 For any method, the underlying literature is given in the `references` global attribute of [CF][cf-description].
 
 Each product requires only the variables that every method yields, such as the current vector, and recommends the quality flag `measurement_quality`.
-The diagnostics that only some methods yield are optional, and SOMaR names the known ones so that processors using the same method store them alike: the standard errors and `number_of_wave_coordinates` of a least-squares fit, the `signal_to_noise_ratio` of the current retrieval, and the `correlation_coefficient` of a cross-correlation.
+The diagnostics that only some methods yield are optional, and SOMaR names the known ones so that processors using the same method store them alike: the standard errors and `number_of_fitted_spectral_points` of a least-squares fit, the `signal_to_noise_ratio` of the current retrieval, and the `correlation_coefficient` of a cross-correlation.
 A processor may store further diagnostics; the variables they describe list them in their `ancillary_variables` attribute.
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents

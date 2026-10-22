@@ -86,11 +86,11 @@ group: time_20250115120031 {
                 sea_floor_depth_below_sea_surface_standard_error:units = "m" ;
                 sea_floor_depth_below_sea_surface_standard_error:grid_mapping = "crs" ;
                 sea_floor_depth_below_sea_surface_standard_error:_FillValue = NaN ;
-        int number_of_wave_coordinates(latitude, longitude) ; // optional
-                number_of_wave_coordinates:long_name = "number of wave coordinates used by the bathymetry measurement" ;
-                number_of_wave_coordinates:units = "1" ;
-                number_of_wave_coordinates:grid_mapping = "crs" ;
-                number_of_wave_coordinates:_FillValue = -1 ;
+        int number_of_fitted_spectral_points(latitude, longitude) ; // optional
+                number_of_fitted_spectral_points:long_name = "number of points of the wavenumber-frequency spectrum used in the least-squares fit" ;
+                number_of_fitted_spectral_points:units = "1" ;
+                number_of_fitted_spectral_points:grid_mapping = "crs" ;
+                number_of_fitted_spectral_points:_FillValue = -1 ;
         ubyte measurement_quality(latitude, longitude) ; // recommended
                 measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold bathymetry_fit_boundaries_reached number_of_spatial_neighbors_below_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold measurement_outside_area_of_validity" ;
