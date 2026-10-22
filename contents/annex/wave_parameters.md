@@ -51,7 +51,7 @@ variables:
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
                 eastward_sea_water_velocity:units = "m s-1" ;
                 eastward_sea_water_velocity:coordinates = "time longitude latitude" ;
-                eastward_sea_water_velocity:cell_methods = "area: mean" ; // recommended
+                eastward_sea_water_velocity:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 eastward_sea_water_velocity:grid_mapping = "crs" ;
                 eastward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
         double northward_sea_water_velocity(time) ; // optional
@@ -59,7 +59,7 @@ variables:
                 northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:coordinates = "time longitude latitude" ;
-                northward_sea_water_velocity:cell_methods = "area: mean" ; // recommended
+                northward_sea_water_velocity:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 northward_sea_water_velocity:grid_mapping = "crs" ;
                 northward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
@@ -67,7 +67,6 @@ variables:
                 sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
                 sea_surface_wave_significant_height:units = "m" ;
                 sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
-                sea_surface_wave_significant_height:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_significant_height:grid_mapping = "crs" ;
                 sea_surface_wave_significant_height:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_from_direction_at_variance_spectral_density_maximum(time) ; // recommended
@@ -75,7 +74,6 @@ variables:
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_from_direction_at_variance_spectral_density_maximum" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:units = "degree" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:coordinates = "time longitude latitude" ;
-                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
                 sea_surface_wave_from_direction_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_period_at_variance_spectral_density_maximum(time) ; // recommended
@@ -83,7 +81,6 @@ variables:
                 sea_surface_wave_period_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_period_at_variance_spectral_density_maximum" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:units = "s" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:coordinates = "time longitude latitude" ;
-                sea_surface_wave_period_at_variance_spectral_density_maximum:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_period_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
                 sea_surface_wave_period_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_mean_period(time) ; // recommended
@@ -92,7 +89,6 @@ variables:
                 sea_surface_wave_mean_period:units = "s" ;
                 sea_surface_wave_mean_period:comment = "energy-weighted mean wave period Tm01 calculated from zeroth and first spectral moments" ; // recommended
                 sea_surface_wave_mean_period:coordinates = "time longitude latitude" ;
-                sea_surface_wave_mean_period:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_mean_period:grid_mapping = "crs" ;
                 sea_surface_wave_mean_period:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_from_direction(time) ; // recommended
@@ -101,21 +97,20 @@ variables:
                 sea_surface_wave_from_direction:units = "degree" ;
                 sea_surface_wave_from_direction:comment = "energy-weighted mean direction the waves come from, calculated from the first directional moments of the spectrum" ; // recommended
                 sea_surface_wave_from_direction:coordinates = "time longitude latitude" ;
-                sea_surface_wave_from_direction:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_from_direction:grid_mapping = "crs" ;
                 sea_surface_wave_from_direction:ancillary_variables = "measurement_quality" ;
         double wave_signal(time) ; // optional
                 wave_signal:long_name = "radar image spectral density of the wave signal" ;
                 wave_signal:units = "1" ;
                 wave_signal:coordinates = "time longitude latitude" ;
-                wave_signal:cell_methods = "area: mean" ; // recommended
+                wave_signal:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 wave_signal:grid_mapping = "crs" ;
                 wave_signal:ancillary_variables = "measurement_quality" ;
         double background_noise(time) ; // optional
                 background_noise:long_name = "radar image spectral density of the background noise" ;
                 background_noise:units = "1" ;
                 background_noise:coordinates = "time longitude latitude" ;
-                background_noise:cell_methods = "area: mean" ; // recommended
+                background_noise:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 background_noise:grid_mapping = "crs" ;
                 background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended

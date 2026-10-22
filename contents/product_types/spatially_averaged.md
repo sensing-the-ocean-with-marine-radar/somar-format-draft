@@ -57,7 +57,9 @@ The layout of a file follows the [discrete sampling geometries][cf-dsg] of CF, a
 
 The file should declare its layout by the global attribute `featureType`, `"trajectory"` or `"timeSeries"`, and identify the trajectory or time series by a scalar string variable, `trajectory` with `cf_role = "trajectory_id"` or `station` with `cf_role = "timeseries_id"`, whose value names the platform, the cruise, or the station.
 The data variables carry `coordinates = "time longitude latitude"`, which CF requires of discrete sampling geometries.
-Since the location of a discrete sampling geometry is a point, CF provides for data that are averaged over an area by assigning them a representative position ([CF][cf-dsg], section 9.1), here the mean position of the windows; the data variables that hold averaged quantities should state this averaging by `cell_methods = "area: mean"` ([CF][cf-cell-methods], section 7.3).
+Since the location of a discrete sampling geometry is a point, CF stores data that are averaged over an area by assigning them a nominal position ([CF][cf-dsg], section 9.1); SOMaR assigns the mean position of the windows.
+The spectra, and the other data variables that are means over the analysis windows, such as `wave_signal`, `background_noise`, and the near-surface current, should state this averaging by `cell_methods = "area: mean (comment: over the analysis windows of the measurement)"` ([CF][cf-cell-methods], section 7.3.4); the comment rules out the reading of `area` without coordinates as the whole world.
+Parameters computed from a mean spectrum, such as the significant wave height, the peak and mean periods and directions, and the directional spread, are not means over the windows and do not carry it.
 Wave parameters from a fixed platform hold, for example:
 
 ```
@@ -85,7 +87,6 @@ variables:
                 sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
                 sea_surface_wave_significant_height:units = "m" ;
                 sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
-                sea_surface_wave_significant_height:cell_methods = "area: mean" ; // recommended
 
 // global attributes:
                 :featureType = "timeSeries" ; // recommended

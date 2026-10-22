@@ -60,21 +60,21 @@ variables:
                 sea_surface_wave_wavenumber_variance_spectral_density:long_name = "wave energy density two dimensional wavenumber spectrum" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:units = "m4" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:coordinates = "time longitude latitude" ;
-                sea_surface_wave_wavenumber_variance_spectral_density:cell_methods = "area: mean" ; // recommended
+                sea_surface_wave_wavenumber_variance_spectral_density:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 sea_surface_wave_wavenumber_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_wavenumber_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         double wave_signal(time) ; // optional
                 wave_signal:long_name = "radar image spectral density of the wave signal" ;
                 wave_signal:units = "1" ;
                 wave_signal:coordinates = "time longitude latitude" ;
-                wave_signal:cell_methods = "area: mean" ; // recommended
+                wave_signal:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 wave_signal:grid_mapping = "crs" ;
                 wave_signal:ancillary_variables = "measurement_quality" ;
         double background_noise(time) ; // optional
                 background_noise:long_name = "radar image spectral density of the background noise" ;
                 background_noise:units = "1" ;
                 background_noise:coordinates = "time longitude latitude" ;
-                background_noise:cell_methods = "area: mean" ; // recommended
+                background_noise:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 background_noise:grid_mapping = "crs" ;
                 background_noise:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended

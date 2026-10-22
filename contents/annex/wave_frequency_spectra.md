@@ -56,7 +56,7 @@ variables:
                 sea_surface_wave_variance_spectral_density:standard_name = "sea_surface_wave_variance_spectral_density" ;
                 sea_surface_wave_variance_spectral_density:units = "m2 s" ;
                 sea_surface_wave_variance_spectral_density:coordinates = "time longitude latitude" ;
-                sea_surface_wave_variance_spectral_density:cell_methods = "area: mean" ; // recommended
+                sea_surface_wave_variance_spectral_density:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 sea_surface_wave_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         float sea_surface_wave_directional_spread(time, wave_frequency) ; // optional
@@ -64,7 +64,6 @@ variables:
                 sea_surface_wave_directional_spread:standard_name = "sea_surface_wave_directional_spread" ;
                 sea_surface_wave_directional_spread:units = "degree" ;
                 sea_surface_wave_directional_spread:coordinates = "time longitude latitude" ;
-                sea_surface_wave_directional_spread:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_directional_spread:grid_mapping = "crs" ;
                 sea_surface_wave_directional_spread:ancillary_variables = "measurement_quality" ;
         float sea_surface_wave_mean_from_direction(time, wave_frequency) ; // optional
@@ -72,7 +71,6 @@ variables:
                 sea_surface_wave_mean_from_direction:standard_name = "sea_surface_wave_mean_from_direction" ;
                 sea_surface_wave_mean_from_direction:units = "degree" ;
                 sea_surface_wave_mean_from_direction:coordinates = "time longitude latitude" ;
-                sea_surface_wave_mean_from_direction:cell_methods = "area: mean" ; // recommended
                 sea_surface_wave_mean_from_direction:grid_mapping = "crs" ;
                 sea_surface_wave_mean_from_direction:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended

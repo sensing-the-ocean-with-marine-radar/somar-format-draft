@@ -64,7 +64,7 @@ variables:
                 sea_surface_wave_directional_variance_spectral_density:standard_name = "sea_surface_wave_directional_variance_spectral_density" ;
                 sea_surface_wave_directional_variance_spectral_density:units = "m2 s degree-1" ;
                 sea_surface_wave_directional_variance_spectral_density:coordinates = "time longitude latitude" ;
-                sea_surface_wave_directional_variance_spectral_density:cell_methods = "area: mean" ; // recommended
+                sea_surface_wave_directional_variance_spectral_density:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
                 sea_surface_wave_directional_variance_spectral_density:grid_mapping = "crs" ;
                 sea_surface_wave_directional_variance_spectral_density:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended
