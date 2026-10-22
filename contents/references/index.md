@@ -60,7 +60,7 @@ CF Standard Name Table, version 95. [https://cfconventions.org/Data/cf-standard-
 ESIP, Attribute Convention for Data Discovery (ACDD), version 1.3. [https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3).
 {: #acdd }
 
-WMO, Manual on Codes, Volume I.2: International Codes (WMO-No. 306), FM 301 (WMO-CF Radial). [https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
+WMO, 2025: Manual on Codes, Volume I.2: International Codes (WMO-No. 306), 2025 edition, FM 301-2022 (WMO-CF Radial). [https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
 {: #fm301 }
 
 NCAR/EOL, CfRadial data file format, version 2.1. [https://github.com/NCAR/CfRadial/tree/master/docs](https://github.com/NCAR/CfRadial/tree/master/docs).
