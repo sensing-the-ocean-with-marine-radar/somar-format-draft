@@ -26,12 +26,26 @@ are checked against the positions the example gives: scalar latitude and
 longitude values in the data sections and the projection origins of crs
 variables.
 
+A file must also hold the variables that its row in the product-type table
+requires, and meet the conditional requirements of the category pages:
+averaged_quantity on interpolated or averaged backscatter and on
+relative_roughness, fixed_angle exactly in pointing sweeps, a crs on the local
+grid of a Level 2 product and in Cartesian images from a fixed platform only,
+the platform velocity exactly for platform-fixed analysis windows, and the
+coordinates attribute of the data variables of a discrete sampling geometry.
+The attribute tables, and the variable tables of the Metadata pages and of
+product_variables.md, must be in alphabetical order, and the product types
+listed in mandatory_global.md, the product-type tables, the index of the
+product types, the file naming page, and the annex must be the same.
+
 Items that a file may omit are marked by a trailing comment with their tier
 ("// highly recommended", "// recommended", or "// optional"). The markers
 of global attributes and variables are checked against the tables of the
 global attribute pages, the processing parameters, and the page of the
 example; for a product, against the tables of its category page and its row
-in the product-type table there instead. Each file example is also checked
+in the product-type table there instead. The markers of variable attributes
+are checked against the attribute tables of variable_attributes.md and the
+category pages, and those of groups against GROUP_TIERS. Each file example is also checked
 in its minimal form, without the marked items; a block whose first line is
 "// minimal form" must equal the minimal form of the example with the same
 "netcdf" name.
@@ -96,6 +110,17 @@ CELL_METHODS = {"point", "sum", "maximum", "maximum_absolute_value", "median", "
 CELL_METHOD = re.compile(r"((?:\w+:\s*)+)(\w+)((?:\s+(?:where|over|within)\s+\w+)*)(?:\s*\([^)]*\))?")
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
+# The tiers of the groups that a file may omit, as stated in the text of their pages
+# (polar.md, radar_parameters.md, georeference_correction.md, wave_calibration.md); other groups are required.
+GROUP_TIERS = {"georeference": "recommended", "radar_parameters": "optional",
+               "georeference_correction": "optional", "wave_calibration": "recommended"}
+# The pages whose attribute tables give the tiers of variable attributes.
+VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md",) + CATEGORY_PAGES
+# The pages whose variable tables, as well as their attribute tables, are in alphabetical order
+# (see metadata_attributes/index.md#reading-the-tables).
+ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
+# The variables of a discrete sampling geometry that are not data variables.
+DSG_COORDINATES = {"time", "time_bounds", "longitude", "latitude", "trajectory", "station"}
 
 
 def read(path):
@@ -174,6 +199,58 @@ def registry():
             level = re.search(r"\((L\d[a-z])\)\s*$", cells[0]).group(1)
             products[re.search(r"`(\w+)`", cells[1]).group(1)] = (page, tiers, level)
     return products
+
+
+def table_blocks(text):
+    """Yield (line number, class, [names]) for each table of a page, with the class given below it."""
+    names, start = [], None
+    for number, line in enumerate(text.splitlines() + [""], 1):
+        match = re.match(r"\| `(\w+)`", line)
+        if match:
+            start = start or number
+            names.append(match.group(1))
+        elif line.startswith("{: .") and names:
+            yield start, line.strip()[4:-2].strip(), names
+            names, start = [], None
+        elif not line.startswith("|"):
+            names, start = [], None
+
+
+def attribute_tiers():
+    """Return {attribute: tier} for the variable attributes whose description starts with a tier."""
+    tiers = {}
+    for page in VARIABLE_ATTRIBUTE_PAGES:
+        text = read(os.path.join(ROOT, page))
+        rows = [line for line in text.splitlines() if line.startswith("| `")]
+        attribute_rows = set()
+        for start, kind, names in table_blocks(text):
+            if kind == "attribute-table":
+                attribute_rows.update(names)
+        tiers.update(table_tiers("\n".join(row for row in rows if re.match(r"\| `(\w+)`", row).group(1) in attribute_rows), strict=False))
+    return tiers
+
+
+def product_type_lists():
+    """Return {page: set of product types} for the pages that list all product types besides mandatory_global.md."""
+    lists = {}
+    index = read(os.path.join(ROOT, "contents/product_types/index.md"))
+    lists["contents/product_types/index.md"] = {re.findall(r"`(\w+)`", line.split("|")[4])[0] for line in index.splitlines() if line.startswith("| **L")}
+    naming = read(os.path.join(ROOT, "contents/file_naming/index.md"))
+    lists["contents/file_naming/index.md"] = set(re.findall(r"^\| `\w+?_[0-9-]+_(\w+)\.nc`", naming, re.M))
+    lists["contents/annex/*.md"] = {match.group(1) for page in glob.glob(os.path.join(ROOT, "contents/annex/*.md"))
+                                    for match in [re.search(r"The product type `(\w+)`", read(page))] if match}
+    return lists
+
+
+def check_table_order(relative, text):
+    """Check that the attribute tables, and the variable tables of some pages, are in alphabetical order."""
+    errors = []
+    for start, kind, names in table_blocks(text):
+        alphabetical = kind == "attribute-table" or (kind == "variable-table" and relative.startswith(ALPHABETICAL_VARIABLE_PAGES))
+        if alphabetical and names != sorted(names, key=str.lower):
+            first = next(a for a, b in zip(names, sorted(names, key=str.lower)) if a != b)
+            errors.append(f"the {kind} at line {start} is not in alphabetical order (first out of place: {first})")
+    return errors
 
 
 def global_tiers():
@@ -327,18 +404,25 @@ def minimal(block):
     return "\n".join(result) + "\n"
 
 
-def check_tiers(block, tiers):
-    """Check the tier markers of global attributes and variables against the tables."""
+def check_tiers(block, tiers, variable_attribute_tiers):
+    """Check the tier markers of global attributes, variables, variable attributes, and groups against the tables."""
     errors = []
-    for line in block.splitlines():
+    for number, line in enumerate(block.lstrip().splitlines()):
         match = ATTRIBUTE.match(line)
+        # A block that is a group on its own, as on the Metadata pages, has no tier for it.
+        group = number > 0 and (GROUP_OPEN.match(line) or PLACEHOLDER.match(line))
         if match and match.group(2) == "":
-            kind, name = "global attribute", match.group(3)
+            kind, name, expected = "global attribute", match.group(3), tiers.get(match.group(3))
+        elif match:
+            kind, name, expected = "attribute", f"{match.group(2)}:{match.group(3)}", variable_attribute_tiers.get(match.group(3))
         elif DECLARATION.match(line):
             kind, name = "variable", DECLARATION.match(line).group(1)
+            expected = tiers.get(name)
+        elif group:
+            kind, name = "group", group.group(group.lastindex)
+            expected = GROUP_TIERS.get(name, "required")
         else:
             continue
-        expected = tiers.get(name)
         marked = tier(line) or "required"
         if expected is None or marked == expected or (marked == "required" and expected == "recommended" and tier(line)):
             continue
@@ -347,12 +431,13 @@ def check_tiers(block, tiers):
 
 
 def parse_header(text):
-    """Parse "ncdump" output into {group path: {"variables": {...}, "attributes": {...}, "data": {...}, "dimensions": {...}}}.
+    """Parse "ncdump" output into {group path: {"variables": {...}, "attributes": {...}, "data": {...}, "strings": {...}, "dimensions": {...}}}.
 
-    "data" holds the values of variables whose data section gives a single number, and
-    "dimensions" the dimension names of each variable.
+    "data" holds the values of variables whose data section gives a single number, "strings"
+    those whose data section gives a single string, and "dimensions" the dimension names of
+    each variable.
     """
-    groups = {"/": {"variables": {}, "attributes": {}, "data": {}, "dimensions": {}}}
+    groups = {"/": {"variables": {}, "attributes": {}, "data": {}, "strings": {}, "dimensions": {}}}
     stack = ["/"]
     section = None
     for line in text.splitlines():
@@ -360,7 +445,7 @@ def parse_header(text):
         match = re.match(r"group: (\w+) \{$", stripped)
         if match:
             path = stack[-1].rstrip("/") + "/" + match.group(1)
-            groups[path] = {"variables": {}, "attributes": {}, "data": {}, "dimensions": {}}
+            groups[path] = {"variables": {}, "attributes": {}, "data": {}, "strings": {}, "dimensions": {}}
             stack.append(path)
             section = None
             continue
@@ -375,6 +460,9 @@ def parse_header(text):
             match = re.match(r"^(\w+) = (-?[0-9.]+(?:e[-+]?\d+)?) ;$", stripped)
             if match:
                 group["data"][match.group(1)] = float(match.group(2))
+            match = re.match(r'^(\w+) = "(.*)" ;$', stripped)
+            if match:
+                group["strings"][match.group(1)] = match.group(2)
             continue
         match = re.match(r"^(?:string )?(\w*):(\w+) = (.*) ;$", stripped)
         if match:
@@ -497,6 +585,55 @@ def check_bounds_variable(groups, path, variable, name):
     return errors
 
 
+def anywhere(groups, name):
+    """Whether any group holds a variable of that name."""
+    return any(name in group["variables"] for group in groups.values())
+
+
+def check_rules(groups, is_file, expected):
+    """Check the conditional requirements of the category pages and the required variables of a product."""
+    errors = []
+    root = groups["/"]["attributes"]
+    product = unquote(root.get("product_type", ""))
+    for path, group in groups.items():
+        for variable, attributes in group["variables"].items():
+            where = f"{path.rstrip('/')}/{variable}" if path != "/" else variable
+            # averaged_quantity: on resampled or averaged backscatter and on relative_roughness (variable_attributes.md).
+            method = unquote(attributes.get("azimuth_regularization", attributes.get("cartesian_resampling", "")))
+            averaged = (method and method != "nearest_neighbor") or variable == "relative_roughness" or (
+                variable in LEVEL1_DATA_VARIABLES and "time: mean" in unquote(attributes.get("cell_methods", "")))
+            if averaged and "averaged_quantity" not in attributes:
+                errors.append(f"{where}: is interpolated or averaged but has no averaged_quantity")
+            # The data variables of a discrete sampling geometry name their coordinates (spatially_averaged.md).
+            if "featureType" in root and "time" in group["dimensions"].get(variable, ()) and variable not in DSG_COORDINATES \
+                    and unquote(attributes.get("coordinates", "")).split() != ["time", "longitude", "latitude"]:
+                errors.append(f'{where}: a variable of a discrete sampling geometry needs coordinates = "time longitude latitude"')
+        # fixed_angle is required in pointing sweeps and omitted otherwise (polar.md).
+        pointing = group["strings"].get("sweep_mode") == "pointing"
+        if pointing != ("fixed_angle" in group["variables"]):
+            errors.append(f"{path}: fixed_angle is required if sweep_mode is \"pointing\" and omitted otherwise")
+        # The local grid of a Level 2 product needs its crs (gridded.md).
+        if product in expected["level2_product_types"] and {"x", "y"} <= group["variables"].keys() and not resolve(groups, path, "crs"):
+            errors.append(f"{path}: a local grid needs a crs")
+    if not is_file:
+        return errors
+    # Cartesian images carry a crs from a fixed platform only (gridded.md).
+    if product == "radar_cartesian":
+        fixed = groups["/"]["dimensions"].get("longitude") == ()
+        if fixed != ("crs" in groups["/"]["variables"]):
+            errors.append("Cartesian images need a crs from a fixed platform and none from a moving one")
+    # Platform-fixed analysis windows require the platform velocity, which is omitted otherwise (spatially_averaged.md).
+    platform_fixed = unquote(root.get("analysis_window_motion", "")) == "platform_fixed"
+    for variable in ("platform_speed_wrt_ground", "platform_course"):
+        if platform_fixed != anywhere(groups, variable):
+            errors.append(f'{variable} is required if analysis_window_motion is "platform_fixed" and omitted otherwise')
+    # The variables that the product-type table requires; of the Level 1 data variables, exactly one is checked above.
+    for name, tier_of_name in expected["product_tiers"].get(product, {}).items():
+        if tier_of_name == "required" and name not in LEVEL1_DATA_VARIABLES and not anywhere(groups, name):
+            errors.append(f"misses {name}, which the product-type table requires for {product}")
+    return errors
+
+
 def check_header(groups, is_file, names, units_module, expected, minimal_form=False):
     errors = []
     entries, aliases = names
@@ -539,6 +676,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
             for attribute in ("flag_values", "flag_masks"):
                 if attribute in attributes and len(attributes[attribute].split(",")) != len(meanings):
                     errors.append(f"{where}: {attribute} and flag_meanings differ in length")
+    errors += check_rules(groups, is_file, expected)
     if is_file:
         root = groups["/"]["attributes"]
         missing = [a for a in expected["mandatory_attributes"] if a not in root]
@@ -601,9 +739,13 @@ def main():
     category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
     expected["level1_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L1")}
     expected["level2_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L2")}
-    unlisted = expected["product_types"] - products.keys()
-    if unlisted:
-        sys.exit(f"product types missing from the product-type tables: {', '.join(sorted(unlisted))}")
+    expected["product_tiers"] = {p: row for p, (_, row, _) in products.items()}
+    variable_attribute_tiers = attribute_tiers()
+    lists = {"the product-type tables": set(products), **product_type_lists()}
+    for where, listed in lists.items():
+        if listed != expected["product_types"]:
+            differences = sorted(listed ^ expected["product_types"])
+            sys.exit(f"the product types of {where} differ from those in mandatory_global.md: {', '.join(differences)}")
     pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
     # The examples by file name, from which the written-out minimal forms are derived.
     examples = {block.split()[1]: block for page in pages for block in FENCE.findall(read(page)) if block.startswith("netcdf ")}
@@ -632,6 +774,12 @@ def main():
             relative = os.path.relpath(page, ROOT)
             text = read(page)
             tiers_of_page = {**tiers, **table_tiers(text)}
+            order = check_table_order(relative, text)
+            if order:
+                failures += 1
+                print(f"FAIL {relative}:")
+                for error in order:
+                    print(f"     {error}")
             for number, block in enumerate(FENCE.findall(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
                 product = PRODUCT_TYPE.search(block)
@@ -651,7 +799,7 @@ def main():
                         errors.append(f'differs from the minimal form of the example "netcdf {name}"')
                     forms = [("", body, True, errors)]
                 else:
-                    forms = [("", block, False, check_tiers(block, tiers_of_block))]
+                    forms = [("", block, False, check_tiers(block, tiers_of_block, variable_attribute_tiers))]
                     if block.startswith("netcdf "):
                         forms.append((" (minimal form)", minimal(block), True, []))
                 for suffix, form, minimal_form, errors in forms:
