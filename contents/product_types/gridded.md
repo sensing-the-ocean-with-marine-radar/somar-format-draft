@@ -102,6 +102,7 @@ For a moving platform, they have the dimension `time`, with one value per image;
 
 | Variable | Values | Description |
 |---|---|---|
+| `crs`<br><small>[CF][cf]</small> | char | Required for a fixed platform; omitted for a moving platform. Local azimuthal equidistant projection centered on the radar antenna (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)). |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each revolution. |
 | `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required. Distance east of the grid origin. |
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin. |
@@ -109,8 +110,9 @@ For a moving platform, they have the dimension `time`, with one value per image;
 | `latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
 {: .variable-table }
 
-The file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)).
-For the same reason, `x` and `y` carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
+From a moving platform, the file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)).
+For the same reason, `x` and `y` then carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
+From a fixed platform, the origin does not move: the file carries a `crs` that describes the azimuthal equidistant projection centered on the radar antenna, the data variable carries `grid_mapping = "crs"`, and `x` and `y` carry the standard names `projection_x_coordinate` and `projection_y_coordinate`.
 
 ### Resampling
 

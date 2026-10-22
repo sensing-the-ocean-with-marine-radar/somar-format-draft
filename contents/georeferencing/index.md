@@ -113,7 +113,7 @@ Because the origin changes as a platform moves, each local grid is valid only fo
 - Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
 From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/gridded.md#fixed-platform)).
-[Level 1b Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) are stored as one cube instead, the third form of gridded products: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and there is no `crs`, since a single `crs` variable can describe only one origin.
+[Level 1b Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) are stored as one cube instead, the third form of gridded products: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and from a moving platform there is no `crs`, since a single `crs` variable can describe only one origin; from a fixed platform, the cube has one `crs`, like the other single grids.
 
 ## Positions of analysis windows
 
