@@ -15,7 +15,8 @@ is "// excerpt":
 Each block is built with "ncgen -k nc4" and its "ncdump" output checked
 against the pinned CF standard name table, UDUNITS (through cf-units), CF
 scoping rules for references between variables and for the names of a
-coordinate reference system, and the SOMaR rules for global attributes and
+coordinate reference system, the CF syntax of cell_methods, the dimensions
+and units of bounds variables, and the SOMaR rules for global attributes and
 file names, among them that a file whose structure is that of a moving
 platform sets platform_is_mobile to "true" and that a Level 2 file that sets
 it has that structure; the examples must carry the highly recommended global
@@ -88,6 +89,11 @@ CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datu
 # Recommended global attributes that a file must carry under a condition stated in their description,
 # such as platform_is_mobile from a moving platform; their tier is not checked.
 CONDITIONAL_ATTRIBUTES = ("platform_is_mobile",)
+# The methods of cell_methods (CF Appendix E) and one of its entries: names, a method, and qualifiers (CF 7.3).
+CELL_METHODS = {"point", "sum", "maximum", "maximum_absolute_value", "median", "mid_range", "minimum",
+                "minimum_absolute_value", "mean", "mean_absolute_value", "mean_of_upper_decile", "mode", "range",
+                "root_mean_square", "standard_deviation", "sum_of_squares", "variance"}
+CELL_METHOD = re.compile(r"((?:\w+:\s*)+)(\w+)((?:\s+(?:where|over|within)\s+\w+)*)(?:\s*\([^)]*\))?")
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 
@@ -453,13 +459,42 @@ def unquote(value):
 
 
 def resolve(groups, path, name):
-    """Find a variable by name in the group or one of its ancestors (CF 1.8 scoping)."""
+    """Return the path of the group that holds a variable, searching the group and its ancestors (CF 1.8 scoping), or None."""
     while True:
         if name in groups[path]["variables"]:
-            return True
+            return path
         if path == "/":
-            return False
+            return None
         path = path.rsplit("/", 1)[0] or "/"
+
+
+def check_cell_methods(where, value, dimensions, coordinates):
+    """Check a cell_methods value: entries of names and a CF method, whose names are dimensions of the
+    variable, scalar coordinates listed in its coordinates attribute, or "area" (CF 7.3)."""
+    if not re.fullmatch(rf"\s*(?:{CELL_METHOD.pattern}\s*)+", value):
+        return [f'{where}: cell_methods "{value}" does not follow the CF syntax "name: method"']
+    errors = []
+    for match in CELL_METHOD.finditer(value):
+        if match.group(2) not in CELL_METHODS:
+            errors.append(f'{where}: cell_methods method "{match.group(2)}" is not a CF method')
+        for name in re.findall(r"(\w+):", match.group(1)):
+            if name not in dimensions and name not in coordinates and name != "area":
+                errors.append(f'{where}: cell_methods names "{name}", which is neither a dimension nor a listed coordinate')
+    return errors
+
+
+def check_bounds_variable(groups, path, variable, name):
+    """Check that a bounds variable has the dimensions of its variable plus one, and the same units and calendar (CF 7.1)."""
+    errors, where = [], f"{path.rstrip('/')}/{variable}" if path != "/" else variable
+    target = groups[resolve(groups, path, name)]
+    dimensions, bounds_dimensions = groups[path]["dimensions"].get(variable, ()), target["dimensions"].get(name, ())
+    if bounds_dimensions[:-1] != dimensions or len(bounds_dimensions) != len(dimensions) + 1:
+        errors.append(f"{where}: bounds {name} has the dimensions ({', '.join(bounds_dimensions)}), expected those of {variable} and one more")
+    for attribute in ("units", "calendar"):
+        value = target["variables"][name].get(attribute)
+        if value is not None and value != groups[path]["variables"][variable].get(attribute):
+            errors.append(f"{where}: bounds {name} has {attribute} {value}, which differs from that of {variable}")
+    return errors
 
 
 def check_header(groups, is_file, names, units_module, expected, minimal_form=False):
@@ -493,6 +528,10 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                 for required in expected["variable_rules"].get(variable, []):
                     if not resolve(groups, path, required):
                         errors.append(f"{where}: requires {required}, which does not exist in scope (see product_variables.md)")
+            if "cell_methods" in attributes:
+                errors += check_cell_methods(where, unquote(attributes["cell_methods"]), group["dimensions"].get(variable, ()), unquote(attributes.get("coordinates", "")).split())
+            if "bounds" in attributes and resolve(groups, path, unquote(attributes["bounds"])):
+                errors += check_bounds_variable(groups, path, variable, unquote(attributes["bounds"]))
             names = [name for name in CRS_NAMES if name in attributes]
             if names and len(names) < len(CRS_NAMES):
                 errors.append(f"{where}: has {', '.join(names)} but not {', '.join(n for n in CRS_NAMES if n not in names)}, which CF requires together")

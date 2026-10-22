@@ -37,7 +37,7 @@ Then open <http://localhost:4000>. The built site is written to `_site/`.
 
 ## Checking the examples
 
-The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, and the SOMaR rules for global attributes and file names:
+The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, the CF rules for references between variables, `cell_methods`, and bounds, and the SOMaR rules for global attributes and file names:
 
 ```sh
 pip install cf-units   # optional locally; without it, the unit checks are skipped
