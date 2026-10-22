@@ -38,6 +38,14 @@ product_variables.md, must be in alphabetical order, and the product types
 listed in mandatory_global.md, the product-type tables, the index of the
 product types, the file naming page, and the annex must be the same.
 
+The values of an example must agree with each other: the file name with
+time_coverage_start, time_coverage_start with the start of the earliest
+time_<YYYYMMDDHHMMSS> group, each such group name with its time and
+time_iso_8601, time_iso_8601 with the value of time, time_coverage_end with
+the start, the flags of a flag variable with its valid_range, and the spatial
+bounds with the extent of a geographic grid of analysis windows, from the
+dimension lengths as written and analysis_window_spacing.
+
 Items that a file may omit are marked by a trailing comment with their tier
 ("// highly recommended", "// recommended", or "// optional"). The markers
 of global attributes and variables are checked against the tables of the
@@ -57,7 +65,9 @@ Without cf-units installed, the unit checks are skipped with a warning;
 """
 
 import argparse
+import datetime
 import glob
+import math
 import os
 import re
 import subprocess
@@ -79,7 +89,7 @@ EXTRA_UNITS = {"dB"}
 LEVEL1_DATA_VARIABLES = {"backscatter_amplitude", "backscatter_power"}
 GEOSPATIAL_ATTRIBUTES = ("geospatial_lat_min", "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max")
 FILE_NAME = re.compile(
-    r"^(?P<station>[a-z0-9]+)_\d{4}-\d{2}-\d{2}-\d{2}(-\d{2})?_"
+    r"^(?P<station>[a-z0-9]+)_(?P<date>\d{4}-\d{2}-\d{2})-(?P<hour>\d{2})(?:-(?P<minute>\d{2}))?_"
     r"(?P<product>[a-z0-9_]+)$"
 )
 FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
@@ -119,6 +129,8 @@ VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md
 # The pages whose variable tables, as well as their attribute tables, are in alphabetical order
 # (see metadata_attributes/index.md#reading-the-tables).
 ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
+# Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
+METERS_PER_DEGREE = 111320.0
 # The variables of a discrete sampling geometry that are not data variables.
 DSG_COORDINATES = {"time", "time_bounds", "longitude", "latitude", "trajectory", "station"}
 
@@ -634,6 +646,105 @@ def check_rules(groups, is_file, expected):
     return errors
 
 
+def raw_dimensions(cdl):
+    """Return {group path: {dimension: length}} as written in a block, before the lengths are capped."""
+    dimensions, stack, section = {"/": {}}, ["/"], None
+    for line in cdl.splitlines():
+        match = GROUP_OPEN.match(line)
+        if match and not PLACEHOLDER.match(line):
+            stack.append(stack[-1].rstrip("/") + "/" + match.group(1))
+            dimensions[stack[-1]], section = {}, None
+        elif GROUP_CLOSE.match(line):
+            stack.pop()
+        elif line.strip() in ("dimensions:", "variables:", "data:"):
+            section = line.strip()
+        elif section == "dimensions:":
+            match = re.match(r"^\s*(\w+) = (\d+) ;", line)
+            if match:
+                dimensions[stack[-1]][match.group(1)] = int(match.group(2))
+    return dimensions
+
+
+def instant(value):
+    """Return the datetime of an ISO 8601 string in UTC, or None."""
+    try:
+        return datetime.datetime.fromisoformat(unquote(value or "").replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def numbers(value):
+    """Return the integers of an ncdump list such as "1UB, 2UB, 4UB"."""
+    return [int(number) for number in re.findall(r"-?\d+", value or "")]
+
+
+def length(dimensions, path, name):
+    """Return the written length of a dimension, searching the group and its ancestors, or None."""
+    while True:
+        if name in dimensions.get(path, {}):
+            return dimensions[path][name]
+        if path == "/":
+            return None
+        path = path.rsplit("/", 1)[0] or "/"
+
+
+def check_values(groups, is_file, expected):
+    """Check that the times, flags, and spatial bounds of an example agree with each other."""
+    errors = []
+    root = groups["/"]["attributes"]
+    starts = []
+    for path, group in groups.items():
+        name = re.fullmatch(r"time_(\d{14})", path.rsplit("/", 1)[-1])
+        time = group["variables"].get("time", {})
+        iso = instant(time.get("time_iso_8601"))
+        value = group["data"].get("time")
+        start = iso or (datetime.datetime.fromtimestamp(value, datetime.timezone.utc) if value is not None else None)
+        # time_iso_8601 states the same instant as the value of time (variable_attributes.md).
+        if iso and value is not None and abs(iso.timestamp() - value) > 0.001:
+            errors.append(f"{path}: time_iso_8601 {iso.isoformat()} differs from the value of time")
+        # A time-bounded grid is named after its start time (gridded.md).
+        if name and start and start.strftime("%Y%m%d%H%M%S") != name.group(1):
+            errors.append(f"{path}: the group is named after {name.group(1)}, but its time is {start.isoformat()}")
+        if name and start:
+            starts.append(start)
+        # The flags of a flag variable lie within its valid range.
+        for variable, attributes in group["variables"].items():
+            valid = numbers(attributes.get("valid_range"))
+            for attribute in ("flag_values", "flag_masks"):
+                outside = [n for n in numbers(attributes.get(attribute)) if len(valid) == 2 and not valid[0] <= n <= valid[1]]
+                if outside:
+                    errors.append(f"{path.rstrip('/')}/{variable}: {attribute} {outside} lie outside valid_range")
+    if not is_file:
+        return errors
+    first, last = instant(root.get("time_coverage_start")), instant(root.get("time_coverage_end"))
+    # The file name gives the UTC date and hour, and the minute if any, at which the coverage begins (file_naming).
+    match = FILE_NAME.match(expected["file_name"])
+    if match and first:
+        named = f"{match.group('date')}T{match.group('hour')}:{match.group('minute') or first.strftime('%M')}"
+        if first.strftime("%Y-%m-%dT%H:%M") != named:
+            errors.append(f'file name "{expected["file_name"]}" does not match time_coverage_start {first.isoformat()}')
+    if first and last and last < first:
+        errors.append("time_coverage_end lies before time_coverage_start")
+    # The coverage begins with the first observation, the start of the earliest group (optional_global.md).
+    if first and starts and abs(first.timestamp() - min(starts).timestamp()) > 0.001:
+        errors.append(f"time_coverage_start {first.isoformat()} is not the start of the earliest group, {min(starts).isoformat()}")
+    # A geographic grid of analysis windows spans (n - 1) spacings, which the spatial bounds must enclose.
+    bounds = [number(root.get(a)) for a in GEOSPATIAL_ATTRIBUTES]
+    spacing = number(root.get("analysis_window_spacing"))
+    if None not in bounds and spacing:
+        lat_min, lat_max, lon_min, lon_max = bounds
+        for path, group in groups.items():
+            if group["dimensions"].get("latitude") != ("latitude",) or group["dimensions"].get("longitude") != ("longitude",):
+                continue
+            n_lat, n_lon = length(expected["dimensions"], path, "latitude"), length(expected["dimensions"], path, "longitude")
+            lat_span = (n_lat - 1) * spacing / METERS_PER_DEGREE
+            lon_span = (n_lon - 1) * spacing / (METERS_PER_DEGREE * math.cos(math.radians((lat_min + lat_max) / 2)))
+            if lat_max - lat_min < 0.99 * lat_span or (lon_max - lon_min) % 360 < 0.99 * lon_span:
+                errors.append(f"{path}: the spatial bounds span less than the {n_lat} x {n_lon} grid of {spacing:g} m spacing "
+                              f"({lat_span:.4f} degrees of latitude, {lon_span:.4f} of longitude)")
+    return errors
+
+
 def check_header(groups, is_file, names, units_module, expected, minimal_form=False):
     errors = []
     entries, aliases = names
@@ -677,6 +788,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                 if attribute in attributes and len(attributes[attribute].split(",")) != len(meanings):
                     errors.append(f"{where}: {attribute} and flag_meanings differ in length")
     errors += check_rules(groups, is_file, expected)
+    errors += check_values(groups, is_file, expected)
     if is_file:
         root = groups["/"]["attributes"]
         missing = [a for a in expected["mandatory_attributes"] if a not in root]
@@ -768,6 +880,7 @@ def main():
             dump = subprocess.run(["ncdump", target], capture_output=True, text=True, check=True).stdout
             is_file = cdl.startswith("netcdf ") and not cdl.startswith("netcdf fragment ")
             expected["file_name"] = cdl.split()[1] if is_file else ""
+            expected["dimensions"] = raw_dimensions(form)
             return check_header(parse_header(dump), is_file, names, units_module, expected, minimal_form)
 
         for page in pages:
