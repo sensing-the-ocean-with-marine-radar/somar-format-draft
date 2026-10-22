@@ -59,7 +59,7 @@ The root group locates the radar antenna:
 | `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level, assumed constant for fixed and moving platforms; needed to convert slant range to ground range (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)). |
 {: .variable-table }
 
-Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md).
+Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile).
 The positions and directions are stored as recorded, and the optional [`georeference_correction` group](../metadata_attributes/georeference_correction.md) in the root group gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Data variables
@@ -87,7 +87,7 @@ Position and heading are recommended rather than required, since a recording sys
 A file without them is not georeferenced: its azimuths remain relative to the radar's zero direction, and its rays cannot be located until navigation data are matched to them by `time`.
 `platform_is_mobile` is still `"true"` in such a file, so that readers know that navigation is needed, and the navigation variables can be added to the file later.
 
-Where navigation variables are present, their attributes [`source`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) and [`sampling_frequency`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables) may name the instrument they are taken from, such as a GNSS receiver or a gyrocompass, and the frequency at which it sampled them.
+Where navigation variables are present, their attributes [`source`](../metadata_attributes/variable_attributes.md#source) and [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) may name the instrument they are taken from, such as a GNSS receiver or a gyrocompass, and the frequency at which it sampled them.
 
 ## Radar parameters
 
@@ -169,7 +169,7 @@ Level 1b pulse-averaged pointing data are derived from Level 1a sweeps recorded 
 They are organized in [sweeps](#sweeps) as Level 1a data are, with the same root group, `sweep_<n>` groups, `georeference` subgroups, and optional groups, and each sweep is one dwell.
 A block never spans the boundary of a sweep, so the last ray of a dwell may be the mean of fewer pulses than the others.
 
-The data variable carries `cell_methods = "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables), which states whether the pulses are averaged in power, in amplitude, or as stored.
+The data variable carries `cell_methods = "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), which states whether the pulses are averaged in power, in amplitude, or as stored.
 
 An averaged sweep group holds the data variable and the following variables.
 
@@ -229,7 +229,7 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 
 | Attribute | Values | Description |
 |---|---|---|
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | Required. On the data variable: the method used to resample rays recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest ray, linear interpolation between the two adjacent rays, or the mean of all rays falling within each azimuth bin. Except for `nearest_neighbor`, the data variable also carries [`averaged_quantity`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables), which states whether interpolation and averaging are done on power, amplitude, or the stored values. Should be accompanied by a `comment` describing the method in words. |
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | Required. On the data variable: the method used to resample rays recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest ray, linear interpolation between the two adjacent rays, or the mean of all rays falling within each azimuth bin. Except for `nearest_neighbor`, the data variable also carries [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), which states whether interpolation and averaging are done on power, amplitude, or the stored values. Should be accompanied by a `comment` describing the method in words. |
 | `rays_angle_resolution`<br><small>SOMaR</small> | Number; degree | Optional. On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution` (Table 301-8), which gives the angular spacing of rays that are indexed to a regular grid; the accompanying FM 301 flag `rays_are_indexed` is implied to be `"true"` and is not stored. |
 {: .attribute-table }
 
@@ -259,9 +259,9 @@ The name of each product links to the table of its file contents in the annex, w
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Radar "raw" data](../annex/level1a.md#file-contents) (L1a) | `radar_polar_raw` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
-| [Polar image sequences](../annex/level1b_polar.md#file-contents) (L1b) | `radar_polar_regularized` | **Required:** one of `backscatter_amplitude` or `backscatter_power`<br>**Optional:** `ray_time` |
-| [Pulse-averaged pointing data](../annex/level1b_pointing.md#file-contents) (L1b) | `radar_polar_averaged` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
+| [Radar "raw" data](../annex/level1a.md#file-contents) (L1a) | `radar_polar_raw` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
+| [Polar image sequences](../annex/level1b_polar.md#file-contents) (L1b) | `radar_polar_regularized` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power)<br>**Optional:** [`ray_time`](product_variables.md#ray_time) |
+| [Pulse-averaged pointing data](../annex/level1b_pointing.md#file-contents) (L1b) | `radar_polar_averaged` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
 {: .product-type-table }
 
 Of `backscatter_amplitude` and `backscatter_power`, a file holds exactly one.

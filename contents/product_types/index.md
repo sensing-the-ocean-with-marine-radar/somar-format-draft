@@ -52,7 +52,7 @@ All products carry the [shared metadata](../metadata_attributes/index.md) in add
 
 ### Moving and fixed platforms
 
-The structure of a file depends on its category and on whether the platform moves, which a file from a moving platform states by setting [`platform_is_mobile`](../metadata_attributes/optional_global.md) to `"true"`:
+The structure of a file depends on its category and on whether the platform moves, which a file from a moving platform states by setting [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) to `"true"`:
 
 | | Moving platform | Fixed platform |
 |---|---|---|

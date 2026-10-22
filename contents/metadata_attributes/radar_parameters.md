@@ -7,7 +7,7 @@ nav_order: 6
 
 # Radar parameters
 
-SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md) and [`source`](optional_global.md).
+SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md#instrument) and [`source`](optional_global.md#source).
 The technical parameters of the radar are stored as variables.
 SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
 
