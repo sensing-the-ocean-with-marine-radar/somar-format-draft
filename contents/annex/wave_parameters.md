@@ -8,11 +8,48 @@ nav_order: 14
 # L2b: Peak and mean wave parameters
 
 {: .informative }
-> This page is informative. The product type `wave_parameters` is one of the [spatially averaged products](../product_types/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `wave_parameters` is one of the [spatially averaged products](../product_types/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height (`sea_surface_wave_significant_height`), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
 The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md).
 To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities (`wave_signal`, `background_noise`), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface (`sea_surface_wave_mean_square_slope`) for the shadowing method; the calibration applies `hs_slope` and `hs_intercept` to the predictor `hs_predictor` computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows, for platform-fixed windows after correcting for the platform velocity (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| a [trajectory](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)` | Required | moving platform |
+| a [time series](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with scalar `longitude` and `latitude` | Required | fixed platform |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "wave_parameters"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| [`featureType`](../metadata_attributes/optional_global.md#featureType) `= "trajectory"` or `"timeSeries"` | Recommended | |
+| [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_analysis_windows`](../metadata_attributes/processing_parameters.md#number_of_analysis_windows), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md#wave_frequency_frame) | Recommended | |
+| [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Optional | |
+| **Variables** | | |
+| [`time`](../product_types/spatially_averaged.md#time), [`longitude`](../product_types/spatially_averaged.md#longitude), [`latitude`](../product_types/spatially_averaged.md#latitude) | Required | |
+| [`time_bounds`](../product_types/spatially_averaged.md#time_bounds) | Optional | |
+| [`crs`](../product_types/spatially_averaged.md#crs) | Recommended | |
+| [`trajectory`](../product_types/spatially_averaged.md#trajectory) | Recommended | moving platform |
+| [`station`](../product_types/spatially_averaged.md#station) | Recommended | fixed platform |
+| [`platform_speed_wrt_ground`](../product_types/spatially_averaged.md#platform_speed_wrt_ground), [`platform_course`](../product_types/spatially_averaged.md#platform_course) | Required | `analysis_window_motion = "platform_fixed"` |
+| [`radar_latitude`](../product_types/spatially_averaged.md#radar_latitude), [`radar_longitude`](../product_types/spatially_averaged.md#radar_longitude) | Optional | |
+| [`sea_surface_wave_significant_height`](../product_types/product_variables.md#sea_surface_wave_significant_height), [`sea_surface_wave_from_direction_at_variance_spectral_density_maximum`](../product_types/product_variables.md#sea_surface_wave_from_direction_at_variance_spectral_density_maximum), [`sea_surface_wave_period_at_variance_spectral_density_maximum`](../product_types/product_variables.md#sea_surface_wave_period_at_variance_spectral_density_maximum), [`sea_surface_wave_mean_period`](../product_types/product_variables.md#sea_surface_wave_mean_period), [`sea_surface_wave_from_direction`](../product_types/product_variables.md#sea_surface_wave_from_direction) | Recommended; at least one required | |
+| [`eastward_sea_water_velocity`](../product_types/spatially_averaged.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../product_types/spatially_averaged.md#northward_sea_water_velocity) | Optional | |
+| [`wave_signal`](../product_types/product_variables.md#wave_signal), [`background_noise`](../product_types/product_variables.md#background_noise), [`sea_surface_wave_mean_square_slope`](../product_types/product_variables.md#sea_surface_wave_mean_square_slope) | Optional | |
+| [`measurement_quality`](../product_types/spatially_averaged.md#measurement_quality) | Recommended | |
+| [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "time longitude latitude"` on the data variables | Required | |
+| [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
+| [`cell_methods`](../metadata_attributes/variable_attributes.md#cell_methods) `= "area: mean (comment: over the analysis windows of the measurement)"` on the means over the analysis windows | Recommended | |
+| [`comment`](../metadata_attributes/variable_attributes.md#comment) on `sea_surface_wave_mean_period` and `sea_surface_wave_from_direction`, defining the mean | Recommended | |
+| **Groups** | | |
+| [`wave_calibration`](../metadata_attributes/wave_calibration.md) | Recommended | |
+{: .contents-table }
 
 ## Example
 
