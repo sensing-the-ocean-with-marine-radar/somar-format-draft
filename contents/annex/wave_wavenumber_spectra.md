@@ -11,6 +11,7 @@ nav_order: 11
 > This page is informative. The product type `wave_wavenumber_spectra` is one of the [spatially averaged products](../product_types/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
 
 Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
+By SOMaR convention, the wavenumber vector points toward the direction from which the waves come, opposite to the direction of propagation, so that the spectrum agrees with the from-direction of the [frequency-direction spectra](wave_frequency_direction_spectra.md); spectra that follow the propagation direction, as in many wave models, are mirrored through the origin (see [Product variables](../product_types/product_variables.md)).
 They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation (Young et al. [1985](../references/index.md#young-1985)).
 The Level 2b [frequency-direction spectra](wave_frequency_direction_spectra.md), [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated, typically against a reference wave data set (see [Wave calibration parameters](../metadata_attributes/wave_calibration.md)).
@@ -43,10 +44,10 @@ variables:
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double eastward_wave_wavenumber(eastward_wave_wavenumber) ;
-                eastward_wave_wavenumber:long_name = "eastward component of the wave wavenumber" ;
+                eastward_wave_wavenumber:long_name = "eastward component of the wavenumber vector, pointing toward the direction from which the waves come" ;
                 eastward_wave_wavenumber:units = "m-1" ;
         double northward_wave_wavenumber(northward_wave_wavenumber) ;
-                northward_wave_wavenumber:long_name = "northward component of the wave wavenumber" ;
+                northward_wave_wavenumber:long_name = "northward component of the wavenumber vector, pointing toward the direction from which the waves come" ;
                 northward_wave_wavenumber:units = "m-1" ;
         double longitude(time) ;
                 longitude:long_name = "mean longitude of wave measurement" ;
