@@ -152,3 +152,70 @@ group: sweep_0 {
 group: georeference_correction { ... } // optional; as in the example under Georeference correction parameters
 }
 ```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-11-00_radar_polar_averaged {
+variables:
+        double altitude ;
+                altitude:units = "m" ;
+                altitude:standard_name = "altitude" ;
+                altitude:long_name = "height of radar antenna above mean sea level" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "radar_polar_averaged" ;
+data:
+        altitude = 18.5 ;
+
+group: sweep_0 {
+  dimensions:
+        time = 225000 ; // number of rays in the dwell, e.g. 10 min at 3000 Hz PRF averaged over 8 pulses
+        range = 1000 ; // number of range gates
+        nv = 2 ;
+  variables:
+        double time(time) ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:calendar = "standard" ;
+                time:standard_name = "time" ;
+                time:long_name = "mean time of the averaged pulses" ;
+        float range(range) ;
+                range:units = "m" ;
+                range:long_name = "range_to_measurement_volume" ;
+        float azimuth(time) ;
+                azimuth:units = "degree" ;
+                azimuth:long_name = "mean radar antenna pointing direction of the averaged pulses" ;
+                azimuth:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
+        string sweep_mode ;
+                sweep_mode:long_name = "sweep scan mode" ;
+        float fixed_angle ;
+                fixed_angle:units = "degree" ;
+                fixed_angle:long_name = "nominal antenna pointing direction" ;
+                fixed_angle:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
+        int n_samples ;
+                n_samples:long_name = "number of pulses averaged into each ray" ;
+        ushort backscatter_amplitude(time, range) ;
+                backscatter_amplitude:scale_factor = 0.176738930567883 ;
+                backscatter_amplitude:add_offset = 0. ;
+                backscatter_amplitude:_FillValue = 65535US ;
+                backscatter_amplitude:long_name = "radar backscatter amplitude" ;
+                backscatter_amplitude:units = "1" ;
+                backscatter_amplitude:coordinates = "azimuth range" ;
+                backscatter_amplitude:cell_methods = "time: mean" ;
+                backscatter_amplitude:averaged_quantity = "amplitude" ;
+  data:
+        sweep_mode = "pointing" ;
+        fixed_angle = 45. ;
+        n_samples = 8 ;
+
+  } // group sweep_0
+
+// ... additional sweep_<n> groups follow the same layout, one per dwell ...
+
+}
+```

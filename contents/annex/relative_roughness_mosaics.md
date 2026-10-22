@@ -124,3 +124,63 @@ group: time_20250115111001 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes from 11:10 to 11:50) ...
 }
 ```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-11_relative_roughness_mosaic {
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "relative_roughness_mosaic" ;
+
+group: time_20250115111001 {
+  dimensions:
+        y = 2182 ;
+        x = 2195 ;
+  variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 145.886424800978 ;
+                crs:latitude_of_projection_origin = 14.9832181178649 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of radar measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar position at measurement start time" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar position at measurement start time" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        float relative_roughness(y, x) ;
+                relative_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
+                relative_roughness:units = "1" ;
+                relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
+                relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:averaged_quantity = "power" ;
+                relative_roughness:ancillary_variables = "start_time_of_observations" ;
+        float start_time_of_observations(y, x) ;
+                start_time_of_observations:long_name = "start time of the radar backscatter power averages in seconds after the group time" ;
+                start_time_of_observations:units = "s" ;
+                start_time_of_observations:grid_mapping = "crs" ;
+  } // group time_20250115111001
+
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes from 11:10 to 11:50) ...
+}
+```

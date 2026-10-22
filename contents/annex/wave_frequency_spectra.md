@@ -145,3 +145,45 @@ variables:
 group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
 }
 ```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-11_wave_frequency_spectra {
+dimensions:
+        time = 29 ;
+        wave_frequency = 512 ;
+variables:
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of wave measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double wave_frequency(wave_frequency) ;
+                wave_frequency:long_name = "wave frequency" ;
+                wave_frequency:standard_name = "wave_frequency" ;
+                wave_frequency:units = "s-1" ;
+        double longitude(time) ;
+                longitude:long_name = "mean longitude of wave measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(time) ;
+                latitude:long_name = "mean latitude of wave measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        float sea_surface_wave_variance_spectral_density(time, wave_frequency) ;
+                sea_surface_wave_variance_spectral_density:long_name = "wave energy density frequency spectrum" ;
+                sea_surface_wave_variance_spectral_density:standard_name = "sea_surface_wave_variance_spectral_density" ;
+                sea_surface_wave_variance_spectral_density:units = "m2 s" ;
+                sea_surface_wave_variance_spectral_density:coordinates = "time longitude latitude" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "wave_frequency_spectra" ;
+
+}
+```

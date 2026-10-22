@@ -180,3 +180,57 @@ data:
   0.053370, 0.056706,
   0.056706, 0.060042 ;
 ```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-11_currents_profile {
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "currents_profile" ;
+
+group: time_20250115110031 {
+  dimensions:
+        wavenumber_bin = 13 ;
+        nv = 2 ;
+        latitude = 17 ;
+        longitude = 17 ;
+  variables:
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double wavenumber_bin(wavenumber_bin) ;
+                wavenumber_bin:long_name = "center of the wavenumber band used by the current measurement" ;
+                wavenumber_bin:units = "m-1" ;
+                wavenumber_bin:bounds = "wavenumber_bin_bounds" ;
+        double wavenumber_bin_bounds(wavenumber_bin, nv) ;
+        double longitude(longitude) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(latitude) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(wavenumber_bin, latitude, longitude) ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+  } // group time_20250115110031
+
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
+}
+```

@@ -137,3 +137,45 @@ group: time_20250115120031 {
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
 }
 ```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-12_bathymetry {
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "bathymetry" ;
+
+group: time_20250115120031 {
+  dimensions:
+        latitude = 17 ;
+        longitude = 17 ;
+  variables:
+        double time ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of bathymetry measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double longitude(longitude) ;
+                longitude:long_name = "center longitude of bathymetry measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(latitude) ;
+                latitude:long_name = "center latitude of bathymetry measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double sea_floor_depth_below_sea_surface(latitude, longitude) ;
+                sea_floor_depth_below_sea_surface:long_name = "distance between sea surface and sea floor" ;
+                sea_floor_depth_below_sea_surface:standard_name = "sea_floor_depth_below_sea_surface" ;
+                sea_floor_depth_below_sea_surface:units = "m" ;
+                sea_floor_depth_below_sea_surface:_FillValue = NaN ;
+  } // group time_20250115120031
+
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
+}
+```

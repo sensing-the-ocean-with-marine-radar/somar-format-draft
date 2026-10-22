@@ -107,6 +107,57 @@ data:
 }
 ```
 
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2023-08-31-17-00_radar_polar_regularized {
+dimensions:
+        time = 40 ;
+        azimuth = 1440 ;
+        range = 1000 ;
+variables:
+        double latitude ;
+                latitude:units = "degrees_north" ;
+                latitude:standard_name = "latitude" ;
+                latitude:long_name = "latitude of radar antenna" ;
+        double longitude ;
+                longitude:units = "degrees_east" ;
+                longitude:standard_name = "longitude" ;
+                longitude:long_name = "longitude of radar antenna" ;
+        double altitude ;
+                altitude:units = "m" ;
+                altitude:standard_name = "altitude" ;
+                altitude:long_name = "height of radar antenna above mean sea level" ;
+        double time(time) ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:calendar = "standard" ;
+                time:standard_name = "time" ;
+                time:long_name = "start time of radar measurement" ;
+        float azimuth(azimuth) ;
+                azimuth:units = "degree" ;
+                azimuth:long_name = "radar antenna pointing direction on regular grid" ;
+                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
+        float range(range) ;
+                range:units = "m" ;
+                range:long_name = "range_to_measurement_volume" ;
+        float backscatter_amplitude(time, azimuth, range) ;
+                backscatter_amplitude:long_name = "radar backscatter amplitude" ;
+                backscatter_amplitude:units = "1" ;
+                backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "radar_polar_regularized" ;
+data:
+        latitude = 54.1826 ;
+        longitude = 7.8853 ;
+        altitude = 43. ;
+}
+```
+
 ## Example for a moving platform
 
 A radar on a ship, with position and heading recorded per sweep, along with the optional [`radar_parameters`](../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
@@ -178,5 +229,48 @@ data:
 
 group: radar_parameters { ... } // optional; as in the example under Radar parameters
 group: georeference_correction { ... } // optional; as in the example under Georeference correction parameters
+}
+```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-01-15-11-00_radar_polar_regularized {
+dimensions:
+        time = 40 ;
+        azimuth = 1440 ;
+        range = 1000 ;
+variables:
+        double altitude ;
+                altitude:units = "m" ;
+                altitude:standard_name = "altitude" ;
+                altitude:long_name = "height of radar antenna above mean sea level" ;
+        double time(time) ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:calendar = "standard" ;
+                time:standard_name = "time" ;
+                time:long_name = "start time of radar measurement" ;
+        float azimuth(azimuth) ;
+                azimuth:units = "degree" ;
+                azimuth:long_name = "radar antenna pointing direction on regular grid" ;
+                azimuth:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
+        float range(range) ;
+                range:units = "m" ;
+                range:long_name = "range_to_measurement_volume" ;
+        float backscatter_amplitude(time, azimuth, range) ;
+                backscatter_amplitude:long_name = "radar backscatter amplitude" ;
+                backscatter_amplitude:units = "1" ;
+                backscatter_amplitude:azimuth_regularization = "nearest_neighbor" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :platform_is_mobile = "true" ;
+                :product_type = "radar_polar_regularized" ;
+data:
+        altitude = 18.5 ;
+
 }
 ```
