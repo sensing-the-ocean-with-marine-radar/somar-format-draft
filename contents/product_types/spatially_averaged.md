@@ -19,7 +19,7 @@ A file holds a sequence of measurements along the dimension `time`, and the vari
 The windows are spread across the radar field of view, and their placement is left to the processor and should be described in the `comment` global attribute.
 Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](../metadata_attributes/processing_parameters.md).
 Windows that move with the platform cover a track rather than a fixed area during the period.
-Their retrieval assumes that the wave field is spatially homogeneous along this track and that the platform moves at constant velocity during the period, and the mean platform velocity is subtracted afterwards from the current obtained.
+Their retrieval assumes that the wave field is spatially homogeneous along this track and that the platform moves at constant velocity during the period, and the mean platform velocity is added afterwards to the current obtained in the moving frame, which gives the current relative to the ground.
 This velocity is stored as the speed over ground and course of the platform, in the variables `platform_speed_wrt_ground` and `platform_course` with the dimension `time`, which are required for windows that move with the platform and omitted otherwise:
 
 ```
@@ -39,7 +39,7 @@ variables:
                 platform_course:grid_mapping = "crs" ;
 ```
 
-The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after subtracting the mean platform velocity (see [Product variables](product_variables.md)).
+The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after correcting for the mean platform velocity (see [Product variables](product_variables.md)).
 
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
