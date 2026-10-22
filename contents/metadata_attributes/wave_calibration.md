@@ -17,11 +17,11 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 | Variable | Values | Description |
 |---|---|---|
 | `hs_intercept`<br><small>SOMaR</small> | double; `m` | Intercept of the significant wave height calibration. |
-| `hs_slope`<br><small>SOMaR</small> | double; `m` | Slope of the significant wave height calibration. |
 | `hs_method`<br><small>SOMaR</small> | string; `"signal_to_noise_ratio"`, `"shadowing"`, or a name chosen by the processor (see below) | The method from which the predictor of the significant wave height calibration comes. |
 | `hs_predictor`<br><small>SOMaR</small> | string; an expression in variables of the product (see below), e.g. `"sqrt(wave_signal / background_noise)"` | The predictor $P$ to which the slope and intercept are applied. |
-| `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or a name chosen by the processor (see below) | The form of the modulation transfer function. |
+| `hs_slope`<br><small>SOMaR</small> | double; `m` | Slope of the significant wave height calibration. |
 | `mtf_exponent`<br><small>SOMaR</small> | double; `1` | For `"power_law"`: the exponent $\beta$. Omitted otherwise. |
+| `mtf_form`<br><small>SOMaR</small> | string; `"power_law"`, `"none"`, or a name chosen by the processor (see below) | The form of the modulation transfer function. |
 {: .variable-table }
 
 The expression in `hs_predictor` may contain the names of variables with the dimension `time` in the root group of the product, such as `wave_signal`, `background_noise`, or `sea_surface_wave_mean_square_slope`, numbers, the operators `+`, `-`, `*`, and `/`, parentheses, and the functions `sqrt` and `log10`; a predictor that is the wave signal alone, for example, is written `"wave_signal"`.

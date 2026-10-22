@@ -14,6 +14,7 @@ For conventions locating SOMaR's polar data and time-bounded local grids in spac
 
 Attributes are tabulated with three columns: the attribute name, its permitted values, and a description.
 Variables are tabulated with three columns: the variable name, its values, i.e. its type and dimension followed by its units or permitted values, and a description.
+The rows are in alphabetical order, except in the tables of the coordinates and other structural variables on the pages of the [product categories](../product_types/index.md#categories), which follow the structure of the file.
 In both cases, the convention that defines the attribute or variable is named in small print under it, for FM 301 and CfRadial together with the table or section; it is one of five:
 
 - **CF**: the attribute is defined by the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html), version 1.13, and is used as defined there.

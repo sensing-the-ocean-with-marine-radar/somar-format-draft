@@ -16,10 +16,10 @@ The group is used only by [Level 1a](../product_types/polar.md) and [Level 1b po
 | Variable | Values | Description |
 |---|---|---|
 | `azimuth_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `degree` | Correction to the `azimuth` values, e.g. the offset between the radar's zero direction and the bow of the ship. A constant bias of the heading sensor is included here; the separate `heading_correction` of CfRadial 2.1 is not used. |
-| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
-| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
 | `position_offset_x`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard (see [Position offset](../georeferencing/index.md#position-offset)). |
 | `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow (see [Position offset](../georeferencing/index.md#position-offset)). |
+| `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
+| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
 {: .variable-table }
 
 ## Example
