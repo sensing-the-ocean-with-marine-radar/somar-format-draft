@@ -69,6 +69,11 @@ The tables state for each variable and attribute whether it is required, recomme
 - **Optional** items are further diagnostics and details that a producer may add.
 
 Only the required items are part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
+
+Where the tier of an item depends on the file, its description begins with clauses of a fixed form, separated by semicolons, such as "Required on the local grid; recommended on the geographic grid.".
+Each clause gives a tier, or "omitted" for an item that the file does not carry, and the files to which it applies: "for a moving platform" or "for a fixed platform"; "on the local grid" or "on the geographic grid" of a [gridded product](gridded.md#grids); "for maps", i.e. the gridded Level 2 products other than relative roughness images and mosaics, "for relative roughness images and mosaics", "for spatially averaged products", or for a product type, such as "for `sea_ice_drift`"; or the files in which another item has a value, such as "if `sweep_mode` is `"pointing"`".
+A clause ending in "otherwise" applies to the files that no other clause names, and where an omitting clause applies, it takes precedence.
+For a file to which no clause applies, the item is not defined.
 Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
 
 ## Adding a product type

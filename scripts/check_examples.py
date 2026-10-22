@@ -58,12 +58,19 @@ in its minimal form, without the marked items; a block whose first line is
 "// minimal form" must equal the minimal form of the example with the same
 "netcdf" name.
 
+The tiers that depend on the file are written in the fixed form of
+product_types/index.md#requirements ("Required on the local grid;
+recommended on the geographic grid.") and resolved for each example of a
+product from its structure, its grid, its product type, and its values; the
+rows of the sections in SECTION_SCOPES apply to some products only.
+
 The product pages of the annex each have a file contents table, which must
 name every global attribute, variable, and group of the examples on the page,
 every variable attribute that they mark with a tier, and every variable of the
-product-type row; the items of its rows without a condition must appear in the
-examples with the tier of the row, the required and recommended ones in any
-case.
+product-type row. Its conditions must be of the fixed forms of
+contents_condition_holds, and in each example the items of the rows whose
+condition holds, or that have none, must appear with the tier of the row, the
+required and recommended ones in any case.
 
 Usage: python3 scripts/check_examples.py [--strict]
 
@@ -138,6 +145,18 @@ VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md
 ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
 # Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
 METERS_PER_DEGREE = 111320.0
+# The sections of the category pages whose tables apply to some of the products only, by the
+# heading of the section (h2): {page: {section: product types or a key of PRODUCT_GROUPS}}.
+SECTION_SCOPES = {
+    "contents/product_types/polar.md": {"sweeps": {"radar_polar_raw"}, "averaged-sweeps": {"radar_polar_averaged"},
+                                        "image-cube": {"radar_polar_regularized"}},
+    "contents/product_types/gridded.md": {"image-cube-with-moving-origin": {"radar_cartesian"}, "variables": "level 2"},
+}
+# The first sentence of a description that gives a tier, possibly with conditions, and one clause of it.
+TIER_SENTENCE = re.compile(r"(Required|Recommended|Optional)\b(.*?)\.(?:\s|$)")
+TIER_CLAUSE = re.compile(r"(required|recommended|optional|omitted)\b\s*(.*)", re.I)
+# The subjects of the conditions of the tables (see product_types/index.md#requirements).
+MULTIWORD_SUBJECTS = {"relative roughness images and mosaics": "relative roughness"}
 # The file contents table of a product page of the annex, and the names that its rows link to.
 CONTENTS_TABLE = "{: .contents-table }"
 LINKED_NAME = re.compile(r"\[`(\w+)`\]\(([^)]*)\)")
@@ -300,53 +319,223 @@ def contents_rows(text):
     return rows
 
 
+def enclosing_tiers(block):
+    """Yield (line, tier) for the lines of a block, with the tier of the innermost marked group around the line, or None.
+
+    The items of a group that a file may omit are omitted with it, so that its tier is theirs.
+    """
+    stack = []
+    for line in block.splitlines():
+        match = GROUP_OPEN.match(line)
+        if match and not PLACEHOLDER.match(line):
+            yield line, next((t for t in reversed(stack) if t), None)
+            stack.append(tier(line))
+            continue
+        if GROUP_CLOSE.match(line) and stack:
+            stack.pop()
+        yield line, next((t for t in reversed(stack) if t), None)
+
+
 def example_items(block):
     """Return {name: [(kind, tier, marked)]} for the global attributes, variables, groups, and variable attributes of an example.
 
     The groups that a layout row describes, such as sweep_<n>, are left out, and so are the
-    contents of the groups that a placeholder stands for.
+    contents of the groups that a placeholder stands for. An unmarked item of a marked group
+    takes the tier of the group.
     """
     items = {}
-    for line in block.splitlines():
+    for line, enclosing in enclosing_tiers(block):
         marked = tier(line)
+        item_tier = marked or enclosing or "required"
         match = PLACEHOLDER.match(line) or GROUP_OPEN.match(line)
         if match:
             name = match.group(2) if PLACEHOLDER.match(line) else match.group(1)
             if not LAYOUT_GROUP.match(name):
-                items.setdefault(name, []).append(("group", marked or "required", marked is not None))
+                items.setdefault(name, []).append(("group", item_tier, marked is not None))
             continue
         match = ATTRIBUTE.match(line)
         if match:
             kind = "global attribute" if match.group(2) == "" else "attribute"
-            items.setdefault(match.group(3), []).append((kind, marked or "required", marked is not None))
+            items.setdefault(match.group(3), []).append((kind, item_tier, marked is not None))
             continue
         match = DECLARATION.match(line)
         if match:
-            items.setdefault(match.group(1), []).append(("variable", marked or "required", marked is not None))
+            items.setdefault(match.group(1), []).append(("variable", item_tier, marked is not None))
     return items
 
 
-def check_contents_table(text, product_row):
+def example_facts(block, product, groups_of_products):
+    """Return the facts of an example that decide the conditions of the tables.
+
+    These are whether it has the structure of a moving platform, whether it holds a local or a
+    geographic grid, the string values of its attributes and scalar variables, the items it
+    holds, and its product type with the groups of products that the tables name.
+    """
+    values = {}
+    for name, value in re.findall(r'^\s*(?:\w*:)?(\w+) = "([^"]*)" ;', block, re.M):
+        values.setdefault(name, set()).add(value)
+    return {
+        "moving": bool(re.search(r"group: (?:time_\d{14}|georeference) \{", block)) or "true" in values.get("platform_is_mobile", ()),
+        "local": bool(re.search(r"\b(?:double|float) x\(x\)", block)),
+        "geographic": bool(re.search(r"\b(?:double|float) latitude\(latitude\)", block)),
+        "values": values,
+        "items": example_items(block),
+        "product": product,
+        "groups": {name for name, members in groups_of_products.items() if product in members},
+    }
+
+
+def subject_holds(subject, facts):
+    """Whether a subject of a condition, such as "a moving platform" or "maps", holds for an example; None if unknown."""
+    subject = re.sub(r"^(?:for|on) ", "", subject.strip())
+    if subject == "a moving platform":
+        return facts["moving"]
+    if subject == "a fixed platform":
+        return not facts["moving"]
+    if subject == "the local grid":
+        return facts["local"]
+    if subject == "the geographic grid":
+        return facts["geographic"]
+    if subject in ("maps", "relative roughness", "spatially averaged products"):
+        return subject in facts["groups"]
+    match = re.fullmatch(r"`(\w+)`", subject)
+    return facts["product"] == match.group(1) if match else None
+
+
+def condition_holds(condition, facts):
+    """Whether the condition of a clause holds for an example; None if it is not in the fixed form."""
+    match = re.fullmatch(r'if `(\w+)` is `"?(\w+)"?`', condition)
+    if match:
+        return match.group(2) in facts["values"].get(match.group(1), ())
+    if not condition.startswith(("for ", "on ")):
+        return None
+    for words, token in MULTIWORD_SUBJECTS.items():
+        condition = condition.replace(words, token)
+    results = [subject_holds(subject, facts) for subject in re.split(r",? and |, ", condition)]
+    return None if None in results else any(results)
+
+
+def resolved_tier(description, facts):
+    """Return the tier that a description gives an item in an example, "omitted", or None.
+
+    The description begins with a tier, as in "Required.", or with clauses separated by
+    semicolons, as in "Required on the local grid; recommended on the geographic grid.";
+    "otherwise" applies where no other clause does, and an omitting clause takes precedence.
+    None means that no clause applies, or that the clauses are not in the fixed form.
+    """
+    match = TIER_SENTENCE.match(description.strip())
+    if not match:
+        return None
+    if not match.group(2):
+        return match.group(1).lower()
+    applying, default = [], None
+    for clause in (match.group(1) + match.group(2)).split(";"):
+        parts = TIER_CLAUSE.fullmatch(clause.strip())
+        if not parts:
+            return None
+        clause_tier, condition = parts.group(1).lower(), parts.group(2)
+        if condition == "otherwise":
+            default = clause_tier
+            continue
+        holds = condition_holds(condition, facts)
+        if holds is None:
+            return None
+        if holds:
+            applying.append(clause_tier)
+    if "omitted" in applying:
+        return "omitted"
+    return applying[0] if applying else default
+
+
+def section_slug(heading):
+    return re.sub(r"[^a-z0-9 -]", "", heading.lower()).strip().replace(" ", "-")
+
+
+def resolved_tiers(page, facts, groups_of_products):
+    """Return ({name: tier}, [conflicts]) for the rows of a page's tables that apply to an example.
+
+    Rows in a section of SECTION_SCOPES apply to its products only. Names whose rows give
+    different tiers are reported as conflicts and left out.
+    """
+    scopes = SECTION_SCOPES.get(page, {})
+    tiers, conflicts, section = {}, set(), None
+    for line in read(os.path.join(ROOT, page)).splitlines():
+        if line.startswith("## "):
+            section = section_slug(line[3:])
+            continue
+        match = re.match(r"\| `(\w+)`", line)
+        if not match:
+            continue
+        scope = scopes.get(section)
+        if isinstance(scope, str):
+            scope = groups_of_products[scope]
+        if scope is not None and facts["product"] not in scope:
+            continue
+        found = resolved_tier(line.strip().strip("|").split("|")[-1], facts)
+        if found is None:
+            continue
+        name = match.group(1)
+        if tiers.get(name, found) != found:
+            conflicts.add(name)
+        tiers[name] = found
+    return {name: t for name, t in tiers.items() if name not in conflicts}, sorted(conflicts)
+
+
+def product_tiers(block, product, products, groups_of_products):
+    """Return ({name: tier}, errors) for an example of a product: those of its category page, its processing parameters, and its row."""
+    category, row, _ = products[product]
+    facts = example_facts(block, product, groups_of_products)
+    tiers, errors = {}, []
+    for page in ("contents/metadata_attributes/processing_parameters.md", category):
+        found, conflicts = resolved_tiers(page, facts, groups_of_products)
+        tiers.update(found)
+        errors += [f"the tables of {page} give {name} different tiers for this file" for name in conflicts]
+    tiers.update(row)
+    return tiers, errors
+
+
+def contents_condition_holds(condition, facts):
+    """Whether a condition of a file contents table holds for an example; None if it is not one of the fixed forms.
+
+    The forms are "moving platform", "fixed platform", "local grid", "geographic grid",
+    "with `x`", "`x = "v"`", and "`x` other than `v`".
+    """
+    simple = {"moving platform": facts["moving"], "fixed platform": not facts["moving"],
+              "local grid": facts["local"], "geographic grid": facts["geographic"]}
+    if condition in simple:
+        return simple[condition]
+    match = re.fullmatch(r"with `(\w+)`", condition)
+    if match:
+        return match.group(1) in facts["items"]
+    match = re.fullmatch(r'`(\w+) = "(\w+)"`', condition)
+    if match:
+        return match.group(2) in facts["values"].get(match.group(1), ())
+    match = re.fullmatch(r"`(\w+)` other than `(\w+)`", condition)
+    if match:
+        return bool(facts["values"].get(match.group(1), set()) - {match.group(2)})
+    return None
+
+
+def check_contents_table(text, product, product_row, groups_of_products):
     """Check the file contents table of a product page of the annex against the examples on the page.
 
     Every global attribute, variable, and group of the examples, and every variable attribute
     that they mark with a tier, is named by a row, the recommended global attributes also by the
-    row that links to their list; every variable of the product-type row is named by a row; and
-    the items of the rows without a condition appear in the examples with the tier of the row,
-    the required and recommended ones in any case.
+    row that links to their list, and every variable of the product-type row is named by a row.
+    In each example, the items of the rows whose condition holds for it, or that have none,
+    appear with the tier of the row, the required and recommended ones in any case.
     """
     errors = []
     if CONTENTS_TABLE not in text.splitlines():
         return ["has no file contents table"]
     rows = contents_rows(text)
     named = {name for names, _, _, _ in rows for name in names}
+    examples = [block for block in FENCE.findall(text) if block.startswith("netcdf ")]
     items = {}
-    for block in FENCE.findall(text):
-        if block.startswith("netcdf "):
-            for name, occurrences in example_items(block).items():
-                items.setdefault(name, []).extend(occurrences)
-    summary = "optional_global.md#recommended)" in text
-    recommended_globals = set(recommended_global_section("Recommended")) if summary else set()
+    for block in examples:
+        for name, occurrences in example_items(block).items():
+            items.setdefault(name, []).extend(occurrences)
+    recommended_globals = set(recommended_global_section("Recommended")) if "optional_global.md#recommended)" in text else set()
     for name, occurrences in sorted(items.items()):
         kinds = {kind for kind, _, marked in occurrences if kind != "attribute" or marked}
         if kinds and name not in named and not (kinds == {"global attribute"} and name in recommended_globals):
@@ -354,17 +543,24 @@ def check_contents_table(text, product_row):
     for name in sorted(set(product_row) - named):
         errors.append(f"{name}, of the product-type table, has no row in the file contents table")
     for names, row_tier, condition, alternatives in rows:
-        if condition:
-            continue
-        present = [name for name in names if name in items]
-        if row_tier in ("required", "highly recommended", "recommended") and (not present if alternatives else len(present) < len(names)):
-            missing = " or ".join(names) if alternatives else ", ".join(n for n in names if n not in items)
-            errors.append(f"{missing}, {row_tier} in the file contents table, is missing from the example")
-        for name in present:
-            tiers = {t for _, t, _ in items[name]}
-            lenient = row_tier == "recommended" and any(t == "required" and marked for _, t, marked in items[name])
-            if row_tier not in tiers and not lenient:
-                errors.append(f"{name} is {row_tier} in the file contents table, but the example marks it {', '.join(sorted(tiers))}")
+        if condition and contents_condition_holds(condition, example_facts("", product, groups_of_products)) is None:
+            errors.append(f'the condition "{condition}" of the file contents table is not one of the fixed forms')
+    for block in examples:
+        facts = example_facts(block, product, groups_of_products)
+        label = block.split()[1]
+        for names, row_tier, condition, alternatives in rows:
+            if condition and not contents_condition_holds(condition, facts):
+                continue
+            items = facts["items"]
+            present = [name for name in names if name in items]
+            if row_tier in ("required", "highly recommended", "recommended") and (not present if alternatives else len(present) < len(names)):
+                missing = " or ".join(names) if alternatives else ", ".join(n for n in names if n not in items)
+                errors.append(f"{missing}, {row_tier} in the file contents table, is missing from the example {label}")
+            for name in present:
+                tiers = {t for _, t, _ in items[name]}
+                lenient = row_tier == "recommended" and any(t == "required" and marked for _, t, marked in items[name])
+                if row_tier not in tiers and not lenient:
+                    errors.append(f"{name} is {row_tier} in the file contents table, but the example {label} marks it {', '.join(sorted(tiers))}")
     return errors
 
 
@@ -522,7 +718,10 @@ def minimal(block):
 def check_tiers(block, tiers, variable_attribute_tiers):
     """Check the tier markers of global attributes, variables, variable attributes, and groups against the tables."""
     errors = []
-    for number, line in enumerate(block.lstrip().splitlines()):
+    for number, (line, enclosing) in enumerate(enclosing_tiers(block.lstrip())):
+        if enclosing and not tier(line):
+            # An unmarked item of a group that a file may omit has the tier of the group.
+            continue
         match = ATTRIBUTE.match(line)
         # A block that is a group on its own, as on the Metadata pages, has no tier for it.
         group = number > 0 and (GROUP_OPEN.match(line) or PLACEHOLDER.match(line))
@@ -539,6 +738,9 @@ def check_tiers(block, tiers, variable_attribute_tiers):
         else:
             continue
         marked = tier(line) or "required"
+        if expected == "omitted":
+            errors.append(f"{kind} {name} is present, but the tables omit it for this file")
+            continue
         if expected is None or marked == expected or (marked == "required" and expected == "recommended" and tier(line)):
             continue
         errors.append(f'{kind} {name} is marked as {marked}, but the tables make it {expected}')
@@ -951,7 +1153,10 @@ def main():
 
     tiers = global_tiers()
     products = registry()
-    category_tiers = {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES}
+    gridded = {p for p, (page, _, level) in products.items() if page.endswith("/gridded.md") and level.startswith("L2")}
+    roughness = {p for p, (_, row, _) in products.items() if "relative_roughness" in row}
+    groups_of_products = {"level 2": gridded, "maps": gridded - roughness, "relative roughness": roughness,
+                          "spatially averaged products": {p for p, (page, _, _) in products.items() if page.endswith("/spatially_averaged.md")}}
     expected["level1_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L1")}
     expected["level2_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L2")}
     expected["product_tiers"] = {p: row for p, (_, row, _) in products.items()}
@@ -993,7 +1198,7 @@ def main():
             order = check_table_order(relative, text)
             product = re.search(r"The product type `(\w+)`", text)
             if relative.startswith("contents/annex/") and product and product.group(1) in products:
-                order += check_contents_table(text, products[product.group(1)][1])
+                order += check_contents_table(text, product.group(1), products[product.group(1)][1], groups_of_products)
             if order:
                 failures += 1
                 print(f"FAIL {relative}:")
@@ -1002,9 +1207,10 @@ def main():
             for number, block in enumerate(FENCE.findall(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
                 product = PRODUCT_TYPE.search(block)
+                completeness = []  # the conflicts between the tables
                 if product and product.group(1) in products:
-                    category, row, _ = products[product.group(1)]
-                    tiers_of_block = {**tiers, **category_tiers[category], **row}
+                    found, completeness = product_tiers(block, product.group(1), products, groups_of_products)
+                    tiers_of_block = {**tiers, **found}
                 else:
                     tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):
@@ -1018,7 +1224,7 @@ def main():
                         errors.append(f'differs from the minimal form of the example "netcdf {name}"')
                     forms = [("", body, True, errors)]
                 else:
-                    forms = [("", block, False, check_tiers(block, tiers_of_block, variable_attribute_tiers))]
+                    forms = [("", block, False, check_tiers(block, tiers_of_block, variable_attribute_tiers) + completeness)]
                     if block.startswith("netcdf "):
                         forms.append((" (minimal form)", minimal(block), True, []))
                 for suffix, form, minimal_form, errors in forms:

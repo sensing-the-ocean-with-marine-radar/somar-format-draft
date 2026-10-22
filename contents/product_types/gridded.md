@@ -187,7 +187,7 @@ The data variables of a product are defined under [Product variables](product_va
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Required on the local grid, recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
+| `crs`<br><small>[CF][cf]</small> | char | Required on the local grid; recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
 | `time_bounds`<br><small>[CF][cf-bounds]</small> | double `(nv)`, or double `(time, nv)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Optional. Start and end of the measurement period, or of the nominal averaging window of a relative roughness image, along the dimension `nv` of size 2 ([CF][cf-bounds] section 7.1). |
 | `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
@@ -196,7 +196,7 @@ The data variables of a product are defined under [Product variables](product_va
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
 | `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional for maps; omitted for relative roughness images and mosaics. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
 | `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional for maps; omitted for relative roughness images and mosaics. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
-| `measurement_quality`<br><small>SOMaR</small> | ubyte `(…)`; bit flags | Recommended for maps; not defined for relative roughness images and mosaics. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). Level 1 products carry no quality flag either. |
+| `measurement_quality`<br><small>SOMaR</small> | ubyte `(…)`; bit flags | Recommended for maps; omitted for relative roughness images and mosaics. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). Level 1 products carry no quality flag either. |
 {: .variable-table }
 
 On the local grid, the data variables of a map carry `coordinates = "longitude latitude"`; on either grid, they carry `grid_mapping = "crs"` if the group holds a `crs`.
