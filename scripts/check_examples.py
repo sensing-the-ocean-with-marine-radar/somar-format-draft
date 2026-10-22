@@ -65,7 +65,10 @@ product from its structure, its grid, its product type, and its values; the
 rows of the sections in SECTION_SCOPES apply to some products only. An
 example must hold every item that the resolved tiers, the processing
 parameters, and its product-type row make required or recommended, and no
-item that they omit.
+item that they omit. The type, dimensions, and units of each of its variables
+must be among those that the Values columns of product_variables.md and of its
+category page give, with "(…)" standing for the dimensions of its category
+(see ellipsis_forms).
 
 The product pages of the annex each have a file contents table, which must
 name every global attribute, variable, and group of the examples on the page,
@@ -148,6 +151,8 @@ VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md
 ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
 # Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
 METERS_PER_DEGREE = 111320.0
+# The types of NetCDF variables, as named in the Values columns of the tables.
+NETCDF_TYPES = ("char", "byte", "ubyte", "short", "ushort", "int", "uint", "int64", "uint64", "float", "double", "string")
 # The sections of the category pages whose tables apply to some of the products only, by the
 # heading of the section (h2): {page: {section: product types or a key of PRODUCT_GROUPS}}.
 SECTION_SCOPES = {
@@ -509,6 +514,124 @@ def check_completeness(block, tiers):
             errors.append(f"{name}, {item_tier} for this file by the tables, is missing")
         elif item_tier == "omitted" and name in items:
             errors.append(f"{name} is present, but the tables omit it for this file")
+    return errors
+
+
+def value_specs(text, scopes, product):
+    """Return {variable: [(types, dimension forms, units, values text)]} from the Values columns of a page's variable tables.
+
+    The types are those named, or None for any; a dimension form is a tuple of names, () for
+    a scalar, None for any, or a tuple starting with "…", which stands for the dimensions of
+    ellipsis_forms;
+    the units are those given in code, or None where the column gives values or flags instead.
+    Rows in a section of scopes apply to its products only.
+    """
+    specs, section, rows = {}, None, []
+    for line in text.splitlines():
+        if line.startswith("## "):
+            section = section_slug(line[3:])
+        if line.startswith("| `"):
+            rows.append((section, line))
+            continue
+        if line.strip() == "{: .variable-table }":
+            for row_section, row in rows:
+                scope = scopes.get(row_section)
+                if scope is not None and product not in scope:
+                    continue
+                cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+                name = re.match(r"`(\w+)`", cells[0]).group(1)
+                shape, _, units = cells[1].partition(";")
+                types = set(re.findall(rf"\b({'|'.join(NETCDF_TYPES)})\b", shape)) or None
+                forms = []
+                for segment in re.split(r",? or |, ", shape):
+                    dims = re.search(r"`\(([^)]*)\)`", segment)
+                    rest = re.sub(rf"\b(?:{'|'.join(NETCDF_TYPES)})\b", "", segment).strip()
+                    if dims:
+                        forms.append(tuple(d.strip() for d in dims.group(1).split(",")))
+                    elif rest in ("", "scalar"):
+                        forms.append(())
+                    else:
+                        forms.append(None)
+                codes = re.findall(r"`([^`]+)`", units)
+                units = set(codes) if codes and not any(re.match(r'^(?:"|-?\d)', c) for c in codes) else None
+                specs.setdefault(name, []).append((types, forms, units, cells[1]))
+        if not line.startswith("|"):
+            rows = []
+    return specs
+
+
+def product_value_specs(product, products, groups_of_products):
+    """Return the value specifications of the variables of a product: those of product_variables.md and of its category page."""
+    category = products[product][0]
+    scopes = {section: groups_of_products[scope] if isinstance(scope, str) else scope
+              for section, scope in SECTION_SCOPES.get(category, {}).items()}
+    specs = value_specs(read(os.path.join(ROOT, "contents/product_types/product_variables.md")), {}, product)
+    for name, found in value_specs(read(os.path.join(ROOT, category)), scopes, product).items():
+        specs.setdefault(name, []).extend(found)
+    return specs
+
+
+def ellipsis_forms(product, products):
+    """Return the dimensions that "(…)" stands for in the variables of a product (see product_variables.md).
+
+    For polar products, those of a sweep or of the image cube; for gridded products, those of
+    the horizontal grid, preceded by time from a fixed platform and in the image cube of Level 1b,
+    and in a current profile by wavenumber_bin before those of the grid; for spatially averaged
+    products, time.
+    """
+    category = products[product][0]
+    if category.endswith("/polar.md"):
+        return [("time", "azimuth", "range")] if product == "radar_polar_regularized" else [("time", "range")]
+    if category.endswith("/spatially_averaged.md"):
+        return [("time",)]
+    if product == "radar_cartesian":
+        return [("time", "y", "x")]
+    forms = []
+    for grid in (("latitude", "longitude"), ("y", "x")):
+        for prefix in ((), ("time",)):
+            forms.append(prefix + grid)
+            if "wavenumber_bin" in products[product][1]:
+                forms.append(prefix + ("wavenumber_bin",) + grid)
+    return forms
+
+
+def dimensions_match(form, dims, bases):
+    if form is None:
+        return True
+    if form[:1] == ("…",):
+        return any(tuple(dims) == base + form[1:] for base in bases)
+    return tuple(dims) == form
+
+
+def check_value_specs(block, specs, bases):
+    """Check the type, dimensions, and units of each variable of an example against the Values columns of the tables."""
+    declarations, units, stack = [], {}, ["/"]
+    for line in block.splitlines():
+        match = GROUP_OPEN.match(line)
+        if match and not PLACEHOLDER.match(line):
+            stack.append(stack[-1].rstrip("/") + "/" + match.group(1))
+            continue
+        if GROUP_CLOSE.match(line):
+            stack.pop()
+            continue
+        match = re.match(rf"^\s*({'|'.join(NETCDF_TYPES)}) (\w+)(?:\((.*?)\))? ;", line)
+        if match:
+            dims = tuple(d.strip() for d in (match.group(3) or "").split(",") if d.strip())
+            declarations.append((stack[-1], match.group(2), match.group(1), dims))
+            continue
+        match = ATTRIBUTE.match(line)
+        if match and match.group(3) == "units" and match.group(2):
+            units[(stack[-1], match.group(2))] = unquote(match.group(4))
+    errors = []
+    for path, name, kind, dims in declarations:
+        if name not in specs:
+            continue
+        unit = units.get((path, name))
+        if not any((types is None or kind in types) and any(dimensions_match(form, dims, bases) for form in forms)
+                   and (allowed is None or unit is None or unit in allowed) for types, forms, allowed, _ in specs[name]):
+            written = f"{kind} ({', '.join(dims)})" + (f" in {unit}" if unit else "")
+            given = " | ".join(text for _, _, _, text in specs[name])
+            errors.append(f"variable {name} is {written}, but the tables give {given}")
     return errors
 
 
@@ -1231,6 +1354,8 @@ def main():
                     tiers_of_block = {**tiers, **found}
                     if block.startswith("netcdf "):
                         completeness += check_completeness(block, found)
+                        completeness += check_value_specs(block, product_value_specs(product.group(1), products, groups_of_products),
+                                                          ellipsis_forms(product.group(1), products))
                 else:
                     tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):
