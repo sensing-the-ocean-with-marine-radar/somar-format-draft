@@ -15,7 +15,7 @@ The convention an attribute is taken from is named in small print under the attr
 
 Every SOMaR file should carry the following global attributes, regardless of processing level or product, unless its producer cannot supply them (see [Compliance](mandatory_global.md#compliance)).
 They give the file a title and describe its content, which data catalogs and users rely on to find it.
-They are the attributes that ACDD highly recommends, apart from `Conventions`, which SOMaR makes mandatory (see [Mandatory global attributes](mandatory_global.md)).
+They are the attributes that ACDD highly recommends, apart from [`Conventions`](mandatory_global.md#Conventions), which SOMaR makes mandatory (see [Mandatory global attributes](mandatory_global.md)).
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -62,7 +62,7 @@ The time coverage and the spatial bounds follow from the file's content, so that
 ### Spatial bounds
 
 The `geospatial_lat_min`, `geospatial_lat_max`, `geospatial_lon_min`, and `geospatial_lon_max` attributes give the extremes of the positions stored in the file, so that they follow from its content alone.
-These positions are the values of all variables named `latitude` and `longitude`, in any group and excluding fill values, and, in groups without such variables, the projection origin of the `crs` variable (`latitude_of_projection_origin`, `longitude_of_projection_origin`).
+These positions are the values of all variables named `latitude` and `longitude`, in any group and excluding fill values, and, in groups without such variables, the projection origin of the `crs` variable ([`latitude_of_projection_origin`](variable_attributes.md#latitude_of_projection_origin), [`longitude_of_projection_origin`](variable_attributes.md#longitude_of_projection_origin)).
 Depending on the product, they are the positions of the radar antenna (Level 1 products, relative roughness images, and relative roughness image mosaics), the centers of the analysis windows (map products), or their mean positions (wave products), in each case as stored, i.e. uncorrected in polar products (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)).
 Other positions, such as `radar_latitude` and `radar_longitude`, do not count.
 

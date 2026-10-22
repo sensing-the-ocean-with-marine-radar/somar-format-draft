@@ -37,11 +37,11 @@ The method of a product is named by the global attribute [`retrieval_method`](#r
 | `cross_correlation` | `sea_ice_drift` | Displacement at the peak of the cross-correlation between two images (Lund et al. [2018](../references/index.md#lund-2018)). |
 | `optical_flow` | `sea_ice_drift` | Displacement field estimated by optical flow between two images (Thomson et al. [2021](../references/index.md#thomson-2021)). |
 
-Another method is named by the processor with a short lowercase name with underscores, so that files using the same method can be recognized; the method is then described in the `comment` global attribute.
-For any method, the underlying literature is given in the `references` global attribute of [CF][cf-description].
+Another method is named by the processor with a short lowercase name with underscores, so that files using the same method can be recognized; the method is then described in the [`comment`](optional_global.md#comment) global attribute.
+For any method, the underlying literature is given in the [`references`](optional_global.md#references) global attribute of [CF][cf-description].
 
 Each product requires only the variables that every method yields, such as the current vector, and recommends the quality flag `measurement_quality`.
-The diagnostics that only some methods yield are optional, and SOMaR names the known ones so that processors using the same method store them alike: the standard errors and `number_of_fitted_spectral_points` of a least-squares fit, the `signal_to_noise_ratio` of the current retrieval, and the `correlation_coefficient` of a cross-correlation.
-A processor may store further diagnostics; the variables they describe list them in their `ancillary_variables` attribute.
+The diagnostics that only some methods yield are optional, and SOMaR names the known ones so that processors using the same method store them alike: the standard errors and [`number_of_fitted_spectral_points`](../product_types/product_variables.md#number_of_fitted_spectral_points) of a least-squares fit, the [`signal_to_noise_ratio`](../product_types/product_variables.md#signal_to_noise_ratio) of the current retrieval, and the [`correlation_coefficient`](../product_types/product_variables.md#correlation_coefficient) of a cross-correlation.
+A processor may store further diagnostics; the variables they describe list them in their [`ancillary_variables`](variable_attributes.md#ancillary_variables) attribute.
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents

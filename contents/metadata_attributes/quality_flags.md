@@ -10,7 +10,7 @@ nav_order: 5
 The Level 2 maps and spatially averaged products should carry a `measurement_quality` variable of type `ubyte`, a bit flag in the sense of [CF][cf-flags]: 0 means that the measurement passed all checks, and each bit that is set marks a check that it failed.
 Relative roughness images and mosaics, which result from no retrieval that could fail, carry no quality flag, nor do the Level 1 products.
 A product without quality control omits the variable rather than storing 0, so that a missing `measurement_quality` means that no checks were applied.
-The checks depend on the retrieval method and the processor, and are therefore defined by each file through the `flag_masks` and `flag_meanings` attributes.
+The checks depend on the retrieval method and the processor, and are therefore defined by each file through the [`flag_masks`](variable_attributes.md#flag_masks) and [`flag_meanings`](variable_attributes.md#flag_meanings) attributes.
 The following flag meanings are recommended for the checks they describe, so that the same check carries the same name in the files of different processors; the thresholds are set by the processor.
 
 - `bathymetry_fit_boundaries_reached`: the water depth of a fit lies at a boundary of the range searched.

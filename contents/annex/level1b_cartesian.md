@@ -137,7 +137,7 @@ variables:
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: `longitude` and `latitude` are scalar, and the file carries a `crs` centered on the radar antenna, with `grid_mapping` on the data variable and the projection standard names on `x` and `y`.
+A radar on a fixed platform: [`longitude`](../product_types/gridded.md#position-and-orientation-longitude) and [`latitude`](../product_types/gridded.md#position-and-orientation-latitude) are scalar, and the file carries a [`crs`](../product_types/gridded.md#position-and-orientation-crs) centered on the radar antenna, with [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) on the data variable and the projection standard names on [`x`](../product_types/gridded.md#position-and-orientation-x) and [`y`](../product_types/gridded.md#position-and-orientation-y).
 
 ```
 netcdf or_2023-08-31-17-00_radar_cartesian {

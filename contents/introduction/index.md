@@ -32,8 +32,8 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 - A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data and Level 1b pulse-averaged pointing data are stored.
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode, which Level 1b averages over pulses instead.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
-- A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected. Its length is given by `measurement_duration`.
-- An **averaging window** is the time span over which Level 1b images are averaged into one relative roughness image, one mosaic pixel, or one of the two images of a sea ice drift retrieval. Its nominal length is given by `averaging_duration`; for individual pixels it may be shorter.
+- A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected. Its length is given by [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration).
+- An **averaging window** is the time span over which Level 1b images are averaged into one relative roughness image, one mosaic pixel, or one of the two images of a sea ice drift retrieval. Its nominal length is given by [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration); for individual pixels it may be shorter.
 
 ## Document structure
 

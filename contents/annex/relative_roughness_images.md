@@ -10,9 +10,9 @@ nav_order: 5
 {: .informative }
 > This page is informative. The product type `relative_roughness` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
-Relative roughness images (`relative_roughness`) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
+Relative roughness images ([`relative_roughness`](../product_types/product_variables.md#relative_roughness)) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
 Because the platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
-Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter amplitude, which the example averages instead of power to give less weight to sea spikes, and `number_of_observations` records how many Level 1b images contributed to each grid cell.
+Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter amplitude, which the example averages instead of power to give less weight to sea spikes, and [`number_of_observations`](../product_types/product_variables.md#number_of_observations) records how many Level 1b images contributed to each grid cell.
 
 ## File contents
 

@@ -16,7 +16,7 @@ Their structure depends on whether the platform moves: a file from a moving plat
 
 The cells of one measurement form a grid over the area it covers: the radar footprint for a map, a relative roughness image, or a Level 1b Cartesian image, and for a mosaic an area along the platform track.
 The grid is either the geographic grid or the local grid described below.
-Cells without a value hold the `_FillValue`: the cells in the corners of the grid, since the radar footprint is circular, and the cells of analysis windows without a result or inside an [obstructed sector](../metadata_attributes/radar_parameters.md#obstructed-sectors).
+Cells without a value hold the [`_FillValue`](../metadata_attributes/variable_attributes.md#_FillValue): the cells in the corners of the grid, since the radar footprint is circular, and the cells of analysis windows without a result or inside an [obstructed sector](../metadata_attributes/radar_parameters.md#obstructed-sectors).
 
 ### Geographic grid
 
@@ -89,13 +89,13 @@ Level 1b Cartesian images (`radar_cartesian`) are radar images, one per antenna 
 All images of a file share one grid of fixed extent and resolution, and only its origin, the position of the radar antenna at the start of each revolution, moves with the platform.
 They are therefore stored as a single cube in the root group, whose data variable, [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power), has the dimensions `(time, y, x)`, rather than as time-bounded grids, which would take thousands of groups for the short-lived images of one file.
 The grids of the Level 2 products, by contrast, can change their extent and dimensions from one measurement to the next with the motion of the ship, and are therefore stored as time-bounded grids.
-Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`.
+Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the [`_FillValue`](../metadata_attributes/variable_attributes.md#_FillValue).
 No radiometric calibration or temporal averaging is applied at this level.
 
 ### Position and orientation
 
 `x` and `y` are distances in meters east and north of the grid origin.
-The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no `heading` is stored. This is the main difference from the [polar products](polar.md), which are stored as recorded.
+The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no [`heading`](polar.md#heading) is stored. This is the main difference from the [polar products](polar.md), which are stored as recorded.
 
 The grid origin is the position of the radar antenna at the start of each revolution, i.e. the recorded position after application of the [position offsets](../georeferencing/index.md#position-offset), and is given by `longitude` and `latitude`.
 For a moving platform, they have the dimension `time`, with one value per image; for a fixed platform, they are scalar, and the cube is the [single grid](#fixed-platform) of a fixed platform.
@@ -110,8 +110,8 @@ For a moving platform, they have the dimension `time`, with one value per image;
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
 {: .variable-table }
 
-From a moving platform, the file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)).
-For the same reason, `x` and `y` then carry no `standard_name`: CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
+From a moving platform, the file has no `crs` variable and the data variable no [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)).
+For the same reason, `x` and `y` then carry no [`standard_name`](../metadata_attributes/variable_attributes.md#standard_name): CF defines `projection_x_coordinate` and `projection_y_coordinate` in relation to a grid mapping.
 From a fixed platform, the origin does not move: the file carries a `crs` that describes the azimuthal equidistant projection centered on the radar antenna, the data variable carries `grid_mapping = "crs"`, and `x` and `y` carry the standard names `projection_x_coordinate` and `projection_y_coordinate`.
 
 ### Resampling
@@ -219,8 +219,8 @@ The name of each product links to the table of its file contents in the annex, w
 | [Sea ice drift maps](../annex/sea_ice_drift.md#file-contents) (L2a) | `sea_ice_drift` | **Required:** [`eastward_sea_ice_velocity`](product_variables.md#eastward_sea_ice_velocity), [`northward_sea_ice_velocity`](product_variables.md#northward_sea_ice_velocity)<br>**Optional:** [`correlation_coefficient`](product_variables.md#correlation_coefficient), [`eastward_sea_ice_velocity_backward`](product_variables.md#eastward_sea_ice_velocity_backward), [`northward_sea_ice_velocity_backward`](product_variables.md#northward_sea_ice_velocity_backward), [`correlation_coefficient_backward`](product_variables.md#correlation_coefficient_backward) |
 {: .product-type-table }
 
-Of `backscatter_amplitude` and `backscatter_power`, a Cartesian image sequence holds exactly one; it takes the form of an [image cube with a moving origin](#image-cube-with-moving-origin).
-In current profile maps, all data variables, `measurement_quality` included, have the additional dimension `wavenumber_bin`, one layer per wavenumber band.
+Of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) and [`backscatter_power`](product_variables.md#backscatter_power), a Cartesian image sequence holds exactly one; it takes the form of an [image cube with a moving origin](#image-cube-with-moving-origin).
+In current profile maps, all data variables, `measurement_quality` included, have the additional dimension [`wavenumber_bin`](product_variables.md#wavenumber_bin), one layer per wavenumber band.
 Relative roughness images and mosaics are stored on the local grid; the maps on either grid.
 Relative roughness image mosaics are defined for moving platforms only.
 

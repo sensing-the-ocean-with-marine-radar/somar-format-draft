@@ -13,7 +13,7 @@ This document is the first draft of the Sensing the Ocean with Marine Radar (SOM
 
 Wherever possible, SOMaR follows existing standards: the [NetCDF Climate and Forecast (CF) Metadata Conventions][cf] throughout, the [Attribute Convention for Data Discovery (ACDD)][acdd] for discovery metadata such as the creator, license, and coverage of a file, and, for radar data in polar coordinates, the WMO-CF Radial profile [FM 301][fm301] together with the [CfRadial format][cfradial] for moving platforms. What SOMaR adds is a way to store gridded products from a moving vessel, whose grids change location from one measurement to the next. The versions of these standards are listed under [References](contents/references/index.md#standards-and-conventions).
 
-To keep the bar for adoption low, SOMaR has no separate lightweight version: it requires only the global attributes that tell a reader how to interpret a file, `Conventions` and `product_type`, and highly recommends a `title`, `summary`, and `keywords` that describe it for discovery (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md#compliance)).
+To keep the bar for adoption low, SOMaR has no separate lightweight version: it requires only the global attributes that tell a reader how to interpret a file, [`Conventions`](contents/metadata_attributes/mandatory_global.md#Conventions) and [`product_type`](contents/metadata_attributes/mandatory_global.md#product_type), and highly recommends a [`title`](contents/metadata_attributes/optional_global.md#title), [`summary`](contents/metadata_attributes/optional_global.md#summary), and [`keywords`](contents/metadata_attributes/optional_global.md#keywords) that describe it for discovery (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md#compliance)).
 Likewise, the product definitions require only what a reader needs to read the values and locate them in time and space, and recommend what documents how the data were obtained and how good they are, such as processing parameters and quality flags (see [SOMaR product types](contents/product_types/index.md)).
 
 ## Status
@@ -24,7 +24,7 @@ Changes are tracked in the [repository history](https://github.com/sensing-the-o
 
 ### Versioning
 
-A SOMaR version is identified as `SOMaR-<major>.<minor>`, the string that files declare in their `Conventions` attribute (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md)).
+A SOMaR version is identified as `SOMaR-<major>.<minor>`, the string that files declare in their [`Conventions`](contents/metadata_attributes/mandatory_global.md#Conventions) attribute (see [Mandatory global attributes](contents/metadata_attributes/mandatory_global.md)).
 Before version 1.0, anything may change from one draft to the next.
 From 1.0 on, a minor version (1.1, 1.2) only adds or clarifies, so that a file valid under one minor version remains valid under the next; changes that can invalidate existing files require a new major version (2.0), and features to be removed are first marked as deprecated in a minor version.
 Corrections that change no file, such as clarified wording, do not change the version.

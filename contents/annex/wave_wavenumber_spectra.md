@@ -15,7 +15,7 @@ By SOMaR convention, the wavenumber vector points toward the direction from whic
 They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation (Young et al. [1985](../references/index.md#young-1985)).
 The Level 2b frequency-direction spectra, [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated, typically against a reference wave data set (see [Wave calibration parameters](../metadata_attributes/wave_calibration.md)).
-The quantities from which the calibration derives the significant wave height may be stored as for the wave parameters: `wave_signal` and `background_noise` for the signal-to-noise ratio method, or `sea_surface_wave_mean_square_slope` for the shadowing method.
+The quantities from which the calibration derives the significant wave height may be stored as for the wave parameters: [`wave_signal`](../product_types/product_variables.md#wave_signal) and [`background_noise`](../product_types/product_variables.md#background_noise) for the signal-to-noise ratio method, or [`sea_surface_wave_mean_square_slope`](../product_types/product_variables.md#sea_surface_wave_mean_square_slope) for the shadowing method.
 
 ## File contents
 

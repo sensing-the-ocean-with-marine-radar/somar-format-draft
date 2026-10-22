@@ -29,18 +29,18 @@ Rather than define its own structure and vocabulary, SOMaR draws on these docume
 SOMaR departs from FM 301 in the following points:
 
 - Units are written as UDUNITS symbols (`m`, `degree`, `s`) rather than `metres`, `degrees`, and `seconds`.
-- `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). It therefore carries neither the `standard_name` and `axis` that FM 301 requires for it (Table 301-7) nor its `long_name` "Azimuth angle from true north".
+- `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). It therefore carries neither the [`standard_name`](../metadata_attributes/variable_attributes.md#standard_name) and `axis` that FM 301 requires for it (Table 301-7) nor its [`long_name`](../metadata_attributes/variable_attributes.md#long_name) "Azimuth angle from true north".
 - `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
-- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and `platform_type` in the root group (Table 301-4). Whether the platform moves, and thus whether its position and heading are recorded for every sweep or ray, is stated by the global attribute `platform_is_mobile` instead; the global attributes `platform` and `source` describe the platform in words. `sweep_mode`, mandatory in FM 301 (Table 301-7), is optional at Level 1a and assumed `"azimuth_surveillance"` if missing.
+- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and `platform_type` in the root group (Table 301-4). Whether the platform moves, and thus whether its position and heading are recorded for every sweep or ray, is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) instead; the global attributes [`platform`](../metadata_attributes/optional_global.md#platform) and [`source`](../metadata_attributes/optional_global.md#source) describe the platform in words. `sweep_mode`, mandatory in FM 301 (Table 301-7), is optional at Level 1a and assumed `"azimuth_surveillance"` if missing.
 - The `standard_name` and `axis` attributes of `range` are not required, and its attributes `spacing_is_constant`, `meters_to_center_of_first_gate`, and `meters_between_gates` are optional, although FM 301 makes all of them mandatory (Table 301-6).
-- `frequency` is a scalar in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group rather than a coordinate variable of each sweep (Table 301-6).
-- The `coordinates` attribute of the data variable is `"azimuth range"` rather than `"elevation azimuth range"`, since `elevation` is omitted (regulation 301.4.6.4).
+- [`frequency`](../metadata_attributes/radar_parameters.md#frequency) is a scalar in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group rather than a coordinate variable of each sweep (Table 301-6).
+- The [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) attribute of the data variable is `"azimuth range"` rather than `"elevation azimuth range"`, since `elevation` is omitted (regulation 301.4.6.4).
 - The root-group variables `time_coverage_start` and `time_coverage_end` (Table 301-4) are omitted. The times they hold, those of the first and last ray in the file, are given instead by the ACDD global attributes of the same names, which CfRadial 2.1 also defines as copies of these variables (Section 4.1).
 - `fixed_angle` is present only in pointing sweeps, where it holds the nominal azimuth in the same reference as `azimuth`. FM 301 makes it mandatory in all sweeps and defines it as the elevation angle in most sweep modes (Table 301-7).
 
 ## Coordinates and position
 
-`range` is the slant range from the antenna to the center of each range bin, and `azimuth` the antenna pointing direction, clockwise positive, as recorded by the radar relative to its zero direction; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
+`range` is the slant range from the antenna to the center of each range bin, and `azimuth` the antenna pointing direction, clockwise positive, as recorded by the radar relative to its zero direction; it is related to true north through the platform `heading` and the [`azimuth_correction`](../metadata_attributes/georeference_correction.md#azimuth_correction) (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
 In all three forms, the `range` variable may carry the following attributes.
 
 | Attribute | Values | Description |
@@ -66,15 +66,15 @@ The positions and directions are stored as recorded, and the optional [`georefer
 
 The radar measurement is stored in one data variable, [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power), with the dimensions `(time, range)` in a sweep or an averaged sweep (FM 301, regulation 301.4.6) and `(time, azimuth, range)` in an image cube.
 A file holds exactly one of the two.
-Its `units` attribute is `"1"` or `"dB"`, as FM 301 also uses `dB` for logarithmic quantities, and in a sweep its `coordinates` attribute is `"azimuth range"`.
-The `comment` attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
+Its [`units`](../metadata_attributes/variable_attributes.md#units) attribute is `"1"` or `"dB"`, as FM 301 also uses `dB` for logarithmic quantities, and in a sweep its [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) attribute is `"azimuth range"`.
+The [`comment`](../metadata_attributes/variable_attributes.md#comment) attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
 
 {: .open_issue }
 <a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](product_variables.md).
 
 ## Moving platforms
 
-When `platform_is_mobile` is `"true"`, the position and heading of the platform should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), either per sweep or per ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)): in a `georeference` subgroup of each sweep group, scalar or with the dimension `time` (see [Sweeps](#sweeps) and [Averaged sweeps](#averaged-sweeps)), or in the root group of an image cube, with the dimension `time` or `(time, azimuth)` (see [Image cube](#image-cube)).
+When [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) is `"true"`, the position and heading of the platform should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), either per sweep or per ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)): in a `georeference` subgroup of each sweep group, scalar or with the dimension `time` (see [Sweeps](#sweeps) and [Averaged sweeps](#averaged-sweeps)), or in the root group of an image cube, with the dimension `time` or `(time, azimuth)` (see [Image cube](#image-cube)).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -264,7 +264,7 @@ The name of each product links to the table of its file contents in the annex, w
 | [Pulse-averaged pointing data](../annex/level1b_pointing.md#file-contents) (L1b) | `radar_polar_averaged` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
 {: .product-type-table }
 
-Of `backscatter_amplitude` and `backscatter_power`, a file holds exactly one.
+Of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) and [`backscatter_power`](product_variables.md#backscatter_power), a file holds exactly one.
 Level 1a data take the form of [sweeps](#sweeps), Level 1b polar images that of an [image cube](#image-cube), and Level 1b pulse-averaged pointing data that of [averaged sweeps](#averaged-sweeps).
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

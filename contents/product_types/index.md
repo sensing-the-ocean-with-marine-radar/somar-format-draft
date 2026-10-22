@@ -9,7 +9,7 @@ has_children: true
 
 SOMaR products are organized in three categories by their geometry, i.e. by how their values are located in space.
 The processing level, from radar data as recorded by the instrument to derived geophysical quantities, is a property of each product.
-Every SOMaR NetCDF file carries a mandatory global attribute, `product_type`, which uniquely identifies the product and thereby its category, structure, and schema.
+Every SOMaR NetCDF file carries a mandatory global attribute, [`product_type`](../metadata_attributes/mandatory_global.md#product_type), which uniquely identifies the product and thereby its category, structure, and schema.
 
 | Level | Product | Category | `product_type` |
 |:---:|---|---|---|

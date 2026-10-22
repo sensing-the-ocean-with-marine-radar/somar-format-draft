@@ -11,8 +11,8 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 
 - The **modulation transfer function** $M(k)$ converts the radar image spectrum into the uncalibrated wave energy density spectrum, which is the image spectrum divided by $\lvert M(k) \rvert^2$. For the form `"power_law"`, $\lvert M(k) \rvert^2 \propto k^{\beta}$, where $k$ is the wavenumber and $\beta$ is given by `mtf_exponent`; a positive $\beta$ thus reduces the energy at high wavenumbers relative to that at low wavenumbers (Nieto Borge et al. [2004](../references/index.md#nieto-borge-2004)).
 - The **significant wave height calibration** converts a predictor $P$, derived from the radar images, into the significant wave height: $H_s = a + b\,P$, where $a$ is `hs_intercept`, $b$ is `hs_slope`, and $P$ is given by `hs_predictor` as an expression in variables of the product. The method from which the predictor comes is given by `hs_method`:
-  - `"signal_to_noise_ratio"`: the predictor is derived from the ratio of the `wave_signal` to the `background_noise` reported with the wavenumber spectra and the wave parameters, typically as the square root of this signal-to-noise ratio, `sqrt(wave_signal / background_noise)` (Nieto-Borge et al. [2008](../references/index.md#nieto-borge-2008)).
-  - `"shadowing"`: the predictor is derived from the sea surface slope estimated from the shadowing in the radar images, which may be reported as `sea_surface_wave_mean_square_slope` (Gangeskar [2014](../references/index.md#gangeskar-2014)).
+  - `"signal_to_noise_ratio"`: the predictor is derived from the ratio of the [`wave_signal`](../product_types/product_variables.md#wave_signal) to the [`background_noise`](../product_types/product_variables.md#background_noise) reported with the wavenumber spectra and the wave parameters, typically as the square root of this signal-to-noise ratio, `sqrt(wave_signal / background_noise)` (Nieto-Borge et al. [2008](../references/index.md#nieto-borge-2008)).
+  - `"shadowing"`: the predictor is derived from the sea surface slope estimated from the shadowing in the radar images, which may be reported as [`sea_surface_wave_mean_square_slope`](../product_types/product_variables.md#sea_surface_wave_mean_square_slope) (Gangeskar [2014](../references/index.md#gangeskar-2014)).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -27,12 +27,12 @@ Two steps of the wave retrieval rely on empirical parameters, which differ betwe
 The expression in `hs_predictor` may contain the names of variables with the dimension `time` in the root group of the product, such as `wave_signal`, `background_noise`, or `sea_surface_wave_mean_square_slope`, numbers, the operators `+`, `-`, `*`, and `/`, parentheses, and the functions `sqrt` and `log10`; a predictor that is the wave signal alone, for example, is written `"wave_signal"`.
 In the wavenumber spectra and the wave parameters, which may store these variables, $P$ can thus be computed from the file; in the frequency-direction and frequency spectra, which do not, the expression documents the calibration of the wavenumber spectra they are derived from.
 
-A method of the significant wave height calibration other than `"signal_to_noise_ratio"` or `"shadowing"` is named by the processor in the same way as a form of the modulation transfer function (see below), and the `hs_method` variable then carries a `comment` attribute describing it.
+A method of the significant wave height calibration other than `"signal_to_noise_ratio"` or `"shadowing"` is named by the processor in the same way as a form of the modulation transfer function (see below), and the `hs_method` variable then carries a [`comment`](variable_attributes.md#comment) attribute describing it.
 
 A form of the modulation transfer function other than `"power_law"` or `"none"` is named by the processor with a short lowercase name with underscores, e.g. `"power_law_with_cutoff"`, so that files using the same form can be recognized.
 The `mtf_form` variable then carries a `comment` attribute describing the form, and its parameters are stored as further variables in the group whose names begin with `mtf_`.
 
-For `hs_method` and `mtf_form`, a `references` attribute gives the underlying scientific literature.
+For `hs_method` and `mtf_form`, a [`references`](variable_attributes.md#references) attribute gives the underlying scientific literature.
 
 The group carries the following attributes, if the calibration is derived from reference wave data.
 

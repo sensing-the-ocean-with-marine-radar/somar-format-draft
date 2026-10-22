@@ -33,7 +33,7 @@ When pulse or scan parameters vary, [Level 1a](../product_types/polar.md#sweep-g
 Sectors of the field of view that are shadowed by platform superstructure or blanked by the radar are given by `obstructed_sectors`, with the start and end azimuth of each sector along the dimension `nv` (number of vertices, as in [CF][cf-bounds] section 7.1), of size 2.
 Each sector runs clockwise from its start to its end azimuth and may wrap through 0°, e.g. from 350° to 5°.
 The azimuths are given in the frame of `azimuth + azimuth_correction` (see [Applying georeference corrections](../georeferencing/index.md#applying-georeference-corrections)), i.e. relative to the bow on a ship and to true north on a fixed platform; unlike the `azimuth` of the polar products, they do not depend on the radar's zero direction.
-At Level 1b Cartesian and Level 2, grid cells and analysis windows that fall inside an obstructed sector hold the `_FillValue`.
+At Level 1b Cartesian and Level 2, grid cells and analysis windows that fall inside an obstructed sector hold the [`_FillValue`](variable_attributes.md#_FillValue).
 
 ## Example
 
