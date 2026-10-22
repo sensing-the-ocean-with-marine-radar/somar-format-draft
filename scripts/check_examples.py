@@ -482,7 +482,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                     canonical = units_module.Unit(entries[name])
                     if not (unit.is_convertible(canonical) or (unit.is_time_reference() and canonical.is_convertible(units_module.Unit("s")))):
                         errors.append(f'{where}: units "{units}" cannot be converted to "{entries[name]}", the canonical units of {name}')
-            for attribute in ("grid_mapping", "coordinates", "ancillary_variables"):
+            for attribute in ("bounds", "grid_mapping", "coordinates", "ancillary_variables"):
                 for target in unquote(attributes.get(attribute, "")).split():
                     if not resolve(groups, path, target):
                         errors.append(f'{where}: {attribute} names "{target}", which does not exist in scope')

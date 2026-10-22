@@ -2,7 +2,7 @@
 title: Surface wave frequency-direction spectra (L2b)
 layout: default
 parent: "Annex: Example products"
-nav_order: 11
+nav_order: 12
 ---
 
 # L2b: Surface wave frequency-direction spectra

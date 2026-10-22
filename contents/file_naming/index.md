@@ -20,6 +20,7 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 |---|---|
 | `or_2025-01-15-11-00_radar_polar_raw.nc` | [Radar "raw" data](../product_types/polar.md) (sub-hourly) |
 | `or_2025-01-15-11-00_radar_polar_regularized.nc` | [Polar images](../product_types/polar.md#image-cube) (sub-hourly) |
+| `or_2025-01-15-11-00_radar_polar_averaged.nc` | [Pulse-averaged pointing data](../product_types/polar.md#averaged-sweeps) (sub-hourly) |
 | `or_2025-01-15-11-00_radar_cartesian.nc` | [Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) (sub-hourly) |
 | `or_2025-01-15-11_relative_roughness.nc` | [Relative roughness images](../annex/relative_roughness_images.md) |
 | `or_2025-01-15-11_relative_roughness_mosaic.nc` | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) |

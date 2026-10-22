@@ -2,7 +2,7 @@
 title: Near-surface current maps (L2a)
 layout: default
 parent: "Annex: Example products"
-nav_order: 6
+nav_order: 7
 ---
 
 # L2a: Near-surface current maps

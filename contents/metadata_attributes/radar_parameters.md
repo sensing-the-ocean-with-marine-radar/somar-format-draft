@@ -22,11 +22,11 @@ Constant technical parameters of the radar antenna, pulse, and scan are stored i
 | `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Length of the transmitted pulse. |
 | `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Pulse repetition time. |
 | `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float; `degree s-1` | Antenna rotation rate. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each ray. 1 at Level 1a unless the radar itself averages pulses. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each ray. 1 at Level 1a unless the radar itself averages pulses. Not stored here for [pulse-averaged pointing data](../product_types/polar.md#averaged-sweeps), which require it in each sweep group. |
 | `obstructed_sectors`<br><small>SOMaR</small> | float `(obstructed_sector, nv)`; `degree` | Start and end azimuth of each sector of the field of view that is obstructed or blanked, for example by platform superstructure (see [Obstructed sectors](#obstructed-sectors)). |
 {: .variable-table }
 
-When pulse or scan parameters vary, [Level 1a](../product_types/polar.md#sweep-groups) stores them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar](../product_types/polar.md#image-cube) stores them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
+When pulse or scan parameters vary, [Level 1a](../product_types/polar.md#sweep-groups) and [Level 1b pulse-averaged pointing data](../product_types/polar.md#averaged-sweeps) store them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar images](../product_types/polar.md#image-cube) store them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
 
 ## Obstructed sectors
 
