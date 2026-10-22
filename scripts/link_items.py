@@ -21,7 +21,8 @@ The script also checks the links to the conventions SOMaR builds on: each
 convention has one URL, for the version SOMaR pins (CONVENTION_URLS), such as
 version 95 of the CF standard name table, which check_examples.py validates
 against, and is linked reference-style, as [CF][cf] with the URL at the foot
-of the page, except on the References page.
+of the page, except on the References page. A link whose text is a name has
+the name alone as its text, so that each name links to its own definition.
 
 Usage: python3 scripts/link_items.py [--check]
 
@@ -221,6 +222,22 @@ def convention_problems(page, lines):
     return problems
 
 
+def text_problems(page, lines):
+    """Return [(line number, message)] for the links whose text mixes code and words, such as [`x` attribute]."""
+    problems, code = [], False
+    for number, line in enumerate(lines, 1):
+        if line.startswith("```"):
+            code = not code
+            continue
+        if code:
+            continue
+        for match in LINK.finditer(line):
+            text = match.group(1)
+            if "`" in text and not re.fullmatch(r"`[^`]+`", text):
+                problems.append((number, f"the link text [{text}] mixes code and words; link each name on its own, as [`name`](...)"))
+    return problems
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="list the missing links and fail if there are any")
@@ -240,7 +257,7 @@ def main():
                     f.write("\n".join(out))
                 print(f"{page}: {len(added)} links added")
         # The problems that the script reports but does not fix.
-        found += convention_problems(page, out)
+        found += convention_problems(page, out) + text_problems(page, out)
         for number, message in sorted(found):
             print(f"{page}:{number}: {message}")
         problems += len(found)

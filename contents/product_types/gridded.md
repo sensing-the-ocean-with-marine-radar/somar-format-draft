@@ -87,7 +87,7 @@ Within each group, the scalar variable `time` gives that start time, and the var
 
 Level 1b Cartesian images (`radar_cartesian`) are radar images, one per antenna revolution, that have been mapped from the polar coordinates of the sensor onto a regular Cartesian `x`/`y` grid, while otherwise remaining as close as possible to the underlying [Level 1a data](polar.md).
 All images of a file share one grid of fixed extent and resolution, and only its origin, the position of the radar antenna at the start of each revolution, moves with the platform.
-They are therefore stored as a single cube in the root group, whose data variable, [`backscatter_amplitude` or `backscatter_power`](product_variables.md), has the dimensions `(time, y, x)`, rather than as time-bounded grids, which would take thousands of groups for the short-lived images of one file.
+They are therefore stored as a single cube in the root group, whose data variable, [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power), has the dimensions `(time, y, x)`, rather than as time-bounded grids, which would take thousands of groups for the short-lived images of one file.
 The grids of the Level 2 products, by contrast, can change their extent and dimensions from one measurement to the next with the motion of the ship, and are therefore stored as time-bounded grids.
 Grid cells that fall outside the valid field of view, for example those obstructed by platform superstructure, hold the `_FillValue`.
 No radiometric calibration or temporal averaging is applied at this level.

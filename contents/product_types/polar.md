@@ -60,11 +60,11 @@ The root group locates the radar antenna:
 {: .variable-table }
 
 Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile).
-The positions and directions are stored as recorded, and the optional [`georeference_correction` group](../metadata_attributes/georeference_correction.md) in the root group gives the known offsets of azimuth, range, time, and antenna position.
+The positions and directions are stored as recorded, and the optional [`georeference_correction`](../metadata_attributes/georeference_correction.md) group in the root group gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Data variables
 
-The radar measurement is stored in one data variable, [`backscatter_amplitude` or `backscatter_power`](product_variables.md), with the dimensions `(time, range)` in a sweep or an averaged sweep (FM 301, regulation 301.4.6) and `(time, azimuth, range)` in an image cube.
+The radar measurement is stored in one data variable, [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power), with the dimensions `(time, range)` in a sweep or an averaged sweep (FM 301, regulation 301.4.6) and `(time, azimuth, range)` in an image cube.
 A file holds exactly one of the two.
 Its `units` attribute is `"1"` or `"dB"`, as FM 301 also uses `dB` for logarithmic quantities, and in a sweep its `coordinates` attribute is `"azimuth range"`.
 The `comment` attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
