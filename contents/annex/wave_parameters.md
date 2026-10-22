@@ -85,7 +85,7 @@ variables:
                 sea_surface_wave_period_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
         double sea_surface_wave_mean_period(time) ; // recommended
                 sea_surface_wave_mean_period:long_name = "mean wave period" ;
-                sea_surface_wave_mean_period:standard_name = "sea_surface_wave_mean_period" ;
+                sea_surface_wave_mean_period:standard_name = "sea_surface_wave_mean_period_from_variance_spectral_density_first_frequency_moment" ;
                 sea_surface_wave_mean_period:units = "s" ;
                 sea_surface_wave_mean_period:comment = "energy-weighted mean wave period Tm01 calculated from zeroth and first spectral moments" ; // recommended
                 sea_surface_wave_mean_period:coordinates = "time longitude latitude" ;
