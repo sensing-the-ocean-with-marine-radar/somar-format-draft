@@ -83,6 +83,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - [ ] The examples, minimal forms, and file contents tables of the affected products are updated; `python3 scripts/check_examples.py --strict` passes.
 - [ ] The descriptions of the affected products in the annex are reread and still agree with the definitions.
 - [ ] A new conditional tier uses the fixed form; a new condition is added to the description under Requirements and to `scripts/check_examples.py`.
+- [ ] A new section of a category page whose tables apply to some of its products only, such as the sweeps of Level 1a on the page of the polar products, is added to `SECTION_SCOPES` in `scripts/check_examples.py`; otherwise its rows apply to every product of the category.
 - [ ] `bundle exec jekyll build` and `python3 scripts/check_links.py _site` pass, so that the links to the definitions resolve.
 
 ## License and attribution
