@@ -187,8 +187,8 @@ The data variables of a product are defined under [Product variables](product_va
 | `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for relative roughness images and mosaics. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
-| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional, for maps. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
-| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional, for maps. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
+| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional for maps; omitted for relative roughness images and mosaics. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
+| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional for maps; omitted for relative roughness images and mosaics. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended for maps; not defined for relative roughness images and mosaics. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). Level 1 products carry no quality flag either. |
 {: .variable-table }
 

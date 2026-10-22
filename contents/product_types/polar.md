@@ -118,7 +118,7 @@ A sweep group holds the data variable and the following variables.
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Antenna pointing direction of each ray, clockwise positive, as recorded by the radar (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"pointing"` | Optional. Whether the sweep is a full revolution or a dwell at a fixed direction. Assumed `"azimuth_surveillance"` if missing. |
-| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`, otherwise omitted. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-ray `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
+| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`; omitted otherwise. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. The per-ray `azimuth` is still stored as recorded, since a fixed antenna may jitter or drift. |
 {: .variable-table }
 
 If the position and heading of a moving platform are given per ray instead of per sweep, the variables of the `georeference` subgroup have the dimension `time`:

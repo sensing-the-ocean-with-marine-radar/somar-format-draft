@@ -108,8 +108,8 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
 | `radar_longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement (see [Georeferencing](../georeferencing/index.md#radar-position)). |
 | `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
-| `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended from a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
-| `station`<br><small>[CF][cf-dsg]</small> | string | Recommended from a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
+| `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended for a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
+| `station`<br><small>[CF][cf-dsg]</small> | string | Recommended for a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
 | `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Product variables](product_variables.md)). |
 | `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current retrieved within the same analysis windows. |
 | `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). |
