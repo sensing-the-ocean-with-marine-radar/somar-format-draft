@@ -61,8 +61,8 @@ group: sweep_0 {
                 time:calendar = "standard" ;
                 time:standard_name = "time" ;
                 time:long_name = "mean time of the averaged pulses" ;
-                time:bounds = "time_bounds" ; // recommended
-        double time_bounds(time, nv) ; // recommended
+                time:bounds = "time_bounds" ; // optional
+        double time_bounds(time, nv) ; // optional
                 time_bounds:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time_bounds:calendar = "standard" ;
                 time_bounds:long_name = "time of the first and last averaged pulse" ;

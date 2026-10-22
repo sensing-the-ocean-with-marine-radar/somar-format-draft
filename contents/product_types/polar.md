@@ -175,7 +175,7 @@ An averaged sweep group holds the data variable and the following variables.
 | Variable | Values | Description |
 |---|---|---|
 | `time`<br><small>[FM 301][fm301], Table 301-6</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Mean time of the pulses averaged into each ray, as UNIX time. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
-| `time_bounds`<br><small>CF</small> | double `(time, nv)`; `seconds since 1970-01-01T00:00:00Z` | Recommended. Time of the first and the last pulse averaged into each ray, along the dimension `nv` of size 2 (CF section 7.1). |
+| `time_bounds`<br><small>CF</small> | double `(time, nv)`; `seconds since 1970-01-01T00:00:00Z` | Optional. Time of the first and the last pulse averaged into each ray, along the dimension `nv` of size 2 (CF section 7.1). |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Mean of the recorded pointing directions of the averaged pulses, clockwise positive, relative to the radar's zero direction (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). |
 | `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"pointing"` | Required. |
@@ -196,8 +196,8 @@ group: sweep_0 {
                 time:calendar = "standard" ;
                 time:standard_name = "time" ;
                 time:long_name = "mean time of the averaged pulses" ;
-                time:bounds = "time_bounds" ; // recommended
-        double time_bounds(time, nv) ; // recommended
+                time:bounds = "time_bounds" ; // optional
+        double time_bounds(time, nv) ; // optional
                 time_bounds:units = "seconds since 1970-01-01T00:00:00Z" ;
                 time_bounds:calendar = "standard" ;
         int n_samples ;
