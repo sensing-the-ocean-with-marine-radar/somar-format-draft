@@ -20,7 +20,8 @@ Product variables; and otherwise it stays plain.
 The script also checks the links to the conventions SOMaR builds on: each
 convention has one URL, for the version SOMaR pins (CONVENTION_URLS), such as
 version 95 of the CF standard name table, which check_examples.py validates
-against.
+against, and is linked reference-style, as [CF][cf] with the URL at the foot
+of the page, except on the References page.
 
 Usage: python3 scripts/link_items.py [--check]
 
@@ -44,7 +45,7 @@ DEFINITION_TABLES = ("attribute-table", "variable-table", "mandatory-attribute-t
 HEADING = re.compile(r"^(#{1,6}) (.*)$")
 CODE_NAME = re.compile(r"`(\w+)`")
 # A Markdown link, whose text may hold code spans.
-LINK = re.compile(r"\[((?:[^\[\]]|`[^`]*`)*)\]\(([^)\s]*)\)")
+LINK = re.compile(r"\[((?:[^\[\]`]|`[^`]*`)*)\]\(([^)\s]*)\)")
 PRODUCT_VARIABLES = "contents/product_types/product_variables.md"
 VARIABLE_ATTRIBUTES = "contents/metadata_attributes/variable_attributes.md"
 # The names of both a global and a variable attribute, and the pages on which they mean the global one.
@@ -62,6 +63,8 @@ CONVENTION_URLS = {
     "https://github.com/NCAR/CfRadial": ("https://github.com/NCAR/CfRadial/tree/master/docs",),
     "https://docs.unidata.ucar.edu/udunits/": ("https://docs.unidata.ucar.edu/udunits/current/",),
 }
+# The bibliography, which cites the conventions with their URLs written out.
+REFERENCES = "contents/references/index.md"
 URL = re.compile(r"https?://[^\s)>\]\"]+")
 
 
@@ -204,13 +207,17 @@ def link_page(page, lines, defs):
 
 
 def convention_problems(page, lines):
-    """Return [(line number, message)] for the URLs of the conventions that are not the one of the pinned version."""
+    """Return [(line number, message)] for the links to the conventions that are not of the pinned version, or inline outside the References page."""
     problems = []
     for number, line in enumerate(lines, 1):
         for url in URL.findall(line):
             for start, allowed in CONVENTION_URLS.items():
                 if url.startswith(start) and url.split("#")[0] not in allowed:
                     problems.append((number, f"{url} is not the URL of the version SOMaR pins ({' or '.join(allowed)})"))
+        if page != REFERENCES:
+            for match in LINK.finditer(line):
+                if match.group(2).startswith(tuple(CONVENTION_URLS)):
+                    problems.append((number, f"the link [{match.group(1)}] to a convention is inline; link it reference-style, as [{match.group(1)}][label]"))
     return problems
 
 

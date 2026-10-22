@@ -19,10 +19,10 @@ The same holds for the other Level 2 maps and for radar images mapped onto a loc
 The CF conventions can describe each such grid but have no provision for a sequence of grids whose location changes; SOMaR therefore defines how such sequences are stored, using NetCDF-4 groups (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids) and [Gridded products](../product_types/gridded.md#time-bounded-grids)).
 Each grid can thus have its own origin, extent, and resolution, while every variable within it still carries standard CF metadata.
 
-At the lowest level of processing, radar data in polar coordinates are already covered by an international standard, the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes), which was developed for weather radars from the earlier [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs).
+At the lowest level of processing, radar data in polar coordinates are already covered by an international standard, the WMO-CF Radial profile [FM 301][fm301], which was developed for weather radars from the earlier [CfRadial format][cfradial].
 SOMaR does not replicate this work: [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
 Neither document covers the products that follow, i.e. image sequences on regular grids and the geophysical variables retrieved from them; these are defined by SOMaR.
-For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3), which is designed to complement CF.
+For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)][acdd], which is designed to complement CF.
 The versions of these standards that SOMaR refers to are listed under [References](../references/index.md#standards-and-conventions).
 
 ## Terms
@@ -45,3 +45,7 @@ Finally, the informative [Annex: Example products](../annex/index.md) gives an e
 
 The chapters Metadata, Georeferencing, and SOMaR product types are normative; File naming gives recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
 The Annex and the CDL examples throughout the document are informative; where an example and a definition differ, the definition applies.
+
+[acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
+[cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
+[fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

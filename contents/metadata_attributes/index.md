@@ -17,8 +17,13 @@ Variables are tabulated with three columns: the variable name, its values, i.e. 
 The rows are in alphabetical order, except in the tables of the coordinates and other structural variables on the pages of the [product categories](../product_types/index.md#categories), which follow the structure of the file.
 In both cases, the convention that defines the attribute or variable is named in small print under it, for FM 301 and CfRadial together with the table or section; it is one of five:
 
-- **CF**: the attribute is defined by the [NetCDF Climate and Forecast (CF) Metadata Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html), version 1.13, and is used as defined there.
-- **ACDD**: the attribute is defined by the [Attribute Convention for Data Discovery (ACDD)](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3), version 1.3, which complements CF with attributes describing who created a dataset, under which license, and what time span and area it covers.
-- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes) of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial) and the [radar parameters](radar_parameters.md).
-- **CfRadial**: the attribute or variable is defined by the [CfRadial format](https://github.com/NCAR/CfRadial/tree/master/docs), version 2.1 (draft of 2019), from which FM 301 was developed. SOMaR follows it for moving platforms and georeference corrections, which FM 301 does not include.
+- **CF**: the attribute is defined by the [NetCDF Climate and Forecast (CF) Metadata Conventions][cf], version 1.13, and is used as defined there.
+- **ACDD**: the attribute is defined by the [Attribute Convention for Data Discovery (ACDD)][acdd], version 1.3, which complements CF with attributes describing who created a dataset, under which license, and what time span and area it covers.
+- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial) and the [radar parameters](radar_parameters.md).
+- **CfRadial**: the attribute or variable is defined by the [CfRadial format][cfradial], version 2.1 (draft of 2019), from which FM 301 was developed. SOMaR follows it for moving platforms and georeference corrections, which FM 301 does not include.
 - **SOMaR**: the attribute is defined by none of these conventions and is introduced by this document.
+
+[acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3
+[cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
+[cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
+[fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
