@@ -30,3 +30,4 @@ From 1.0 on, a minor version (1.1, 1.2) only adds or clarifies, so that a file v
 Corrections that change no file, such as clarified wording, do not change the version.
 The working copy published here carries the suffix `-draft` (e.g. `SOMaR-{{ site.somar_version }}-draft`); files written according to a draft declare that string, and released versions drop the suffix.
 Each draft or release that files may refer to is tagged and published as a [release](https://github.com/sensing-the-ocean-with-marine-radar/somar-format-draft/releases) of the repository, with notes on the changes that affect files.
+A tagged draft does not change afterwards: the working copy then moves on to the next minor version, so that each `SOMaR-<major>.<minor>-draft` string identifies one text.

@@ -23,7 +23,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `scripts/build_pdf.py` | Builds the PDF of the whole specification from the built site (see [Building the PDF](#building-the-pdf)) |
 | `scripts/check_links.py` | Checks the internal links and anchors of the built site (see [Building the PDF](#building-the-pdf)) |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
-| `.github/workflows/` | `ci.yml` builds the site on pushes and pull requests; `pages.yml` deploys it to GitHub Pages |
+| `.github/workflows/` | `ci.yml` builds the site and the PDF and checks the examples and links on pushes and pull requests; `pages.yml` checks and deploys them to GitHub Pages |
 
 ## Building the site locally
 
@@ -34,7 +34,7 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Then open <http://localhost:4000>. The built site is written to `_site/`.
+Then open <http://localhost:4000/somar-format-draft/> (the site is served under its `baseurl`). The built site is written to `_site/`.
 
 ## Checking the examples
 
@@ -58,13 +58,15 @@ bundle exec jekyll build
 python3 scripts/build_pdf.py _site
 ```
 
-The script writes `_site/somar-format.pdf`. Then `python3 scripts/check_links.py _site` checks that every internal link and anchor of the built site, the PDF link included, resolves; CI runs it after building the PDF. It prints the pages with headless Chromium and needs network access to load MathJax and the fonts (Noto Sans and Source Code Pro, from jsDelivr). The page footer uses an installed Noto Sans (`fonts-noto-core` on Debian and Ubuntu) and falls back to the default sans-serif font without it. `pages.yml` builds the PDF before deploying the site, and `ci.yml` builds it on every push and pull request and uploads it as the `somar-format-pdf` artifact of the run.
+The script writes `_site/somar-format.pdf`. It prints the pages with headless Chromium and needs network access to load MathJax and the fonts (Noto Sans and Source Code Pro, from jsDelivr). The page footer uses an installed Noto Sans (`fonts-noto-core` on Debian and Ubuntu) and falls back to the default sans-serif font without it. `pages.yml` builds the PDF before deploying the site, and `ci.yml` builds it on every push and pull request and uploads it as the `somar-format-pdf` artifact of the run.
+Then `python3 scripts/check_links.py _site` checks that every internal link and anchor of the built site, the PDF link included, resolves; CI runs it after building the PDF.
 
 ## Releasing a version
 
 1. Set `somar_version` and `somar_status` in `_config.yml` (`"draft"` for a draft, `"released"` for a release).
 2. Update the `Conventions` attribute of the examples to match, e.g. `SOMaR-0.6-draft` or `SOMaR-1.0`; `scripts/check_examples.py` fails until they do.
-3. Tag the commit `v<major>.<minor>` (with a third number for corrections that change no file, e.g. `v1.0.1`) and publish it as a GitHub release whose notes list the changes that affect files. From version 1.0 on, also add an entry to a revision history page.
+3. Tag the commit `v<major>.<minor>-draft` for a draft (e.g. `v0.5-draft`) or `v<major>.<minor>` for a release (with a third number for corrections that change no file, e.g. `v1.0.1`), and publish it as a GitHub release whose notes list the changes that affect files. From version 1.0 on, also add an entry to a revision history page.
+4. Right after tagging a draft, set `somar_version` to the next minor version (e.g. `"0.6"`) and update the `Conventions` of the examples to match, so that the working copy no longer declares the string of the tagged draft.
 
 Releases are archived with a DOI once the repository is enabled in [Zenodo's GitHub integration](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content).
 
