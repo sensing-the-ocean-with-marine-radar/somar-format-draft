@@ -62,7 +62,10 @@ The tiers that depend on the file are written in the fixed form of
 product_types/index.md#requirements ("Required on the local grid;
 recommended on the geographic grid.") and resolved for each example of a
 product from its structure, its grid, its product type, and its values; the
-rows of the sections in SECTION_SCOPES apply to some products only.
+rows of the sections in SECTION_SCOPES apply to some products only. An
+example must hold every item that the resolved tiers, the processing
+parameters, and its product-type row make required or recommended, and no
+item that they omit.
 
 The product pages of the annex each have a file contents table, which must
 name every global attribute, variable, and group of the examples on the page,
@@ -494,6 +497,21 @@ def product_tiers(block, product, products, groups_of_products):
     return tiers, errors
 
 
+def check_completeness(block, tiers):
+    """Check that an example holds the items that the tables make required or recommended for it, and none that they omit.
+
+    Of the Level 1 data variables, of which a file holds exactly one, none is demanded.
+    """
+    items = example_items(block)
+    errors = []
+    for name, item_tier in sorted(tiers.items()):
+        if item_tier in ("required", "recommended") and name not in items and name not in LEVEL1_DATA_VARIABLES:
+            errors.append(f"{name}, {item_tier} for this file by the tables, is missing")
+        elif item_tier == "omitted" and name in items:
+            errors.append(f"{name} is present, but the tables omit it for this file")
+    return errors
+
+
 def contents_condition_holds(condition, facts):
     """Whether a condition of a file contents table holds for an example; None if it is not one of the fixed forms.
 
@@ -739,7 +757,7 @@ def check_tiers(block, tiers, variable_attribute_tiers):
             continue
         marked = tier(line) or "required"
         if expected == "omitted":
-            errors.append(f"{kind} {name} is present, but the tables omit it for this file")
+            # Reported by check_completeness.
             continue
         if expected is None or marked == expected or (marked == "required" and expected == "recommended" and tier(line)):
             continue
@@ -1207,10 +1225,12 @@ def main():
             for number, block in enumerate(FENCE.findall(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
                 product = PRODUCT_TYPE.search(block)
-                completeness = []  # the conflicts between the tables
+                completeness = []
                 if product and product.group(1) in products:
                     found, completeness = product_tiers(block, product.group(1), products, groups_of_products)
                     tiers_of_block = {**tiers, **found}
+                    if block.startswith("netcdf "):
+                        completeness += check_completeness(block, found)
                 else:
                     tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):
