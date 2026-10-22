@@ -58,6 +58,13 @@ in its minimal form, without the marked items; a block whose first line is
 "// minimal form" must equal the minimal form of the example with the same
 "netcdf" name.
 
+The product pages of the annex each have a file contents table, which must
+name every global attribute, variable, and group of the examples on the page,
+every variable attribute that they mark with a tier, and every variable of the
+product-type row; the items of its rows without a condition must appear in the
+examples with the tier of the row, the required and recommended ones in any
+case.
+
 Usage: python3 scripts/check_examples.py [--strict]
 
 Without cf-units installed, the unit checks are skipped with a warning;
@@ -131,6 +138,11 @@ VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md
 ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
 # Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
 METERS_PER_DEGREE = 111320.0
+# The file contents table of a product page of the annex, and the names that its rows link to.
+CONTENTS_TABLE = "{: .contents-table }"
+LINKED_NAME = re.compile(r"\[`(\w+)`\]\(([^)]*)\)")
+# The groups that the layout rows of a file contents table describe, rather than a row of their own.
+LAYOUT_GROUP = re.compile(r"^(?:sweep_\d+|time_\d{14})$")
 # The variables of a discrete sampling geometry that are not data variables.
 DSG_COORDINATES = {"time", "time_bounds", "longitude", "latitude", "trajectory", "station"}
 
@@ -262,6 +274,97 @@ def check_table_order(relative, text):
         if alphabetical and names != sorted(names, key=str.lower):
             first = next(a for a, b in zip(names, sorted(names, key=str.lower)) if a != b)
             errors.append(f"the {kind} at line {start} is not in alphabetical order (first out of place: {first})")
+    return errors
+
+
+def contents_rows(text):
+    """Return the rows of the file contents table of a page as (names, tier, condition, alternatives).
+
+    The names are those that the item links to; the tier is the first one named in its cell,
+    as in "Recommended; at least one required"; alternatives is true for an item of the form
+    "[`a`](...) or [`b`](...)", of which a file holds one. Separator rows are left out.
+    """
+    lines = text.splitlines()
+    end = lines.index(CONTENTS_TABLE)
+    start = end
+    while start > 0 and lines[start - 1].startswith("|"):
+        start -= 1
+    rows = []
+    for line in lines[start + 2 : end]:
+        item, tier_cell, condition = (cell.strip() for cell in line.strip().strip("|").split("|"))
+        if item.startswith("**") and not tier_cell:
+            continue
+        match = TIER.match(tier_cell.lower())
+        rows.append(([name for name, _ in LINKED_NAME.findall(item)], match.group(1) if match else tier_cell,
+                     condition, re.search(r"\) or \[", item) is not None))
+    return rows
+
+
+def example_items(block):
+    """Return {name: [(kind, tier, marked)]} for the global attributes, variables, groups, and variable attributes of an example.
+
+    The groups that a layout row describes, such as sweep_<n>, are left out, and so are the
+    contents of the groups that a placeholder stands for.
+    """
+    items = {}
+    for line in block.splitlines():
+        marked = tier(line)
+        match = PLACEHOLDER.match(line) or GROUP_OPEN.match(line)
+        if match:
+            name = match.group(2) if PLACEHOLDER.match(line) else match.group(1)
+            if not LAYOUT_GROUP.match(name):
+                items.setdefault(name, []).append(("group", marked or "required", marked is not None))
+            continue
+        match = ATTRIBUTE.match(line)
+        if match:
+            kind = "global attribute" if match.group(2) == "" else "attribute"
+            items.setdefault(match.group(3), []).append((kind, marked or "required", marked is not None))
+            continue
+        match = DECLARATION.match(line)
+        if match:
+            items.setdefault(match.group(1), []).append(("variable", marked or "required", marked is not None))
+    return items
+
+
+def check_contents_table(text, product_row):
+    """Check the file contents table of a product page of the annex against the examples on the page.
+
+    Every global attribute, variable, and group of the examples, and every variable attribute
+    that they mark with a tier, is named by a row, the recommended global attributes also by the
+    row that links to their list; every variable of the product-type row is named by a row; and
+    the items of the rows without a condition appear in the examples with the tier of the row,
+    the required and recommended ones in any case.
+    """
+    errors = []
+    if CONTENTS_TABLE not in text.splitlines():
+        return ["has no file contents table"]
+    rows = contents_rows(text)
+    named = {name for names, _, _, _ in rows for name in names}
+    items = {}
+    for block in FENCE.findall(text):
+        if block.startswith("netcdf "):
+            for name, occurrences in example_items(block).items():
+                items.setdefault(name, []).extend(occurrences)
+    summary = "optional_global.md#recommended)" in text
+    recommended_globals = set(recommended_global_section("Recommended")) if summary else set()
+    for name, occurrences in sorted(items.items()):
+        kinds = {kind for kind, _, marked in occurrences if kind != "attribute" or marked}
+        if kinds and name not in named and not (kinds == {"global attribute"} and name in recommended_globals):
+            errors.append(f"the {sorted(kinds)[0]} {name} of the example has no row in the file contents table")
+    for name in sorted(set(product_row) - named):
+        errors.append(f"{name}, of the product-type table, has no row in the file contents table")
+    for names, row_tier, condition, alternatives in rows:
+        if condition:
+            continue
+        present = [name for name in names if name in items]
+        if row_tier in ("required", "highly recommended", "recommended") and (not present if alternatives else len(present) < len(names)):
+            missing = " or ".join(names) if alternatives else ", ".join(n for n in names if n not in items)
+            errors.append(f"{missing}, {row_tier} in the file contents table, is missing from the example")
+        for name in present:
+            tiers = {t for _, t, _ in items[name]}
+            lenient = row_tier == "recommended" and any(t == "required" and marked for _, t, marked in items[name])
+            if row_tier not in tiers and not lenient:
+                errors.append(f"{name} is {row_tier} in the file contents table, but the example marks it {', '.join(sorted(tiers))}")
     return errors
 
 
@@ -888,6 +991,9 @@ def main():
             text = read(page)
             tiers_of_page = {**tiers, **table_tiers(text)}
             order = check_table_order(relative, text)
+            product = re.search(r"The product type `(\w+)`", text)
+            if relative.startswith("contents/annex/") and product and product.group(1) in products:
+                order += check_contents_table(text, products[product.group(1)][1])
             if order:
                 failures += 1
                 print(f"FAIL {relative}:")

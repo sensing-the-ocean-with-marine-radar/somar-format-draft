@@ -30,7 +30,7 @@ A file of this product holds the following items; each links to its definition, 
 | [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
 | **Each `sweep_<n>` group** | | |
 | [`time`](../product_types/polar.md#averaged-sweeps-time), [`range`](../product_types/polar.md#averaged-sweeps-range), [`azimuth`](../product_types/polar.md#averaged-sweeps-azimuth) | Required | |
-| [`time_bounds`](../product_types/polar.md#time_bounds) | Optional | |
+| [`time_bounds`](../product_types/polar.md#time_bounds), with [`bounds`](../product_types/polar.md#averaged-sweeps-time) `= "time_bounds"` on `time` | Optional | |
 | [`meters_between_gates`](../product_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../product_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../product_types/polar.md#spacing_is_constant) on `range` | Optional | |
 | [`sweep_mode`](../product_types/polar.md#averaged-sweeps-sweep_mode) `= "pointing"`, [`fixed_angle`](../product_types/polar.md#averaged-sweeps-fixed_angle), [`n_samples`](../product_types/polar.md#n_samples) | Required | |
 | [`backscatter_amplitude`](../product_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../product_types/product_variables.md#backscatter_power), exactly one | Required | |
