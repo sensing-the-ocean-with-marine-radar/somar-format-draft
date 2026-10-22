@@ -225,5 +225,5 @@ Relative roughness images and mosaics are stored on the local grid; the maps on 
 Relative roughness image mosaics are defined for moving platforms only.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-names]: https://cfconventions.org/Data/cf-standard-names/95/build/cf-standard-name-table.html
 [cf-bounds]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-boundaries

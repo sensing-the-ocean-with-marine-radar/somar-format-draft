@@ -61,5 +61,5 @@ Their descriptions state this in one of two forms, which apply in every product:
 | `wavenumber_bin_bounds`<br><small>SOMaR</small> | double `(wavenumber_bin, nv)`; `m-1` | Lower and upper edge of each wavenumber band, along the dimension `nv` (number of vertices, as in [CF][cf-bounds] section 7.1) of size 2, so that the bands need not be of equal width. Requires `wavenumber_bin`. |
 {: .variable-table }
 
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-names]: https://cfconventions.org/Data/cf-standard-names/95/build/cf-standard-name-table.html
 [cf-bounds]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-boundaries

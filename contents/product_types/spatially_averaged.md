@@ -136,7 +136,7 @@ The name of each product links to the table of its file contents in the annex, w
 Of the five bulk wave parameters that the peak and mean wave parameters recommend, at least one is required.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
-[cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-names]: https://cfconventions.org/Data/cf-standard-names/95/build/cf-standard-name-table.html
 [cf-bounds]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-boundaries
 [cf-dsg]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#discrete-sampling-geometries
 [cf-cell-methods]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-methods

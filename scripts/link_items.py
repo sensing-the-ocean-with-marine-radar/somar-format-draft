@@ -17,10 +17,16 @@ outside the pages of the global attributes, to the variable attributes, unless
 variable defined both under Product variables and on a category page, to
 Product variables; and otherwise it stays plain.
 
+The script also checks the links to the conventions SOMaR builds on: each
+convention has one URL, for the version SOMaR pins (CONVENTION_URLS), such as
+version 95 of the CF standard name table, which check_examples.py validates
+against.
+
 Usage: python3 scripts/link_items.py [--check]
 
 Without --check, the script adds the missing links to the pages; with --check,
-it lists them and fails if there are any, as CI runs it.
+it lists them and fails if there are any, as CI runs it. Problems that the
+script cannot fix, such as a wrong URL, fail it in either mode.
 """
 
 import argparse
@@ -31,6 +37,8 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+from check_examples import STANDARD_NAME_TABLE_VERSION  # noqa: E402
 
 DEFINITION_TABLES = ("attribute-table", "variable-table", "mandatory-attribute-table")
 HEADING = re.compile(r"^(#{1,6}) (.*)$")
@@ -42,6 +50,19 @@ VARIABLE_ATTRIBUTES = "contents/metadata_attributes/variable_attributes.md"
 # The names of both a global and a variable attribute, and the pages on which they mean the global one.
 GLOBAL_AND_VARIABLE_ATTRIBUTES = ("comment", "references", "source")
 GLOBAL_ATTRIBUTE_PAGES = ("contents/metadata_attributes/mandatory_global.md", "contents/metadata_attributes/optional_global.md")
+# The conventions SOMaR builds on, by the start of their URLs, and the one URL of each, without
+# fragment, for the version SOMaR pins. UDUNITS has no version pinned, so its current documentation applies.
+CONVENTION_URLS = {
+    "https://cfconventions.org/": (
+        "https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html",
+        f"https://cfconventions.org/Data/cf-standard-names/{STANDARD_NAME_TABLE_VERSION}/build/cf-standard-name-table.html",
+    ),
+    "https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery": ("https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3",),
+    "https://library.wmo.int/": ("https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes",),
+    "https://github.com/NCAR/CfRadial": ("https://github.com/NCAR/CfRadial/tree/master/docs",),
+    "https://docs.unidata.ucar.edu/udunits/": ("https://docs.unidata.ucar.edu/udunits/current/",),
+}
+URL = re.compile(r"https?://[^\s)>\]\"]+")
 
 
 def slug(heading):
@@ -182,27 +203,42 @@ def link_page(page, lines, defs):
     return out, added
 
 
+def convention_problems(page, lines):
+    """Return [(line number, message)] for the URLs of the conventions that are not the one of the pinned version."""
+    problems = []
+    for number, line in enumerate(lines, 1):
+        for url in URL.findall(line):
+            for start, allowed in CONVENTION_URLS.items():
+                if url.startswith(start) and url.split("#")[0] not in allowed:
+                    problems.append((number, f"{url} is not the URL of the version SOMaR pins ({' or '.join(allowed)})"))
+    return problems
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="list the missing links and fail if there are any")
     args = parser.parse_args()
-    paths = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
+    paths = [os.path.join(ROOT, "index.md")] + sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
     pages = {os.path.relpath(p, ROOT): open(p, encoding="utf-8").read().split("\n") for p in paths}
     defs = definitions(pages)
-    missing = 0
+    problems = 0
     for page, lines in pages.items():
         out, added = link_page(page, lines, defs)
-        missing += len(added)
         if args.check:
-            for number, name in added:
-                print(f"{page}:{number}: `{name}` is not linked to its definition")
-        elif added:
-            with open(os.path.join(ROOT, page), "w", encoding="utf-8") as f:
-                f.write("\n".join(out))
-            print(f"{page}: {len(added)} links added")
-    if args.check:
-        print(f"{missing} mentions without a link")
-        sys.exit(1 if missing else 0)
+            found = [(number, f"`{name}` is not linked to its definition") for number, name in added]
+        else:
+            found = []
+            if added:
+                with open(os.path.join(ROOT, page), "w", encoding="utf-8") as f:
+                    f.write("\n".join(out))
+                print(f"{page}: {len(added)} links added")
+        # The problems that the script reports but does not fix.
+        found += convention_problems(page, out)
+        for number, message in sorted(found):
+            print(f"{page}:{number}: {message}")
+        problems += len(found)
+    print(f"{problems} problems found")
+    sys.exit(1 if problems else 0)
 
 
 if __name__ == "__main__":
