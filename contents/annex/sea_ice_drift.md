@@ -8,7 +8,7 @@ nav_order: 10
 # L2a: Sea ice drift maps
 
 {: .informative }
-> This page is informative. The product type `sea_ice_drift` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `sea_ice_drift` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector in a set of analysis windows along the platform trajectory, together with a `measurement_quality` bit flag.
 Each drift vector is retrieved from the displacement of the backscatter pattern between two radar images, which may be temporally averaged, separated by a short time lag.
@@ -16,6 +16,39 @@ The method is named by [`retrieval_method`](../metadata_attributes/processing_pa
 If the retrieval is also carried out backward in time, two independent drift vector estimates are reported for each location: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward retrieval and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward retrieval.
 A cross-correlation reports the peak correlation coefficients of both, `correlation_coefficient` and `correlation_coefficient_backward`.
 The cross-correlation method is blind to the actual presence or absence of sea ice in the analysis window; a high correlation coefficient together with good agreement between the forward and backward drift vectors is therefore used as an indicator that sea ice, rather than open water or noise, was tracked.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group | Required | moving platform |
+| one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time` | Required | fixed platform |
+| the [geographic grid](../product_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../product_types/gridded.md#local-grid) `(y, x)` | Required | |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "sea_ice_drift"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method), [`time_lag`](../metadata_attributes/processing_parameters.md#time_lag) | Recommended | |
+| [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration) | Recommended | images averaged before the retrieval |
+| **Variables of each grid** | | |
+| [`time`](../product_types/gridded.md#variables-time) | Required | |
+| [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | moving platform |
+| [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
+| [`latitude`](../product_types/gridded.md#variables-latitude), [`longitude`](../product_types/gridded.md#variables-longitude) | Required | |
+| [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y) | Required | local grid |
+| [`crs`](../product_types/gridded.md#variables-crs) | Required | local grid |
+| [`crs`](../product_types/gridded.md#variables-crs) | Recommended | geographic grid |
+| [`radar_latitude`](../product_types/gridded.md#radar_latitude), [`radar_longitude`](../product_types/gridded.md#radar_longitude) | Optional | |
+| [`eastward_sea_ice_velocity`](../product_types/product_variables.md#eastward_sea_ice_velocity), [`northward_sea_ice_velocity`](../product_types/product_variables.md#northward_sea_ice_velocity) | Required | |
+| [`correlation_coefficient`](../product_types/product_variables.md#correlation_coefficient), [`eastward_sea_ice_velocity_backward`](../product_types/product_variables.md#eastward_sea_ice_velocity_backward), [`northward_sea_ice_velocity_backward`](../product_types/product_variables.md#northward_sea_ice_velocity_backward), [`correlation_coefficient_backward`](../product_types/product_variables.md#correlation_coefficient_backward) | Optional | |
+| [`measurement_quality`](../product_types/gridded.md#measurement_quality) | Recommended | |
+| [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
+| [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
+{: .contents-table }
 
 ## Example
 

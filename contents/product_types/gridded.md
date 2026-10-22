@@ -206,16 +206,17 @@ The processing parameters of gridded products are recorded in global attributes 
 
 The following products are gridded products.
 For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
+The name of each product links to the table of its file contents in the annex, which lists everything a file of the product holds.
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Cartesian image sequences](../annex/level1b_cartesian.md) (L1b) | `radar_cartesian` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
-| [Relative roughness images](../annex/relative_roughness_images.md) (L2a) | `relative_roughness` | **Required:** `relative_roughness`<br>**Optional:** `number_of_observations` |
-| [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) (L2a) | `relative_roughness_mosaic` | **Required:** `relative_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
-| [Near-surface current maps](../annex/current_maps.md) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_fitted_spectral_points`, `signal_to_noise_ratio` |
-| [Near-surface current profile maps](../annex/current_profile_maps.md) (L2a) | `currents_profile` | **Required:** `wavenumber_bin`, `wavenumber_bin_bounds`, `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_fitted_spectral_points`, `signal_to_noise_ratio` |
-| [Bathymetric maps](../annex/depth_maps.md) (L2a) | `bathymetry` | **Required:** `sea_floor_depth_below_sea_surface`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `sea_floor_depth_below_sea_surface_standard_error`, `number_of_fitted_spectral_points` |
-| [Sea ice drift maps](../annex/sea_ice_drift.md) (L2a) | `sea_ice_drift` | **Required:** `eastward_sea_ice_velocity`, `northward_sea_ice_velocity`<br>**Optional:** `correlation_coefficient`, `eastward_sea_ice_velocity_backward`, `northward_sea_ice_velocity_backward`, `correlation_coefficient_backward` |
+| [Cartesian image sequences](../annex/level1b_cartesian.md#file-contents) (L1b) | `radar_cartesian` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
+| [Relative roughness images](../annex/relative_roughness_images.md#file-contents) (L2a) | `relative_roughness` | **Required:** `relative_roughness`<br>**Optional:** `number_of_observations` |
+| [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md#file-contents) (L2a) | `relative_roughness_mosaic` | **Required:** `relative_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
+| [Near-surface current maps](../annex/current_maps.md#file-contents) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_fitted_spectral_points`, `signal_to_noise_ratio` |
+| [Near-surface current profile maps](../annex/current_profile_maps.md#file-contents) (L2a) | `currents_profile` | **Required:** `wavenumber_bin`, `wavenumber_bin_bounds`, `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_fitted_spectral_points`, `signal_to_noise_ratio` |
+| [Bathymetric maps](../annex/depth_maps.md#file-contents) (L2a) | `bathymetry` | **Required:** `sea_floor_depth_below_sea_surface`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `sea_floor_depth_below_sea_surface_standard_error`, `number_of_fitted_spectral_points` |
+| [Sea ice drift maps](../annex/sea_ice_drift.md#file-contents) (L2a) | `sea_ice_drift` | **Required:** `eastward_sea_ice_velocity`, `northward_sea_ice_velocity`<br>**Optional:** `correlation_coefficient`, `eastward_sea_ice_velocity_backward`, `northward_sea_ice_velocity_backward`, `correlation_coefficient_backward` |
 {: .product-type-table }
 
 Of `backscatter_amplitude` and `backscatter_power`, a Cartesian image sequence holds exactly one; it takes the form of an [image cube with a moving origin](#image-cube-with-moving-origin).

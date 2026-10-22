@@ -8,7 +8,36 @@ nav_order: 2
 # L1b: Polar image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_polar_regularized` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `radar_polar_regularized` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| an [image cube](../product_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)` | Required | |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_regularized"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| **Root group** | | |
+| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
+| [`altitude`](../product_types/polar.md#altitude) | Required | |
+| [`latitude`](../product_types/polar.md#moving-platforms-latitude), [`longitude`](../product_types/polar.md#moving-platforms-longitude), [`heading`](../product_types/polar.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
+| [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
+| [`time`](../product_types/polar.md#image-cube-time), [`azimuth`](../product_types/polar.md#image-cube-azimuth), [`range`](../product_types/polar.md#image-cube-range) | Required | |
+| [`rays_angle_resolution`](../product_types/polar.md#rays_angle_resolution) on `azimuth` | Optional | |
+| [`meters_between_gates`](../product_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../product_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../product_types/polar.md#spacing_is_constant) on `range` | Optional | |
+| [`ray_time`](../product_types/product_variables.md#ray_time) | Optional | |
+| [`backscatter_amplitude`](../product_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../product_types/product_variables.md#backscatter_power), exactly one | Required | |
+| [`azimuth_regularization`](../product_types/polar.md#azimuth_regularization) on the data variable | Required | |
+| [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | `azimuth_regularization` other than `nearest_neighbor` |
+| [`comment`](../product_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
+{: .contents-table }
 
 ## Example
 

@@ -8,7 +8,7 @@ nav_order: 6
 # L2a: Relative roughness image mosaics
 
 {: .informative }
-> This page is informative. The product type `relative_roughness_mosaic` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `relative_roughness_mosaic` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Relative roughness image mosaics (`relative_roughness_mosaic`) provide temporally averaged relative sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
 In contrast to [relative roughness images](relative_roughness_images.md), where all pixels of a grid share one short averaging window, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging window differs from pixel to pixel.
@@ -16,6 +16,33 @@ The averaging start time is determined by data availability and hence by the pla
 The mosaic therefore extends along the platform track beyond the footprint of a single relative roughness image, and the pixel-wise averaging start time is provided in `start_time_of_observations`, in seconds after the group's `time`.
 Like the relative roughness images, all mosaics of one file, typically covering one hour of a platform trajectory, are stored as sibling groups, one per measurement period, each on its own local grid.
 Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter power, with three ancillary variables: `number_of_observations` records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and `scan_sectors` which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement period, each in a `time_<YYYYMMDDHHMMSS>` group | Required | |
+| the [local grid](../product_types/gridded.md#local-grid) `(y, x)` | Required | |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "relative_roughness_mosaic"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration) | Recommended | |
+| **Variables of each grid** | | |
+| [`time`](../product_types/gridded.md#variables-time) | Required | |
+| [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | |
+| [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
+| [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y), [`crs`](../product_types/gridded.md#variables-crs) | Required | |
+| [`relative_roughness`](../product_types/product_variables.md#relative_roughness) | Required | |
+| [`cell_methods`](../metadata_attributes/variable_attributes.md#cell_methods) `= "time: mean"`, [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), and [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "time"` on `relative_roughness` | Required | |
+| [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | |
+| [`start_time_of_observations`](../product_types/product_variables.md#start_time_of_observations) | Required | |
+| [`number_of_observations`](../product_types/product_variables.md#number_of_observations), [`scan_sectors`](../product_types/product_variables.md#scan_sectors) | Optional | |
+{: .contents-table }
 
 ## Example
 

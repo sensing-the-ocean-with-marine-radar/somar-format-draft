@@ -123,13 +123,14 @@ The processing parameters of spatially averaged products are recorded in global 
 
 The following products are spatially averaged products.
 For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
+The name of each product links to the table of its file contents in the annex, which lists everything a file of the product holds.
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Surface wave two-dimensional wavenumber spectra](../annex/wave_wavenumber_spectra.md) (L2a) | `wave_wavenumber_spectra` | **Required:** `eastward_wave_wavenumber`, `northward_wave_wavenumber`, `sea_surface_wave_wavenumber_variance_spectral_density`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
-| [Surface wave frequency-direction spectra](../annex/wave_frequency_direction_spectra.md) (L2b) | `wave_frequency_direction_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_from_direction`, `sea_surface_wave_directional_variance_spectral_density` |
-| [Surface wave one-dimensional frequency spectra](../annex/wave_frequency_spectra.md) (L2b) | `wave_frequency_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_variance_spectral_density`<br>**Optional:** `sea_surface_wave_directional_spread`, `sea_surface_wave_mean_from_direction` |
-| [Peak and mean wave parameters](../annex/wave_parameters.md) (L2b) | `wave_parameters` | **Recommended:** `sea_surface_wave_significant_height`, `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`, `sea_surface_wave_period_at_variance_spectral_density_maximum`, `sea_surface_wave_mean_period`, `sea_surface_wave_from_direction`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
+| [Surface wave two-dimensional wavenumber spectra](../annex/wave_wavenumber_spectra.md#file-contents) (L2a) | `wave_wavenumber_spectra` | **Required:** `eastward_wave_wavenumber`, `northward_wave_wavenumber`, `sea_surface_wave_wavenumber_variance_spectral_density`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
+| [Surface wave frequency-direction spectra](../annex/wave_frequency_direction_spectra.md#file-contents) (L2b) | `wave_frequency_direction_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_from_direction`, `sea_surface_wave_directional_variance_spectral_density` |
+| [Surface wave one-dimensional frequency spectra](../annex/wave_frequency_spectra.md#file-contents) (L2b) | `wave_frequency_spectra` | **Required:** `wave_frequency`, `sea_surface_wave_variance_spectral_density`<br>**Optional:** `sea_surface_wave_directional_spread`, `sea_surface_wave_mean_from_direction` |
+| [Peak and mean wave parameters](../annex/wave_parameters.md#file-contents) (L2b) | `wave_parameters` | **Recommended:** `sea_surface_wave_significant_height`, `sea_surface_wave_from_direction_at_variance_spectral_density_maximum`, `sea_surface_wave_period_at_variance_spectral_density_maximum`, `sea_surface_wave_mean_period`, `sea_surface_wave_from_direction`<br>**Optional:** `wave_signal`, `background_noise`, `sea_surface_wave_mean_square_slope` |
 {: .product-type-table }
 
 Of the five bulk wave parameters that the peak and mean wave parameters recommend, at least one is required.

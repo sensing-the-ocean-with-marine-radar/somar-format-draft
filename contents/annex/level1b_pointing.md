@@ -8,7 +8,38 @@ nav_order: 3
 # L1b: Pulse-averaged pointing data
 
 {: .informative }
-> This page is informative. The product type `radar_polar_averaged` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `radar_polar_averaged` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| [averaged sweeps](../product_types/polar.md#averaged-sweeps): one `sweep_<n>` group per dwell, numbered from 0 in the order of acquisition | Required | |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_averaged"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| **Root group** | | |
+| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
+| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Recommended | moving platform |
+| [`altitude`](../product_types/polar.md#altitude) | Required | |
+| [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
+| **Each `sweep_<n>` group** | | |
+| [`time`](../product_types/polar.md#averaged-sweeps-time), [`range`](../product_types/polar.md#averaged-sweeps-range), [`azimuth`](../product_types/polar.md#averaged-sweeps-azimuth) | Required | |
+| [`time_bounds`](../product_types/polar.md#time_bounds) | Optional | |
+| [`meters_between_gates`](../product_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../product_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../product_types/polar.md#spacing_is_constant) on `range` | Optional | |
+| [`sweep_mode`](../product_types/polar.md#averaged-sweeps-sweep_mode) `= "pointing"`, [`fixed_angle`](../product_types/polar.md#averaged-sweeps-fixed_angle), [`n_samples`](../product_types/polar.md#n_samples) | Required | |
+| [`backscatter_amplitude`](../product_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../product_types/product_variables.md#backscatter_power), exactly one | Required | |
+| [`coordinates`](../product_types/polar.md#data-variables) `= "azimuth range"` on the data variable | Required | |
+| [`cell_methods`](../product_types/polar.md#averaged-sweeps) `= "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | |
+| [`comment`](../product_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`georeference`](../product_types/polar.md#moving-platforms) subgroup, with [`latitude`](../product_types/polar.md#moving-platforms-latitude), [`longitude`](../product_types/polar.md#moving-platforms-longitude), and [`heading`](../product_types/polar.md#heading) | Recommended | moving platform |
+| [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
+{: .contents-table }
 
 ## Example
 

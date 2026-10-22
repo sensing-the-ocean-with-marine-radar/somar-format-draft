@@ -255,12 +255,13 @@ If the position and heading of a moving platform are given per ray instead of pe
 
 The following products are polar products.
 For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
+The name of each product links to the table of its file contents in the annex, which lists everything a file of the product holds.
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Radar "raw" data](../annex/level1a.md) (L1a) | `radar_polar_raw` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
-| [Polar image sequences](../annex/level1b_polar.md) (L1b) | `radar_polar_regularized` | **Required:** one of `backscatter_amplitude` or `backscatter_power`<br>**Optional:** `ray_time` |
-| [Pulse-averaged pointing data](../annex/level1b_pointing.md) (L1b) | `radar_polar_averaged` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
+| [Radar "raw" data](../annex/level1a.md#file-contents) (L1a) | `radar_polar_raw` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
+| [Polar image sequences](../annex/level1b_polar.md#file-contents) (L1b) | `radar_polar_regularized` | **Required:** one of `backscatter_amplitude` or `backscatter_power`<br>**Optional:** `ray_time` |
+| [Pulse-averaged pointing data](../annex/level1b_pointing.md#file-contents) (L1b) | `radar_polar_averaged` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
 {: .product-type-table }
 
 Of `backscatter_amplitude` and `backscatter_power`, a file holds exactly one.

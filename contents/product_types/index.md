@@ -47,7 +47,7 @@ Each product belongs to one of three categories, according to how its values are
 
 Each category page defines the structure that its products share and lists its products, in a product-type table, with the variables that each of them holds.
 The variables themselves are defined under [Product variables](product_variables.md).
-An example file of each product, and for Level 2 a description of the product and its retrieval, is given in the informative [Annex: Example products](../annex/index.md).
+The informative [Annex: Example products](../annex/index.md) gives for each product a table of its [file contents](../annex/index.md#file-contents), which brings together the items that a file of the product holds, with their tiers and links to their definitions, an example file, and for Level 2 a description of the product and its retrieval.
 All products carry the [shared metadata](../metadata_attributes/index.md) in addition.
 
 ### Moving and fixed platforms

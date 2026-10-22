@@ -8,13 +8,46 @@ nav_order: 9
 # L2a: Bathymetric maps
 
 {: .informative }
-> This page is informative. The product type `bathymetry` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
+> This page is informative. The product type `bathymetry` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Bathymetric maps (`bathymetry`) provide sea floor depth (`sea_floor_depth_below_sea_surface`) in a set of analysis windows along the platform trajectory, together with an optional standard error and a `measurement_quality` bit flag.
 As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval-methods), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately 30% of the underlying ocean wavelength; `mean_wavenumber` reports the actual mean wavenumber of the wave signal used for a given measurement.
 
 The depths are not tide-corrected (see [Product variables](../product_types/product_variables.md)); users who need depths relative to a fixed vertical datum, such as mean sea level, must apply the correction themselves.
+
+## File contents
+
+A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+
+| Item | Tier | Condition |
+|---|---|---|
+| **Layout** | | |
+| one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group | Required | moving platform |
+| one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time` | Required | fixed platform |
+| the [geographic grid](../product_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../product_types/gridded.md#local-grid) `(y, x)` | Required | |
+| **Global attributes** | | |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "bathymetry"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
+| the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
+| [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Recommended | |
+| **Variables of each grid** | | |
+| [`time`](../product_types/gridded.md#variables-time) | Required | |
+| [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | moving platform |
+| [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
+| [`latitude`](../product_types/gridded.md#variables-latitude), [`longitude`](../product_types/gridded.md#variables-longitude) | Required | |
+| [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y) | Required | local grid |
+| [`crs`](../product_types/gridded.md#variables-crs) | Required | local grid |
+| [`crs`](../product_types/gridded.md#variables-crs) | Recommended | geographic grid |
+| [`radar_latitude`](../product_types/gridded.md#radar_latitude), [`radar_longitude`](../product_types/gridded.md#radar_longitude) | Optional | |
+| [`sea_floor_depth_below_sea_surface`](../product_types/product_variables.md#sea_floor_depth_below_sea_surface) | Required | |
+| [`mean_wavenumber`](../product_types/product_variables.md#mean_wavenumber) | Recommended | |
+| [`sea_floor_depth_below_sea_surface_standard_error`](../product_types/product_variables.md#sea_floor_depth_below_sea_surface_standard_error), [`number_of_fitted_spectral_points`](../product_types/product_variables.md#number_of_fitted_spectral_points) | Optional | |
+| [`measurement_quality`](../product_types/gridded.md#measurement_quality) | Recommended | |
+| [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
+| [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
+{: .contents-table }
 
 ## Example
 
