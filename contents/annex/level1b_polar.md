@@ -41,7 +41,7 @@ variables:
         float azimuth(azimuth) ;
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
-                azimuth:rays_angle_resolution = 0.25f ;
+                azimuth:rays_angle_resolution = 0.25f ; // optional
                 azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
         float range(range) ;
                 range:units = "m" ;
@@ -113,7 +113,7 @@ variables:
         float azimuth(azimuth) ;
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
-                azimuth:rays_angle_resolution = 0.25f ;
+                azimuth:rays_angle_resolution = 0.25f ; // optional
                 azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
         float range(range) ;
                 range:units = "m" ;
