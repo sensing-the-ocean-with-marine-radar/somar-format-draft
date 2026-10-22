@@ -138,7 +138,7 @@ variables:
                 :geospatial_lon_min = 145.8672647679 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_regularized" ;
                 :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended

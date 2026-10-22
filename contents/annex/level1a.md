@@ -110,7 +110,7 @@ variables:
                 :geospatial_lon_min = 145.8672647679 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ; // highly recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_raw" ;
                 :summary = "Raw marine X-band radar backscatter recorded on board R/V Ocean Research, converted from the manufacturer's format into NetCDF with every ray kept and no interpolation or calibration." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended

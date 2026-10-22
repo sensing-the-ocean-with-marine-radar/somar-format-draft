@@ -80,7 +80,7 @@ variables:
                 latitude:long_name = "mean latitude of wave measurement" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
-        double sea_surface_wave_significant_height(time) ;
+        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
                 sea_surface_wave_significant_height:long_name = "significant wave height" ;
                 sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
                 sea_surface_wave_significant_height:units = "m" ;

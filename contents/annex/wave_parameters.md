@@ -137,7 +137,7 @@ variables:
                 :geospatial_lon_min = 145.8631 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > SIGNIFICANT WAVE HEIGHT, EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE PERIOD, EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE DIRECTION" ; // highly recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :product_type = "wave_parameters" ;
                 :summary = "Significant wave height and peak and mean wave periods and directions from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended

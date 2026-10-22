@@ -39,7 +39,7 @@ variables:
                 :geospatial_lon_min = 145.8672647679 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ; // highly recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :product_type = "radar_polar_averaged" ;
                 :summary = "Marine X-band radar backscatter recorded in pointing mode on board R/V Ocean Research, with the amplitude of every eight consecutive pulses averaged into one ray." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:09:59Z" ; // recommended

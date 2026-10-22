@@ -96,7 +96,7 @@ variables:
                 :geospatial_lon_min = 145.8631 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :product_type = "wave_wavenumber_spectra" ;
                 :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar on board R/V Ocean Research, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended

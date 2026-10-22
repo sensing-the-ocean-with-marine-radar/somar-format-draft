@@ -43,29 +43,29 @@ group: radar_parameters {
         obstructed_sector = 2 ;
         nv = 2 ;
   variables:
-        float beam_width_h ;
+        float beam_width_h ; // optional
                 beam_width_h:units = "degree" ;
                 beam_width_h:long_name = "horizontal antenna beam width" ;
-        float beam_width_v ;
+        float beam_width_v ; // optional
                 beam_width_v:units = "degree" ;
                 beam_width_v:long_name = "vertical antenna beam width" ;
-        float frequency ;
+        float frequency ; // optional
                 frequency:units = "s-1" ;
                 frequency:long_name = "operating frequency of the radar" ;
-        string polarization_mode ;
+        string polarization_mode ; // optional
                 polarization_mode:long_name = "antenna polarization mode" ;
-        float pulse_width ;
+        float pulse_width ; // optional
                 pulse_width:units = "s" ;
                 pulse_width:long_name = "length of the transmitted pulse" ;
-        float prt ;
+        float prt ; // optional
                 prt:units = "s" ;
                 prt:long_name = "pulse repetition time" ;
-        float scan_rate ;
+        float scan_rate ; // optional
                 scan_rate:units = "degree s-1" ;
                 scan_rate:long_name = "antenna rotation rate" ;
-        int n_samples ;
+        int n_samples ; // optional
                 n_samples:long_name = "number of samples contributing to each ray" ;
-        float obstructed_sectors(obstructed_sector, nv) ;
+        float obstructed_sectors(obstructed_sector, nv) ; // optional
                 obstructed_sectors:units = "degree" ;
                 obstructed_sectors:long_name = "start and end azimuth of obstructed sectors, clockwise, relative to the bow" ;
   data:

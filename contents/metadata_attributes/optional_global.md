@@ -46,7 +46,7 @@ The time coverage and the spatial bounds follow from the file's content, so that
 | `keywords_vocabulary`<br><small>[ACDD][acdd]</small> | String; free text | The controlled vocabulary from which the `keywords` are taken, e.g. `GCMD Science Keywords`. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
-| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. Required, as `true`, in every file from a moving platform. Polar products (Level 1a and Level 1b polar) should then record the position and heading of the platform for every sweep or every ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)), and Level 2 products take the structure of a moving platform (see [Gridded products](../product_types/gridded.md) and [Spatially averaged products](../product_types/spatially_averaged.md#moving-and-fixed-platforms)). Assumed `false` if missing. |
+| `platform_is_mobile`<br><small>[FM 301][fm301], Table 301-1</small> | String; `true` or `false` | Whether the platform moves. FM 301 allows only `false`; SOMaR also allows `true`. Assumed `false`, a fixed platform, if missing, so that a file from a moving platform must set it to `true`. Polar products (Level 1a and Level 1b polar) should then record the position and heading of the platform for every sweep or every ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)), and Level 2 products take the structure of a moving platform (see [Gridded products](../product_types/gridded.md) and [Spatially averaged products](../product_types/spatially_averaged.md#moving-and-fixed-platforms)). |
 | `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR product types](../product_types/index.md)). ACDD allows free text here; SOMaR restricts it to these codes. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software used to produce the file, to support reproducibility. |
 | `project`<br><small>[ACDD][acdd]</small> | String; free text | The scientific project(s) under which the data were collected, comma-separated. |
@@ -91,7 +91,7 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
                 :keywords_vocabulary = "GCMD Science Keywords" ; // recommended
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ; // recommended
                 :platform = "R/V Ocean Research" ; // recommended
-                :platform_is_mobile = "true" ; // required: the platform moves
+                :platform_is_mobile = "true" ;
                 :processing_level = "L2a" ; // recommended
                 :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ; // recommended
                 :project = "FRORI Coastal Currents Experiment" ; // recommended

@@ -85,6 +85,9 @@ PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # The names of a coordinate reference system, which CF requires all together if any is given (Appendix F).
 CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datum_name", "geographic_crs_name")
+# Recommended global attributes that a file must carry under a condition stated in their description,
+# such as platform_is_mobile from a moving platform; their tier is not checked.
+CONDITIONAL_ATTRIBUTES = ("platform_is_mobile",)
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 
@@ -171,7 +174,7 @@ def global_tiers():
     """Return {name: tier} for the shared global attributes and the processing parameters."""
     tiers = {name: "required" for name in mandatory_attributes()}
     tiers.update((name, "highly recommended") for name in highly_recommended_attributes())
-    tiers.update((name, "recommended") for name in recommended_global_section("Recommended"))
+    tiers.update((name, "recommended") for name in recommended_global_section("Recommended") if name not in CONDITIONAL_ATTRIBUTES)
     tiers.update(table_tiers(read(os.path.join(ROOT, "contents/metadata_attributes/processing_parameters.md")), strict=False))
     return tiers
 
