@@ -38,7 +38,7 @@ Then open <http://localhost:4000/somar-format-draft/> (the site is served under 
 
 ## Checking the examples
 
-The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, the CF rules for references between variables, `cell_methods`, and bounds, and the SOMaR rules for global attributes, file names, tier markers, the required and conditional variables of each product, and the agreement of times, flags, and spatial bounds; the script also checks that the attribute tables are in alphabetical order and that every page listing the product types lists the same ones:
+The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, the CF rules for references between variables, `cell_methods`, and bounds, and the SOMaR rules for global attributes, file names, tier markers, the required, recommended, and conditional items of each product, the types, dimensions, and units of the variables, the file contents tables of the annex, and the agreement of times, flags, and spatial bounds; the script also checks that the attribute tables are in alphabetical order and that every page listing the product types lists the same ones:
 
 ```sh
 pip install cf-units   # optional locally; without it, the unit checks are skipped
@@ -74,7 +74,16 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
 - A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/product_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
+- Each product page of the annex begins with the table of its file contents, which summarizes the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
+- A tier that depends on the file is written in the fixed form described under [Requirements](contents/product_types/index.md#requirements), such as "Required on the local grid; recommended on the geographic grid.", so that `scripts/check_examples.py` can resolve it for each example.
 - Please propose changes through issues or pull requests.
+
+### Checklist for a change to a definition
+
+- [ ] The examples, minimal forms, and file contents tables of the affected products are updated; `python3 scripts/check_examples.py --strict` passes.
+- [ ] The descriptions of the affected products in the annex are reread and still agree with the definitions.
+- [ ] A new conditional tier uses the fixed form; a new condition is added to the description under Requirements and to `scripts/check_examples.py`.
+- [ ] `bundle exec jekyll build` and `python3 scripts/check_links.py _site` pass, so that the links to the definitions resolve.
 
 ## License and attribution
 

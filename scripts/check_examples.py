@@ -77,6 +77,8 @@ product-type row. Its conditions must be of the fixed forms of
 contents_condition_holds, and in each example the items of the rows whose
 condition holds, or that have none, must appear with the tier of the row, the
 required and recommended ones in any case.
+Their prose must state no requirements ("must", "shall", "is required"),
+which belong to the definitions.
 
 Usage: python3 scripts/check_examples.py [--strict]
 
@@ -165,6 +167,8 @@ TIER_SENTENCE = re.compile(r"(Required|Recommended|Optional)\b(.*?)\.(?:\s|$)")
 TIER_CLAUSE = re.compile(r"(required|recommended|optional|omitted)\b\s*(.*)", re.I)
 # The subjects of the conditions of the tables (see product_types/index.md#requirements).
 MULTIWORD_SUBJECTS = {"relative roughness images and mosaics": "relative roughness"}
+# The words by which a sentence states a requirement, which the informative annex leaves to the definitions.
+NORMATIVE_WORDS = re.compile(r"\b(?:must|shall|(?:is|are) required)\b", re.I)
 # The file contents table of a product page of the annex, and the names that its rows link to.
 CONTENTS_TABLE = "{: .contents-table }"
 LINKED_NAME = re.compile(r"\[`(\w+)`\]\(([^)]*)\)")
@@ -632,6 +636,25 @@ def check_value_specs(block, specs, bases):
             written = f"{kind} ({', '.join(dims)})" + (f" in {unit}" if unit else "")
             given = " | ".join(text for _, _, _, text in specs[name])
             errors.append(f"variable {name} is {written}, but the tables give {given}")
+    return errors
+
+
+def check_informative_prose(text):
+    """Check that the prose of a product page of the annex states no requirements, which belong to the definitions.
+
+    The prose is the text outside code blocks and tables; a requirement is recognized by
+    "must", "shall", or "is/are required".
+    """
+    errors, in_code = [], False
+    for number, line in enumerate(text.splitlines(), 1):
+        if line.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code or line.startswith("|"):
+            continue
+        match = NORMATIVE_WORDS.search(line)
+        if match:
+            errors.append(f'line {number} states a requirement ("{match.group(0)}"), which belongs to the definitions, not the informative annex')
     return errors
 
 
@@ -1340,6 +1363,7 @@ def main():
             product = re.search(r"The product type `(\w+)`", text)
             if relative.startswith("contents/annex/") and product and product.group(1) in products:
                 order += check_contents_table(text, product.group(1), products[product.group(1)][1], groups_of_products)
+                order += check_informative_prose(text)
             if order:
                 failures += 1
                 print(f"FAIL {relative}:")
