@@ -29,11 +29,11 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 
 - **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/polar.md) is their conversion to NetCDF.
 - A **ray** is one stored azimuth sample of a sweep, i.e. the echo along one beam direction as a function of range, following FM 301. At Level 1a, a ray normally holds a single transmitted pulse, unless the radar itself averages pulses (`n_samples` > 1); in Level 1b polar images, it is one bin of the regular azimuth axis, and in Level 1b pulse-averaged pointing data the mean of `n_samples` consecutive pulses.
-- A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data are stored.
+- A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data and Level 1b pulse-averaged pointing data are stored.
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode, which Level 1b averages over pulses instead.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected. Its length is given by `measurement_duration`.
-- An **averaging window** is the time span over which Level 1b images are averaged into one relative roughness image or one mosaic pixel. Its nominal length is given by `averaging_duration`; for individual pixels it may be shorter.
+- An **averaging window** is the time span over which Level 1b images are averaged into one relative roughness image, one mosaic pixel, or one of the two images of a sea ice drift retrieval. Its nominal length is given by `averaging_duration`; for individual pixels it may be shorter.
 
 ## Document structure
 
@@ -42,3 +42,6 @@ The [Georeferencing](../georeferencing/index.md) chapter defines the spatial fra
 The [SOMaR product types](../product_types/index.md) chapter defines the products in three categories by their geometry, polar, gridded, and spatially averaged, from the Level 1 radar products to the Level 2 geophysical products, with their structures, and defines the variables that hold their data.
 The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
 Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each product, and for Level 2 a description of the product and of its retrieval.
+
+The chapters Metadata, Georeferencing, and SOMaR product types are normative; File naming gives recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
+The Annex and the CDL examples throughout the document are informative; where an example and a definition differ, the definition applies.

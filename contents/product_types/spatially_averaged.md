@@ -112,7 +112,7 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `station`<br><small>[CF][cf-dsg]</small> | string | Recommended for a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
 | `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Product variables](product_variables.md)). |
 | `northward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Northward component of the near-surface current retrieved within the same analysis windows. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). |
+| `measurement_quality`<br><small>SOMaR</small> | ubyte `(time)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). |
 {: .variable-table }
 
 The data variables carry `coordinates = "time longitude latitude"`, and `grid_mapping = "crs"` if the file holds a `crs`.

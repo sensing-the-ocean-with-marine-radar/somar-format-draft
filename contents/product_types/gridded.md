@@ -106,8 +106,8 @@ For a moving platform, they have the dimension `time`, with one value per image;
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each revolution. |
 | `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required. Distance east of the grid origin. |
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin. |
-| `longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Required. Longitude (WGS 84) of the grid origin. |
-| `latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
+| `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Longitude (WGS 84) of the grid origin. |
+| `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
 {: .variable-table }
 
 From a moving platform, the file has no `crs` variable and the data variable no `grid_mapping` attribute, since a single coordinate reference system variable can describe only one grid origin, whereas the origin here changes from image to image (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)).
@@ -183,13 +183,13 @@ The data variables of a product are defined under [Product variables](product_va
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Required on the local grid, recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. |
-| `x`<br><small>[CF][cf-names]</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
-| `y`<br><small>[CF][cf-names]</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
+| `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
+| `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for relative roughness images and mosaics. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
 | `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional for maps; omitted for relative roughness images and mosaics. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
 | `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional for maps; omitted for relative roughness images and mosaics. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
-| `measurement_quality`<br><small>[CF][cf-names]</small> | ubyte `(…)`; bit flags | Recommended for maps; not defined for relative roughness images and mosaics. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). Level 1 products carry no quality flag either. |
+| `measurement_quality`<br><small>SOMaR</small> | ubyte `(…)`; bit flags | Recommended for maps; not defined for relative roughness images and mosaics. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). Level 1 products carry no quality flag either. |
 {: .variable-table }
 
 On the local grid, the data variables of a map carry `coordinates = "longitude latitude"`; on either grid, they carry `grid_mapping = "crs"` if the group holds a `crs`.
@@ -202,7 +202,7 @@ For each, the table lists the data variables that it requires, recommends, or al
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Cartesian image sequences](../annex/level1b_cartesian.md) (L1b) | `radar_cartesian` | **Required:** `backscatter_amplitude`, `backscatter_power` |
+| [Cartesian image sequences](../annex/level1b_cartesian.md) (L1b) | `radar_cartesian` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
 | [Relative roughness images](../annex/relative_roughness_images.md) (L2a) | `relative_roughness` | **Required:** `relative_roughness`<br>**Optional:** `number_of_observations` |
 | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) (L2a) | `relative_roughness_mosaic` | **Required:** `relative_roughness`, `start_time_of_observations`<br>**Optional:** `number_of_observations`, `scan_sectors` |
 | [Near-surface current maps](../annex/current_maps.md) (L2a) | `currents` | **Required:** `eastward_sea_water_velocity`, `northward_sea_water_velocity`<br>**Recommended:** `mean_wavenumber`<br>**Optional:** `eastward_sea_water_velocity_standard_error`, `northward_sea_water_velocity_standard_error`, `number_of_wave_coordinates`, `signal_to_noise_ratio` |

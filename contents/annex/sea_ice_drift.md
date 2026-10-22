@@ -10,7 +10,7 @@ nav_order: 10
 {: .informative }
 > This page is informative. The product type `sea_ice_drift` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md).
 
-Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector at a set of analysis locations along the platform trajectory, together with a `measurement_quality` bit flag.
+Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector in a set of analysis windows along the platform trajectory, together with a `measurement_quality` bit flag.
 Each drift vector is retrieved from the displacement of the backscatter pattern between two radar images, which may be temporally averaged, separated by a short time lag.
 The method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval-methods): for example, cross-correlation of the two images within a local analysis window, where the offset at the correlation peak yields the drift vector (`cross_correlation`; Lund et al. [2018](../references/index.md#lund-2018)), or optical flow (`optical_flow`; Thomson et al. [2021](../references/index.md#thomson-2021)).
 If the retrieval is also carried out backward in time, two independent drift vector estimates are reported for each location: `eastward_sea_ice_velocity`/`northward_sea_ice_velocity` from the forward retrieval and `eastward_sea_ice_velocity_backward`/`northward_sea_ice_velocity_backward` from the backward retrieval.

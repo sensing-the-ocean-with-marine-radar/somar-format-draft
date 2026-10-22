@@ -15,7 +15,7 @@ They are the Level 1 products that keep the measurement in the geometry in which
 - **Level 1b pulse-averaged pointing data** (`radar_polar_averaged`) are Level 1a data recorded in pointing mode, in which each stored ray is the mean of a fixed number of consecutive pulses. They keep the dwells of Level 1a, with the sampling in time reduced by the averaging.
 
 Level 1a data are stored as [sweeps](#sweeps), Level 1b polar images as an [image cube](#image-cube), and Level 1b pulse-averaged pointing data as [averaged sweeps](#averaged-sweeps).
-What both forms share is described first; the products and their variables are listed under [Product types](#product-types).
+What all three forms share is described first; the products and their variables are listed under [Product types](#product-types).
 
 ## Relation to FM 301 and CfRadial
 
@@ -41,7 +41,7 @@ SOMaR departs from FM 301 in the following points:
 ## Coordinates and position
 
 `range` is the slant range from the antenna to the center of each range bin, and `azimuth` the antenna pointing direction, clockwise positive, as recorded by the radar relative to its zero direction; it is related to true north through the platform `heading` and the `azimuth_correction` (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
-In both forms, the `range` variable may carry the following attributes.
+In all three forms, the `range` variable may carry the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -258,9 +258,9 @@ For each, the table lists the data variables that it requires, recommends, or al
 
 | Product | `product_type` | Variables |
 |---|---|---|
-| [Radar "raw" data](../annex/level1a.md) (L1a) | `radar_polar_raw` | **Required:** `backscatter_amplitude`, `backscatter_power` |
-| [Polar image sequences](../annex/level1b_polar.md) (L1b) | `radar_polar_regularized` | **Required:** `backscatter_amplitude`, `backscatter_power`<br>**Optional:** `ray_time` |
-| [Pulse-averaged pointing data](../annex/level1b_pointing.md) (L1b) | `radar_polar_averaged` | **Required:** `backscatter_amplitude`, `backscatter_power` |
+| [Radar "raw" data](../annex/level1a.md) (L1a) | `radar_polar_raw` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
+| [Polar image sequences](../annex/level1b_polar.md) (L1b) | `radar_polar_regularized` | **Required:** one of `backscatter_amplitude` or `backscatter_power`<br>**Optional:** `ray_time` |
+| [Pulse-averaged pointing data](../annex/level1b_pointing.md) (L1b) | `radar_polar_averaged` | **Required:** one of `backscatter_amplitude` or `backscatter_power` |
 {: .product-type-table }
 
 Of `backscatter_amplitude` and `backscatter_power`, a file holds exactly one.
