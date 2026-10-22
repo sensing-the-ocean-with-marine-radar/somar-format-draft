@@ -13,7 +13,7 @@ table.mandatory-attribute-table {
 
   // Long values (URLs, numbers, identifiers) may break inside a token.
   // Attribute and variable names break after an underscore first (see
-  // _plugins/table_wbr.rb).
+  // _plugins/table_rows.rb).
   td code {
     overflow-wrap: anywhere;
   }
@@ -21,6 +21,11 @@ table.mandatory-attribute-table {
   // The defining convention, in small print under the name.
   td:first-child small {
     color: $grey-dk-000;
+  }
+
+  // The row that a link to an item points to (see _plugins/table_rows.rb).
+  tr:target td {
+    background-color: $yellow-000;
   }
 
   // Name | Values | Description
