@@ -16,14 +16,12 @@ Within each group, `relative_roughness` gives the averaged, still uncalibrated r
 
 ## File contents
 
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per averaging window, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time). Each grid is the [local grid](../product_types/gridded.md#local-grid) `(y, x)`.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per averaging window, each in a `time_<YYYYMMDDHHMMSS>` group | Required | moving platform |
-| one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time` | Required | fixed platform |
-| the [local grid](../product_types/gridded.md#local-grid) `(y, x)` | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "relative_roughness"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |

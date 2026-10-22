@@ -75,7 +75,7 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
 - A product type is a row in the product-type table of its category page under `contents/product_types/` (polar, gridded, or spatially averaged), its variables are defined in `contents/product_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
-- Each product page of the annex begins with the table of its file contents, which summarizes the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
+- Each product page of the annex begins with its file contents, the layout of the file and a table of its items, which summarize the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
 - Links follow the rule under [Links](#links).
 - A tier that depends on the file is written in the fixed form described under [Requirements](contents/product_types/index.md#requirements), such as "Required on the local grid; recommended on the geographic grid.", so that `scripts/check_examples.py` can resolve it for each example.
 - Please propose changes through issues or pull requests.

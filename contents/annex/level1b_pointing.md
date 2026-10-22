@@ -12,12 +12,12 @@ nav_order: 3
 
 ## File contents
 
+**Layout.** The file holds the [averaged sweeps](../product_types/polar.md#averaged-sweeps): one `sweep_<n>` group per dwell, numbered from 0 in the order of acquisition.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| [averaged sweeps](../product_types/polar.md#averaged-sweeps): one `sweep_<n>` group per dwell, numbered from 0 in the order of acquisition | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_averaged"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |

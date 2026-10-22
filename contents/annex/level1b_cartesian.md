@@ -12,12 +12,12 @@ nav_order: 4
 
 ## File contents
 
+**Layout.** The file holds an [image cube with moving origin](../product_types/gridded.md#image-cube-with-moving-origin) in the root group, with the data variable on `(time, y, x)`.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| an [image cube with moving origin](../product_types/gridded.md#image-cube-with-moving-origin) in the root group, with the data variable on `(time, y, x)` | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_cartesian"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |

@@ -19,13 +19,12 @@ Within each group, [`relative_roughness`](../product_types/product_variables.md#
 
 ## File contents
 
+**Layout.** The file holds one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement period, each in a `time_<YYYYMMDDHHMMSS>` group, on the [local grid](../product_types/gridded.md#local-grid) `(y, x)`.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement period, each in a `time_<YYYYMMDDHHMMSS>` group | Required | |
-| the [local grid](../product_types/gridded.md#local-grid) `(y, x)` | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "relative_roughness_mosaic"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | |

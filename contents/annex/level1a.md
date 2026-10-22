@@ -12,12 +12,12 @@ nav_order: 1
 
 ## File contents
 
+**Layout.** The file holds the [sweeps](../product_types/polar.md#sweeps): one `sweep_<n>` group per sweep, numbered from 0 in the order of acquisition.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| [sweeps](../product_types/polar.md#sweeps): one `sweep_<n>` group per sweep, numbered from 0 in the order of acquisition | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_raw"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |

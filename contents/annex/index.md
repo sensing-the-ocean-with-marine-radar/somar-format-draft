@@ -15,8 +15,8 @@ The examples illustrate the definitions of the [SOMaR product types](../product_
 
 ## File contents
 
-The page of each product begins with a table of its file contents: the layout of the file, its global attributes, variables, and groups, and the variable attributes that have a tier of their own, each with its tier and linked to its definition.
-Where the tier of an item depends on the platform, the grid, or another item, the table gives the condition under which it applies: "moving platform", "fixed platform", "local grid", "geographic grid", the presence of another item, such as "with `crs`", or its value, such as "`sweep_mode = "pointing"`" or "`cartesian_resampling` other than `nearest_neighbor`". The table so also covers the forms of a file that the example does not show, such as a file from a fixed platform.
+The page of each product begins with its file contents: the layout of the file, i.e. the forms its structure takes, followed by a table of its global attributes, variables, and groups, and the variable attributes that have a tier of their own, each with its tier and linked to its definition.
+Where the tier of an item depends on the platform, the grid, or another item, the table gives the condition under which it applies: one of the forms of the layout, "moving platform", "fixed platform", "local grid", or "geographic grid"; the presence of another item, such as "with `crs`", or its value, such as "`sweep_mode = "pointing"`" or "`cartesian_resampling` other than `nearest_neighbor`". The table so also covers the forms of a file that the example does not show, such as a file from a fixed platform.
 The table summarizes the definitions of the product and, like the example, does not add to them.
 
 ## Reading the examples

@@ -17,13 +17,12 @@ Integrating over direction yields the [one-dimensional frequency spectra](wave_f
 
 ## File contents
 
+**Layout.** On a moving platform, the file holds a [trajectory](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| a [trajectory](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)` | Required | moving platform |
-| a [time series](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with scalar `longitude` and `latitude` | Required | fixed platform |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "wave_frequency_direction_spectra"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |

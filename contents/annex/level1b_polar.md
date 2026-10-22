@@ -12,12 +12,12 @@ nav_order: 2
 
 ## File contents
 
+**Layout.** The file holds an [image cube](../product_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)`.
+
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
-| **Layout** | | |
-| an [image cube](../product_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)` | Required | |
 | **Global attributes** | | |
 | [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_regularized"` | Required | |
 | [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
