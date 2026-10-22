@@ -101,7 +101,8 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. |
+| `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
+| `time_bounds`<br><small>[CF][cf-bounds]</small> | double `(time, nv)`; `seconds since 1970-01-01T00:00:00Z` | Optional. Start and end of each measurement period, along the dimension `nv` of size 2 ([CF][cf-bounds] section 7.1). |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if `analysis_window_motion` is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Measurements](#measurements)). |
@@ -135,5 +136,6 @@ Of the five bulk wave parameters that the peak and mean wave parameters recommen
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-bounds]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-boundaries
 [cf-dsg]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#discrete-sampling-geometries
 [cf-cell-methods]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-methods

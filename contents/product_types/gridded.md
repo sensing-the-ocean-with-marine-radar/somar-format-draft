@@ -135,6 +135,7 @@ A near-surface current map from a fixed platform holds, for example:
 ```
 dimensions:
         time = 15 ;
+        nv = 2 ;
         latitude = 17 ;
         longitude = 17 ;
 variables:
@@ -152,6 +153,11 @@ variables:
                 time:long_name = "start time of current measurement" ;
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
+                time:bounds = "time_bounds" ; // optional
+        double time_bounds(time, nv) ; // optional
+                time_bounds:calendar = "standard" ;
+                time_bounds:long_name = "start and end time of current measurement" ;
+                time_bounds:units = "seconds since 1970-01-01T00:00:00Z" ;
         double longitude(longitude) ;
                 longitude:long_name = "center longitude of current measurement" ;
                 longitude:standard_name = "longitude" ;
@@ -182,7 +188,8 @@ The data variables of a product are defined under [Product variables](product_va
 | Variable | Values | Description |
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Required on the local grid, recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
-| `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. |
+| `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
+| `time_bounds`<br><small>[CF][cf-bounds]</small> | double `(nv)`, or double `(time, nv)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Optional. Start and end of the measurement period, or of the nominal averaging window of a relative roughness image, along the dimension `nv` of size 2 ([CF][cf-bounds] section 7.1). |
 | `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for relative roughness images and mosaics. Longitude of the centers of the analysis windows. |
@@ -218,3 +225,4 @@ Relative roughness image mosaics are defined for moving platforms only.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html
 [cf-names]: https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html
+[cf-bounds]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#cell-boundaries
