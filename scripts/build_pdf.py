@@ -61,6 +61,9 @@ FONT_FAMILIES = ("Noto Sans", "Source Code Pro")
 
 PRINT_CSS = """
 @page { size: A4; margin: 18mm 16mm 20mm; }
+/* The site sets the root font size to 16px at the width of an A4 page; the theme
+   sizes everything in rem, so this scales the whole document to 10.5pt text. */
+html { font-size: 14px !important; }
 html, body { background: #fff; }
 body { margin: 0; font-family: "Noto Sans", sans-serif; }
 code, pre, kbd, samp { font-family: "Source Code Pro", monospace !important; }
