@@ -45,6 +45,7 @@ variables:
                 backscatter_power:units = "1" ;
                 backscatter_power:_FillValue = NaNf ;
                 backscatter_power:cartesian_resampling = "linear_interpolation" ;
+                backscatter_power:averaged_quantity = "power" ;
                 backscatter_power:comment = "backscatter power (I^2 + Q^2) in uncalibrated analog-to-digital units, mapped from polar coordinates by bilinear interpolation of linear power" ; // recommended
 
 // global attributes:

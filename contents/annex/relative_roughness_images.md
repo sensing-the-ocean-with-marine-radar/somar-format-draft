@@ -12,7 +12,7 @@ nav_order: 5
 
 Relative roughness images (`relative_roughness`) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
 Because the platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
-Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter power, and `number_of_observations` records how many Level 1b images contributed to each grid cell.
+Within each group, `relative_roughness` gives the averaged, still uncalibrated radar backscatter amplitude, which the example averages instead of power to give less weight to sea spikes, and `number_of_observations` records how many Level 1b images contributed to each grid cell.
 
 ## Example
 
@@ -66,15 +66,16 @@ group: time_20250115110031 {
                 y:standard_name = "projection_y_coordinate" ;
                 y:units = "m" ;
         float relative_roughness(y, x) ;
-                relative_roughness:long_name = "temporally averaged radar backscatter power in uncalibrated analog-to-digital converter units" ;
+                relative_roughness:long_name = "temporally averaged radar backscatter amplitude in uncalibrated analog-to-digital converter units" ;
                 relative_roughness:units = "1" ;
                 relative_roughness:grid_mapping = "crs" ;
                 relative_roughness:coordinates = "time" ;
                 relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:averaged_quantity = "amplitude" ;
                 relative_roughness:ancillary_variables = "number_of_observations" ;
         int number_of_observations(y, x) ; // optional
                 number_of_observations:standard_name = "number_of_observations" ;
-                number_of_observations:long_name = "number of measurements from which the radar backscatter power averages have been derived" ;
+                number_of_observations:long_name = "number of measurements from which the radar backscatter amplitude averages have been derived" ;
                 number_of_observations:units = "1" ;
                 number_of_observations:grid_mapping = "crs" ;
   } // group time_20250115110031

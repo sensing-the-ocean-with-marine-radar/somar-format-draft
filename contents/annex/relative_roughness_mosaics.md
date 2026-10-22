@@ -75,6 +75,7 @@ group: time_20250115111001 {
                 relative_roughness:grid_mapping = "crs" ;
                 relative_roughness:coordinates = "time" ;
                 relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:averaged_quantity = "power" ;
                 relative_roughness:ancillary_variables = "number_of_observations start_time_of_observations scan_sectors" ;
         int number_of_observations(y, x) ; // optional
                 number_of_observations:standard_name = "number_of_observations" ;

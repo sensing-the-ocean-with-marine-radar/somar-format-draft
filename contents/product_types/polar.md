@@ -166,9 +166,7 @@ Level 1b pulse-averaged pointing data are derived from Level 1a sweeps recorded 
 They are organized in [sweeps](#sweeps) as Level 1a data are, with the same root group, `sweep_<n>` groups, `georeference` subgroups, and optional groups, and each sweep is one dwell.
 A block never spans the boundary of a sweep, so the last ray of a dwell may be the mean of fewer pulses than the others.
 
-The averaging is done on linear power: amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, beforehand, and the mean is converted back to the quantity and unit of the data variable.
-If the signal cannot be linearized, such as a log-compressed video signal, the mean is taken over the stored values instead, and the `comment` of the data variable must say so.
-The data variable carries `cell_methods = "time: mean (comment: computed on linear power)"`, or `"time: mean"` when it holds power in linear units or the stored values were averaged.
+The data variable carries `cell_methods = "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables), which states whether the pulses are averaged in power, in amplitude, or as stored.
 
 An averaged sweep group holds the data variable and the following variables.
 
@@ -203,7 +201,8 @@ group: sweep_0 {
         int n_samples ;
                 n_samples:long_name = "number of pulses averaged into each ray" ;
         ushort backscatter_amplitude(time, range) ;
-                backscatter_amplitude:cell_methods = "time: mean (comment: computed on linear power)" ;
+                backscatter_amplitude:cell_methods = "time: mean" ;
+                backscatter_amplitude:averaged_quantity = "amplitude" ;
   data:
         sweep_mode = "pointing" ;
         n_samples = 8 ;
@@ -227,7 +226,7 @@ The regular azimuth axis and the resampling onto it are recorded in two attribut
 
 | Attribute | Values | Description |
 |---|---|---|
-| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample rays recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest ray, linear interpolation between the two adjacent rays, or the mean of all rays falling within each azimuth bin. Interpolation and averaging are done on linear power: amplitude (`backscatter_amplitude`) is squared, and values in `dB` are converted to linear units, beforehand, and the result is converted back to the quantity and unit of the data variable. If the signal cannot be linearized, such as a log-compressed video signal, they are done on the stored values instead. Should be accompanied by a `comment` describing the method in words, which must also say when the stored values were used. |
+| `azimuth_regularization`<br><small>SOMaR</small> | String; one of `nearest_neighbor`, `linear_interpolation`, `average` | On the data variable: the method used to resample rays recorded at irregular azimuths onto the regular `azimuth` axis: selection of the closest ray, linear interpolation between the two adjacent rays, or the mean of all rays falling within each azimuth bin. Except for `nearest_neighbor`, the data variable also carries [`averaged_quantity`](../metadata_attributes/variable_attributes.md#data-and-coordinate-variables), which states whether interpolation and averaging are done on power, amplitude, or the stored values. Should be accompanied by a `comment` describing the method in words. |
 | `rays_angle_resolution`<br><small>SOMaR</small> | Number; degree | On `azimuth`: the spacing of the regular azimuth axis. Named after the FM 301 variable `rays_angle_resolution` (Table 301-8), which gives the angular spacing of rays that are indexed to a regular grid; the accompanying FM 301 flag `rays_are_indexed` is implied to be `"true"` and is not stored. |
 {: .attribute-table }
 

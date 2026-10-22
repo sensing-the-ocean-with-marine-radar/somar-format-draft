@@ -41,7 +41,7 @@ variables:
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ; // highly recommended
                 :platform_is_mobile = "true" ; // required: the platform moves
                 :product_type = "radar_polar_averaged" ;
-                :summary = "Marine X-band radar backscatter recorded in pointing mode on board R/V Ocean Research, with every eight consecutive pulses averaged on linear power into one ray." ; // highly recommended
+                :summary = "Marine X-band radar backscatter recorded in pointing mode on board R/V Ocean Research, with the amplitude of every eight consecutive pulses averaged into one ray." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:09:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
                 :title = "Marine X-band radar pulse-averaged pointing data from R/V Ocean Research" ; // highly recommended
@@ -91,8 +91,9 @@ group: sweep_0 {
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:coordinates = "azimuth range" ;
-                backscatter_amplitude:cell_methods = "time: mean (comment: computed on linear power)" ;
-                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU), averaged over n_samples consecutive pulses as the square root of the mean of (I^2 + Q^2). I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ; // recommended
+                backscatter_amplitude:cell_methods = "time: mean" ;
+                backscatter_amplitude:averaged_quantity = "amplitude" ;
+                backscatter_amplitude:comment = "the square root of (I^2 + Q^2) given in uncalibrated analog-to-digital units (ADU), averaged over n_samples consecutive pulses. I and Q are the in-phase and quadrature channels both measured in counts of the analog-to-digital converter (ADC)." ; // recommended
   data:
         sweep_mode = "pointing" ;
         fixed_angle = 45. ;
