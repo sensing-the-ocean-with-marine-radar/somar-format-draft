@@ -74,14 +74,14 @@ variables:
                 sea_surface_wave_mean_from_direction:grid_mapping = "crs" ;
                 sea_surface_wave_mean_from_direction:ancillary_variables = "measurement_quality" ;
         ubyte measurement_quality(time) ; // recommended
-                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
                 measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
-                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
                 measurement_quality:valid_range = 0UB, 63UB ;
-                measurement_quality:_FillValue = 255UB ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
+                measurement_quality:standard_name = "quality_flag" ;
                 measurement_quality:coordinates = "time longitude latitude" ;
                 measurement_quality:grid_mapping = "crs" ;
+                measurement_quality:_FillValue = 255UB ;
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
@@ -101,8 +101,8 @@ variables:
                 :analysis_window_motion = "earth_fixed" ; // optional
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 3840. ; // recommended
-                :number_of_analysis_windows = 6 ; // recommended
                 :measurement_duration = 240. ; // recommended
+                :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
                 :wave_frequency_frame = "intrinsic" ; // recommended
 

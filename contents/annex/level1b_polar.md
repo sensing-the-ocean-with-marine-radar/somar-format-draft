@@ -17,7 +17,7 @@ A radar on a fixed platform.
 ```
 netcdf or_2023-08-31-17-00_radar_polar_regularized {
 dimensions:
-        time = 41 ;
+        time = 40 ;
         azimuth = 1440 ;
         range = 1000 ;
 variables:
@@ -85,7 +85,7 @@ A radar on a ship, with position and heading recorded per sweep, along with the 
 ```
 netcdf or_2025-01-15-11-00_radar_polar_regularized {
 dimensions:
-        time = 41 ;
+        time = 40 ;
         azimuth = 1440 ;
         range = 1000 ;
 variables:
@@ -114,7 +114,7 @@ variables:
                 azimuth:units = "degree" ;
                 azimuth:long_name = "radar antenna pointing direction on regular grid" ;
                 azimuth:rays_angle_resolution = 0.25f ; // optional
-                azimuth:comment = "clockwise positive, relative to the radar's zero direction, not north-oriented" ;
+                azimuth:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
         float range(range) ;
                 range:units = "m" ;
                 range:long_name = "range_to_measurement_volume" ;

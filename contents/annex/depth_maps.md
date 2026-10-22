@@ -33,7 +33,7 @@ netcdf or_2025-01-15-12_bathymetry {
                 :product_type = "bathymetry" ;
                 :summary = "Water depths from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2025-01-15T12:59:59Z" ; // recommended
-                :time_coverage_start = "2025-01-15T12:00:00Z" ; // recommended
+                :time_coverage_start = "2025-01-15T12:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 1245. ; // recommended

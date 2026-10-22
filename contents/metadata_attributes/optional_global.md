@@ -78,6 +78,7 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :product_type = "currents" ;
+                :comment = "Analysis windows on a regular latitude-longitude lattice with 500 m spacing, centered on the radar position at the start of each measurement period" ; // recommended
                 :creator_email = "famous.scientist@frori.org" ; // recommended
                 :creator_name = "Dr. Famous Scientist" ; // recommended
                 :date_created = "2025-01-15T12:05:00Z" ; // recommended
@@ -89,7 +90,7 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :institution_id = "https://ror.org/01abcde23" ; // recommended
                 :instrument = "Famous Radar Ocean Research Institute coherent-on-receive marine X-band radar" ; // recommended
-                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS" ; // highly recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
                 :keywords_vocabulary = "GCMD Science Keywords" ; // recommended
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ; // recommended
                 :platform = "R/V Ocean Research" ; // recommended
@@ -97,13 +98,14 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
                 :processing_level = "L2a" ; // recommended
                 :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ; // recommended
                 :project = "FRORI Coastal Currents Experiment" ; // recommended
+                :references = "Young, I. R., W. Rosenthal, and F. Ziemer (1985), A three-dimensional analysis of marine radar images for the determination of ocean wave directionality and surface currents, J. Geophys. Res., 90(C1), 1049-1059, doi:10.1029/JC090iC01p01049" ; // recommended
                 :source = "Shipboard marine X-band radar" ; // recommended
                 :standard_name_vocabulary = "CF Standard Name Table v95" ; // recommended
                 :station_id = "or" ; // recommended
-                :summary = "The near-surface current vectors are obtained through least-squares fits ..." ; // highly recommended
+                :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2025-01-15T12:00:00.775429Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
-                :title = "Marine X-band radar near-surface current measurements with quality control flag from R/V Ocean Research" ; // highly recommended
+                :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ; // highly recommended
 ```
 
 [cf-description]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#description-of-file-contents

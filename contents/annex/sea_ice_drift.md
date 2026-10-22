@@ -24,25 +24,25 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 78.9987 ; // recommended
-                :geospatial_lat_min = 78.9012 ; // recommended
-                :geospatial_lon_max = 5.2276 ; // recommended
-                :geospatial_lon_min = 4.8123 ; // recommended
+                :geospatial_lat_max = 79.0600 ; // recommended
+                :geospatial_lat_min = 78.8800 ; // recommended
+                :geospatial_lon_max = 5.4000 ; // recommended
+                :geospatial_lon_min = 4.6500 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
                 :platform_is_mobile = "true" ;
                 :product_type = "sea_ice_drift" ;
                 :summary = "Sea ice drift vectors from a marine X-band radar on board R/V Ocean Research, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
                 :time_coverage_end = "2025-08-23T12:59:59Z" ; // recommended
-                :time_coverage_start = "2025-08-23T12:00:00Z" ; // recommended
+                :time_coverage_start = "2025-08-23T12:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 720. ; // recommended
                 :analysis_window_spacing = 500. ; // recommended
+                :averaging_duration = 30. ; // recommended
                 :measurement_duration = 120. ; // recommended
                 :retrieval_method = "cross_correlation" ; // recommended
                 :time_lag = 90. ; // recommended
-                :averaging_duration = 30. ; // recommended
 
 group: time_20250823120031 {
   dimensions:

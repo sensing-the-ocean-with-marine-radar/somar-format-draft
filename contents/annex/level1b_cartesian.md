@@ -17,7 +17,7 @@ A radar on a moving platform.
 ```
 netcdf or_2025-01-15-11-00_radar_cartesian {
 dimensions:
-        time = 41 ;
+        time = 40 ;
         y = 1980 ;
         x = 1980 ;
 variables:
@@ -27,18 +27,18 @@ variables:
                 time:standard_name = "time" ;
                 time:units = "seconds since 1970-01-01T00:00:00Z" ;
         double longitude(time) ;
-                longitude:long_name = "longitude" ;
+                longitude:long_name = "longitude of the grid origin" ;
                 longitude:standard_name = "longitude" ;
                 longitude:units = "degrees_east" ;
         double latitude(time) ;
-                latitude:long_name = "latitude" ;
+                latitude:long_name = "latitude of the grid origin" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
         double x(x) ;
-                x:long_name = "distance from radar along grid x-axis at measurement start time for each image" ;
+                x:long_name = "eastward distance from the grid origin" ;
                 x:units = "m" ;
         double y(y) ;
-                y:long_name = "distance from radar along grid y-axis at measurement start time for each image" ;
+                y:long_name = "northward distance from the grid origin" ;
                 y:units = "m" ;
         float backscatter_power(time, y, x) ;
                 backscatter_power:long_name = "radar backscatter power" ;

@@ -21,7 +21,6 @@ netcdf or_2025-01-15-11_relative_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :averaging_duration = 30. ; // recommended
                 :geospatial_lat_max = 14.99528 ; // recommended
                 :geospatial_lat_min = 14.95348 ; // recommended
                 :geospatial_lon_max = 145.94251 ; // recommended
@@ -32,8 +31,9 @@ netcdf or_2025-01-15-11_relative_roughness {
                 :product_type = "relative_roughness" ;
                 :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
-                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar sea surface relative roughness images from R/V Ocean Research" ; // highly recommended
+                :averaging_duration = 30. ; // recommended
 
 group: time_20250115110031 {
   dimensions:

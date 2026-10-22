@@ -24,20 +24,20 @@ netcdf or_2025-01-15-11_relative_roughness_mosaic {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :averaging_duration = 30. ; // recommended
                 :geospatial_lat_max = 14.98322 ; // recommended
-                :geospatial_lat_min = 14.95348 ; // recommended
-                :geospatial_lon_max = 145.94251 ; // recommended
+                :geospatial_lat_min = 14.9549 ; // recommended
+                :geospatial_lon_max = 145.93682 ; // recommended
                 :geospatial_lon_min = 145.88642 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :measurement_duration = 600. ; // recommended
                 :product_type = "relative_roughness_mosaic" ;
                 :summary = "Sea surface roughness mosaics from a marine X-band radar on board R/V Ocean Research, assembled from 30 s averages of Cartesian backscatter images over 10 min measurement periods." ; // highly recommended
-                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
-                :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:01.357666Z" ; // recommended
+                :time_coverage_start = "2025-01-15T11:10:01.357666Z" ; // recommended
                 :title = "Marine X-band radar sea surface relative roughness image mosaics from R/V Ocean Research" ; // highly recommended
+                :averaging_duration = 30. ; // recommended
+                :measurement_duration = 600. ; // recommended
 
 group: time_20250115111001 {
   dimensions:
@@ -94,6 +94,6 @@ group: time_20250115111001 {
                 scan_sectors:grid_mapping = "crs" ;
   } // group time_20250115111001
 
-// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes) ...
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per mosaic (here, every 10 minutes from 11:10 to 11:50) ...
 }
 ```
