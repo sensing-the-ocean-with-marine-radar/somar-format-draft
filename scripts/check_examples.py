@@ -31,8 +31,12 @@ requires, and meet the conditional requirements of the category pages:
 averaged_quantity on interpolated or averaged backscatter and on
 relative_roughness, fixed_angle exactly in pointing sweeps, a crs on the local
 grid of a Level 2 product and in Cartesian images from a fixed platform only,
-the platform velocity exactly for platform-fixed analysis windows, and the
-coordinates attribute of the data variables of a discrete sampling geometry.
+the platform velocity exactly for platform-fixed analysis windows, the
+coordinates attribute of the data variables of a discrete sampling geometry,
+and, on a rotated local grid, an azimuth_of_y_axis between 0 and 360 on its
+crs, a fixed platform, no geographic grid, and the variables that take the
+place of others on it (see product_variables.md) instead of those others; the
+tiers and the rules of a replaced variable pass to the variable replacing it.
 The attribute tables, and the variable tables of the Metadata pages and of
 product_variables.md, must be in alphabetical order, and the product types
 listed in mandatory_global.md, the product-type tables, the index of the
@@ -130,6 +134,9 @@ CATEGORY_PAGES = ("contents/product_types/polar.md", "contents/product_types/gri
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
+# The variables that take the place of others on a rotated local grid, and its grid mapping (see product_variables.md).
+REPLACEMENT = re.compile(r"Takes the place of `(\w+)` on a rotated grid\.")
+ROTATED_GRID_MAPPING = "rotated_azimuthal_equidistant"
 # The names of a coordinate reference system, which CF requires all together if any is given (Appendix F).
 CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datum_name", "geographic_crs_name")
 # Recommended global attributes that a file must carry under a condition stated in their description,
@@ -408,6 +415,7 @@ def example_facts(block, product, groups_of_products):
         "time_bounded": bool(re.search(r"group: time_\d{14} \{", block)),
         "local": bool(re.search(r"\b(?:double|float) x\(x\)", block)),
         "geographic": bool(re.search(r"\b(?:double|float) latitude\(latitude\)", block)),
+        "rotated": f'grid_mapping_name = "{ROTATED_GRID_MAPPING}"' in block,
         "values": values,
         "items": example_items(block),
         "product": product,
@@ -426,6 +434,8 @@ def subject_holds(subject, facts):
         return facts["local"]
     if subject == "the geographic grid":
         return facts["geographic"]
+    if subject == "a rotated grid":
+        return facts["rotated"]
     if subject in ("maps", "relative roughness", "spatially averaged products"):
         return subject in facts["groups"]
     match = re.fullmatch(r"`(\w+)`", subject)
@@ -521,6 +531,11 @@ def product_tiers(block, product, products, groups_of_products):
         tiers.update(found)
         errors += [f"the tables of {page} give {name} different tiers for this file" for name in conflicts]
     tiers.update(row)
+    # On a rotated grid, a variable that takes the place of another takes its tier (product_types/index.md#requirements).
+    if facts["rotated"]:
+        for name, replacement in replacements().items():
+            if name in tiers:
+                tiers[replacement], tiers[name] = tiers[name], "omitted"
     return tiers, errors
 
 
@@ -680,11 +695,12 @@ def contents_condition_holds(condition, facts):
     """Whether a condition of a file contents table holds for an example; None if it is not one of the fixed forms.
 
     The forms are "moving platform", "fixed platform", "time-bounded grid", "local grid",
-    "geographic grid", "with `x`", "`x = "v"`", and "`x` other than `v`".
+    "geographic grid", "rotated grid", "north-oriented grid", "with `x`", "`x = "v"`", and "`x` other than `v`".
     """
     simple = {"moving platform": facts["moving"], "fixed platform": not facts["moving"],
               "time-bounded grid": facts["time_bounded"],
-              "local grid": facts["local"], "geographic grid": facts["geographic"]}
+              "local grid": facts["local"], "geographic grid": facts["geographic"],
+              "rotated grid": facts["rotated"], "north-oriented grid": not facts["rotated"]}
     if condition in simple:
         return simple[condition]
     match = re.fullmatch(r"with `(\w+)`", condition)
@@ -767,6 +783,25 @@ def variable_rules():
         for match in VARIABLE_RULE.finditer(unlink(cells[-1])):
             rules.setdefault(name, []).extend(re.findall(r"`(\w+)`", match.group(1)))
     return rules
+
+
+def replacements():
+    """Return {variable: the variable that takes its place on a rotated grid} from the descriptions in product_variables.md."""
+    found = {}
+    for line in read(os.path.join(ROOT, "contents/product_types/product_variables.md")).splitlines():
+        if not line.startswith("| `"):
+            continue
+        cells = line.strip().strip("|").split("|")
+        name = re.match(r"\s*`(\w+)`", cells[0]).group(1)
+        for match in REPLACEMENT.finditer(unlink(cells[-1])):
+            found[match.group(1)] = name
+    return found
+
+
+def rotated_grid(groups):
+    """Whether an example holds a crs of a rotated local grid."""
+    return any(unquote(attributes.get("grid_mapping_name", "")) == ROTATED_GRID_MAPPING
+               for group in groups.values() for attributes in group["variables"].values())
 
 
 def canonical_groups():
@@ -1118,8 +1153,29 @@ def check_rules(groups, is_file, expected):
         # The local grid of a Level 2 product needs its crs (gridded.md).
         if product in expected["level2_product_types"] and {"x", "y"} <= group["variables"].keys() and not resolve(groups, path, "crs"):
             errors.append(f"{path}: a local grid needs a crs")
+        # A rotated local grid gives the azimuth of its y axis, from a fixed platform and not on a geographic grid (georeferencing).
+        for variable, attributes in group["variables"].items():
+            where = f"{path.rstrip('/')}/{variable}" if path != "/" else variable
+            rotated = unquote(attributes.get("grid_mapping_name", "")) == ROTATED_GRID_MAPPING
+            azimuth = number(attributes.get("azimuth_of_y_axis"))
+            if rotated and (azimuth is None or not 0 < azimuth < 360):
+                errors.append(f"{where}: a rotated local grid needs an azimuth_of_y_axis greater than 0 and less than 360")
+            if not rotated and "azimuth_of_y_axis" in attributes:
+                errors.append(f'{where}: azimuth_of_y_axis is used with grid_mapping_name = "{ROTATED_GRID_MAPPING}" only')
+            if rotated and group["dimensions"].get("latitude") == ("latitude",):
+                errors.append(f"{path}: a geographic grid is not rotated")
     if not is_file:
         return errors
+    # A rotated local grid is defined for a fixed platform, and its vector components replace the eastward and northward ones.
+    rotated = rotated_grid(groups)
+    moving = unquote(root.get("platform_is_mobile", "")) == "true" or any(re.search(r"/time_\d{14}$", path) for path in groups)
+    if rotated and moving:
+        errors.append("a rotated local grid is defined for a fixed platform only")
+    for name, replacement in expected["replacements"].items():
+        if rotated and anywhere(groups, name):
+            errors.append(f"{name} is replaced by {replacement} on a rotated grid")
+        if not rotated and anywhere(groups, replacement):
+            errors.append(f"{replacement} is used on a rotated grid only, in place of {name}")
     # Cartesian images carry a crs from a fixed platform only (gridded.md).
     if product == "radar_cartesian":
         fixed = groups["/"]["dimensions"].get("longitude") == ()
@@ -1132,6 +1188,7 @@ def check_rules(groups, is_file, expected):
             errors.append(f'{variable} is required if analysis_window_motion is "platform_fixed" and omitted otherwise')
     # The variables that the product-type table requires; of the Level 1 data variables, exactly one is checked above.
     for name, tier_of_name in expected["product_tiers"].get(product, {}).items():
+        name = expected["replacements"].get(name, name) if rotated else name
         if tier_of_name == "required" and name not in LEVEL1_DATA_VARIABLES and not anywhere(groups, name):
             errors.append(f"misses {name}, which the product-type table requires for {product}")
     return errors
@@ -1265,6 +1322,7 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
                         errors.append(f'{where}: {attribute} names "{target}", which does not exist in scope')
             if is_file:
                 for required in expected["variable_rules"].get(variable, []):
+                    required = expected["replacements"].get(required, required) if rotated_grid(groups) else required
                     if not resolve(groups, path, required):
                         errors.append(f"{where}: requires {required}, which does not exist in scope (see product_variables.md)")
             if "cell_methods" in attributes:
@@ -1325,7 +1383,7 @@ def check_link_independence(products, groups_of_products):
         examples = [(block, PRODUCT_TYPE.search(block).group(1))
                     for page in sorted(glob.glob(os.path.join(ROOT, "contents/annex/*.md")))
                     for block in FENCE.findall(read(page)) if block.startswith("netcdf ") and PRODUCT_TYPE.search(block)]
-        return (variable_rules(), global_tiers(), attribute_tiers(), registry(),
+        return (variable_rules(), replacements(), global_tiers(), attribute_tiers(), registry(),
                 {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES},
                 [product_tiers(block, product, products, groups_of_products) for block, product in examples],
                 {product: product_value_specs(product, products, groups_of_products) for product in products})
@@ -1344,7 +1402,7 @@ def check_link_independence(products, groups_of_products):
         linked = parse()
     finally:
         TEXT_OVERRIDES.clear()
-    names = ("rules", "global tiers", "attribute tiers", "product types", "category tiers", "product tiers", "value specifications")
+    names = ("rules", "replacements", "global tiers", "attribute tiers", "product types", "category tiers", "product tiers", "value specifications")
     return [f"the {name} of the tables change when their descriptions link the names they mention"
             for name, a, b in zip(names, plain, linked) if a != b]
 
@@ -1370,6 +1428,7 @@ def main():
         "mandatory_attributes": mandatory_attributes(),
         "highly_recommended_attributes": highly_recommended_attributes(),
         "variable_rules": variable_rules(),
+        "replacements": replacements(),
     }
 
     tiers = global_tiers()

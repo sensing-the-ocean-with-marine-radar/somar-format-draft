@@ -40,6 +40,8 @@ variables:
 ```
 
 The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after correcting for the mean platform velocity (see [Product variables](product_variables.md)).
+From a fixed platform, a file may give the current and the wavenumbers of a two-dimensional wavenumber spectrum along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna, whose `crs` defines the axes: [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](product_variables.md#sea_water_y_velocity), and [`x_wave_wavenumber`](product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](product_variables.md#y_wave_wavenumber), then take the place of their eastward and northward counterparts.
+Its `longitude` and `latitude` remain geographic coordinates, and the wave directions remain bearings from true north.
 
 The wavenumber spectra do not depend on the frame of reference, since a wavenumber is the same whether seen from the ground or from the moving water.
 Wave frequencies and periods do: relative to the ground, the current shifts the frequency of each wave component by the Doppler shift.
@@ -100,7 +102,7 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 
 | Variable | Values | Description |
 |---|---|---|
-| `crs`<br><small>[CF][cf]</small> | char | Recommended. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
+| `crs`<br><small>[CF][cf]</small> | char | Required on a rotated grid; recommended otherwise. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. From a fixed platform, it may be the `crs` of a rotated local grid centered on the radar antenna, which gives the axes of the vector components (see [Measurements](#measurements)). |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each measurement. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
 | `time_bounds`<br><small>[CF][cf-bounds]</small> | double `(time, nv)`; `seconds since 1970-01-01T00:00:00Z` | Optional. Start and end of each measurement period, along the dimension `nv` of size 2 ([CF][cf-bounds] section 7.1). |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |

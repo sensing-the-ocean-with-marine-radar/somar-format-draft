@@ -28,6 +28,7 @@ On this grid, `crs` is recommended rather than required: without it, `latitude` 
 
 Relative roughness images and mosaics, and maps whose analysis windows lie on a local grid around the radar, are stored on the local grid of the measurement: `x` and `y` give the distance in meters east and north of the radar antenna at the start of the measurement, and `crs` describes the local azimuthal equidistant projection centered on that position (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids)).
 In this form, `crs` is required, since its projection origin locates the grid.
+From a fixed platform, the local grid may be rotated about the radar antenna, for example into along-shore and cross-shore axes; `x` and `y` then give the distances along its axes, and `crs` also gives the azimuth of its y axis (see [Georeferencing](../georeferencing/index.md#rotated-local-grids)).
 A relative roughness image mosaic is stored on a single, larger local grid per measurement period, which extends along the platform track beyond the footprint of a single relative roughness image.
 Maps on the local grid also store two-dimensional `longitude` and `latitude`, so that every file gives the geographic position of each analysis window.
 For a map, the variables that differ from the geographic grid are:
@@ -96,7 +97,7 @@ No radiometric calibration or temporal averaging is applied at this level.
 ### Position and orientation
 
 `x` and `y` are distances in meters east and north of the grid origin.
-The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no [`heading`](polar.md#heading) is stored. This is the main difference from the [polar products](polar.md), which are stored as recorded.
+The images are north-oriented: the platform heading and the azimuth and range corrections have been applied in the mapping, so no [`heading`](polar.md#heading) is stored; from a fixed platform, they may instead be oriented along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids). This is the main difference from the [polar products](polar.md), which are stored as recorded.
 
 The grid origin is the position of the radar antenna at the start of each revolution, i.e. the recorded position after application of the [position offsets](../georeferencing/index.md#position-offset), and is given by `longitude` and `latitude`.
 For a moving platform, they have the dimension `time`, with one value per image; for a fixed platform, they are scalar, and the cube is the [single grid](#fixed-platform) of a fixed platform.
@@ -105,8 +106,8 @@ For a moving platform, they have the dimension `time`, with one value per image;
 |---|---|---|
 | `crs`<br><small>[CF][cf]</small> | char | Required for a fixed platform; omitted for a moving platform. Local azimuthal equidistant projection centered on the radar antenna (see [Georeferencing](../georeferencing/index.md#time-bounded-local-grids)). |
 | `time`<br><small>[CF][cf-names]</small> | double `(time)`; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of each revolution. |
-| `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required. Distance east of the grid origin. |
-| `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin. |
+| `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required. Distance east of the grid origin, or along the x axis of a rotated grid. |
+| `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required. Distance north of the grid origin, or along the y axis of a rotated grid. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Longitude (WGS 84) of the grid origin. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Latitude (WGS 84) of the grid origin. |
 {: .variable-table }
@@ -130,6 +131,8 @@ From a fixed platform, every measurement covers the same area on the same grid, 
 The dimension `time` then precedes the dimensions of the grid, `(time, latitude, longitude)` on the geographic grid or `(time, y, x)` on the local grid, and the variable `time` gives the start time of each measurement.
 A single `crs` describes the grid; on the local grid, its projection origin is the position of the radar antenna.
 A file therefore holds measurements on one grid only, and a change of grid, such as a new analysis window spacing, starts a new file.
+The local grid of a fixed platform, that of Level 1b Cartesian images included, may be rotated about the radar antenna, for example into along-shore and cross-shore axes (see [Georeferencing](../georeferencing/index.md#rotated-local-grids)); its `crs` then specifies `grid_mapping_name = "rotated_azimuthal_equidistant"` and [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and the components of vectors are given along its axes, such as [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) in place of [`eastward_sea_water_velocity`](product_variables.md#eastward_sea_water_velocity) (see [Product variables](product_variables.md)).
+The geographic grid is not rotated.
 Relative roughness image mosaics are not defined for a fixed platform, since a radar that does not move covers no more than the footprint of a relative roughness image.
 A near-surface current map from a fixed platform holds, for example:
 
@@ -191,8 +194,8 @@ The data variables of a product are defined under [Product variables](product_va
 | `crs`<br><small>[CF][cf]</small> | char | Required on the local grid; recommended on the geographic grid. Coordinate reference system (see [Georeferencing](../georeferencing/index.md#coordinate-reference-system-variables)). Without it, `latitude` and `longitude` refer to WGS 84. |
 | `time`<br><small>[CF][cf-names]</small> | double, or double `(time)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Required. Start time of the measurement period, or of the averaging window of a relative roughness image. Carries `bounds = "time_bounds"` where `time_bounds` is present. |
 | `time_bounds`<br><small>[CF][cf-bounds]</small> | double `(nv)`, or double `(time, nv)` from a fixed platform; `seconds since 1970-01-01T00:00:00Z` | Optional. Start and end of the measurement period, or of the nominal averaging window of a relative roughness image, along the dimension `nv` of size 2 ([CF][cf-bounds] section 7.1). |
-| `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement. |
-| `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement. |
+| `x`<br><small>SOMaR</small> | double `(x)`; `m` | Required on the local grid. Distance east of the radar antenna at the start of the measurement, or along the x axis of a rotated grid. |
+| `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement, or along the y axis of a rotated grid. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required for maps; omitted for relative roughness images and mosaics. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required for maps; omitted for relative roughness images and mosaics. Latitude of the centers of the analysis windows. |
 | `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional for maps; omitted for relative roughness images and mosaics. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
@@ -223,6 +226,7 @@ The name of each product links to the table of its file contents in the annex, w
 Of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) and [`backscatter_power`](product_variables.md#backscatter_power), a Cartesian image sequence holds exactly one; it takes the form of an [image cube with a moving origin](#image-cube-with-moving-origin).
 In current profile maps, all data variables, `measurement_quality` included, have the additional dimension [`wavenumber_bin`](product_variables.md#wavenumber_bin), one layer per wavenumber band.
 Relative roughness images and mosaics are stored on the local grid; the maps on either grid.
+On a rotated local grid, the x and y components of the currents and of the sea ice drift take the place of the eastward and northward components listed here.
 Relative roughness image mosaics are defined for moving platforms only.
 
 [cf]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html

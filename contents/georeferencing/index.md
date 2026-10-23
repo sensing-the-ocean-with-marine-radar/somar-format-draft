@@ -79,7 +79,7 @@ data:
 
 Marine radars measure natively in meters, as range and bearing from the antenna. Cartesian image products ([relative roughness images](../annex/relative_roughness_images.md) and [relative roughness image mosaics](../annex/relative_roughness_mosaics.md)) and [Level 2 maps on the local grid](../product_types/gridded.md#local-grid) preserve this geometry on a radar-centric grid:
 
-- `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection.
+- `x` and `y` are distances in meters east and north of the origin, on a flat plane. The `y` axis points to true north, not to the grid north of any map projection; from a fixed platform, the grid may instead be rotated (see [Rotated local grids](#rotated-local-grids)).
 - The origin is the position of the radar antenna at the start of the measurement, i.e. the concurrent GPS position after application of the [position offsets](#position-offset).
 
 In CF terms, this plane is described as an azimuthal equidistant projection on the WGS 84 ellipsoid, centered on the origin (see [Azimuthal equidistant][cf-azimuthal-equidistant] in the CF conventions). This projection preserves distance and bearing from its center; distances between other points on the plane differ from those on the ellipsoid by less than a millimeter within 5 km of the center and by a few millimeters within 10 km, far less than the range resolution of the radar. The `crs` variable specifies `grid_mapping_name = "azimuthal_equidistant"`, the origin ([`longitude_of_projection_origin`](../metadata_attributes/variable_attributes.md#longitude_of_projection_origin), [`latitude_of_projection_origin`](../metadata_attributes/variable_attributes.md#latitude_of_projection_origin)), the reference ellipsoid, and the same four names as the geographic coordinates. Each time-bounded grid also carries a scalar `time` giving the start of the measurement:
@@ -119,6 +119,64 @@ Because the origin changes as a platform moves, each local grid is valid only fo
 
 From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/gridded.md#fixed-platform)).
 [Level 1b Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) are stored as one cube instead, the third form of gridded products: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and from a moving platform there is no `crs`, since a single `crs` variable can describe only one origin; from a fixed platform, the cube has one `crs`, like the other single grids.
+
+### Rotated local grids
+
+From a fixed platform, the local grid may be rotated about its origin, for example into the along-shore and cross-shore directions of a coastal site; north-oriented grids remain the default.
+On a rotated grid, `y` is the distance along the axis whose direction is given by [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), in degrees clockwise from true north, and `x` the distance along the axis 90° clockwise from it, so that the axes remain right-handed; the origin is the radar antenna, as on the north-oriented grid.
+The `crs` variable specifies `grid_mapping_name = "rotated_azimuthal_equidistant"`, with the attributes of the azimuthal equidistant projection and `azimuth_of_y_axis`.
+With $\alpha$ the azimuth of the y axis (converted to radians for trigonometric evaluation), a point at `x` and `y` lies at the distances in meters east and north of the origin
+
+```
+east  =  x * cos(α) + y * sin(α)
+north = -x * sin(α) + y * cos(α)
+```
+
+on the plane of the azimuthal equidistant projection, from which its longitude and latitude follow as on the north-oriented grid.
+A grid with an azimuth of 0 is the north-oriented grid, which is stored with `grid_mapping_name = "azimuthal_equidistant"`.
+
+CF defines no rotation for the azimuthal equidistant projection: as in the parameter sets of PROJ and EPSG from which the CF grid mappings are taken, its y axis points to north at the projection origin.
+SOMaR therefore gives the rotated grid mapping a name of its own, formed like the `rotated_latitude_longitude` of CF, so that software that does not know it leaves the grid unplaced rather than placing it as north-oriented; the angle is stated like the azimuth of the y axis of the Local Orthographic projection of EPSG (method 9837).
+
+On a rotated grid, the components of vectors are given along its axes: the near-surface current in [`sea_water_x_velocity`](../product_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../product_types/product_variables.md#sea_water_y_velocity), the sea ice drift in [`sea_ice_x_velocity`](../product_types/product_variables.md#sea_ice_x_velocity) and [`sea_ice_y_velocity`](../product_types/product_variables.md#sea_ice_y_velocity), and the wavenumbers of a two-dimensional wavenumber spectrum in [`x_wave_wavenumber`](../product_types/product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](../product_types/product_variables.md#y_wave_wavenumber), in place of their eastward and northward counterparts.
+Directions, such as [`sea_surface_wave_from_direction`](../product_types/product_variables.md#sea_surface_wave_from_direction), remain bearings from true north, as CF defines them.
+Relative roughness images, Level 1b Cartesian images, and Level 2 maps on the local grid may be stored on a rotated grid; maps on the geographic grid may not, since its axes are longitude and latitude.
+Spatially averaged products from a fixed platform hold no grid, but may carry the `crs` of a rotated grid centered on the radar antenna to give the axes of their vector components; their `longitude` and `latitude` remain geographic coordinates.
+
+At a coastal site, the axes should follow the convention of the Argus stations and of the Coastal Imaging Research Network (CIRN; Palmsten and Brodie [2022](../references/index.md#palmsten-brodie-2022)): `x` cross-shore, positive offshore, and `y` along-shore, pointing to the left of an observer who faces offshore.
+The azimuth of the y axis is then the bearing of the offshore shore normal minus 90°: for a beach that faces east-southeast, with its offshore normal at 110°, it is 20°, and for a coast that runs north–south and faces east, it is 0, the north-oriented grid.
+The angle of the [CIRN toolbox](https://github.com/Coastal-Imaging-Research-Network/CIRN-Quantitative-Coastal-Imaging-Toolbox/blob/master/X_CoreFunctions/localTransformFunctions/localTransformPoints.m), from east to the x axis, counterclockwise positive, is the negative of the azimuth of the y axis.
+The [`long_name`](../metadata_attributes/variable_attributes.md#long_name) of `x` and `y` and of the vector components should name the axes, such as "cross-shore distance from radar antenna, positive offshore", and a [`comment`](../metadata_attributes/variable_attributes.md#comment) on `crs` the convention:
+
+```
+dimensions:
+        y = 21 ;
+        x = 21 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "rotated_azimuthal_equidistant" ;
+                crs:azimuth_of_y_axis = 20. ;
+                crs:longitude_of_projection_origin = 7.8853 ;
+                crs:latitude_of_projection_origin = 54.1826 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:comment = "Argus/CIRN axes: x cross-shore, positive offshore; y along-shore" ;
+        double x(x) ;
+                x:long_name = "cross-shore distance from radar antenna, positive offshore" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "along-shore distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+data:
+        crs = " " ;
+```
 
 ## Positions of analysis windows
 

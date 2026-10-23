@@ -32,6 +32,9 @@ Nieto Borge, J. C., G. Rodríguez Rodríguez, K. Hessner, and P. Izquierdo Gonz�
 Nieto-Borge, J. C., K. Hessner, P. Jarabo-Amores, and D. de la Mata-Moya, 2008: Signal-to-noise ratio analysis to estimate ocean wave heights from X-band marine radar image time series. *IET Radar Sonar Navig.*, **2**, 35–41, [https://doi.org/10.1049/iet-rsn:20070027](https://doi.org/10.1049/iet-rsn:20070027).
 {: #nieto-borge-2008 }
 
+Palmsten, M. L., and K. L. Brodie, 2022: The Coastal Imaging Research Network (CIRN). *Remote Sens.*, **14**, 453, [https://doi.org/10.3390/rs14030453](https://doi.org/10.3390/rs14030453).
+{: #palmsten-brodie-2022 }
+
 Senet, C. M., J. Seemann, and F. Ziemer, 2001: The near-surface current velocity determined from image sequences of the sea surface. *IEEE Trans. Geosci. Remote Sens.*, **39**, 492–505, [https://doi.org/10.1109/36.911108](https://doi.org/10.1109/36.911108).
 {: #senet-2001 }
 

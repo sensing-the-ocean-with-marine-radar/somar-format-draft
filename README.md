@@ -40,7 +40,7 @@ Then open <http://localhost:4000/somar-format-draft/> (the site is served under 
 
 ## Checking the examples
 
-The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, the CF rules for references between variables, `cell_methods`, and bounds, and the SOMaR rules for global attributes, file names, tier markers, the required, recommended, and conditional items of each product, the types, dimensions, and units of the variables, the file contents tables of the annex, and the agreement of times, flags, and spatial bounds; the script also checks that the attribute tables are in alphabetical order and that every page listing the product types lists the same ones:
+The CDL examples on the pages are built with `ncgen` and checked against the CF standard name table, UDUNITS, the CF rules for references between variables, `cell_methods`, and bounds, and the SOMaR rules for global attributes, file names, tier markers, the required, recommended, and conditional items of each product, the types, dimensions, and units of the variables, the file contents tables of the annex, the rules of rotated local grids, and the agreement of times, flags, and spatial bounds; the script also checks that the attribute tables are in alphabetical order and that every page listing the product types lists the same ones:
 
 ```sh
 pip install cf-units   # optional locally; without it, the unit checks are skipped

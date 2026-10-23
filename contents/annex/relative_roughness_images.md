@@ -282,3 +282,123 @@ variables:
                 :product_type = "relative_roughness" ;
 }
 ```
+
+## Example for a rotated grid
+
+A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../product_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../product_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../product_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"` and [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis).
+
+```
+netcdf cr_2023-08-31-17_relative_roughness {
+dimensions:
+        time = 120 ;
+        y = 1000 ;
+        x = 1000 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "rotated_azimuthal_equidistant" ;
+                crs:azimuth_of_y_axis = 20. ;
+                crs:longitude_of_projection_origin = 7.8853 ;
+                crs:latitude_of_projection_origin = 54.1826 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:comment = "Argus/CIRN axes: x cross-shore, positive offshore; y along-shore" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of radar measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double x(x) ;
+                x:long_name = "cross-shore distance from radar antenna, positive offshore" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "along-shore distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        float relative_roughness(time, y, x) ;
+                relative_roughness:long_name = "temporally averaged radar backscatter amplitude in uncalibrated analog-to-digital converter units" ;
+                relative_roughness:units = "1" ;
+                relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
+                relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:averaged_quantity = "amplitude" ;
+                relative_roughness:ancillary_variables = "number_of_observations" ;
+        int number_of_observations(time, y, x) ; // optional
+                number_of_observations:standard_name = "number_of_observations" ;
+                number_of_observations:long_name = "number of measurements from which the radar backscatter amplitude averages have been derived" ;
+                number_of_observations:units = "1" ;
+                number_of_observations:grid_mapping = "crs" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 54.2185 ; // recommended
+                :geospatial_lat_min = 54.1467 ; // recommended
+                :geospatial_lon_max = 7.9467 ; // recommended
+                :geospatial_lon_min = 7.8239 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
+                :product_type = "relative_roughness" ;
+                :summary = "Sea surface roughness from a marine X-band radar at Coastal Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
+                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
+                :title = "Marine X-band radar sea surface relative roughness images from Coastal Research Station" ; // highly recommended
+                :averaging_duration = 30. ; // recommended
+}
+```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf cr_2023-08-31-17_relative_roughness {
+dimensions:
+        time = 120 ;
+        y = 1000 ;
+        x = 1000 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "rotated_azimuthal_equidistant" ;
+                crs:azimuth_of_y_axis = 20. ;
+                crs:longitude_of_projection_origin = 7.8853 ;
+                crs:latitude_of_projection_origin = 54.1826 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+                crs:comment = "Argus/CIRN axes: x cross-shore, positive offshore; y along-shore" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of radar measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double x(x) ;
+                x:long_name = "cross-shore distance from radar antenna, positive offshore" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "along-shore distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        float relative_roughness(time, y, x) ;
+                relative_roughness:long_name = "temporally averaged radar backscatter amplitude in uncalibrated analog-to-digital converter units" ;
+                relative_roughness:units = "1" ;
+                relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
+                relative_roughness:cell_methods = "time: mean" ;
+                relative_roughness:averaged_quantity = "amplitude" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "relative_roughness" ;
+}
+```
