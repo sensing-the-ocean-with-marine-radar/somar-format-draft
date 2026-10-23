@@ -28,11 +28,7 @@ starts with an h1, so the headings of a page take an aria-level offset by
 its depth in the navigation, which Chromium uses for the outline without
 changing their style. Chromium also drops the spaces at the line breaks of
 a wrapped heading, so the titles of the bookmarks are set afterwards to the
-text of the headings, in document order. They are appended as an
-incremental update, so the file Chromium printed stays as it is: Chrome's
-viewer shows no bookmarks once pypdf has rewritten the whole file, and the
-update of pypdf itself uses a cross-reference stream (PDF 1.5) and leaves
-the document information out of the trailer.
+text of the headings, in document order.
 
 A table of contents follows the title page. Chromium cannot number its
 entries, so the document is printed twice: the first print gives the page of
@@ -58,8 +54,8 @@ from urllib.parse import urljoin, urlsplit
 
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
-from pypdf import PdfReader
-from pypdf.generic import DictionaryObject, NameObject, NumberObject, TextStringObject
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import NameObject, TextStringObject
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_NAME = "somar-format.pdf"
@@ -309,48 +305,14 @@ def outline_items(outline):
 
 
 def set_outline_titles(pdf, titles):
-    """Set the titles of the bookmarks of a PDF to the headings, which Chromium gives without the spaces at line breaks.
-
-    The changed bookmarks are appended as an incremental update with a
-    cross-reference table and a copy of the trailer, as PDF 1.4 has them.
-    """
-    reader = PdfReader(pdf)
-    items = list(outline_items(reader.trailer["/Root"]["/Outlines"].get_object()))
+    """Set the titles of the bookmarks of a PDF to the headings, which Chromium gives without the spaces at line breaks."""
+    writer = PdfWriter(clone_from=pdf)
+    items = list(outline_items(writer._root_object["/Outlines"].get_object()))
     if len(items) != len(titles):
         sys.exit(f"{pdf}: {len(items)} bookmarks for {len(titles)} headings")
-    changed = [(item, text) for item, text in zip(items, titles) if item["/Title"] != text]
-    if not changed:
-        return
-    offsets = {}
-    with open(pdf, "r+b") as f:
-        f.seek(0, os.SEEK_END)
-        for item, text in changed:
-            item[NameObject("/Title")] = TextStringObject(text)
-            ref = item.indirect_reference
-            offsets[ref.idnum] = (f.tell(), ref.generation)
-            f.write(f"{ref.idnum} {ref.generation} obj\n".encode())
-            item.write_to_stream(f)
-            f.write(b"\nendobj\n")
-        xref = f.tell()
-        f.write(b"xref\n")
-        # One subsection for each run of consecutive object numbers.
-        numbers = sorted(offsets)
-        runs = [[numbers[0]]]
-        for number in numbers[1:]:
-            if number == runs[-1][-1] + 1:
-                runs[-1].append(number)
-            else:
-                runs.append([number])
-        for run in runs:
-            f.write(f"{run[0]} {len(run)}\n".encode())
-            for number in run:
-                offset, generation = offsets[number]
-                f.write(f"{offset:010} {generation:05} n \n".encode())
-        trailer = DictionaryObject({key: value for key, value in reader.trailer.items() if key != "/Prev"})
-        trailer[NameObject("/Prev")] = NumberObject(reader._startxref)
-        f.write(b"trailer\n")
-        trailer.write_to_stream(f)
-        f.write(f"\nstartxref\n{xref}\n%%EOF\n".encode())
+    for item, text in zip(items, titles):
+        item[NameObject("/Title")] = TextStringObject(text)
+    writer.write(pdf)
 
 
 def print_pdf(html_path, output, title):
