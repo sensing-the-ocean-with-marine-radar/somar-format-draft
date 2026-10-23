@@ -184,33 +184,7 @@ An averaged sweep group holds the data variable and the following variables.
 | `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int, or int `(time)` | Required. Total number of pulses averaged into each ray, including any averaging done by the radar itself: the Level 1a `n_samples` times the number of Level 1a rays in each block. With the dimension `time` where it varies, such as at the end of a dwell. It is stored in each sweep group, as in FM 301, and not in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group. |
 {: .variable-table }
 
-```
-// excerpt: only the variables that differ from the pointing sweep of Level 1a
-group: sweep_0 {
-  dimensions:
-        time = 225000 ; // number of rays, e.g. 10 min at 3000 Hz PRF averaged over 8 pulses
-        range = 1000 ;
-        nv = 2 ;
-  variables:
-        double time(time) ;
-                time:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time:calendar = "standard" ;
-                time:standard_name = "time" ;
-                time:long_name = "mean time of the averaged pulses" ;
-                time:bounds = "time_bounds" ; // optional
-        double time_bounds(time, nv) ; // optional
-                time_bounds:units = "seconds since 1970-01-01T00:00:00Z" ;
-                time_bounds:calendar = "standard" ;
-        int n_samples ;
-                n_samples:long_name = "number of pulses averaged into each ray" ;
-        ushort backscatter_amplitude(time, range) ;
-                backscatter_amplitude:cell_methods = "time: mean" ;
-                backscatter_amplitude:averaged_quantity = "amplitude" ;
-  data:
-        sweep_mode = "pointing" ;
-        n_samples = 8 ;
-  } // group sweep_0
-```
+The annex gives an example of pulse-averaged pointing data (see [Example](../annex/level1b_pointing.md#example)).
 
 ## Image cube
 

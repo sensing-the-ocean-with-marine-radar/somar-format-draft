@@ -62,37 +62,7 @@ The data variables carry `coordinates = "time longitude latitude"`, which CF req
 Since the location of a discrete sampling geometry is a point, CF stores data that are averaged over an area by assigning them a nominal position (CF, section 9.1); SOMaR assigns the mean position of the windows.
 The spectra, and the other data variables that are means over the analysis windows, such as [`wave_signal`](product_variables.md#wave_signal), [`background_noise`](product_variables.md#background_noise), and the near-surface current, should state this averaging by `cell_methods = "area: mean (comment: over the analysis windows of the measurement)"` ([CF][cf-cell-methods], section 7.3.4); the comment rules out the reading of `area` without coordinates as the whole world.
 Parameters computed from a mean spectrum, such as the significant wave height, the peak and mean periods and directions, and the directional spread, are not means over the windows and do not carry it.
-Wave parameters from a fixed platform hold, for example:
-
-```
-dimensions:
-        time = 29 ;
-variables:
-        string station ; // recommended
-                station:long_name = "name of the radar station" ;
-                station:cf_role = "timeseries_id" ;
-        double time(time) ;
-                time:calendar = "standard" ;
-                time:long_name = "start time of wave measurement" ;
-                time:standard_name = "time" ;
-                time:units = "seconds since 1970-01-01T00:00:00Z" ;
-        double longitude ;
-                longitude:long_name = "mean longitude of wave measurement" ;
-                longitude:standard_name = "longitude" ;
-                longitude:units = "degrees_east" ;
-        double latitude ;
-                latitude:long_name = "mean latitude of wave measurement" ;
-                latitude:standard_name = "latitude" ;
-                latitude:units = "degrees_north" ;
-        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
-                sea_surface_wave_significant_height:long_name = "significant wave height" ;
-                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
-                sea_surface_wave_significant_height:units = "m" ;
-                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
-
-// global attributes:
-                :featureType = "timeSeries" ; // recommended
-```
+The annex gives an example of wave parameters from a fixed platform (see [Example for a fixed platform](../annex/wave_parameters.md#example-for-a-fixed-platform)).
 
 ## Variables
 
