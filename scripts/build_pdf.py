@@ -11,6 +11,8 @@ pages) is joined into one HTML document:
   heading ids.
 - Links between pages, and to headings on them, point into the document;
   other links to the site are made absolute.
+- Images of the site, such as figures, are loaded from the files of the
+  built site, since the joined document lies elsewhere.
 
 The document uses the site's stylesheet and MathJax configuration, with
 Noto Sans and Source Code Pro in place of the system fonts of the site, which
@@ -161,8 +163,8 @@ def page_content(soup):
     return main
 
 
-def rewrite(main, path, sections, baseurl, site_url):
-    """Prefix the ids of a page and point its links into the document."""
+def rewrite(main, path, sections, baseurl, site_url, site_dir):
+    """Prefix the ids of a page, point its links into the document, and its images to the built site."""
     own = sections[path]
     for tag in main.find_all(id=True):
         tag["id"] = f"{own}--{tag['id']}"
@@ -181,6 +183,10 @@ def rewrite(main, path, sections, baseurl, site_url):
             link["href"] = f"#{sections[target]}--{fragment}" if fragment else f"#{sections[target]}"
         else:
             link["href"] = urljoin(site_url, parts.path[len(baseurl):]) + (f"#{parts.fragment}" if parts.fragment else "")
+    for image in main.find_all("img", src=True):
+        parts = urlsplit(urljoin(page_url, image["src"]))
+        if not parts.scheme and not parts.netloc and parts.path.startswith(baseurl):
+            image["src"] = "file://" + os.path.abspath(os.path.join(site_dir, parts.path[len(baseurl):]))
 
 
 def table_of_contents(doc, pages, sections, page_numbers):
@@ -255,7 +261,7 @@ def build_document(site_dir, page_numbers):
 
     for path in paths:
         main = page_content(parse(page_file(site_dir, path)))
-        rewrite(main, path, sections, baseurl, site_url)
+        rewrite(main, path, sections, baseurl, site_url, site_dir)
         section = doc.new_tag("section", attrs={"class": "pdf-section", "id": sections[path]})
         section.extend(list(main.contents))
         content.append(section)

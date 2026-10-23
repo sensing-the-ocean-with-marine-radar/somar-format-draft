@@ -112,6 +112,11 @@ Because the origin changes as a platform moves, each local grid is valid only fo
 - Each group carries a scalar `double` variable `time` giving the start time of the measurement (`units = "seconds since 1970-01-01T00:00:00Z"`), optionally complemented by a human-readable [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) string (see [Variable attributes](../metadata_attributes/variable_attributes.md)).
 - Local-grid Level 2 maps additionally store two-dimensional `longitude` and `latitude` auxiliary coordinates for their analysis windows (see [Positions of analysis windows](#positions-of-analysis-windows)).
 
+<figure id="figure-time-bounded-grids">
+<img src="../../assets/images/time_bounded_grids.svg" alt="A platform track with three time-bounded grids along it. Each grid encloses the radar footprints at the start and at the end of its measurement period, has its origin at the radar antenna at the start of the period, and is named after its start time, such as time_20250115110031.">
+<figcaption>Time-bounded local grids from a moving platform. Each measurement period has its own grid, which covers the radar footprint over the period and has its origin at the radar antenna at the start of the period, given by <code>time</code>; the grid is stored in a group named after that time. Grids may differ in extent and overlap.</figcaption>
+</figure>
+
 From a fixed platform, the origin does not move, and Level 2 products on the local grid are stored on a single grid with one `crs` for the whole file (see [Gridded products](../product_types/gridded.md#fixed-platform)).
 [Level 1b Cartesian images](../product_types/gridded.md#image-cube-with-moving-origin) are stored as one cube instead, the third form of gridded products: all images share `x` and `y`, the origin of each image is given by `longitude` and `latitude` on the `time` dimension, and from a moving platform there is no `crs`, since a single `crs` variable can describe only one origin; from a fixed platform, the cube has one `crs`, like the other single grids.
 

@@ -187,3 +187,20 @@ code strong {
     text-decoration: none;
   }
 }
+
+// Figures: centered, as wide as the content at most, with a caption below.
+figure {
+  margin: 1.5rem 0;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.875em;
+    color: $grey-dk-000;
+    text-align: left;
+  }
+}

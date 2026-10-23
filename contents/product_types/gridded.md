@@ -82,6 +82,7 @@ group: time_20250115110031 {
 With a moving platform, the area covered changes from one measurement to the next, so that a file holds a sequence of grids rather than one grid sampled repeatedly.
 All grids of a file from a moving platform are therefore stored as sibling NetCDF groups, one group per measurement period, or per averaging window for relative roughness images, named `time_<YYYYMMDDHHMMSS>` (UTC) after its start time.
 Within each group, the scalar variable `time` gives that start time, and the variables are stored on the two-dimensional grid of the measurement.
+The [figure under Time-bounded local grids](../georeferencing/index.md#figure-time-bounded-grids) shows such a sequence of grids along the track of a platform.
 
 ## Image cube with moving origin
 
