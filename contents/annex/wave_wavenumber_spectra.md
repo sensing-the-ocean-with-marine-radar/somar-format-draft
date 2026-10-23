@@ -144,6 +144,8 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+data:
+        trajectory = "R/V Ocean Research" ;
 
 group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
 }
