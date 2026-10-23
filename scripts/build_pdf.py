@@ -23,6 +23,13 @@ web fonts and uses an installed Noto Sans (fonts-noto-core) if there is one. It 
 (Playwright) once MathJax has typeset the equations and the fonts have
 loaded, so it needs network access. The combined HTML is written to a temporary directory only.
 
+The bookmarks of the PDF are Chromium's outline of the headings. Each page
+starts with an h1, so the headings of a page take an aria-level offset by
+its depth in the navigation, which Chromium uses for the outline without
+changing their style. Chromium also drops the spaces at the line breaks of
+a wrapped heading, so the titles of the bookmarks are set afterwards to the
+text of the headings, in document order.
+
 A table of contents follows the title page. Chromium cannot number its
 entries, so the document is printed twice: the first print gives the page of
 each section (its named destination, which Chromium writes for every id that
@@ -40,13 +47,15 @@ import argparse
 import datetime
 import os
 import posixpath
+import re
 import sys
 import tempfile
 from urllib.parse import urljoin, urlsplit
 
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
-from pypdf import PdfReader
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import NameObject, TextStringObject
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_NAME = "somar-format.pdf"
@@ -93,6 +102,8 @@ pre.highlight code { font-size: inherit; }
 h1, h2, h3, h4, h5, h6 { break-after: avoid; }
 tr, pre, .open_issue { break-inside: avoid; }
 """
+
+HEADING = re.compile(r"^h[1-6]$")
 
 FOOTER = (
     '<div style="width: 100%; font-family: \'Noto Sans\', sans-serif; font-size: 8px; color: #5c5962; '
@@ -259,13 +270,17 @@ def build_document(site_dir, page_numbers):
     content.append(cover)
     content.append(table_of_contents(doc, pages, sections, page_numbers))
 
-    for path in paths:
+    for path, _, depth in pages:
         main = page_content(parse(page_file(site_dir, path)))
         rewrite(main, path, sections, baseurl, site_url, site_dir)
+        # Nest the headings of a child page below those of its parent in the outline.
+        for heading in main.find_all(HEADING):
+            heading["aria-level"] = str(int(heading.name[1]) + depth)
         section = doc.new_tag("section", attrs={"class": "pdf-section", "id": sections[path]})
         section.extend(list(main.contents))
         content.append(section)
-    return str(doc), title, list(sections.values())
+    headings = [" ".join(heading.get_text(" ").split()) for heading in doc.find_all(HEADING)]
+    return str(doc), title, list(sections.values()), headings
 
 
 def section_pages(pdf, section_ids):
@@ -277,6 +292,27 @@ def section_pages(pdf, section_ids):
         for sid in section_ids
         if "/" + sid in destinations
     }
+
+
+def outline_items(outline):
+    """The items of a PDF outline dictionary, in document order."""
+    item = outline.get("/First")
+    while item is not None:
+        item = item.get_object()
+        yield item
+        yield from outline_items(item)
+        item = item.get("/Next")
+
+
+def set_outline_titles(pdf, titles):
+    """Set the titles of the bookmarks of a PDF to the headings, which Chromium gives without the spaces at line breaks."""
+    writer = PdfWriter(clone_from=pdf)
+    items = list(outline_items(writer._root_object["/Outlines"].get_object()))
+    if len(items) != len(titles):
+        sys.exit(f"{pdf}: {len(items)} bookmarks for {len(titles)} headings")
+    for item, text in zip(items, titles):
+        item[NameObject("/Title")] = TextStringObject(text)
+    writer.write(pdf)
 
 
 def print_pdf(html_path, output, title):
@@ -327,7 +363,7 @@ def main():
         draft = os.path.join(tmp, "draft.pdf")
         page_numbers = {}
         for pdf in (draft, output):
-            html, title, section_ids = build_document(site_dir, page_numbers)
+            html, title, section_ids, headings = build_document(site_dir, page_numbers)
             with open(html_path, "w", encoding="utf-8") as f:
                 f.write(html)
             print_pdf(html_path, pdf, title)
@@ -336,6 +372,7 @@ def main():
                 missing = [sid for sid in section_ids if sid not in page_numbers]
                 if missing:
                     sys.exit(f"no page found for the sections {', '.join(missing)}")
+    set_outline_titles(output, headings)
     if section_pages(output, section_ids) != page_numbers:
         sys.exit(f"{output}: the sections moved between the two prints; the contents give wrong pages")
     print(f"{output}: {len(section_ids)} pages of the site")
