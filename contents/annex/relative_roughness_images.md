@@ -30,7 +30,7 @@ A file of this product holds the following items; each links to its definition, 
 | [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration) | Recommended | |
 | **Variables of each grid** | | |
 | [`time`](../product_types/gridded.md#variables-time) | Required | |
-| [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | moving platform |
+| [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
 | [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
 | [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y), [`crs`](../product_types/gridded.md#variables-crs) | Required | |
 | [`relative_roughness`](../product_types/product_variables.md#relative_roughness) | Required | |
