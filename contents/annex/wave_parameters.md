@@ -52,6 +52,8 @@ A file of this product holds the following items; each links to its definition, 
 
 ## Example
 
+A radar on a moving platform.
+
 ```
 netcdf or_2025-01-15-11_wave_parameters {
 dimensions:
@@ -221,6 +223,186 @@ variables:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :platform_is_mobile = "true" ;
                 :product_type = "wave_parameters" ;
+
+}
+```
+
+## Example for a fixed platform
+
+A radar on a fixed platform: the measurements form a [time series](../product_types/spatially_averaged.md#moving-and-fixed-platforms), identified by [`station`](../product_types/spatially_averaged.md#station) in place of the trajectory, with scalar [`longitude`](../product_types/spatially_averaged.md#longitude) and [`latitude`](../product_types/spatially_averaged.md#latitude) given under `data`.
+
+```
+netcdf or_2023-08-31-17_wave_parameters {
+dimensions:
+        time = 29 ;
+variables:
+        char crs ; // recommended
+                crs:grid_mapping_name = "latitude_longitude" ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        string station ; // recommended
+                station:long_name = "name of the radar station" ;
+                station:cf_role = "timeseries_id" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of wave measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double longitude ;
+                longitude:long_name = "mean longitude of wave measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude ;
+                latitude:long_name = "mean latitude of wave measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(time) ; // optional
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:coordinates = "time longitude latitude" ;
+                eastward_sea_water_velocity:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
+        double northward_sea_water_velocity(time) ; // optional
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:coordinates = "time longitude latitude" ;
+                northward_sea_water_velocity:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
+                northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
+                sea_surface_wave_significant_height:long_name = "significant wave height" ;
+                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
+                sea_surface_wave_significant_height:units = "m" ;
+                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
+                sea_surface_wave_significant_height:grid_mapping = "crs" ;
+                sea_surface_wave_significant_height:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_from_direction_at_variance_spectral_density_maximum(time) ; // recommended
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:long_name = "peak wave direction" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_from_direction_at_variance_spectral_density_maximum" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:units = "degree" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:coordinates = "time longitude latitude" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
+                sea_surface_wave_from_direction_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_period_at_variance_spectral_density_maximum(time) ; // recommended
+                sea_surface_wave_period_at_variance_spectral_density_maximum:long_name = "peak wave period" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:standard_name = "sea_surface_wave_period_at_variance_spectral_density_maximum" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:units = "s" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:coordinates = "time longitude latitude" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:grid_mapping = "crs" ;
+                sea_surface_wave_period_at_variance_spectral_density_maximum:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_mean_period(time) ; // recommended
+                sea_surface_wave_mean_period:long_name = "mean wave period" ;
+                sea_surface_wave_mean_period:standard_name = "sea_surface_wave_mean_period_from_variance_spectral_density_first_frequency_moment" ;
+                sea_surface_wave_mean_period:units = "s" ;
+                sea_surface_wave_mean_period:comment = "energy-weighted mean wave period Tm01 calculated from zeroth and first spectral moments" ; // recommended
+                sea_surface_wave_mean_period:coordinates = "time longitude latitude" ;
+                sea_surface_wave_mean_period:grid_mapping = "crs" ;
+                sea_surface_wave_mean_period:ancillary_variables = "measurement_quality" ;
+        double sea_surface_wave_from_direction(time) ; // recommended
+                sea_surface_wave_from_direction:long_name = "mean wave direction" ;
+                sea_surface_wave_from_direction:standard_name = "sea_surface_wave_from_direction" ;
+                sea_surface_wave_from_direction:units = "degree" ;
+                sea_surface_wave_from_direction:comment = "energy-weighted mean direction the waves come from, calculated from the first directional moments of the spectrum" ; // recommended
+                sea_surface_wave_from_direction:coordinates = "time longitude latitude" ;
+                sea_surface_wave_from_direction:grid_mapping = "crs" ;
+                sea_surface_wave_from_direction:ancillary_variables = "measurement_quality" ;
+        double wave_signal(time) ; // optional
+                wave_signal:long_name = "radar image spectral density of the wave signal" ;
+                wave_signal:units = "1" ;
+                wave_signal:coordinates = "time longitude latitude" ;
+                wave_signal:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
+                wave_signal:grid_mapping = "crs" ;
+                wave_signal:ancillary_variables = "measurement_quality" ;
+        double background_noise(time) ; // optional
+                background_noise:long_name = "radar image spectral density of the background noise" ;
+                background_noise:units = "1" ;
+                background_noise:coordinates = "time longitude latitude" ;
+                background_noise:cell_methods = "area: mean (comment: over the analysis windows of the measurement)" ; // recommended
+                background_noise:grid_mapping = "crs" ;
+                background_noise:ancillary_variables = "measurement_quality" ;
+        ubyte measurement_quality(time) ; // recommended
+                measurement_quality:long_name = "measurement quality (0: good, 1-63: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold wave_steepness_above_threshold invalid_peak number_of_temporal_neighbors_below_threshold rain_contamination" ;
+                measurement_quality:valid_range = 0UB, 63UB ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB ;
+                measurement_quality:standard_name = "quality_flag" ;
+                measurement_quality:coordinates = "time longitude latitude" ;
+                measurement_quality:grid_mapping = "crs" ;
+                measurement_quality:_FillValue = 255UB ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :featureType = "timeSeries" ; // recommended
+                :geospatial_lat_max = 54.1702 ; // recommended
+                :geospatial_lat_min = 54.1702 ; // recommended
+                :geospatial_lon_max = 7.9050 ; // recommended
+                :geospatial_lon_min = 7.9050 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > SIGNIFICANT WAVE HEIGHT, EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE PERIOD, EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE DIRECTION" ; // highly recommended
+                :product_type = "wave_parameters" ;
+                :summary = "Significant wave height and peak and mean wave periods and directions from a marine X-band radar at Ocean Research Station, derived from two-dimensional wavenumber spectra." ; // highly recommended
+                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
+                :title = "Marine X-band radar peak and mean wave parameters from Ocean Research Station" ; // highly recommended
+                :analysis_window_motion = "earth_fixed" ; // optional
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 3840. ; // recommended
+                :measurement_duration = 240. ; // recommended
+                :number_of_analysis_windows = 6 ; // recommended
+                :number_of_images = 160 ; // recommended
+                :wave_frequency_frame = "intrinsic" ; // recommended
+data:
+        station = "Ocean Research Station" ;
+        longitude = 7.9050 ;
+        latitude = 54.1702 ;
+
+group: wave_calibration { ... } // recommended; as in the example under Wave calibration parameters
+}
+```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2023-08-31-17_wave_parameters {
+dimensions:
+        time = 29 ;
+variables:
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of wave measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double longitude ;
+                longitude:long_name = "mean longitude of wave measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude ;
+                latitude:long_name = "mean latitude of wave measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
+                sea_surface_wave_significant_height:long_name = "significant wave height" ;
+                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
+                sea_surface_wave_significant_height:units = "m" ;
+                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "wave_parameters" ;
+data:
+        longitude = 7.9050 ;
+        latitude = 54.1702 ;
 
 }
 ```
