@@ -48,6 +48,8 @@ A file of this product holds the following items; each links to its definition, 
 
 ## Example
 
+A radar on a moving platform, with the map on the [geographic grid](../product_types/gridded.md#geographic-grid).
+
 ```
 netcdf or_2025-01-15-11_currents_profile {
 
@@ -230,5 +232,197 @@ group: time_20250115110031 {
   } // group time_20250115110031
 
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
+}
+```
+
+## Example for a fixed platform
+
+A radar on a fixed platform, with the map on the [local grid](../product_types/gridded.md#local-grid): all measurements share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time`, and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna. The wavenumber bands are those of the example above.
+
+```
+netcdf or_2023-08-31-17_currents_profile {
+dimensions:
+        time = 15 ;
+        wavenumber_bin = 13 ;
+        nv = 2 ;
+        y = 17 ;
+        x = 17 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 7.8853 ;
+                crs:latitude_of_projection_origin = 54.1826 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double wavenumber_bin(wavenumber_bin) ;
+                wavenumber_bin:long_name = "center of the wavenumber band used by the current measurement" ;
+                wavenumber_bin:units = "m-1" ;
+                wavenumber_bin:bounds = "wavenumber_bin_bounds" ;
+        double wavenumber_bin_bounds(wavenumber_bin, nv) ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar antenna" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        double longitude(y, x) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(y, x) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(time, wavenumber_bin, y, x) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:coordinates = "longitude latitude" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(time, wavenumber_bin, y, x) ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:coordinates = "longitude latitude" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+        double mean_wavenumber(time, wavenumber_bin, y, x) ; // recommended
+                mean_wavenumber:long_name = "mean wavenumber of the wave signal used by the current measurement" ;
+                mean_wavenumber:units = "m-1" ;
+                mean_wavenumber:grid_mapping = "crs" ;
+                mean_wavenumber:coordinates = "longitude latitude" ;
+                mean_wavenumber:_FillValue = NaN ;
+        double eastward_sea_water_velocity_standard_error(time, wavenumber_bin, y, x) ; // optional
+                eastward_sea_water_velocity_standard_error:long_name = "standard error of the eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity_standard_error:units = "m s-1" ;
+                eastward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
+                eastward_sea_water_velocity_standard_error:coordinates = "longitude latitude" ;
+                eastward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        double northward_sea_water_velocity_standard_error(time, wavenumber_bin, y, x) ; // optional
+                northward_sea_water_velocity_standard_error:long_name = "standard error of the northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity_standard_error:units = "m s-1" ;
+                northward_sea_water_velocity_standard_error:grid_mapping = "crs" ;
+                northward_sea_water_velocity_standard_error:coordinates = "longitude latitude" ;
+                northward_sea_water_velocity_standard_error:_FillValue = NaN ;
+        int number_of_fitted_spectral_points(time, wavenumber_bin, y, x) ; // optional
+                number_of_fitted_spectral_points:long_name = "number of points of the wavenumber-frequency spectrum used in the least-squares fit" ;
+                number_of_fitted_spectral_points:units = "1" ;
+                number_of_fitted_spectral_points:grid_mapping = "crs" ;
+                number_of_fitted_spectral_points:coordinates = "longitude latitude" ;
+                number_of_fitted_spectral_points:_FillValue = -1 ;
+        ubyte measurement_quality(time, wavenumber_bin, y, x) ; // recommended
+                measurement_quality:long_name = "measurement quality (0: good, 1-127: bad)" ;
+                measurement_quality:flag_meanings = "measurement_failed standard_error_above_threshold current_fit_boundaries_reached number_of_spatial_neighbors_below_threshold difference_from_all_spatial_neighbors_exceeds_threshold number_of_temporal_neighbors_below_threshold difference_from_all_temporal_neighbors_exceeds_threshold" ;
+                measurement_quality:valid_range = 0UB, 127UB ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB, 8UB, 16UB, 32UB, 64UB ;
+                measurement_quality:standard_name = "quality_flag" ;
+                measurement_quality:grid_mapping = "crs" ;
+                measurement_quality:coordinates = "longitude latitude" ;
+                measurement_quality:_FillValue = 255UB ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 54.2185 ; // recommended
+                :geospatial_lat_min = 54.1467 ; // recommended
+                :geospatial_lon_max = 7.9467 ; // recommended
+                :geospatial_lon_min = 7.8239 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > CURRENT PROFILES, EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > VERTICAL CURRENT SHEAR" ; // highly recommended
+                :product_type = "currents_profile" ;
+                :summary = "Near-surface current profiles from a marine X-band radar at Ocean Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in separate wavenumber bands, which sense different depths." ; // highly recommended
+                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
+                :title = "Marine X-band radar near-surface current profile maps from Ocean Research Station" ; // highly recommended
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 1245. ; // recommended
+                :analysis_window_spacing = 500. ; // recommended
+                :measurement_duration = 240. ; // recommended
+                :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_least_squares_fit" ; // recommended
+}
+```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2023-08-31-17_currents_profile {
+dimensions:
+        time = 15 ;
+        wavenumber_bin = 13 ;
+        nv = 2 ;
+        y = 17 ;
+        x = 17 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 7.8853 ;
+                crs:latitude_of_projection_origin = 54.1826 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of current measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double wavenumber_bin(wavenumber_bin) ;
+                wavenumber_bin:long_name = "center of the wavenumber band used by the current measurement" ;
+                wavenumber_bin:units = "m-1" ;
+                wavenumber_bin:bounds = "wavenumber_bin_bounds" ;
+        double wavenumber_bin_bounds(wavenumber_bin, nv) ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar antenna" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        double longitude(y, x) ;
+                longitude:long_name = "center longitude of current measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(y, x) ;
+                latitude:long_name = "center latitude of current measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_water_velocity(time, wavenumber_bin, y, x) ;
+                eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
+                eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;
+                eastward_sea_water_velocity:units = "m s-1" ;
+                eastward_sea_water_velocity:grid_mapping = "crs" ;
+                eastward_sea_water_velocity:coordinates = "longitude latitude" ;
+                eastward_sea_water_velocity:_FillValue = NaN ;
+        double northward_sea_water_velocity(time, wavenumber_bin, y, x) ;
+                northward_sea_water_velocity:long_name = "northward component of the near-surface current velocity" ;
+                northward_sea_water_velocity:standard_name = "northward_sea_water_velocity" ;
+                northward_sea_water_velocity:units = "m s-1" ;
+                northward_sea_water_velocity:grid_mapping = "crs" ;
+                northward_sea_water_velocity:coordinates = "longitude latitude" ;
+                northward_sea_water_velocity:_FillValue = NaN ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "currents_profile" ;
 }
 ```

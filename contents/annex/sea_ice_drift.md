@@ -50,6 +50,8 @@ A file of this product holds the following items; each links to its definition, 
 
 ## Example
 
+A radar on a moving platform, with the map on the [geographic grid](../product_types/gridded.md#geographic-grid).
+
 ```
 netcdf or_2025-08-23-12_sea_ice_drift {
 
@@ -195,5 +197,186 @@ group: time_20250823120031 {
   } // group time_20250823120031
 
 // ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per measurement period ...
+}
+```
+
+## Example for a fixed platform
+
+A radar on a fixed platform, with the map on the [local grid](../product_types/gridded.md#local-grid): all measurements share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time`, and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
+
+```
+netcdf or_2025-03-12-12_sea_ice_drift {
+dimensions:
+        time = 30 ;
+        y = 32 ;
+        x = 32 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 11.4500 ;
+                crs:latitude_of_projection_origin = 78.9800 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of sea ice drift measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar antenna" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        double longitude(y, x) ;
+                longitude:long_name = "center longitude of sea ice drift measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(y, x) ;
+                latitude:long_name = "center latitude of sea ice drift measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_ice_velocity(time, y, x) ;
+                eastward_sea_ice_velocity:long_name = "eastward component of the sea ice velocity from forward cross-correlation" ;
+                eastward_sea_ice_velocity:standard_name = "eastward_sea_ice_velocity" ;
+                eastward_sea_ice_velocity:units = "m s-1" ;
+                eastward_sea_ice_velocity:grid_mapping = "crs" ;
+                eastward_sea_ice_velocity:coordinates = "longitude latitude" ;
+                eastward_sea_ice_velocity:_FillValue = NaN ;
+        double northward_sea_ice_velocity(time, y, x) ;
+                northward_sea_ice_velocity:long_name = "northward component of the sea ice velocity from forward cross-correlation" ;
+                northward_sea_ice_velocity:standard_name = "northward_sea_ice_velocity" ;
+                northward_sea_ice_velocity:units = "m s-1" ;
+                northward_sea_ice_velocity:grid_mapping = "crs" ;
+                northward_sea_ice_velocity:coordinates = "longitude latitude" ;
+                northward_sea_ice_velocity:_FillValue = NaN ;
+        double correlation_coefficient(time, y, x) ; // optional
+                correlation_coefficient:long_name = "maximum Pearson coefficient from forward cross-correlation" ;
+                correlation_coefficient:units = "1" ;
+                correlation_coefficient:grid_mapping = "crs" ;
+                correlation_coefficient:coordinates = "longitude latitude" ;
+                correlation_coefficient:_FillValue = NaN ;
+        double eastward_sea_ice_velocity_backward(time, y, x) ; // optional
+                eastward_sea_ice_velocity_backward:long_name = "eastward component of the sea ice velocity from backward cross-correlation" ;
+                eastward_sea_ice_velocity_backward:standard_name = "eastward_sea_ice_velocity" ;
+                eastward_sea_ice_velocity_backward:units = "m s-1" ;
+                eastward_sea_ice_velocity_backward:grid_mapping = "crs" ;
+                eastward_sea_ice_velocity_backward:coordinates = "longitude latitude" ;
+                eastward_sea_ice_velocity_backward:_FillValue = NaN ;
+        double northward_sea_ice_velocity_backward(time, y, x) ; // optional
+                northward_sea_ice_velocity_backward:long_name = "northward component of the sea ice velocity from backward cross-correlation" ;
+                northward_sea_ice_velocity_backward:standard_name = "northward_sea_ice_velocity" ;
+                northward_sea_ice_velocity_backward:units = "m s-1" ;
+                northward_sea_ice_velocity_backward:grid_mapping = "crs" ;
+                northward_sea_ice_velocity_backward:coordinates = "longitude latitude" ;
+                northward_sea_ice_velocity_backward:_FillValue = NaN ;
+        double correlation_coefficient_backward(time, y, x) ; // optional
+                correlation_coefficient_backward:long_name = "maximum Pearson coefficient from backward cross-correlation" ;
+                correlation_coefficient_backward:units = "1" ;
+                correlation_coefficient_backward:grid_mapping = "crs" ;
+                correlation_coefficient_backward:coordinates = "longitude latitude" ;
+                correlation_coefficient_backward:_FillValue = NaN ;
+        ubyte measurement_quality(time, y, x) ; // recommended
+                measurement_quality:long_name = "measurement quality (0: good, 1-7: bad)" ;
+                measurement_quality:flag_meanings = "forward_and_backward_cross_correlation_results_too_different sea_ice_speed_too_high correlation_coefficient_too_low" ;
+                measurement_quality:valid_range = 0UB, 7UB ;
+                measurement_quality:flag_masks = 1UB, 2UB, 4UB ;
+                measurement_quality:standard_name = "quality_flag" ;
+                measurement_quality:grid_mapping = "crs" ;
+                measurement_quality:coordinates = "longitude latitude" ;
+                measurement_quality:_FillValue = 255UB ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :geospatial_lat_max = 79.0496 ; // recommended
+                :geospatial_lat_min = 78.9104 ; // recommended
+                :geospatial_lon_max = 11.8140 ; // recommended
+                :geospatial_lon_min = 11.0860 ; // recommended
+                :institution = "Famous Radar Ocean Research Institute" ; // recommended
+                :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
+                :product_type = "sea_ice_drift" ;
+                :summary = "Sea ice drift vectors from a marine X-band radar at Arctic Ocean Research Station, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
+                :time_coverage_end = "2025-03-12T12:59:59Z" ; // recommended
+                :time_coverage_start = "2025-03-12T12:00:00Z" ; // recommended
+                :title = "Marine X-band radar sea ice drift maps from Arctic Ocean Research Station" ; // highly recommended
+                :analysis_window_shape = "circle" ; // recommended
+                :analysis_window_size = 720. ; // recommended
+                :analysis_window_spacing = 500. ; // recommended
+                :averaging_duration = 30. ; // recommended
+                :measurement_duration = 120. ; // recommended
+                :retrieval_method = "cross_correlation" ; // recommended
+                :time_lag = 90. ; // recommended
+}
+```
+
+### Minimal form
+
+The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
+
+```
+// minimal form of the example above
+netcdf or_2025-03-12-12_sea_ice_drift {
+dimensions:
+        time = 30 ;
+        y = 32 ;
+        x = 32 ;
+variables:
+        char crs ;
+                crs:grid_mapping_name = "azimuthal_equidistant" ;
+                crs:longitude_of_projection_origin = 11.4500 ;
+                crs:latitude_of_projection_origin = 78.9800 ;
+                crs:longitude_of_prime_meridian = 0. ;
+                crs:semi_major_axis = 6378137. ;
+                crs:inverse_flattening = 298.257223563 ;
+                crs:reference_ellipsoid_name = "WGS 84" ;
+                crs:prime_meridian_name = "Greenwich" ;
+                crs:horizontal_datum_name = "World Geodetic System 1984" ;
+                crs:geographic_crs_name = "WGS 84" ;
+        double time(time) ;
+                time:calendar = "standard" ;
+                time:long_name = "start time of sea ice drift measurement" ;
+                time:standard_name = "time" ;
+                time:units = "seconds since 1970-01-01T00:00:00Z" ;
+        double x(x) ;
+                x:long_name = "eastward distance from radar antenna" ;
+                x:standard_name = "projection_x_coordinate" ;
+                x:units = "m" ;
+        double y(y) ;
+                y:long_name = "northward distance from radar antenna" ;
+                y:standard_name = "projection_y_coordinate" ;
+                y:units = "m" ;
+        double longitude(y, x) ;
+                longitude:long_name = "center longitude of sea ice drift measurement" ;
+                longitude:standard_name = "longitude" ;
+                longitude:units = "degrees_east" ;
+        double latitude(y, x) ;
+                latitude:long_name = "center latitude of sea ice drift measurement" ;
+                latitude:standard_name = "latitude" ;
+                latitude:units = "degrees_north" ;
+        double eastward_sea_ice_velocity(time, y, x) ;
+                eastward_sea_ice_velocity:long_name = "eastward component of the sea ice velocity from forward cross-correlation" ;
+                eastward_sea_ice_velocity:standard_name = "eastward_sea_ice_velocity" ;
+                eastward_sea_ice_velocity:units = "m s-1" ;
+                eastward_sea_ice_velocity:grid_mapping = "crs" ;
+                eastward_sea_ice_velocity:coordinates = "longitude latitude" ;
+                eastward_sea_ice_velocity:_FillValue = NaN ;
+        double northward_sea_ice_velocity(time, y, x) ;
+                northward_sea_ice_velocity:long_name = "northward component of the sea ice velocity from forward cross-correlation" ;
+                northward_sea_ice_velocity:standard_name = "northward_sea_ice_velocity" ;
+                northward_sea_ice_velocity:units = "m s-1" ;
+                northward_sea_ice_velocity:grid_mapping = "crs" ;
+                northward_sea_ice_velocity:coordinates = "longitude latitude" ;
+                northward_sea_ice_velocity:_FillValue = NaN ;
+
+// global attributes:
+                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :product_type = "sea_ice_drift" ;
 }
 ```
