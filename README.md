@@ -23,6 +23,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `scripts/build_pdf.py` | Builds the PDF of the whole specification from the built site (see [Building the PDF](#building-the-pdf)) |
 | `scripts/check_links.py` | Checks the internal links and anchors of the built site (see [Building the PDF](#building-the-pdf)) |
 | `scripts/link_items.py` | Links the names of attributes and variables, in the tables and in the text, to the rows that define them, and checks the links of the text against the rule under [Links](#links); with `--check`, as in CI, it lists the missing links instead |
+| `scripts/time_bounded_grids_figure.py` | Draws the figure of the time-bounded grids on the Georeferencing page, `assets/images/time_bounded_grids.svg`, to scale |
 | `_config.yml`, `Gemfile` | Site and theme configuration |
 | `.github/workflows/` | `ci.yml` builds the site and the PDF and checks the examples and links on pushes and pull requests; `pages.yml` checks and deploys them to GitHub Pages |
 
