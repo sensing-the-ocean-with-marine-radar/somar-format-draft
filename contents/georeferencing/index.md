@@ -124,7 +124,7 @@ From a fixed platform, the origin does not move, and Level 2 products on the loc
 
 From a fixed platform, the local grid may be rotated about its origin, for example into the along-shore and cross-shore directions of a coastal site; north-oriented grids remain the default.
 On a rotated grid, `y` is the distance along the axis whose direction is given by [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), in degrees clockwise from true north, and `x` the distance along the axis 90° clockwise from it, so that the axes remain right-handed; the origin is the radar antenna, as on the north-oriented grid.
-The `crs` variable specifies `grid_mapping_name = "rotated_azimuthal_equidistant"`, with the attributes of the azimuthal equidistant projection, `azimuth_of_y_axis`, and `crs_wkt` (see below).
+The `crs` variable specifies `grid_mapping_name = "rotated_azimuthal_equidistant"`, with the attributes of the azimuthal equidistant projection, `azimuth_of_y_axis`, and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt) (see below).
 With $\alpha$ the azimuth of the y axis (converted to radians for trigonometric evaluation), a point at `x` and `y` lies at the distances in meters east and north of the origin
 
 ```
@@ -139,7 +139,7 @@ CF defines no rotation for the azimuthal equidistant projection: as in the param
 SOMaR therefore gives the rotated grid mapping a name of its own, formed like the `rotated_latitude_longitude` of CF, so that software that does not know it leaves the grid unplaced rather than placing it as north-oriented; the angle is stated like the azimuth of the y axis of the Local Orthographic projection of EPSG (method 9837).
 This name is not among the grid mappings of CF Appendix F, and it is the only point at which a file on a rotated grid departs from the CF conventions: a CF checker reports it, and software that reads only the CF grid mapping attributes leaves the grid unplaced.
 
-The `crs` of a rotated grid therefore also carries [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt) (see [Use of the CRS well-known text format][cf-crs-wkt] in the CF conventions), which describes the rotated grid in the well-known text format of ISO 19162:2019 (WKT2), so that software built on PROJ 9.1 or later, such as GDAL, QGIS, and pyproj, places the grid.
+The `crs` of a rotated grid therefore also carries `crs_wkt` (see [Use of the CRS well-known text format][cf-crs-wkt] in the CF conventions), which describes the rotated grid in the well-known text format of ISO 19162:2019 (WKT2), so that software built on PROJ 9.1 or later, such as GDAL, QGIS, and pyproj, places the grid.
 It is a derived projected coordinate reference system, `DERIVEDPROJCRS`, made of:
 
 - a base projected coordinate reference system, `BASEPROJCRS`: the azimuthal equidistant projection of the north-oriented grid (EPSG method 1125), on the WGS 84 ellipsoid, with the projection origin as its natural origin and no false easting or northing;
