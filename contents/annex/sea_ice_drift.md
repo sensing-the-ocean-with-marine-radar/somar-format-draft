@@ -79,8 +79,8 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 
 group: time_20250823120031 {
   dimensions:
-        latitude = 32 ;
-        longitude = 32 ;
+        latitude = 17 ;
+        longitude = 17 ;
   variables:
         char crs ; // recommended
                 crs:grid_mapping_name = "latitude_longitude" ;
@@ -168,8 +168,8 @@ netcdf or_2025-08-23-12_sea_ice_drift {
 
 group: time_20250823120031 {
   dimensions:
-        latitude = 32 ;
-        longitude = 32 ;
+        latitude = 17 ;
+        longitude = 17 ;
   variables:
         double time ;
                 time:calendar = "standard" ;
@@ -202,14 +202,14 @@ group: time_20250823120031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform, with the map on the [local grid](../product_types/gridded.md#local-grid): all measurements share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time`, and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform, with the map on the [local grid](../product_types/gridded.md#local-grid): all measurements share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time), and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
 
 ```
 netcdf or_2025-03-12-12_sea_ice_drift {
 dimensions:
         time = 30 ;
-        y = 32 ;
-        x = 32 ;
+        y = 17 ;
+        x = 17 ;
 variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -295,10 +295,10 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :geospatial_lat_max = 79.0496 ; // recommended
-                :geospatial_lat_min = 78.9104 ; // recommended
-                :geospatial_lon_max = 11.8140 ; // recommended
-                :geospatial_lon_min = 11.0860 ; // recommended
+                :geospatial_lat_max = 79.0159 ; // recommended
+                :geospatial_lat_min = 78.9441 ; // recommended
+                :geospatial_lon_max = 11.6380 ; // recommended
+                :geospatial_lon_min = 11.2620 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
                 :product_type = "sea_ice_drift" ;
@@ -325,8 +325,8 @@ The smallest file of this product that complies with SOMaR, obtained by removing
 netcdf or_2025-03-12-12_sea_ice_drift {
 dimensions:
         time = 30 ;
-        y = 32 ;
-        x = 32 ;
+        y = 17 ;
+        x = 17 ;
 variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;

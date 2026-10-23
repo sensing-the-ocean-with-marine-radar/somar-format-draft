@@ -65,8 +65,8 @@ netcdf or_2025-01-15-11_relative_roughness {
 
 group: time_20250115110031 {
   dimensions:
-        y = 1988 ;
-        x = 1898 ;
+        y = 1000 ;
+        x = 1000 ;
   variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -127,8 +127,8 @@ netcdf or_2025-01-15-11_relative_roughness {
 
 group: time_20250115110031 {
   dimensions:
-        y = 1988 ;
-        x = 1898 ;
+        y = 1000 ;
+        x = 1000 ;
   variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -169,14 +169,14 @@ group: time_20250115110031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: all averaging windows share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension `time`, and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform: all averaging windows share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time), and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
 
 ```
 netcdf or_2023-08-31-17_relative_roughness {
 dimensions:
         time = 120 ;
-        y = 1600 ;
-        x = 1600 ;
+        y = 1000 ;
+        x = 1000 ;
 variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -206,6 +206,7 @@ variables:
                 relative_roughness:long_name = "temporally averaged radar backscatter amplitude in uncalibrated analog-to-digital converter units" ;
                 relative_roughness:units = "1" ;
                 relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
                 relative_roughness:cell_methods = "time: mean" ;
                 relative_roughness:averaged_quantity = "amplitude" ;
                 relative_roughness:ancillary_variables = "number_of_observations" ;
@@ -241,8 +242,8 @@ The smallest file of this product that complies with SOMaR, obtained by removing
 netcdf or_2023-08-31-17_relative_roughness {
 dimensions:
         time = 120 ;
-        y = 1600 ;
-        x = 1600 ;
+        y = 1000 ;
+        x = 1000 ;
 variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -272,6 +273,7 @@ variables:
                 relative_roughness:long_name = "temporally averaged radar backscatter amplitude in uncalibrated analog-to-digital converter units" ;
                 relative_roughness:units = "1" ;
                 relative_roughness:grid_mapping = "crs" ;
+                relative_roughness:coordinates = "time" ;
                 relative_roughness:cell_methods = "time: mean" ;
                 relative_roughness:averaged_quantity = "amplitude" ;
 

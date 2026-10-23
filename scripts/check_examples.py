@@ -396,8 +396,8 @@ def example_items(block):
 def example_facts(block, product, groups_of_products):
     """Return the facts of an example that decide the conditions of the tables.
 
-    These are whether it has the structure of a moving platform, whether it holds a local or a
-    geographic grid, the string values of its attributes and scalar variables, the items it
+    These are whether it has the structure of a moving platform, whether it holds time-bounded
+    grids, whether it holds a local or a geographic grid, the string values of its attributes and scalar variables, the items it
     holds, and its product type with the groups of products that the tables name.
     """
     values = {}
@@ -405,6 +405,7 @@ def example_facts(block, product, groups_of_products):
         values.setdefault(name, set()).add(value)
     return {
         "moving": bool(re.search(r"group: (?:time_\d{14}|georeference) \{", block)) or "true" in values.get("platform_is_mobile", ()),
+        "time_bounded": bool(re.search(r"group: time_\d{14} \{", block)),
         "local": bool(re.search(r"\b(?:double|float) x\(x\)", block)),
         "geographic": bool(re.search(r"\b(?:double|float) latitude\(latitude\)", block)),
         "values": values,
@@ -678,10 +679,11 @@ def check_informative_prose(text):
 def contents_condition_holds(condition, facts):
     """Whether a condition of a file contents table holds for an example; None if it is not one of the fixed forms.
 
-    The forms are "moving platform", "fixed platform", "local grid", "geographic grid",
-    "with `x`", "`x = "v"`", and "`x` other than `v`".
+    The forms are "moving platform", "fixed platform", "time-bounded grid", "local grid",
+    "geographic grid", "with `x`", "`x = "v"`", and "`x` other than `v`".
     """
     simple = {"moving platform": facts["moving"], "fixed platform": not facts["moving"],
+              "time-bounded grid": facts["time_bounded"],
               "local grid": facts["local"], "geographic grid": facts["geographic"]}
     if condition in simple:
         return simple[condition]
@@ -842,7 +844,7 @@ def minimal(block):
     """Return the minimal form of an example: the block without the items marked as omissible.
 
     A marked placeholder or group is dropped whole, a marked variable with its attributes
-    and data, and a marked attribute alone. References to dropped variables in
+    and data, and a marked attribute alone; a data section left empty is dropped too. References to dropped variables in
     REFERENCE_ATTRIBUTES are removed with them; others are kept, so that dropping a variable
     that something still refers to fails the check.
     """
@@ -893,6 +895,9 @@ def minimal(block):
             if kept != names:
                 line = f'{match.group(1)}"{" ".join(kept)}" ;'
         result.append(line)
+    # A data section whose values were all dropped is dropped with them.
+    result = [line for i, line in enumerate(result)
+              if line.strip() != "data:" or (i + 1 < len(result) and re.match(r"^\s*(\w+) = ", result[i + 1]))]
     return "\n".join(result) + "\n"
 
 

@@ -317,7 +317,6 @@ group: sweep_0 {
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:coordinates = "azimuth range" ;
-  data:
 
   } // group sweep_0
 

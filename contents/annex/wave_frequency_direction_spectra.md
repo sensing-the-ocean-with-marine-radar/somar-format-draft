@@ -51,7 +51,7 @@ A file of this product holds the following items; each links to its definition, 
 
 ## Example
 
-A radar on a moving platform. The example below is illustrative; it is not yet based on an existing NetCDF file.
+A radar on a moving platform.
 
 ```
 netcdf or_2025-01-15-11_wave_frequency_direction_spectra {

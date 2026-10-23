@@ -67,8 +67,8 @@ netcdf or_2025-01-15-11_relative_roughness_mosaic {
 
 group: time_20250115111001 {
   dimensions:
-        y = 2182 ;
-        x = 2195 ;
+        y = 1000 ;
+        x = 1500 ;
   variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
@@ -139,8 +139,8 @@ netcdf or_2025-01-15-11_relative_roughness_mosaic {
 
 group: time_20250115111001 {
   dimensions:
-        y = 2182 ;
-        x = 2195 ;
+        y = 1000 ;
+        x = 1500 ;
   variables:
         char crs ;
                 crs:grid_mapping_name = "azimuthal_equidistant" ;
