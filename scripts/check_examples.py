@@ -34,7 +34,8 @@ grid of a Level 2 product and in Cartesian images from a fixed platform only,
 the platform velocity exactly for platform-fixed analysis windows, the
 coordinates attribute of the data variables of a discrete sampling geometry,
 and, on a rotated local grid, an azimuth_of_y_axis between 0 and 360 on its
-crs, a fixed platform, no geographic grid, and the variables that take the
+crs and a crs_wkt that agrees with it and with the projection origin, a fixed
+platform, no geographic grid, and the variables that take the
 place of others on it (see product_variables.md) instead of those others; the
 tiers and the rules of a replaced variable pass to the variable replacing it.
 The attribute tables, and the variable tables of the Metadata pages and of
@@ -1080,6 +1081,37 @@ def normalized(text):
     return [line.rstrip() for line in text.splitlines() if line.strip()]
 
 
+def rotated_wkt_errors(attributes, azimuth):
+    """Return the ways in which the crs_wkt of a rotated local grid disagrees with the other attributes of its crs.
+
+    The WKT must be a DERIVEDPROJCRS whose base is the azimuthal equidistant projection (EPSG method 1125)
+    on the WGS 84 ellipsoid at the projection origin, and whose deriving conversion is the Affine parametric
+    transformation (EPSG method 9624) that rotates east and north into x and y (see georeferencing).
+    """
+    wkt = unquote(attributes["crs_wkt"]).replace('\\"', '"')
+    if not wkt.startswith("DERIVEDPROJCRS["):
+        return ["crs_wkt is not a DERIVEDPROJCRS"]
+    errors = []
+    if not re.search(r'METHOD\["Azimuthal Equidistant",ID\["EPSG",1125\]\]', wkt):
+        errors.append("the base of crs_wkt is not the azimuthal equidistant projection (EPSG method 1125)")
+    if not re.search(r'METHOD\["Affine parametric transformation",ID\["EPSG",9624\]\]', wkt):
+        errors.append("the deriving conversion of crs_wkt is not the Affine parametric transformation (EPSG method 9624)")
+    if not re.search(r'ELLIPSOID\["WGS 84",6378137,298\.257223563,', wkt):
+        errors.append("the ellipsoid of crs_wkt is not WGS 84")
+    parameters = {name: float(value) for name, value in re.findall(r'PARAMETER\["([^"]+)",(-?[0-9.]+(?:[eE][-+]?\d+)?)', wkt)}
+    alpha = math.radians(azimuth)
+    expected = {"Latitude of natural origin": number(attributes.get("latitude_of_projection_origin")),
+                "Longitude of natural origin": number(attributes.get("longitude_of_projection_origin")),
+                "False easting": 0., "False northing": 0., "A0": 0., "A1": math.cos(alpha), "A2": -math.sin(alpha),
+                "B0": 0., "B1": math.sin(alpha), "B2": math.cos(alpha)}
+    for name, value in expected.items():
+        if name not in parameters:
+            errors.append(f'crs_wkt has no parameter "{name}"')
+        elif value is not None and abs(parameters[name] - value) > 1e-12:
+            errors.append(f'the parameter "{name}" of crs_wkt is {parameters[name]:g}, but the attributes of crs give {value:.15g}')
+    return errors
+
+
 def unquote(value):
     return value[1:-1] if value.startswith('"') and value.endswith('"') else value
 
@@ -1162,6 +1194,12 @@ def check_rules(groups, is_file, expected):
                 errors.append(f"{where}: a rotated local grid needs an azimuth_of_y_axis greater than 0 and less than 360")
             if not rotated and "azimuth_of_y_axis" in attributes:
                 errors.append(f'{where}: azimuth_of_y_axis is used with grid_mapping_name = "{ROTATED_GRID_MAPPING}" only')
+            if rotated and "crs_wkt" not in attributes:
+                errors.append(f"{where}: a rotated local grid needs a crs_wkt")
+            if not rotated and "crs_wkt" in attributes:
+                errors.append(f'{where}: crs_wkt is used with grid_mapping_name = "{ROTATED_GRID_MAPPING}" only')
+            if rotated and "crs_wkt" in attributes and azimuth is not None:
+                errors += [f"{where}: {error}" for error in rotated_wkt_errors(attributes, azimuth)]
             if rotated and group["dimensions"].get("latitude") == ("latitude",):
                 errors.append(f"{path}: a geographic grid is not rotated")
     if not is_file:

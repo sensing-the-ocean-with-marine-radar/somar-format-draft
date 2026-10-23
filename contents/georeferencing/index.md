@@ -124,7 +124,7 @@ From a fixed platform, the origin does not move, and Level 2 products on the loc
 
 From a fixed platform, the local grid may be rotated about its origin, for example into the along-shore and cross-shore directions of a coastal site; north-oriented grids remain the default.
 On a rotated grid, `y` is the distance along the axis whose direction is given by [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), in degrees clockwise from true north, and `x` the distance along the axis 90° clockwise from it, so that the axes remain right-handed; the origin is the radar antenna, as on the north-oriented grid.
-The `crs` variable specifies `grid_mapping_name = "rotated_azimuthal_equidistant"`, with the attributes of the azimuthal equidistant projection and `azimuth_of_y_axis`.
+The `crs` variable specifies `grid_mapping_name = "rotated_azimuthal_equidistant"`, with the attributes of the azimuthal equidistant projection, `azimuth_of_y_axis`, and `crs_wkt` (see below).
 With $\alpha$ the azimuth of the y axis (converted to radians for trigonometric evaluation), a point at `x` and `y` lies at the distances in meters east and north of the origin
 
 ```
@@ -137,6 +137,21 @@ A grid with an azimuth of 0 is the north-oriented grid, which is stored with `gr
 
 CF defines no rotation for the azimuthal equidistant projection: as in the parameter sets of PROJ and EPSG from which the CF grid mappings are taken, its y axis points to north at the projection origin.
 SOMaR therefore gives the rotated grid mapping a name of its own, formed like the `rotated_latitude_longitude` of CF, so that software that does not know it leaves the grid unplaced rather than placing it as north-oriented; the angle is stated like the azimuth of the y axis of the Local Orthographic projection of EPSG (method 9837).
+This name is not among the grid mappings of CF Appendix F, and it is the only point at which a file on a rotated grid departs from the CF conventions: a CF checker reports it, and software that reads only the CF grid mapping attributes leaves the grid unplaced.
+
+The `crs` of a rotated grid therefore also carries [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt) (see [Use of the CRS well-known text format][cf-crs-wkt] in the CF conventions), which describes the rotated grid in the well-known text format of ISO 19162:2019 (WKT2), so that software built on PROJ 9.1 or later, such as GDAL, QGIS, and pyproj, places the grid.
+It is a derived projected coordinate reference system, `DERIVEDPROJCRS`, made of:
+
+- a base projected coordinate reference system, `BASEPROJCRS`: the azimuthal equidistant projection of the north-oriented grid (EPSG method 1125), on the WGS 84 ellipsoid, with the projection origin as its natural origin and no false easting or northing;
+- a deriving conversion, `DERIVINGCONVERSION`, from east and north on that plane to `x` and `y`: the Affine parametric transformation of EPSG (method 9624), whose parameters `A0` to `B2` are those of the inverse of the equations above;
+- a Cartesian coordinate system with the axes `(x)` and `(y)` in meters.
+
+```
+x = A0 + A1 * east + A2 * north,   A0 = 0,  A1 = cos(α),  A2 = -sin(α)
+y = B0 + B1 * east + B2 * north,   B0 = 0,  B1 = sin(α),  B2 = cos(α)
+```
+
+The values of `crs_wkt` must agree with the other attributes of `crs`, as CF requires; the CDL below splits it into several strings, which `ncgen` joins.
 
 On a rotated grid, the components of vectors are given along its axes: the near-surface current in [`sea_water_x_velocity`](../product_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../product_types/product_variables.md#sea_water_y_velocity), the sea ice drift in [`sea_ice_x_velocity`](../product_types/product_variables.md#sea_ice_x_velocity) and [`sea_ice_y_velocity`](../product_types/product_variables.md#sea_ice_y_velocity), and the wavenumbers of a two-dimensional wavenumber spectrum in [`x_wave_wavenumber`](../product_types/product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](../product_types/product_variables.md#y_wave_wavenumber), in place of their eastward and northward counterparts.
 Directions, such as [`sea_surface_wave_from_direction`](../product_types/product_variables.md#sea_surface_wave_from_direction), remain bearings from true north, as CF defines them.
@@ -165,6 +180,22 @@ variables:
                 crs:prime_meridian_name = "Greenwich" ;
                 crs:horizontal_datum_name = "World Geodetic System 1984" ;
                 crs:geographic_crs_name = "WGS 84" ;
+                crs:crs_wkt = "DERIVEDPROJCRS[\"SOMaR rotated local grid\",",
+                        "BASEPROJCRS[\"SOMaR local grid\",",
+                        "BASEGEOGCRS[\"WGS 84\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433]]],",
+                        "CONVERSION[\"Azimuthal equidistant\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],",
+                        "PARAMETER[\"Latitude of natural origin\",54.1826,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],",
+                        "PARAMETER[\"Longitude of natural origin\",7.8853,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],",
+                        "PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],",
+                        "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]]],",
+                        "DERIVINGCONVERSION[\"Rotation of the axes\",METHOD[\"Affine parametric transformation\",ID[\"EPSG\",9624]],",
+                        "PARAMETER[\"A0\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8623]],",
+                        "PARAMETER[\"A1\",0.939692620785908,SCALEUNIT[\"coefficient\",1],ID[\"EPSG\",8624]],",
+                        "PARAMETER[\"A2\",-0.342020143325669,SCALEUNIT[\"coefficient\",1],ID[\"EPSG\",8625]],",
+                        "PARAMETER[\"B0\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8639]],",
+                        "PARAMETER[\"B1\",0.342020143325669,SCALEUNIT[\"coefficient\",1],ID[\"EPSG\",8640]],",
+                        "PARAMETER[\"B2\",0.939692620785908,SCALEUNIT[\"coefficient\",1],ID[\"EPSG\",8641]]],",
+                        "CS[Cartesian,2],AXIS[\"(x)\",unspecified,ORDER[1],LENGTHUNIT[\"metre\",1]],AXIS[\"(y)\",unspecified,ORDER[2],LENGTHUNIT[\"metre\",1]]]" ;
                 crs:comment = "Argus/CIRN axes: x cross-shore, positive offshore; y along-shore" ;
         double x(x) ;
                 x:long_name = "cross-shore distance from radar antenna, positive offshore" ;
@@ -208,3 +239,4 @@ data:
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs
 [cf-azimuthal-equidistant]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#azimuthal-equidistant
 [cf-latitude-longitude]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#_latitude_longitude
+[cf-crs-wkt]: https://cfconventions.org/Data/cf-conventions/cf-conventions-1.13/cf-conventions.html#use-of-the-crs-well-known-text-format
