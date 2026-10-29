@@ -188,6 +188,17 @@ code strong {
   }
 }
 
+// disclaimer box
+.disclaimer-box {
+  background-color: #fff9e6;
+  border-left: 4px solid #f0b800;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+  font-size: 0.95em;
+  color: #333;
+}
+
 // Figures: centered, as wide as the content at most, with a caption below.
 figure {
   margin: 1.5rem 0;
