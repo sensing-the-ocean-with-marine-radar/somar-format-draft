@@ -16,7 +16,7 @@ The annex gives a complete example of [peak and mean wave parameters](../annex/w
 
 ## Measurements
 
-A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude` give the mean position of the analysis windows that contribute to each measurement (see [Georeferencing](../georeferencing/index.md#positions-of-analysis-windows)), as described under [Moving and fixed platforms](#moving-and-fixed-platforms).
+A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude` give the mean position of the analysis windows that contribute to each measurement, as described under [Moving and fixed platforms](#moving-and-fixed-platforms).
 The windows are spread across the radar field of view, and their placement is left to the processor and should be described in the [`comment`](../metadata_attributes/optional_global.md#comment) global attribute.
 Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion).
 Windows that move with the platform cover a track rather than a fixed area during the period.
@@ -80,8 +80,8 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Measurements](#measurements)). |
 | `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
-| `radar_longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement (see [Georeferencing](../georeferencing/index.md#radar-position)). |
-| `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement. |
+| `radar_longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
+| `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
 | `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended for a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |
 | `station`<br><small>[CF][cf-dsg]</small> | string | Recommended for a fixed platform. Identifier of the time series, with `cf_role = "timeseries_id"`. |
 | `eastward_sea_water_velocity`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Optional. Eastward component of the near-surface current retrieved within the same analysis windows (see [Product variables](product_variables.md)). |

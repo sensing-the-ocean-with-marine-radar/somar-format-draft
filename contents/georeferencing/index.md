@@ -210,7 +210,9 @@ The variables of the grids are tabulated on the pages of the two data types.
 ### Geographic grid
 
 Gridded windows that lie on a lattice in longitude and latitude are stored on a grid with the dimensions `(latitude, longitude)`.
-The coordinate variables `latitude` and `longitude` give the centers of the analysis windows; they are one-dimensional because the windows lie on a lattice in longitude and latitude (see [Positions of analysis windows](#positions-of-analysis-windows)).
+The coordinate variables `latitude` and `longitude` give the centers of the analysis windows; they are one-dimensional because the windows lie on a lattice in longitude and latitude.
+The latitude spacing is the same for all measurement periods, since a degree of latitude has nearly the same length everywhere, whereas a degree of longitude shrinks with the cosine of latitude: each measurement period therefore uses a single longitude spacing, chosen for its latitude, which may differ from one period to the next.
+From a fixed platform, the latitude of the windows does not change, and all periods share one grid.
 On this grid, `crs` is recommended rather than required: without it, `latitude` and `longitude` refer to WGS 84 (see [Geographic coordinates](#geographic-coordinates)).
 
 ### Local grid
@@ -218,7 +220,7 @@ On this grid, `crs` is recommended rather than required: without it, `latitude` 
 Gridded pixels, and gridded windows that lie on a local grid around the radar, are stored on the local grid of the measurement: `x` and `y` give the distance in meters east and north of the radar antenna at the start of the measurement, and `crs` describes the local azimuthal equidistant projection centered on that position (see [Time-bounded local grids](#time-bounded-local-grids)).
 In this form, `crs` is required, since its projection origin locates the grid.
 From a fixed platform, the local grid may be rotated about the radar antenna (see [Rotated local grids](#rotated-local-grids)).
-Gridded windows on the local grid also store two-dimensional `longitude` and `latitude`, so that every file gives the geographic position of each analysis window.
+Gridded windows on the local grid also store two-dimensional `longitude` and `latitude`, obtained by inverting the azimuthal equidistant projection of the grid, so that every file gives the geographic position of each analysis window.
 For a near-surface current map, the variables that differ from the geographic grid are:
 
 ```
@@ -332,32 +334,6 @@ variables:
                 northward_sea_water_velocity:units = "m s-1" ;
                 northward_sea_water_velocity:grid_mapping = "crs" ;
                 northward_sea_water_velocity:_FillValue = NaN ;
-```
-
-## Positions of analysis windows
-
-Level 2 data that report `longitude` and `latitude` directly, i.e. [gridded windows](../data_types/gridded_windows.md), [discrete windows](../data_types/discrete_windows.md), and [averaged windows](../data_types/averaged_windows.md), are retrieved within analysis windows.
-Depending on the processor, the analysis windows of `gridded_windows` are placed on an Earth-fixed lattice in longitude and latitude or on the local grid, at known `x` and `y` distances east and north of the radar.
-On an Earth-fixed lattice, the latitude spacing is the same for all measurement periods, since a degree of latitude has nearly the same length everywhere, whereas a degree of longitude shrinks with the cosine of latitude.
-Each measurement period therefore uses a single longitude spacing, chosen for its latitude, which may differ from one period to the next; within a period, the maps are thus rectangular grids with one-dimensional `latitude` and `longitude` coordinate variables. From a fixed platform, the latitude of the windows does not change, and all periods share one grid.
-On the local grid, these maps store `x` and `y` with the `crs` of the local grid, together with two-dimensional `longitude` and `latitude`, which are obtained by inverting the local projection defined above, i.e. the azimuthal equidistant projection on the WGS 84 ellipsoid centered on the position of the radar antenna at the start of the measurement.
-The stored position is that of the center of the analysis window or, for averaged windows, the mean position of the analysis windows contributing to a measurement, in either case averaged over the measurement period if the windows move with the platform.
-
-<a id="radar-position"></a>To allow recovering the range and bearing of a measurement from the radar, these products may optionally carry the position of the radar antenna at the start of each measurement, which served as its origin, in the variables `radar_longitude` and `radar_latitude`. For gridded windows, they are scalar variables of each group, or of the root group from a fixed platform; for discrete windows, they have the dimension `time`; for averaged windows, they have the dimension `time`, and are scalar from a fixed platform.
-
-```
-variables:
-        double radar_longitude ;
-                radar_longitude:long_name = "longitude of radar at start of measurement" ;
-                radar_longitude:standard_name = "longitude" ;
-                radar_longitude:units = "degrees_east" ;
-        double radar_latitude ;
-                radar_latitude:long_name = "latitude of radar at start of measurement" ;
-                radar_latitude:standard_name = "latitude" ;
-                radar_latitude:units = "degrees_north" ;
-data:
-        radar_longitude = 145.86816786 ;
-        radar_latitude = 14.99527499 ;
 ```
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes

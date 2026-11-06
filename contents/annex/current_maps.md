@@ -107,6 +107,14 @@ group: time_20250115110031 {
                 latitude:long_name = "center latitude of current measurement" ;
                 latitude:standard_name = "latitude" ;
                 latitude:units = "degrees_north" ;
+        double radar_longitude ; // optional
+                radar_longitude:long_name = "longitude of radar at start of measurement" ;
+                radar_longitude:standard_name = "longitude" ;
+                radar_longitude:units = "degrees_east" ;
+        double radar_latitude ; // optional
+                radar_latitude:long_name = "latitude of radar at start of measurement" ;
+                radar_latitude:standard_name = "latitude" ;
+                radar_latitude:units = "degrees_north" ;
         double eastward_sea_water_velocity(latitude, longitude) ;
                 eastward_sea_water_velocity:long_name = "eastward component of the near-surface current velocity" ;
                 eastward_sea_water_velocity:standard_name = "eastward_sea_water_velocity" ;

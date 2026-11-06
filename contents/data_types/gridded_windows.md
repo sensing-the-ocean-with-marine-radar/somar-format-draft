@@ -13,7 +13,7 @@ The annex gives a complete [example](../annex/current_maps.md#example).
 
 ## Grids
 
-The lattice is the [geographic grid](../georeferencing/index.md#geographic-grid) or the [local grid](../georeferencing/index.md#local-grid) of the measurement, and the center of each cell is the center of one window (see [Positions of analysis windows](../georeferencing/index.md#positions-of-analysis-windows)).
+The lattice is the [geographic grid](../georeferencing/index.md#geographic-grid) or the [local grid](../georeferencing/index.md#local-grid) of the measurement, and the center of each cell is the center of one window.
 From a moving platform, each measurement period has its own [time-bounded grid](../georeferencing/index.md#time-bounded-grids), in a `time_<YYYYMMDDHHMMSS>` group; from a fixed platform, all measurement periods share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension `time`.
 From a fixed platform, the local grid may be a [rotated local grid](../georeferencing/index.md#rotated-local-grids); the geographic grid is not rotated.
 
@@ -31,8 +31,8 @@ The data variables of a product are defined under [Product variables](product_va
 | `y`<br><small>SOMaR</small> | double `(y)`; `m` | Required on the local grid. Distance north of the radar antenna at the start of the measurement, or along the y axis of a rotated grid. |
 | `longitude`<br><small>[CF][cf-names]</small> | double `(longitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_east` | Required. Longitude of the centers of the analysis windows. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(latitude)` on the geographic grid, `(y, x)` on the local grid; `degrees_north` | Required. Latitude of the centers of the analysis windows. |
-| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna (see [Georeferencing](../georeferencing/index.md#radar-position)). |
-| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna. |
+| `radar_longitude`<br><small>SOMaR</small> | double; `degrees_east` | Optional. Longitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna, from which the range and bearing of each analysis window can be recovered. |
+| `radar_latitude`<br><small>SOMaR</small> | double; `degrees_north` | Optional. Latitude of the radar antenna at the start of the measurement period, or of the fixed radar antenna, from which the range and bearing of each analysis window can be recovered. |
 | `measurement_quality`<br><small>SOMaR</small> | ubyte `(…)`; bit flags | Recommended. Quality flag. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). |
 {: .variable-table }
 
