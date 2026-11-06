@@ -55,6 +55,7 @@ sass:
 
 exclude:
   - scripts/
+  - audits/
 
 # Callouts marking topics the community has yet to decide.
 callouts:

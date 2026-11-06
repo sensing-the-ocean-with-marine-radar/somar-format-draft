@@ -33,3 +33,6 @@ __pycache__/
 .vscode
 .zprofile
 .zshrc
+
+# Ignore audits
+audits/

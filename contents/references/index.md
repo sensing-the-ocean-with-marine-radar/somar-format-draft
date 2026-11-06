@@ -11,6 +11,9 @@ nav_order: 7
 Bell, P. S., 1999: Shallow water bathymetry derived from an analysis of X-band marine radar images of waves. *Coastal Eng.*, **37**, 513–527, [https://doi.org/10.1016/S0378-3839(99)00041-1](https://doi.org/10.1016/S0378-3839(99)00041-1).
 {: #bell-1999 }
 
+Bell, P. S., and J. C. Osler, 2011: Mapping bathymetry using X-band marine radar data recorded from a moving vessel. *Ocean Dyn.*, **61**, 2141–2156, [https://doi.org/10.1007/s10236-011-0478-4](https://doi.org/10.1007/s10236-011-0478-4).
+{: #bell-osler-2011 }
+
 Campana, J., E. J. Terrill, and T. de Paolo, 2016: The development of an inversion technique to extract vertical current profiles from X-band radar observations. *J. Atmos. Oceanic Technol.*, **33**, 2015–2028, [https://doi.org/10.1175/JTECH-D-15-0145.1](https://doi.org/10.1175/JTECH-D-15-0145.1).
 {: #campana-2016 }
 
