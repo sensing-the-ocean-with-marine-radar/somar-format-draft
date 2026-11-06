@@ -28,14 +28,17 @@ They document how the data were obtained; each row states the data types or prod
 ## Retrieval methods
 
 SOMaR defines the content of the Level 2 products, not the methods by which they are retrieved.
-The method of a product is named by the global attribute [`retrieval_method`](#retrieval_method), using one of the following names where it applies.
+The method of a product is named by the global attribute [`retrieval_method`](#retrieval_method), using one of the following names where it applies; for a current profile, the method is the one repeated in each wavenumber band.
 
 | Name | Products | Description |
 |---|---|---|
 | `dispersion_relation_least_squares_fit` | `currents`, `currents_profile`, `bathymetry` | Least-squares fit of the wave signal in the wavenumber-frequency spectrum of an analysis window to the linear dispersion relation (Young et al. [1985](../references/index.md#young-1985); Senet et al. [2001](../references/index.md#senet-2001); Bell [1999](../references/index.md#bell-1999)). |
-| `normalized_scalar_product` | `currents` | Maximization of the normalized scalar product between the wavenumber-frequency spectrum of an analysis window and a filter following the dispersion relation (Serafino et al. [2010](../references/index.md#serafino-2010)). |
+| `disc` | `bathymetry` | Dispersive Surface Classificator: water depth, and near-surface current, from the phases of the wave components in the dispersion-filtered image sequence of an analysis window (Senet et al. [2008](../references/index.md#senet-2008)). |
+| `cbathy` | `bathymetry` | Water depth from the frequency-dependent wavenumbers of a cross-spectral analysis of image time series, developed for optical imagery (Holman et al. [2013](../references/index.md#holman-2013)) and applied to marine radar (Honegger et al. [2019](../references/index.md#honegger-2019)). |
+| `normalized_scalar_product` | `currents`, `currents_profile` | Maximization of the normalized scalar product between the wavenumber-frequency spectrum of an analysis window and a filter following the dispersion relation (Serafino et al. [2010](../references/index.md#serafino-2010)). |
 | `cross_correlation` | `sea_ice_drift` | Displacement at the peak of the cross-correlation between two images (Lund et al. [2018](../references/index.md#lund-2018)). |
 | `optical_flow` | `sea_ice_drift` | Displacement field estimated by optical flow between two images (Thomson et al. [2021](../references/index.md#thomson-2021)). |
+| `dispersion_relation_filter` | `wave_wavenumber_spectra` | Three-dimensional Fourier transform of the image sequence of the analysis windows, a band-pass filter that keeps the wave signal along the dispersion relation, and the modulation transfer function and significant wave height calibration of the [wave calibration parameters](wave_calibration.md) (Young et al. [1985](../references/index.md#young-1985); Nieto Borge et al. [2004](../references/index.md#nieto-borge-2004)). The Level 2b wave products derived from these spectra name the same method. |
 
 Another method is named by the processor with a short lowercase name with underscores, so that files using the same method can be recognized; the method is then described in the [`comment`](optional_global.md#comment) global attribute.
 For any method, the underlying literature is given in the [`references`](optional_global.md#references) global attribute of [CF][cf-description].

@@ -42,6 +42,8 @@ From a moving platform, the `georeference` subgroup of each sweep group records 
 | `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double, per sweep or per ray; `degrees_north` | Recommended for a moving platform. In the `georeference` subgroup: recorded latitude (WGS 84). |
 | `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double, per sweep or per ray; `degrees_east` | Recommended for a moving platform. In the `georeference` subgroup: recorded longitude (WGS 84). |
 | `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Recommended for a moving platform. In the `georeference` subgroup: heading of the platform relative to true north. |
+| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Optional. Roll of the platform about its longitudinal axis, positive with the port side up, i.e. the starboard side down, with the standard name `platform_roll_starboard_down`. |
+| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Optional. Pitch of the platform about its lateral axis, positive with the bow up, with the standard name `platform_pitch_fore_up`. |
 {: .variable-table }
 
 ## Averaged sweep groups

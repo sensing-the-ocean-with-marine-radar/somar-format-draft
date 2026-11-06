@@ -33,7 +33,7 @@ A file complies with SOMaR if:
 The [highly recommended global attributes](optional_global.md#highly-recommended) are not part of compliance, but a file should carry them unless its producer cannot supply them: without them, data catalogs and users cannot tell what the file contains.
 The same holds for `product_type` in a Level 2 file, and for the variables and attributes that are marked as recommended for its data type and product (see [Requirements](../data_types/index.md#requirements)).
 A checker should report a missing highly recommended global attribute or recommended product item as a warning rather than an error.
-The [recommended global attributes](optional_global.md#recommended) and the [file naming](../file_naming/index.md) are not part of compliance either.
+The [recommended global attributes](optional_global.md#recommended) the [file naming](../file_naming/index.md), and the [storage recommendations](../storage/index.md) are not part of compliance either.
 
 ## Relation to FM 301 and ACDD
 

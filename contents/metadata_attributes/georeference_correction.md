@@ -19,7 +19,7 @@ The group is used only by the polar data types, [`polar_raw`](../data_types/pola
 | `position_offset_x`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive to starboard (see [Position offset](../georeferencing/index.md#position-offset)). |
 | `position_offset_y`<br><small>SOMaR</small> | float; `m` | Position of the radar antenna relative to the GPS antenna in the ship frame, positive toward the bow (see [Position offset](../georeferencing/index.md#position-offset)). |
 | `range_correction`<br><small>[CfRadial 2.1][cfradial], Section 7.5</small> | float; `m` | Correction to the `range` values, e.g. a range offset caused by a trigger delay. |
-| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to GPS time. |
+| `time_correction`<br><small>SOMaR</small> | double; `s` | Correction to the `time` values, e.g. a known constant offset of the radar clock relative to UTC as received from a GNSS receiver. |
 {: .variable-table }
 
 ## Example

@@ -17,6 +17,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/data_types/` | The processing levels and the data types, one page each, with the product tables of the Level 2 products, and the product variables |
 | `contents/annex/` | Informative example files of all Level 1 data types and Level 2 products, with descriptions of the Level 2 products and their retrieval |
 | `contents/file_naming/` | File naming pattern recommendations |
+| `contents/storage/` | Compression and chunking recommendations |
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
 | `contents/about/` | About the SOMaR community |
 | `scripts/check_examples.py` | Builds and checks the CDL examples (see [Checking the examples](#checking-the-examples)) |

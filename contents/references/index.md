@@ -1,7 +1,7 @@
 ---
 title: References
 layout: default
-nav_order: 7
+nav_order: 8
 ---
 
 # References
@@ -19,6 +19,12 @@ Campana, J., E. J. Terrill, and T. de Paolo, 2016: The development of an inversi
 
 Gangeskar, R., 2014: An algorithm for estimation of wave height from shadowing in X-band radar sea surface images. *IEEE Trans. Geosci. Remote Sens.*, **52**, 3373–3381, [https://doi.org/10.1109/TGRS.2013.2272701](https://doi.org/10.1109/TGRS.2013.2272701).
 {: #gangeskar-2014 }
+
+Holman, R., N. Plant, and T. Holland, 2013: cBathy: A robust algorithm for estimating nearshore bathymetry. *J. Geophys. Res. Oceans*, **118**, 2595–2609, [https://doi.org/10.1002/jgrc.20199](https://doi.org/10.1002/jgrc.20199).
+{: #holman-2013 }
+
+Honegger, D. A., M. C. Haller, and R. A. Holman, 2019: High-resolution bathymetry estimates via X-band marine radar: 1. Beaches. *Coastal Eng.*, **149**, 39–48, [https://doi.org/10.1016/j.coastaleng.2019.03.003](https://doi.org/10.1016/j.coastaleng.2019.03.003).
+{: #honegger-2019 }
 
 Lund, B., H. C. Graber, H. Tamura, C. O. Collins, and S. M. Varlamov, 2015: A new technique for the retrieval of near-surface vertical current shear from marine X-band radar images. *J. Geophys. Res. Oceans*, **120**, 8466–8486, [https://doi.org/10.1002/2015JC010961](https://doi.org/10.1002/2015JC010961).
 {: #lund-2015 }
@@ -40,6 +46,9 @@ Palmsten, M. L., and K. L. Brodie, 2022: The Coastal Imaging Research Network (C
 
 Senet, C. M., J. Seemann, and F. Ziemer, 2001: The near-surface current velocity determined from image sequences of the sea surface. *IEEE Trans. Geosci. Remote Sens.*, **39**, 492–505, [https://doi.org/10.1109/36.911108](https://doi.org/10.1109/36.911108).
 {: #senet-2001 }
+
+Senet, C. M., J. Seemann, S. Flampouris, and F. Ziemer, 2008: Determination of bathymetric and current maps by the method DiSC based on the analysis of nautical X-band radar image sequences of the sea surface. *IEEE Trans. Geosci. Remote Sens.*, **46**, 2267–2279, [https://doi.org/10.1109/TGRS.2008.916474](https://doi.org/10.1109/TGRS.2008.916474).
+{: #senet-2008 }
 
 Serafino, F., C. Lugni, and F. Soldovieri, 2010: A novel strategy for the surface current determination from marine X-band radar data. *IEEE Geosci. Remote Sens. Lett.*, **7**, 231–235, [https://doi.org/10.1109/LGRS.2009.2031878](https://doi.org/10.1109/LGRS.2009.2031878).
 {: #serafino-2010 }

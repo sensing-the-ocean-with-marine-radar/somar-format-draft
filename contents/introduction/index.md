@@ -40,10 +40,10 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
 The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
 The [SOMaR data types](../data_types/index.md) chapter defines the data types, i.e. the structures of SOMaR files, on a page each, from the Level 1 radar data in polar or Cartesian form to the Level 2 data in pixels or in gridded, discrete, or averaged analysis windows, together with the Level 2 products of each data type and the variables that hold their data.
-The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
+The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk, and the [Storage recommendations](../storage/index.md) chapter their compression and chunking.
 Finally, the informative [Annex: Examples](../annex/index.md) gives an example file of each Level 1 data type and each Level 2 product, and for Level 2 a description of the product and of its retrieval.
 
-The chapters Metadata, Georeferencing, and SOMaR data types are normative; File naming gives recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
+The chapters Metadata, Georeferencing, and SOMaR data types are normative; File naming and Storage recommendations give recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
 The Annex and the CDL examples throughout the document are informative; where an example and a definition differ, the definition applies.
 
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3

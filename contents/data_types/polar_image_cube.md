@@ -31,6 +31,8 @@ The file holds the data variable and the following variables, all in the root gr
 | `longitude`<br><small>[FM 301][fm301], Table 301-4a</small> | double, scalar, per revolution, or per ray; `degrees_east` | Required for a fixed platform; recommended for a moving platform. Longitude of the radar antenna (WGS 84), as `latitude`. |
 | `altitude`<br><small>[FM 301][fm301], Table 301-4a</small> | double; `m` | Required. Height of the radar antenna above mean sea level. |
 | `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per revolution or per ray; `degree` | Recommended for a moving platform. Heading of the platform relative to true north, with the dimension `time` per revolution or `(time, azimuth)` per ray. |
+| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per revolution or per ray; `degree` | Optional. Roll of the platform about its longitudinal axis, positive with the port side up, i.e. the starboard side down, with the standard name `platform_roll_starboard_down`. |
+| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per revolution or per ray; `degree` | Optional. Pitch of the platform about its lateral axis, positive with the bow up, with the standard name `platform_pitch_fore_up`. |
 {: .variable-table }
 
 Where the parameters of the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group vary, they are stored in the root group with the dimension `time` where they vary per revolution or `(time, azimuth)` where they vary per ray.

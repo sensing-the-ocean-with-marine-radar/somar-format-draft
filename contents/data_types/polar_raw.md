@@ -70,15 +70,18 @@ The [`comment`](../metadata_attributes/variable_attributes.md#comment) attribute
 
 ## Moving platforms
 
-When [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) is `"true"`, the position and heading of the platform should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), in a `georeference` subgroup of each sweep group, either per sweep, as scalars, or per ray, with the dimension `time` (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
+When [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) is `"true"`, the position and heading of the platform, and optionally its roll and pitch, should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), in a `georeference` subgroup of each sweep group, either per sweep, as scalars, or per ray, with the dimension `time` (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
 
 | Variable | Values | Description |
 |---|---|---|
 | `latitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double, per sweep or per ray; `degrees_north` | Recommended for a moving platform. Recorded latitude (WGS 84). |
 | `longitude`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | double, per sweep or per ray; `degrees_east` | Recommended for a moving platform. Recorded longitude (WGS 84). |
 | `heading`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Recommended for a moving platform. Heading of the platform relative to true north, with the standard name `platform_orientation`. |
+| `roll`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Optional. Roll of the platform about its longitudinal axis, positive with the port side up, i.e. the starboard side down, with the standard name `platform_roll_starboard_down`. |
+| `pitch`<br><small>[CfRadial 2.1][cfradial], Section 5.4</small> | float, per sweep or per ray; `degree` | Optional. Pitch of the platform about its lateral axis, positive with the bow up, with the standard name `platform_pitch_fore_up`. |
 {: .variable-table }
 
+The velocity of the platform, which CfRadial 2.1 also records, follows from the positions and is not stored.
 Position and heading are recommended rather than required, since a recording system may not receive them in real time, or a producer may prefer to take them from a separate navigation data stream.
 A file without them is not georeferenced: its azimuths remain relative to the radar's zero direction, and its rays cannot be located until navigation data are matched to them by `time`.
 `platform_is_mobile` is still `"true"` in such a file, so that readers know that navigation is needed, and the navigation variables can be added to the file later.

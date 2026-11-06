@@ -28,12 +28,15 @@ They are the attributes that ACDD highly recommends, apart from [`Conventions`](
 
 The following global attributes are recommended where they apply to the file.
 The time coverage and the spatial bounds follow from the file's content, so that the software writing a file can set them.
+Any other attribute that ACDD defines may be used as ACDD defines it.
 
 | Attribute | Values | Description |
 |---|---|---|
+| `acknowledgement`<br><small>[ACDD][acdd]</small> | String; free text | The support of the project that produced the data, such as its funding. |
 | `comment`<br><small>[CF][cf-description]</small> | String; free text | Further information about the file, such as the placement of the analysis windows and any window shape or retrieval method named by the processor (see [Processing parameters](processing_parameters.md)). |
 | `creator_email`<br><small>[ACDD][acdd]</small> | String; email address | An email address for questions about the file's content. |
 | `creator_name`<br><small>[ACDD][acdd]</small> | String; free text | The name of the person or group principally responsible for creating the file. |
+| `creator_url`<br><small>[ACDD][acdd]</small> | String; URL | A URL of the person or group named in `creator_name`, e.g. an [ORCID](https://orcid.org/) iD. |
 | `date_created`<br><small>[ACDD][acdd]</small> | String; ISO 8601 date and time in UTC | The date on which this version of the data was created. It must agree with the creation time recorded in `history`; changes to metadata alone do not alter it. |
 | `featureType`<br><small>[CF][cf-dsg]</small> | String; `trajectory` or `timeSeries` | For [`averaged_windows`](../data_types/averaged_windows.md#moving-and-fixed-platforms): the CF discrete sampling geometry that the file follows, `"trajectory"` from a moving platform and `"timeSeries"` from a fixed one. Not used by other data types, which are not discrete sampling geometries. |
 | `geospatial_lat_max`<br><small>[ACDD][acdd]</small> | Number; degrees north | The northernmost latitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
@@ -41,11 +44,13 @@ The time coverage and the spatial bounds follow from the file's content, so that
 | `geospatial_lon_max`<br><small>[ACDD][acdd]</small> | Number; degrees east, between -180 and 180 | The easternmost longitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
 | `geospatial_lon_min`<br><small>[ACDD][acdd]</small> | Number; degrees east, between -180 and 180 | The westernmost longitude of the positions stored in the file (see [Spatial bounds](#spatial-bounds)). |
 | `history`<br><small>[CF][cf-description]</small> | String; one entry per processing step, each starting with a UTC timestamp | A record of the file's provenance, at minimum its creation time. Later entries (e.g. reprocessing) are appended to this attribute rather than overwriting it. |
+| `id`<br><small>[ACDD][acdd]</small> | String; free text | An identifier of the file or dataset, unique within its `naming_authority`, such as the file name without `.nc`, a UUID, or a DOI. |
 | `institution`<br><small>[CF][cf-description]</small> | String; free text | The institution responsible for producing the file. |
 | `institution_id`<br><small>SOMaR</small> | String; URI | A persistent identifier for the institution named in `institution`, e.g. its [ROR](https://ror.org/) ID. |
 | `instrument`<br><small>[ACDD][acdd]</small> | String; free text | The manufacturer, model, and/or type of the radar system used, including relevant technical detail such as whether the receiver is coherent. |
 | `keywords_vocabulary`<br><small>[ACDD][acdd]</small> | String; free text | The controlled vocabulary from which the [`keywords`](#keywords) are taken, e.g. `GCMD Science Keywords`. |
 | `license`<br><small>[ACDD][acdd]</small> | String; URL or free text | The data usage license under which the file is released. |
+| `naming_authority`<br><small>[ACDD][acdd]</small> | String; reverse-DNS name or URI | The organization that issues the `id`, so that the two together identify the data globally: the producer, in reverse-DNS notation such as `org.frori`, or, for an `id` that is a DOI, `org.doi`. |
 | `platform`<br><small>[ACDD][acdd]</small> | String; free text | The name of the vessel or platform the radar was mounted on. |
 | `processing_level`<br><small>[ACDD][acdd]</small> | String; one of `L1a`, `L1b`, `L2a`, `L2b` | The SOMaR processing level of the file's content (see [SOMaR data types](../data_types/index.md#processing-levels)). ACDD allows free text here; SOMaR restricts it to these codes. |
 | `processing_software`<br><small>SOMaR</small> | String; free text | The name and version of the software used to produce the file, to support reproducibility. |
@@ -79,21 +84,25 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
                 :data_type = "gridded_windows" ;
                 :platform_is_mobile = "true" ;
+                :acknowledgement = "Funded by the Famous Radar Ocean Research Institute" ; // recommended
                 :comment = "Analysis windows on a regular latitude-longitude lattice with 500 m spacing, centered on the radar position at the start of each measurement period" ; // recommended
                 :creator_email = "famous.scientist@frori.org" ; // recommended
                 :creator_name = "Dr. Famous Scientist" ; // recommended
+                :creator_url = "https://orcid.org/0000-0000-0000-0000" ; // recommended
                 :date_created = "2025-01-15T12:05:00Z" ; // recommended
                 :geospatial_lat_max = 15.03 ; // recommended
                 :geospatial_lat_min = 14.9265 ; // recommended
                 :geospatial_lon_max = 145.96815 ; // recommended
                 :geospatial_lon_min = 145.8426 ; // recommended
                 :history = "20250115T120500Z: File creation time" ; // recommended
+                :id = "or_2025-01-15-11_currents" ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :institution_id = "https://ror.org/01abcde23" ; // recommended
                 :instrument = "Famous Radar Ocean Research Institute coherent-on-receive marine X-band radar" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
                 :keywords_vocabulary = "GCMD Science Keywords" ; // recommended
                 :license = "Creative Commons Attribution 4.0 International Public License (CC BY 4.0)" ; // recommended
+                :naming_authority = "org.frori" ; // recommended
                 :platform = "R/V Ocean Research" ; // recommended
                 :processing_level = "L2a" ; // recommended
                 :processing_software = "FRORI X-band radar processing software version 2.5.0 (Python 3.13.6)" ; // recommended
