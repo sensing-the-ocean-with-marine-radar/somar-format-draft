@@ -8,34 +8,35 @@ nav_order: 2
 # L1b: Polar image sequences
 
 {: .informative }
-> This page is informative. The product type `radar_polar_regularized` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the data type `polar_image_cube`, which the page of the [polar data types](../data_types/polar.md#image-cube) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 ## File contents
 
-**Layout.** The file holds an [image cube](../product_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)`.
+**Layout.** The file holds an [image cube](../data_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
 | **Global attributes** | | |
-| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_regularized"` | Required | |
-| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`data_type`](../metadata_attributes/mandatory_global.md#data_type) `= "polar_image_cube"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "false"` | Required | fixed platform |
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | **Root group** | | |
-| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
-| [`altitude`](../product_types/polar.md#altitude) | Required | |
-| [`latitude`](../product_types/polar.md#moving-platforms-latitude), [`longitude`](../product_types/polar.md#moving-platforms-longitude), [`heading`](../product_types/polar.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
+| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
+| [`altitude`](../data_types/polar.md#altitude) | Required | |
+| [`latitude`](../data_types/polar.md#moving-platforms-latitude), [`longitude`](../data_types/polar.md#moving-platforms-longitude), [`heading`](../data_types/polar.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
-| [`time`](../product_types/polar.md#image-cube-time), [`azimuth`](../product_types/polar.md#image-cube-azimuth), [`range`](../product_types/polar.md#image-cube-range) | Required | |
-| [`rays_angle_resolution`](../product_types/polar.md#rays_angle_resolution) on `azimuth` | Optional | |
-| [`meters_between_gates`](../product_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../product_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../product_types/polar.md#spacing_is_constant) on `range` | Optional | |
-| [`ray_time`](../product_types/product_variables.md#ray_time) | Optional | |
-| [`backscatter_amplitude`](../product_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../product_types/product_variables.md#backscatter_power), exactly one | Required | |
-| [`azimuth_regularization`](../product_types/polar.md#azimuth_regularization) on the data variable | Required | |
+| [`time`](../data_types/polar.md#image-cube-time), [`azimuth`](../data_types/polar.md#image-cube-azimuth), [`range`](../data_types/polar.md#image-cube-range) | Required | |
+| [`rays_angle_resolution`](../data_types/polar.md#rays_angle_resolution) on `azimuth` | Optional | |
+| [`meters_between_gates`](../data_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar.md#spacing_is_constant) on `range` | Optional | |
+| [`ray_time`](../data_types/product_variables.md#ray_time) | Optional | |
+| [`backscatter_amplitude`](../data_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../data_types/product_variables.md#backscatter_power), exactly one | Required | |
+| [`azimuth_regularization`](../data_types/polar.md#azimuth_regularization) on the data variable | Required | |
 | [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | `azimuth_regularization` other than `nearest_neighbor` |
-| [`comment`](../product_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`comment`](../data_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
 | [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
 {: .contents-table }
 
@@ -44,7 +45,7 @@ A file of this product holds the following items; each links to its definition, 
 A radar on a fixed platform.
 
 ```
-netcdf or_2023-08-31-17-00_radar_polar_regularized {
+netcdf or_2023-08-31-17-00_polar_image_cube {
 dimensions:
         time = 40 ;
         azimuth = 1440 ;
@@ -89,13 +90,14 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "polar_image_cube" ;
                 :geospatial_lat_max = 54.1826 ; // recommended
                 :geospatial_lat_min = 54.1826 ; // recommended
                 :geospatial_lon_max = 7.8853 ; // recommended
                 :geospatial_lon_min = 7.8853 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
-                :product_type = "radar_polar_regularized" ;
+                :platform_is_mobile = "false" ;
                 :summary = "Marine X-band radar backscatter images from a fixed platform, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:00:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -113,7 +115,7 @@ The smallest file of this product that complies with SOMaR, obtained by removing
 
 ```
 // minimal form of the example above
-netcdf or_2023-08-31-17-00_radar_polar_regularized {
+netcdf or_2023-08-31-17-00_polar_image_cube {
 dimensions:
         time = 40 ;
         azimuth = 1440 ;
@@ -150,7 +152,8 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "radar_polar_regularized" ;
+                :data_type = "polar_image_cube" ;
+                :platform_is_mobile = "false" ;
 data:
         latitude = 54.1826 ;
         longitude = 7.8853 ;
@@ -163,7 +166,7 @@ data:
 A radar on a ship, with position and heading recorded per sweep, along with the optional [`radar_parameters`](../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
 
 ```
-netcdf or_2025-01-15-11-00_radar_polar_regularized {
+netcdf or_2025-01-15-11-00_polar_image_cube {
 dimensions:
         time = 40 ;
         azimuth = 1440 ;
@@ -212,6 +215,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "polar_image_cube" ;
                 :geospatial_lat_max = 14.9958976192 ; // recommended
                 :geospatial_lat_min = 14.99471 ; // recommended
                 :geospatial_lon_max = 145.86898 ; // recommended
@@ -219,7 +223,6 @@ variables:
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :product_type = "radar_polar_regularized" ;
                 :summary = "Marine X-band radar backscatter images recorded on board R/V Ocean Research, mapped onto regular range and azimuth axes in the polar coordinates of the radar." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:00:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
@@ -238,7 +241,7 @@ The smallest file of this product that complies with SOMaR, obtained by removing
 
 ```
 // minimal form of the example above
-netcdf or_2025-01-15-11-00_radar_polar_regularized {
+netcdf or_2025-01-15-11-00_polar_image_cube {
 dimensions:
         time = 40 ;
         azimuth = 1440 ;
@@ -267,8 +270,8 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "polar_image_cube" ;
                 :platform_is_mobile = "true" ;
-                :product_type = "radar_polar_regularized" ;
 data:
         altitude = 18.5 ;
 

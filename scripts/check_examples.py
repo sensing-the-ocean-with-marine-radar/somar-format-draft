@@ -19,15 +19,18 @@ coordinate reference system, the CF syntax of cell_methods, the dimensions
 and units of bounds variables, and the SOMaR rules for global attributes and
 file names, among them that a file whose structure is that of a moving
 platform sets platform_is_mobile to "true" and that a Level 2 file that sets
-it has that structure; the examples must carry the highly recommended global
+it has that structure, and that a product_type, where given, belongs to the
+data_type of the file; the examples must carry the highly recommended global
 attributes as well as the mandatory ones, and the variables that the product
 variables they carry require (see product_variables.md). The spatial bounds
 are checked against the positions the example gives: scalar latitude and
 longitude values in the data sections and the projection origins of crs
 variables.
 
-A file must also hold the variables that its row in the product-type table
-requires, and meet the conditional requirements of the category pages:
+A file must also hold the variables that the row of its product in the
+product table of its data type requires, the row of its product_type or,
+without one, of its data_type, and meet the conditional requirements of the
+data-type pages:
 averaged_quantity on interpolated or averaged backscatter and on
 relative_roughness, fixed_angle exactly in pointing sweeps, a crs on the local
 grid of a Level 2 product and in Cartesian images from a fixed platform only,
@@ -39,9 +42,11 @@ platform, no geographic grid, and the variables that take the
 place of others on it (see product_variables.md) instead of those others; the
 tiers and the rules of a replaced variable pass to the variable replacing it.
 The attribute tables, and the variable tables of the Metadata pages and of
-product_variables.md, must be in alphabetical order, and the product types
-listed in mandatory_global.md, the product-type tables, the index of the
-product types, the file naming page, and the annex must be the same.
+product_variables.md, must be in alphabetical order; the data types listed in
+mandatory_global.md, the index of the data types, and the product tables, and
+the product types listed in optional_global.md, the index, and the product
+tables must be the same; and the products of the product tables, the file
+naming page, and the annex must be the same.
 
 The values of an example must agree with each other: the file name with
 time_coverage_start, time_coverage_start with the start of the earliest
@@ -55,30 +60,32 @@ Items that a file may omit are marked by a trailing comment with their tier
 ("// highly recommended", "// recommended", or "// optional"). The markers
 of global attributes and variables are checked against the tables of the
 global attribute pages, the processing parameters, and the page of the
-example; for a product, against the tables of its category page and its row
-in the product-type table there instead. The markers of variable attributes
-are checked against the attribute tables of variable_attributes.md and the
-category pages, and those of groups against GROUP_TIERS. Each file example is also checked
+example; for a file of a data type, against the tables of the page of its
+data type and the row of its product in the product table there instead. The
+markers of variable attributes are checked against the attribute tables of
+variable_attributes.md and the data-type pages, and those of groups against
+GROUP_TIERS; "// required:" may mark an item that the tables recommend or make
+optional but the minimal form keeps. Each file example is also checked
 in its minimal form, without the marked items; a block whose first line is
 "// minimal form" must equal the minimal form of the example with the same
 "netcdf" name.
 
 The tiers that depend on the file are written in the fixed form of
-product_types/index.md#requirements ("Required on the local grid;
-recommended on the geographic grid.") and resolved for each example of a
-product from its structure, its grid, its product type, and its values; the
-rows of the sections in SECTION_SCOPES apply to some products only. An
-example must hold every item that the resolved tiers, the processing
-parameters, and its product-type row make required or recommended, and no
-item that they omit. The type, dimensions, and units of each of its variables
-must be among those that the Values columns of product_variables.md and of its
-category page give, with "(…)" standing for the dimensions of its category
-(see ellipsis_forms).
+data_types/index.md#requirements ("Required on the local grid;
+recommended on the geographic grid.") and resolved for each example from its
+structure, its grid, its data type and product type, and its values; the rows
+of the sections in SECTION_SCOPES apply to some data types only. An example
+must hold every item that the resolved tiers, the processing parameters, and
+its product row make required or recommended, and no item that they omit. The
+type, dimensions, and units of each of its variables must be among those that
+the Values columns of product_variables.md and of the page of its data type
+give, with "(…)" standing for the dimensions of its data type (see
+ellipsis_forms).
 
 The product pages of the annex each have a file contents table, which must
 name every global attribute, variable, and group of the examples on the page,
 every variable attribute that they mark with a tier, and every variable of the
-product-type row. Its conditions must be of the fixed forms of
+product row. Its conditions must be of the fixed forms of
 contents_condition_holds, and in each example the items of the rows whose
 condition holds, or that have none, must appear with the tier of the row, the
 required and recommended ones in any case.
@@ -130,9 +137,16 @@ GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
 # "required" marks an item that the tables recommend but the minimal file keeps.
 TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
-# The pages of the Level 2 categories, whose product-type tables list the Level 2 products.
-CATEGORY_PAGES = ("contents/product_types/polar.md", "contents/product_types/gridded.md", "contents/product_types/spatially_averaged.md")
+# The pages of the data types, whose product tables list the products of each data type.
+DATA_TYPE_PAGES = ("contents/data_types/polar.md", "contents/data_types/gridded.md",
+                   "contents/data_types/discrete_windows.md", "contents/data_types/averaged_windows.md")
+DATA_TYPE_INDEX = "contents/data_types/index.md"
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
+DATA_TYPE = re.compile(r':data_type = "(\w+)"')
+# The data type whose structure is the same from a moving and from a fixed platform.
+SAME_STRUCTURE_DATA_TYPES = {"discrete_windows"}
+# The sentence by which a product page of the annex names its product type, if any, and its data type.
+ANNEX_TYPES = re.compile(r"has the (?:product type `(\w+)` and the )?data type `(\w+)`, which the page of the \[[^\]]*\]\(\.\./data_types/(\w+)\.md")
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # The variables that take the place of others on a rotated local grid, and its grid mapping (see product_variables.md).
@@ -140,9 +154,6 @@ REPLACEMENT = re.compile(r"Takes the place of `(\w+)` on a rotated grid\.")
 ROTATED_GRID_MAPPING = "rotated_azimuthal_equidistant"
 # The names of a coordinate reference system, which CF requires all together if any is given (Appendix F).
 CRS_NAMES = ("reference_ellipsoid_name", "prime_meridian_name", "horizontal_datum_name", "geographic_crs_name")
-# Recommended global attributes that a file must carry under a condition stated in their description,
-# such as platform_is_mobile from a moving platform; their tier is not checked.
-CONDITIONAL_ATTRIBUTES = ("platform_is_mobile",)
 # The methods of cell_methods (CF Appendix E) and one of its entries: names, a method, and qualifiers (CF 7.3).
 CELL_METHODS = {"point", "sum", "maximum", "maximum_absolute_value", "median", "mid_range", "minimum",
                 "minimum_absolute_value", "mean", "mean_absolute_value", "mean_of_upper_decile", "mode", "range",
@@ -155,28 +166,28 @@ REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 GROUP_TIERS = {"georeference": "recommended", "radar_parameters": "optional",
                "georeference_correction": "optional", "wave_calibration": "recommended"}
 # The pages whose attribute tables give the tiers of variable attributes.
-VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md",) + CATEGORY_PAGES
+VARIABLE_ATTRIBUTE_PAGES = ("contents/metadata_attributes/variable_attributes.md",) + DATA_TYPE_PAGES
 # The pages whose variable tables, as well as their attribute tables, are in alphabetical order
 # (see metadata_attributes/index.md#reading-the-tables).
-ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/product_types/product_variables.md")
+ALPHABETICAL_VARIABLE_PAGES = ("contents/metadata_attributes/", "contents/data_types/product_variables.md")
 # Meters per degree of latitude, and of longitude at the equator, for the extent of geographic grids.
 METERS_PER_DEGREE = 111320.0
 # A link whose text is a code span, as the descriptions of the tables link names to their definitions.
 LINKED_CODE = re.compile(r"\[(`[^`\]]+`)\]\([^)\s]*\)")
 # The types of NetCDF variables, as named in the Values columns of the tables.
 NETCDF_TYPES = ("char", "byte", "ubyte", "short", "ushort", "int", "uint", "int64", "uint64", "float", "double", "string")
-# The sections of the category pages whose tables apply to some of the products only, by the
-# heading of the section (h2): {page: {section: product types or a key of PRODUCT_GROUPS}}.
+# The sections of the data-type pages whose tables apply to some of their data types only, by the
+# heading of the section (h2): {page: {section: data types}}.
 SECTION_SCOPES = {
-    "contents/product_types/polar.md": {"sweeps": {"radar_polar_raw"}, "averaged-sweeps": {"radar_polar_averaged"},
-                                        "image-cube": {"radar_polar_regularized"}},
-    "contents/product_types/gridded.md": {"image-cube-with-moving-origin": {"radar_cartesian"}, "variables": "level 2"},
+    "contents/data_types/polar.md": {"sweeps": {"polar_raw"}, "averaged-sweeps": {"polar_pulse_averaged"},
+                                     "image-cube": {"polar_image_cube"}},
+    "contents/data_types/gridded.md": {"image-cube-with-moving-origin": {"cartesian_image_cube"},
+                                       "variables": {"gridded_pixels", "gridded_windows"},
+                                       "gridded-pixels": {"gridded_pixels"}, "gridded-windows": {"gridded_windows"}},
 }
 # The first sentence of a description that gives a tier, possibly with conditions, and one clause of it.
 TIER_SENTENCE = re.compile(r"(Required|Recommended|Optional)\b(.*?)\.(?:\s|$)")
 TIER_CLAUSE = re.compile(r"(required|recommended|optional|omitted)\b\s*(.*)", re.I)
-# The subjects of the conditions of the tables (see product_types/index.md#requirements).
-MULTIWORD_SUBJECTS = {"relative roughness images and mosaics": "relative roughness"}
 # The words by which a sentence states a requirement, which the informative annex leaves to the definitions.
 NORMATIVE_WORDS = re.compile(r"\b(?:must|shall|(?:is|are) required)\b", re.I)
 # The file contents table of a product page of the annex, and the names that its rows link to.
@@ -215,10 +226,32 @@ def config_value(key):
     return match.group(1)
 
 
-def product_types():
-    text = read(os.path.join(ROOT, "contents/metadata_attributes/mandatory_global.md"))
-    row = next(line for line in text.splitlines() if line.startswith("| `product_type`"))
+def listed_values(page, attribute):
+    """Return the values that the row of a global attribute lists in its Values column."""
+    text = read(os.path.join(ROOT, page))
+    row = next(line for line in text.splitlines() if line.startswith(f"| `{attribute}`"))
     return set(re.findall(r"`([a-z0-9_]+)`", row.split("|")[2]))
+
+
+def product_types():
+    return listed_values("contents/metadata_attributes/optional_global.md", "product_type")
+
+
+def data_types():
+    return listed_values("contents/metadata_attributes/mandatory_global.md", "data_type")
+
+
+def data_type_index():
+    """Return {data type: (level, page, {product types})} from the table of the index of the data types."""
+    found = {}
+    for line in read(os.path.join(ROOT, DATA_TYPE_INDEX)).splitlines():
+        if not line.startswith("| **L"):
+            continue
+        cells = line.strip().strip("|").split("|")
+        level = re.search(r"\*\*(L[\w/]+)\*\*", cells[0]).group(1)
+        match = re.search(r"\[`(\w+)`\]\((\w+)\.md", cells[1])
+        found[match.group(1)] = (level, f"contents/data_types/{match.group(2)}.md", set(re.findall(r"\(`(\w+)`\)", cells[2])))
+    return found
 
 
 def mandatory_attributes():
@@ -260,25 +293,38 @@ def table_tiers(text, strict=True):
 
 
 def registry():
-    """Return {product_type: (category page, {name: tier}, level)} from the product-type tables of the categories.
+    """Return {key: (data-type page, {name: tier}, level, data type)} for the products and the data types.
 
-    The tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**" lines of a row,
-    and the level, such as "L1a", is given in parentheses after the name of the product.
+    The products are the rows of the product tables of the data-type pages, keyed by their
+    product type, or by their data type where the row gives none ("—"), as for the Level 1
+    products; the tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**"
+    lines of a row, and the level, such as "L1a", is given in parentheses after the name of the
+    product. Each data type without such a row is keyed by itself, with no tiers of a product,
+    for the files that carry no product type; its level is that of the index of the data types.
     """
     products = {}
-    for page in CATEGORY_PAGES:
+    for page in DATA_TYPE_PAGES:
         for line in read(os.path.join(ROOT, page)).splitlines():
             if not (line.startswith("| [") and ":**" in line):
                 continue
             cells = line.strip().strip("|").split("|")
             tiers = {}
-            for part in cells[2].split("<br>"):
+            for part in cells[3].split("<br>"):
                 match = re.match(r"\s*\*\*(Required|Recommended|Optional):\*\*(.*)", part)
                 if match:
                     tiers.update((name, match.group(1).lower()) for name in re.findall(r"`(\w+)`", match.group(2)))
             level = re.search(r"\((L\d[a-z])\)\s*$", cells[0]).group(1)
-            products[re.search(r"`(\w+)`", cells[1]).group(1)] = (page, tiers, level)
+            data_type = re.search(r"`(\w+)`", cells[1]).group(1)
+            product = re.search(r"`(\w+)`", cells[2])
+            products[product.group(1) if product else data_type] = (page, tiers, level, data_type)
+    for data_type, (level, page, _) in data_type_index().items():
+        products.setdefault(data_type, (page, {}, level, data_type))
     return products
+
+
+def product_rows(products):
+    """Return the keys of the products that have a row in a product table, i.e. all keys but the bare Level 2 data types."""
+    return {key for key, (_, tiers, level, data_type) in products.items() if key != data_type or level.startswith("L1")}
 
 
 def table_blocks(text):
@@ -310,16 +356,37 @@ def attribute_tiers():
     return tiers
 
 
-def product_type_lists():
-    """Return {page: set of product types} for the pages that list all product types besides mandatory_global.md."""
-    lists = {}
-    index = read(os.path.join(ROOT, "contents/product_types/index.md"))
-    lists["contents/product_types/index.md"] = {re.findall(r"`(\w+)`", line.split("|")[4])[0] for line in index.splitlines() if line.startswith("| **L")}
+def annex_key(text):
+    """Return the key of the product of a product page of the annex: its product type, or its data type; None for other pages."""
+    match = ANNEX_TYPES.search(text)
+    return (match.group(1) or match.group(2)) if match else None
+
+
+def list_errors(products):
+    """Check that the pages that list the data types, the product types, and the products agree with each other."""
+    errors = []
+    index = data_type_index()
+    rows = product_rows(products)
+    named = {key for key in rows if key != products[key][3]}
+    data_type_lists = {"the index of the data types": set(index), "the product tables": {products[k][3] for k in rows} | set(index)}
+    product_type_lists = {"the index of the data types": set().union(*(found for _, _, found in index.values())), "the product tables": named}
     naming = read(os.path.join(ROOT, "contents/file_naming/index.md"))
-    lists["contents/file_naming/index.md"] = set(re.findall(r"^\| `\w+?_[0-9-]+_(\w+)\.nc`", naming, re.M))
-    lists["contents/annex/*.md"] = {match.group(1) for page in glob.glob(os.path.join(ROOT, "contents/annex/*.md"))
-                                    for match in [re.search(r"The product type `(\w+)`", read(page))] if match}
-    return lists
+    product_lists = {"contents/file_naming/index.md": set(re.findall(r"^\| `\w+?_[0-9-]+_(\w+)\.nc`", naming, re.M)),
+                     "contents/annex/*.md": {key for page in glob.glob(os.path.join(ROOT, "contents/annex/*.md"))
+                                             for key in [annex_key(read(page))] if key}}
+    for where, listed in data_type_lists.items():
+        if listed != data_types():
+            errors.append(f"the data types of {where} differ from those in mandatory_global.md: {', '.join(sorted(listed ^ data_types()))}")
+    for where, listed in product_type_lists.items():
+        if listed != product_types():
+            errors.append(f"the product types of {where} differ from those in optional_global.md: {', '.join(sorted(listed ^ product_types()))}")
+    for key in named:
+        if key not in index.get(products[key][3], ("", "", set()))[2]:
+            errors.append(f"the index of the data types does not list {key} with its data type {products[key][3]}")
+    for where, listed in product_lists.items():
+        if listed != rows:
+            errors.append(f"the products of {where} differ from those of the product tables: {', '.join(sorted(listed ^ rows))}")
+    return errors
 
 
 def check_table_order(relative, text):
@@ -401,12 +468,12 @@ def example_items(block):
     return items
 
 
-def example_facts(block, product, groups_of_products):
+def example_facts(block, product, data_type):
     """Return the facts of an example that decide the conditions of the tables.
 
     These are whether it has the structure of a moving platform, whether it holds time-bounded
     grids, whether it holds a local or a geographic grid, the string values of its attributes and scalar variables, the items it
-    holds, and its product type with the groups of products that the tables name.
+    holds, and its product, i.e. its product type or, without one, its data type, and its data type.
     """
     values = {}
     for name, value in re.findall(r'^\s*(?:\w*:)?(\w+) = "([^"]*)" ;', block, re.M):
@@ -420,12 +487,12 @@ def example_facts(block, product, groups_of_products):
         "values": values,
         "items": example_items(block),
         "product": product,
-        "groups": {name for name, members in groups_of_products.items() if product in members},
+        "data_type": data_type,
     }
 
 
 def subject_holds(subject, facts):
-    """Whether a subject of a condition, such as "a moving platform" or "maps", holds for an example; None if unknown."""
+    """Whether a subject of a condition, such as "a moving platform" or "`gridded_windows`", holds for an example; None if unknown."""
     subject = re.sub(r"^(?:for|on) ", "", subject.strip())
     if subject == "a moving platform":
         return facts["moving"]
@@ -437,10 +504,8 @@ def subject_holds(subject, facts):
         return facts["geographic"]
     if subject == "a rotated grid":
         return facts["rotated"]
-    if subject in ("maps", "relative roughness", "spatially averaged products"):
-        return subject in facts["groups"]
     match = re.fullmatch(r"`(\w+)`", subject)
-    return facts["product"] == match.group(1) if match else None
+    return match.group(1) in (facts["product"], facts["data_type"]) if match else None
 
 
 def condition_holds(condition, facts):
@@ -450,8 +515,6 @@ def condition_holds(condition, facts):
         return match.group(2) in facts["values"].get(match.group(1), ())
     if not condition.startswith(("for ", "on ")):
         return None
-    for words, token in MULTIWORD_SUBJECTS.items():
-        condition = condition.replace(words, token)
     results = [subject_holds(subject, facts) for subject in re.split(r",? and |, ", condition)]
     return None if None in results else any(results)
 
@@ -492,10 +555,10 @@ def section_slug(heading):
     return re.sub(r"[^a-z0-9 -]", "", heading.lower()).strip().replace(" ", "-")
 
 
-def resolved_tiers(page, facts, groups_of_products):
+def resolved_tiers(page, facts):
     """Return ({name: tier}, [conflicts]) for the rows of a page's tables that apply to an example.
 
-    Rows in a section of SECTION_SCOPES apply to its products only. Names whose rows give
+    Rows in a section of SECTION_SCOPES apply to its data types only. Names whose rows give
     different tiers are reported as conflicts and left out.
     """
     scopes = SECTION_SCOPES.get(page, {})
@@ -508,9 +571,7 @@ def resolved_tiers(page, facts, groups_of_products):
         if not match:
             continue
         scope = scopes.get(section)
-        if isinstance(scope, str):
-            scope = groups_of_products[scope]
-        if scope is not None and facts["product"] not in scope:
+        if scope is not None and facts["data_type"] not in scope:
             continue
         found = resolved_tier(unlink(line.strip().strip("|").split("|")[-1]), facts)
         if found is None:
@@ -522,17 +583,17 @@ def resolved_tiers(page, facts, groups_of_products):
     return {name: t for name, t in tiers.items() if name not in conflicts}, sorted(conflicts)
 
 
-def product_tiers(block, product, products, groups_of_products):
-    """Return ({name: tier}, errors) for an example of a product: those of its category page, its processing parameters, and its row."""
-    category, row, _ = products[product]
-    facts = example_facts(block, product, groups_of_products)
+def product_tiers(block, product, products):
+    """Return ({name: tier}, errors) for an example of a product: those of the page of its data type, its processing parameters, and its row."""
+    page_of_type, row, _, data_type = products[product]
+    facts = example_facts(block, product, data_type)
     tiers, errors = {}, []
-    for page in ("contents/metadata_attributes/processing_parameters.md", category):
-        found, conflicts = resolved_tiers(page, facts, groups_of_products)
+    for page in ("contents/metadata_attributes/processing_parameters.md", page_of_type):
+        found, conflicts = resolved_tiers(page, facts)
         tiers.update(found)
         errors += [f"the tables of {page} give {name} different tiers for this file" for name in conflicts]
     tiers.update(row)
-    # On a rotated grid, a variable that takes the place of another takes its tier (product_types/index.md#requirements).
+    # On a rotated grid, a variable that takes the place of another takes its tier (data_types/index.md#requirements).
     if facts["rotated"]:
         for name, replacement in replacements().items():
             if name in tiers:
@@ -555,14 +616,14 @@ def check_completeness(block, tiers):
     return errors
 
 
-def value_specs(text, scopes, product):
+def value_specs(text, scopes, data_type):
     """Return {variable: [(types, dimension forms, units, values text)]} from the Values columns of a page's variable tables.
 
     The types are those named, or None for any; a dimension form is a tuple of names, () for
     a scalar, None for any, or a tuple starting with "…", which stands for the dimensions of
     ellipsis_forms;
     the units are those given in code, or None where the column gives values or flags instead.
-    Rows in a section of scopes apply to its products only.
+    Rows in a section of scopes apply to its data types only.
     """
     specs, section, rows = {}, None, []
     for line in text.splitlines():
@@ -574,7 +635,7 @@ def value_specs(text, scopes, product):
         if line.strip() == "{: .variable-table }":
             for row_section, row in rows:
                 scope = scopes.get(row_section)
-                if scope is not None and product not in scope:
+                if scope is not None and data_type not in scope:
                     continue
                 cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
                 name = re.match(r"`(\w+)`", cells[0]).group(1)
@@ -598,13 +659,11 @@ def value_specs(text, scopes, product):
     return specs
 
 
-def product_value_specs(product, products, groups_of_products):
-    """Return the value specifications of the variables of a product: those of product_variables.md and of its category page."""
-    category = products[product][0]
-    scopes = {section: groups_of_products[scope] if isinstance(scope, str) else scope
-              for section, scope in SECTION_SCOPES.get(category, {}).items()}
-    specs = value_specs(read(os.path.join(ROOT, "contents/product_types/product_variables.md")), {}, product)
-    for name, found in value_specs(read(os.path.join(ROOT, category)), scopes, product).items():
+def product_value_specs(product, products):
+    """Return the value specifications of the variables of a product: those of product_variables.md and of the page of its data type."""
+    page, _, _, data_type = products[product]
+    specs = value_specs(read(os.path.join(ROOT, "contents/data_types/product_variables.md")), {}, data_type)
+    for name, found in value_specs(read(os.path.join(ROOT, page)), SECTION_SCOPES.get(page, {}), data_type).items():
         specs.setdefault(name, []).extend(found)
     return specs
 
@@ -612,18 +671,16 @@ def product_value_specs(product, products, groups_of_products):
 def ellipsis_forms(product, products):
     """Return the dimensions that "(…)" stands for in the variables of a product (see product_variables.md).
 
-    For polar products, those of a sweep or of the image cube; for gridded products, those of
-    the horizontal grid, preceded by time from a fixed platform and in the image cube of Level 1b,
-    and in a current profile by wavenumber_bin before those of the grid; for spatially averaged
-    products, time.
+    Those of a sweep or of the polar image cube; for the gridded data types, those of the
+    horizontal grid, preceded by time from a fixed platform and in the Cartesian image cube,
+    and in a current profile by wavenumber_bin before those of the grid; time and window for
+    discrete windows; and time for averaged windows.
     """
-    category = products[product][0]
-    if category.endswith("/polar.md"):
-        return [("time", "azimuth", "range")] if product == "radar_polar_regularized" else [("time", "range")]
-    if category.endswith("/spatially_averaged.md"):
-        return [("time",)]
-    if product == "radar_cartesian":
-        return [("time", "y", "x")]
+    data_type = products[product][3]
+    fixed = {"polar_raw": ("time", "range"), "polar_pulse_averaged": ("time", "range"), "polar_image_cube": ("time", "azimuth", "range"),
+             "cartesian_image_cube": ("time", "y", "x"), "discrete_windows": ("time", "window"), "averaged_windows": ("time",)}
+    if data_type in fixed:
+        return [fixed[data_type]]
     forms = []
     for grid in (("latitude", "longitude"), ("y", "x")):
         for prefix in ((), ("time",)):
@@ -716,7 +773,7 @@ def contents_condition_holds(condition, facts):
     return None
 
 
-def check_contents_table(text, product, product_row, groups_of_products):
+def check_contents_table(text, product, products):
     """Check the file contents table of a product page of the annex against the examples on the page.
 
     Every global attribute, variable, and group of the examples, and every variable attribute
@@ -726,6 +783,7 @@ def check_contents_table(text, product, product_row, groups_of_products):
     appear with the tier of the row, the required and recommended ones in any case.
     """
     errors = []
+    product_row, data_type = products[product][1], products[product][3]
     if CONTENTS_TABLE not in text.splitlines():
         return ["has no file contents table"]
     rows = contents_rows(text)
@@ -741,12 +799,12 @@ def check_contents_table(text, product, product_row, groups_of_products):
         if kinds and name not in named and not (kinds == {"global attribute"} and name in recommended_globals):
             errors.append(f"the {sorted(kinds)[0]} {name} of the example has no row in the file contents table")
     for name in sorted(set(product_row) - named):
-        errors.append(f"{name}, of the product-type table, has no row in the file contents table")
+        errors.append(f"{name}, of the product table, has no row in the file contents table")
     for names, row_tier, condition, alternatives in rows:
-        if condition and contents_condition_holds(condition, example_facts("", product, groups_of_products)) is None:
+        if condition and contents_condition_holds(condition, example_facts("", product, data_type)) is None:
             errors.append(f'the condition "{condition}" of the file contents table is not one of the fixed forms')
     for block in examples:
-        facts = example_facts(block, product, groups_of_products)
+        facts = example_facts(block, product, data_type)
         label = block.split()[1]
         for names, row_tier, condition, alternatives in rows:
             if condition and not contents_condition_holds(condition, facts):
@@ -768,7 +826,7 @@ def global_tiers():
     """Return {name: tier} for the shared global attributes and the processing parameters."""
     tiers = {name: "required" for name in mandatory_attributes()}
     tiers.update((name, "highly recommended") for name in highly_recommended_attributes())
-    tiers.update((name, "recommended") for name in recommended_global_section("Recommended") if name not in CONDITIONAL_ATTRIBUTES)
+    tiers.update((name, "recommended") for name in recommended_global_section("Recommended"))
     tiers.update(table_tiers(read(os.path.join(ROOT, "contents/metadata_attributes/processing_parameters.md")), strict=False))
     return tiers
 
@@ -776,7 +834,7 @@ def global_tiers():
 def variable_rules():
     """Return {variable: [variables it requires]} from the descriptions in product_variables.md."""
     rules = {}
-    for line in read(os.path.join(ROOT, "contents/product_types/product_variables.md")).splitlines():
+    for line in read(os.path.join(ROOT, "contents/data_types/product_variables.md")).splitlines():
         if not line.startswith("| `"):
             continue
         cells = line.strip().strip("|").split("|")
@@ -789,7 +847,7 @@ def variable_rules():
 def replacements():
     """Return {variable: the variable that takes its place on a rotated grid} from the descriptions in product_variables.md."""
     found = {}
-    for line in read(os.path.join(ROOT, "contents/product_types/product_variables.md")).splitlines():
+    for line in read(os.path.join(ROOT, "contents/data_types/product_variables.md")).splitlines():
         if not line.startswith("| `"):
             continue
         cells = line.strip().strip("|").split("|")
@@ -963,7 +1021,8 @@ def check_tiers(block, tiers, variable_attribute_tiers):
         if expected == "omitted":
             # Reported by check_completeness.
             continue
-        if expected is None or marked == expected or (marked == "required" and expected == "recommended" and tier(line)):
+        # "// required:" marks an item that the tables recommend or make optional but the minimal form keeps.
+        if expected is None or marked == expected or (marked == "required" and expected in ("recommended", "optional") and tier(line)):
             continue
         errors.append(f'{kind} {name} is marked as {marked}, but the tables make it {expected}')
     return errors
@@ -1161,10 +1220,11 @@ def anywhere(groups, name):
 
 
 def check_rules(groups, is_file, expected):
-    """Check the conditional requirements of the category pages and the required variables of a product."""
+    """Check the conditional requirements of the data-type pages and the required variables of a product."""
     errors = []
     root = groups["/"]["attributes"]
-    product = unquote(root.get("product_type", ""))
+    data_type = unquote(root.get("data_type", ""))
+    product = unquote(root.get("product_type", "")) or data_type
     for path, group in groups.items():
         for variable, attributes in group["variables"].items():
             where = f"{path.rstrip('/')}/{variable}" if path != "/" else variable
@@ -1174,7 +1234,7 @@ def check_rules(groups, is_file, expected):
                 variable in LEVEL1_DATA_VARIABLES and "time: mean" in unquote(attributes.get("cell_methods", "")))
             if averaged and "averaged_quantity" not in attributes:
                 errors.append(f"{where}: is interpolated or averaged but has no averaged_quantity")
-            # The data variables of a discrete sampling geometry name their coordinates (spatially_averaged.md).
+            # The data variables of a discrete sampling geometry name their coordinates (averaged_windows.md).
             if "featureType" in root and "time" in group["dimensions"].get(variable, ()) and variable not in DSG_COORDINATES \
                     and unquote(attributes.get("coordinates", "")).split() != ["time", "longitude", "latitude"]:
                 errors.append(f'{where}: a variable of a discrete sampling geometry needs coordinates = "time longitude latitude"')
@@ -1182,8 +1242,8 @@ def check_rules(groups, is_file, expected):
         pointing = group["strings"].get("sweep_mode") == "pointing"
         if pointing != ("fixed_angle" in group["variables"]):
             errors.append(f"{path}: fixed_angle is required if sweep_mode is \"pointing\" and omitted otherwise")
-        # The local grid of a Level 2 product needs its crs (gridded.md).
-        if product in expected["level2_product_types"] and {"x", "y"} <= group["variables"].keys() and not resolve(groups, path, "crs"):
+        # The local grid of a Level 2 data type needs its crs (gridded.md).
+        if data_type in expected["level2_data_types"] and {"x", "y"} <= group["variables"].keys() and not resolve(groups, path, "crs"):
             errors.append(f"{path}: a local grid needs a crs")
         # A rotated local grid gives the azimuth of its y axis, from a fixed platform and not on a geographic grid (georeferencing).
         for variable, attributes in group["variables"].items():
@@ -1215,20 +1275,20 @@ def check_rules(groups, is_file, expected):
         if not rotated and anywhere(groups, replacement):
             errors.append(f"{replacement} is used on a rotated grid only, in place of {name}")
     # Cartesian images carry a crs from a fixed platform only (gridded.md).
-    if product == "radar_cartesian":
+    if data_type == "cartesian_image_cube":
         fixed = groups["/"]["dimensions"].get("longitude") == ()
         if fixed != ("crs" in groups["/"]["variables"]):
             errors.append("Cartesian images need a crs from a fixed platform and none from a moving one")
-    # Platform-fixed analysis windows require the platform velocity, which is omitted otherwise (spatially_averaged.md).
+    # Platform-fixed analysis windows require the platform velocity, which is omitted otherwise (discrete_windows.md, averaged_windows.md).
     platform_fixed = unquote(root.get("analysis_window_motion", "")) == "platform_fixed"
     for variable in ("platform_speed_wrt_ground", "platform_course"):
         if platform_fixed != anywhere(groups, variable):
             errors.append(f'{variable} is required if analysis_window_motion is "platform_fixed" and omitted otherwise')
-    # The variables that the product-type table requires; of the Level 1 data variables, exactly one is checked above.
+    # The variables that the product table requires; of the Level 1 data variables, exactly one is checked above.
     for name, tier_of_name in expected["product_tiers"].get(product, {}).items():
         name = expected["replacements"].get(name, name) if rotated else name
         if tier_of_name == "required" and name not in LEVEL1_DATA_VARIABLES and not anywhere(groups, name):
-            errors.append(f"misses {name}, which the product-type table requires for {product}")
+            errors.append(f"misses {name}, which the product table requires for {product}")
     return errors
 
 
@@ -1389,28 +1449,41 @@ def check_header(groups, is_file, names, units_module, expected, minimal_form=Fa
         conventions = unquote(root.get("Conventions", ""))
         if conventions != expected["conventions"]:
             errors.append(f'Conventions is "{conventions}", expected "{expected["conventions"]}"')
-        product = unquote(root.get("product_type", ""))
-        if product not in expected["product_types"]:
-            errors.append(f'product_type "{product}" is not one of the product types in mandatory_global.md')
-        mobile = unquote(root.get("platform_is_mobile", "")) == "true"
+        data_type = unquote(root.get("data_type", ""))
+        product = unquote(root.get("product_type", "")) if "product_type" in root else None
+        if data_type not in expected["data_types"]:
+            errors.append(f'data_type "{data_type}" is not one of the data types in mandatory_global.md')
+        if product is not None and product not in expected["product_types"]:
+            errors.append(f'product_type "{product}" is not one of the product types in optional_global.md')
+        elif product is not None and expected["product_data_types"].get(product) != data_type:
+            errors.append(f'product_type "{product}" has the data type {expected["product_data_types"].get(product)}, not {data_type}')
+        if product is not None and data_type in expected["level1_data_types"]:
+            errors.append("a Level 1 file carries no product_type")
+        mobile = unquote(root.get("platform_is_mobile", ""))
+        if mobile not in ("true", "false"):
+            errors.append(f'platform_is_mobile is "{mobile}", not "true" or "false"')
         moving = moving_structure(groups)
-        if moving and not mobile:
+        if data_type in SAME_STRUCTURE_DATA_TYPES:
+            pass
+        elif moving and mobile != "true":
             errors.append('has the structure of a moving platform, but platform_is_mobile is not "true"')
-        elif mobile and not moving and product in expected["level2_product_types"]:
+        elif mobile == "true" and not moving and data_type in expected["level2_data_types"]:
             errors.append('sets platform_is_mobile to "true", but has the structure of a fixed platform')
-        if product in expected["level1_product_types"]:
+        if data_type in expected["level1_data_types"]:
             found = set().union(*(LEVEL1_DATA_VARIABLES & group["variables"].keys() for group in groups.values()))
             if len(found) != 1:
                 errors.append(f"has {len(found)} Level 1 data variables; expected exactly one of {', '.join(sorted(LEVEL1_DATA_VARIABLES))}")
+        # The file is named after its product type or, without one, its data type (file_naming); the minimal
+        # form, which omits the product type, keeps the name of its example.
         match = FILE_NAME.match(expected["file_name"])
         if not match:
             errors.append(f'file name "{expected["file_name"]}" does not follow the naming pattern')
-        elif match.group("product") != product:
-            errors.append(f'file name "{expected["file_name"]}" does not match product_type "{product}"')
+        elif match.group("product") != (product or data_type) and not minimal_form:
+            errors.append(f'file name "{expected["file_name"]}" does not match {"product_type" if product else "data_type"} "{product or data_type}"')
     return errors
 
 
-def check_link_independence(products, groups_of_products):
+def check_link_independence(products):
     """Check that the parsers of the tables give the same results when every name in their descriptions is a link.
 
     The rules, the tiers, and the value specifications are parsed from the descriptions of
@@ -1418,13 +1491,13 @@ def check_link_independence(products, groups_of_products):
     links instead of the names would lose rules or conditions without failing.
     """
     def parse():
-        examples = [(block, PRODUCT_TYPE.search(block).group(1))
-                    for page in sorted(glob.glob(os.path.join(ROOT, "contents/annex/*.md")))
-                    for block in FENCE.findall(read(page)) if block.startswith("netcdf ") and PRODUCT_TYPE.search(block)]
+        examples = [(block, example_key(block))
+                    for page in sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
+                    for block in FENCE.findall(read(page)) if block.startswith("netcdf ") and example_key(block) in products]
         return (variable_rules(), replacements(), global_tiers(), attribute_tiers(), registry(),
-                {page: table_tiers(read(os.path.join(ROOT, page))) for page in CATEGORY_PAGES},
-                [product_tiers(block, product, products, groups_of_products) for block, product in examples],
-                {product: product_value_specs(product, products, groups_of_products) for product in products})
+                {page: table_tiers(read(os.path.join(ROOT, page))) for page in DATA_TYPE_PAGES},
+                [product_tiers(block, product, products) for block, product in examples],
+                {product: product_value_specs(product, products) for product in products})
 
     def link_all(line):
         if not line.startswith("| `"):
@@ -1440,9 +1513,15 @@ def check_link_independence(products, groups_of_products):
         linked = parse()
     finally:
         TEXT_OVERRIDES.clear()
-    names = ("rules", "replacements", "global tiers", "attribute tiers", "product types", "category tiers", "product tiers", "value specifications")
+    names = ("rules", "replacements", "global tiers", "attribute tiers", "product types", "data-type tiers", "product tiers", "value specifications")
     return [f"the {name} of the tables change when their descriptions link the names they mention"
             for name, a, b in zip(names, plain, linked) if a != b]
+
+
+def example_key(block):
+    """Return the product of an example: its product type or, without one, its data type; None if it has neither."""
+    match = PRODUCT_TYPE.search(block) or DATA_TYPE.search(block)
+    return match.group(1) if match else None
 
 
 def main():
@@ -1463,6 +1542,7 @@ def main():
     expected = {
         "conventions": f"CF-1.13, ACDD-1.3, SOMaR-{config_value('somar_version')}" + ("-draft" if config_value("somar_status") == "draft" else ""),
         "product_types": product_types(),
+        "data_types": data_types(),
         "mandatory_attributes": mandatory_attributes(),
         "highly_recommended_attributes": highly_recommended_attributes(),
         "variable_rules": variable_rules(),
@@ -1471,22 +1551,14 @@ def main():
 
     tiers = global_tiers()
     products = registry()
-    gridded = {p for p, (page, _, level) in products.items() if page.endswith("/gridded.md") and level.startswith("L2")}
-    roughness = {p for p, (_, row, _) in products.items() if "relative_roughness" in row}
-    groups_of_products = {"level 2": gridded, "maps": gridded - roughness, "relative roughness": roughness,
-                          "spatially averaged products": {p for p, (page, _, _) in products.items() if page.endswith("/spatially_averaged.md")}}
-    expected["level1_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L1")}
-    expected["level2_product_types"] = {p for p, (_, _, level) in products.items() if level.startswith("L2")}
-    expected["product_tiers"] = {p: row for p, (_, row, _) in products.items()}
+    expected["level1_data_types"] = {d for _, (_, _, level, d) in products.items() if level.startswith("L1")}
+    expected["level2_data_types"] = {d for _, (_, _, level, d) in products.items() if level.startswith("L2")}
+    expected["product_tiers"] = {p: row for p, (_, row, _, _) in products.items()}
+    expected["product_data_types"] = {p: d for p, (_, _, _, d) in products.items() if p != d}
     variable_attribute_tiers = attribute_tiers()
-    errors = check_link_independence(products, groups_of_products)
+    errors = check_link_independence(products) + list_errors(products)
     if errors:
         sys.exit("\n".join(errors))
-    lists = {"the product-type tables": set(products), **product_type_lists()}
-    for where, listed in lists.items():
-        if listed != expected["product_types"]:
-            differences = sorted(listed ^ expected["product_types"])
-            sys.exit(f"the product types of {where} differ from those in mandatory_global.md: {', '.join(differences)}")
     pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
     # The examples by file name, from which the written-out minimal forms are derived.
     examples = {block.split()[1]: block for page in pages for block in FENCE.findall(read(page)) if block.startswith("netcdf ")}
@@ -1517,9 +1589,9 @@ def main():
             text = read(page)
             tiers_of_page = {**tiers, **table_tiers(text)}
             order = check_table_order(relative, text)
-            product = re.search(r"The product type `(\w+)`", text)
-            if relative.startswith("contents/annex/") and product and product.group(1) in products:
-                order += check_contents_table(text, product.group(1), products[product.group(1)][1], groups_of_products)
+            product = annex_key(text)
+            if relative.startswith("contents/annex/") and product in products:
+                order += check_contents_table(text, product, products)
                 order += check_informative_prose(text)
             if order:
                 failures += 1
@@ -1528,15 +1600,14 @@ def main():
                     print(f"     {error}")
             for number, block in enumerate(FENCE.findall(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
-                product = PRODUCT_TYPE.search(block)
+                product = example_key(block)
                 completeness = []
-                if product and product.group(1) in products:
-                    found, completeness = product_tiers(block, product.group(1), products, groups_of_products)
+                if product in products:
+                    found, completeness = product_tiers(block, product, products)
                     tiers_of_block = {**tiers, **found}
                     if block.startswith("netcdf "):
                         completeness += check_completeness(block, found)
-                        completeness += check_value_specs(block, product_value_specs(product.group(1), products, groups_of_products),
-                                                          ellipsis_forms(product.group(1), products))
+                        completeness += check_value_specs(block, product_value_specs(product, products), ellipsis_forms(product, products))
                 else:
                     tiers_of_block = tiers_of_page
                 if first.startswith("// minimal form"):

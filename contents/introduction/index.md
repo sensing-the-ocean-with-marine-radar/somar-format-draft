@@ -13,37 +13,37 @@ This document is tailored for use within the SOMaR community and applies to ocea
 
 ## Why a new format?
 
-The primary reason for developing a new format is that marine radar data are often collected from moving vessels, so that gridded products cover an area that moves with the vessel.
+The primary reason for developing a new format is that marine radar data are often collected from moving vessels, so that gridded data cover an area that moves with the vessel.
 Each measurement period of the [near-surface current maps](../annex/current_maps.md), for example, yields a map over the radar footprint, and by the next period that footprint has moved on: a file holds a sequence of maps on different grids rather than one grid sampled repeatedly.
 The same holds for the other Level 2 maps and for radar images mapped onto a local Cartesian grid whose origin moves with the vessel.
-The CF conventions can describe each such grid but have no provision for a sequence of grids whose location changes; SOMaR therefore defines how such sequences are stored, using NetCDF-4 groups (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids), with a [figure](../georeferencing/index.md#figure-time-bounded-grids), and [Gridded products](../product_types/gridded.md#time-bounded-grids)).
+The CF conventions can describe each such grid but have no provision for a sequence of grids whose location changes; SOMaR therefore defines how such sequences are stored, using NetCDF-4 groups (see [Time-bounded local grids](../georeferencing/index.md#time-bounded-local-grids), with a [figure](../georeferencing/index.md#figure-time-bounded-grids), and [Gridded data types](../data_types/gridded.md#time-bounded-grids)).
 Each grid can thus have its own origin, extent, and resolution, while every variable within it still carries standard CF metadata.
 
 At the lowest level of processing, radar data in polar coordinates are already covered by an international standard, the WMO-CF Radial profile [FM 301][fm301], which was developed for weather radars from the earlier [CfRadial format][cfradial].
-SOMaR does not replicate this work: [Level 1a data](../product_types/polar.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
+SOMaR does not replicate this work: [Level 1a data](../data_types/polar.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
 Neither document covers the products that follow, i.e. image sequences on regular grids and the geophysical variables retrieved from them; these are defined by SOMaR.
 For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)][acdd], which is designed to complement CF.
 The versions of these standards that SOMaR refers to are listed under [References](../references/index.md#standards-and-conventions).
 
 ## Terms
 
-- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR product types](../product_types/index.md). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../product_types/polar.md) is their conversion to NetCDF.
-- A **ray** is one stored azimuth sample of a sweep, i.e. the echo along one beam direction as a function of range, following FM 301. At Level 1a, a ray normally holds a single transmitted pulse, unless the radar itself averages pulses (`n_samples` > 1); in Level 1b polar images, it is one bin of the regular azimuth axis, and in Level 1b pulse-averaged pointing data the mean of `n_samples` consecutive pulses.
-- A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data and Level 1b pulse-averaged pointing data are stored.
-- An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode, which Level 1b averages over pulses instead.
+- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR data types](../data_types/index.md#processing-levels). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../data_types/polar.md) is their conversion to NetCDF.
+- A **ray** is one stored azimuth sample of a sweep, i.e. the echo along one beam direction as a function of range, following FM 301. At Level 1a, a ray normally holds a single transmitted pulse, unless the radar itself averages pulses (`n_samples` > 1); in Level 1b polar images, it is one bin of the regular azimuth axis, and in Level 1b pulse-averaged data the mean of `n_samples` consecutive pulses.
+- A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data and Level 1b pulse-averaged data are stored.
+- An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode, which Level 1b may average over pulses instead.
 - An **analysis window** is the area, within the radar footprint, from which one Level 2 measurement is retrieved.
 - A **measurement period** is the time span over which the images contributing to one Level 2 map or measurement are collected. Its length is given by [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration).
-- An **averaging window** is the time span over which Level 1b images are averaged into one relative roughness image, one mosaic pixel, or one of the two images of a sea ice drift retrieval. Its nominal length is given by [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration); for individual pixels it may be shorter.
+- An **averaging period** is the time span over which Level 1b images are averaged into one relative roughness image, one mosaic pixel, or one of the two images of a sea ice drift retrieval. Its nominal length is given by [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration); for individual pixels it may be shorter.
 
 ## Document structure
 
 The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
 The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
-The [SOMaR product types](../product_types/index.md) chapter defines the products in three categories by their geometry, polar, gridded, and spatially averaged, from the Level 1 radar products to the Level 2 geophysical products, with their structures, and defines the variables that hold their data.
+The [SOMaR data types](../data_types/index.md) chapter defines the data types, i.e. the structures of SOMaR files, from the Level 1 radar data in polar or gridded form to the Level 2 data in gridded, discrete, or averaged analysis windows, and the products of each data type, from the Level 1 radar products to the Level 2 geophysical products, with their structures, and defines the variables that hold their data.
 The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk.
 Finally, the informative [Annex: Example products](../annex/index.md) gives an example file of each product, and for Level 2 a description of the product and of its retrieval.
 
-The chapters Metadata, Georeferencing, and SOMaR product types are normative; File naming gives recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
+The chapters Metadata, Georeferencing, and SOMaR data types are normative; File naming gives recommendations that are not part of [compliance](../metadata_attributes/mandatory_global.md#compliance).
 The Annex and the CDL examples throughout the document are informative; where an example and a definition differ, the definition applies.
 
 [acdd]: https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3

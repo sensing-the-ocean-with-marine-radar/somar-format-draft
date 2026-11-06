@@ -9,19 +9,19 @@ nav_order: 6
 SOMaR files should be named so that a file's platform, time coverage, and product can be identified without opening it, following the pattern:
 
 ```
-<station_id>_<YYYY-MM-DD>-<HH>[-<MM>]_<product_type>.nc
+<station_id>_<YYYY-MM-DD>-<HH>[-<MM>]_<type>.nc
 ```
 
 - [`station_id`](../metadata_attributes/optional_global.md#station_id) is a short identifier of lowercase letters and digits (`[a-z0-9]+`) for the originating platform, e.g. `or` for the fictional R/V Ocean Research used throughout this document's examples. It is chosen by the data provider and needs to be unique only among the provider's platforms; files from different providers are told apart by the [`platform`](../metadata_attributes/optional_global.md#platform) and [`institution`](../metadata_attributes/optional_global.md#institution) attributes. The identifier may also be recorded in the `station_id` global attribute.
 - `<YYYY-MM-DD>-<HH>` is the UTC date and hour at which the file's data coverage begins. Most SOMaR products are aggregated into one file per hour; sub-hourly products additionally append a two-digit `-<MM>` minute field.
-- `product_type` is the value of the file's [`product_type`](../metadata_attributes/mandatory_global.md#product_type) attribute, which identifies the product (see [SOMaR product types](../product_types/index.md)).
+- `type` is the value of the file's [`product_type`](../metadata_attributes/optional_global.md#product_type) attribute, which identifies the product, or, in a file without it, such as a Level 1 file, the value of its [`data_type`](../metadata_attributes/mandatory_global.md#data_type) attribute (see [SOMaR data types](../data_types/index.md)).
 
 | Example filename | Product |
 |---|---|
-| `or_2025-01-15-11-00_radar_polar_raw.nc` | [Radar "raw" data](../annex/level1a.md) (sub-hourly) |
-| `or_2025-01-15-11-00_radar_polar_regularized.nc` | [Polar image sequences](../annex/level1b_polar.md) (sub-hourly) |
-| `or_2025-01-15-11-00_radar_polar_averaged.nc` | [Pulse-averaged pointing data](../annex/level1b_pointing.md) (sub-hourly) |
-| `or_2025-01-15-11-00_radar_cartesian.nc` | [Cartesian image sequences](../annex/level1b_cartesian.md) (sub-hourly) |
+| `or_2025-01-15-11-00_polar_raw.nc` | [Radar "raw" data](../annex/level1a.md) (sub-hourly) |
+| `or_2025-01-15-11-00_polar_image_cube.nc` | [Polar image sequences](../annex/level1b_polar.md) (sub-hourly) |
+| `or_2025-01-15-11-00_polar_pulse_averaged.nc` | [Pulse-averaged data](../annex/level1b_pointing.md) (sub-hourly) |
+| `or_2025-01-15-11-00_cartesian_image_cube.nc` | [Cartesian image sequences](../annex/level1b_cartesian.md) (sub-hourly) |
 | `or_2025-01-15-11_relative_roughness.nc` | [Relative roughness images](../annex/relative_roughness_images.md) |
 | `or_2025-01-15-11_relative_roughness_mosaic.nc` | [Relative roughness image mosaics](../annex/relative_roughness_mosaics.md) |
 | `or_2025-01-15-11_currents.nc` | [Near-surface current maps](../annex/current_maps.md) |

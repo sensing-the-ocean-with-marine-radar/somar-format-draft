@@ -1,17 +1,18 @@
 ---
-title: Spatially averaged products
+title: Averaged windows
 layout: default
-parent: SOMaR product types
-nav_order: 3
+parent: SOMaR data types
+nav_order: 4
 ---
 
-# Spatially averaged products
+# Averaged windows
 
-Spatially averaged products combine the results of several analysis windows into one value set per measurement, located at the mean position of the windows.
-What sets them apart from [gridded products](gridded.md) is not that their values are averages over an area, since a map cell is an average over its analysis window too, but that the windows do not keep their own positions.
-The windows need not span the radar footprint; "spatially" distinguishes this averaging from the averaging over time that all Level 2 products share.
-The spatially averaged products are currently the surface wave products: two-dimensional wavenumber spectra, frequency-direction spectra, one-dimensional frequency spectra, and bulk wave parameters.
-They are listed, with the variables that each of them holds, under [Product types](#product-types).
+Files of the data type `averaged_windows` combine the results of several analysis windows into one value set per measurement, located at the mean position of the windows.
+What sets them apart from [gridded windows](gridded.md#gridded-windows) and [discrete windows](discrete_windows.md) is not that their values are averages over an area, since the value of a single window is an average over that window too, but that the windows do not keep their own positions.
+The windows need not span the radar footprint; the averaging over the windows is distinct from the averaging over time that all Level 2 data types share.
+The products of this data type are currently the surface wave products: two-dimensional wavenumber spectra, frequency-direction spectra, one-dimensional frequency spectra, and bulk wave parameters.
+They are listed, with the variables that each of them holds, under [Products](#products).
+The annex gives a complete example of [peak and mean wave parameters](../annex/wave_parameters.md#example).
 
 ## Measurements
 
@@ -39,7 +40,7 @@ variables:
                 platform_course:grid_mapping = "crs" ;
 ```
 
-The near-surface current retrieved within the same analysis windows may be stored with any spatially averaged product, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after correcting for the mean platform velocity (see [Product variables](product_variables.md)).
+The near-surface current retrieved within the same analysis windows may be stored with any product of this data type, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after correcting for the mean platform velocity (see [Product variables](product_variables.md)).
 From a fixed platform, a file may give the current and the wavenumbers of a two-dimensional wavenumber spectrum along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna, whose `crs` defines the axes: [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](product_variables.md#sea_water_y_velocity), and [`x_wave_wavenumber`](product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](product_variables.md#y_wave_wavenumber), then take the place of their eastward and northward counterparts.
 Its `longitude` and `latitude` remain geographic coordinates, and the wave directions remain bearings from true north.
 
@@ -54,7 +55,7 @@ The wave energy density is calibrated, typically against a reference wave data s
 
 The layout of a file follows the [discrete sampling geometries][cf-dsg] of CF, according to whether the platform moves:
 
-- From a moving platform, which must set the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) to `"true"`, the measurements form a **trajectory**: `longitude` and `latitude` have the dimension `time`, since the mean position of the windows moves with the platform.
+- From a moving platform, whose [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) is `"true"`, the measurements form a **trajectory**: `longitude` and `latitude` have the dimension `time`, since the mean position of the windows moves with the platform.
 - From a fixed platform, they form a **time series**: `longitude` and `latitude` are scalar, since the windows are fixed to the Earth and their mean position does not change. Windows that move with the platform do not apply, and [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is omitted or `earth_fixed`.
 
 The file should declare its layout by the global attribute [`featureType`](../metadata_attributes/optional_global.md#featureType), `"trajectory"` or `"timeSeries"`, and identify the trajectory or time series by a scalar string variable, `trajectory` with `cf_role = "trajectory_id"` or `station` with `cf_role = "timeseries_id"`, whose value names the platform, the cruise, or the station.
@@ -66,7 +67,7 @@ The annex gives an example of wave parameters from a fixed platform (see [Exampl
 
 ## Variables
 
-The file holds the following variables, in addition to those of its product (see [Product types](#product-types)).
+The file holds the following variables, in addition to those of its product (see [Products](#products)).
 The data variables of a product are defined under [Product variables](product_variables.md), where `(…)` stands for the dimension `time`.
 Where the dimensions differ between a moving and a fixed platform, the second is that of a fixed platform.
 
@@ -89,20 +90,20 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 {: .variable-table }
 
 The data variables carry `coordinates = "time longitude latitude"`, and `grid_mapping = "crs"` if the file holds a `crs`.
-The processing parameters of spatially averaged products are recorded in global attributes (see [Processing parameters](../metadata_attributes/processing_parameters.md)).
+The processing parameters of averaged windows are recorded in global attributes (see [Processing parameters](../metadata_attributes/processing_parameters.md)).
 
-## Product types
+## Products
 
-The following products are spatially averaged products.
+The following products have the data type `averaged_windows`.
 For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
 The name of each product links to the table of its file contents in the annex, which lists everything a file of the product holds.
 
-| Product | `product_type` | Variables |
-|---|---|---|
-| [Surface wave two-dimensional wavenumber spectra](../annex/wave_wavenumber_spectra.md#file-contents) (L2a) | `wave_wavenumber_spectra` | **Required:** [`eastward_wave_wavenumber`](product_variables.md#eastward_wave_wavenumber), [`northward_wave_wavenumber`](product_variables.md#northward_wave_wavenumber), [`sea_surface_wave_wavenumber_variance_spectral_density`](product_variables.md#sea_surface_wave_wavenumber_variance_spectral_density)<br>**Optional:** [`wave_signal`](product_variables.md#wave_signal), [`background_noise`](product_variables.md#background_noise), [`sea_surface_wave_mean_square_slope`](product_variables.md#sea_surface_wave_mean_square_slope) |
-| [Surface wave frequency-direction spectra](../annex/wave_frequency_direction_spectra.md#file-contents) (L2b) | `wave_frequency_direction_spectra` | **Required:** [`wave_frequency`](product_variables.md#wave_frequency), [`sea_surface_wave_from_direction`](product_variables.md#sea_surface_wave_from_direction), [`sea_surface_wave_directional_variance_spectral_density`](product_variables.md#sea_surface_wave_directional_variance_spectral_density) |
-| [Surface wave one-dimensional frequency spectra](../annex/wave_frequency_spectra.md#file-contents) (L2b) | `wave_frequency_spectra` | **Required:** [`wave_frequency`](product_variables.md#wave_frequency), [`sea_surface_wave_variance_spectral_density`](product_variables.md#sea_surface_wave_variance_spectral_density)<br>**Optional:** [`sea_surface_wave_directional_spread`](product_variables.md#sea_surface_wave_directional_spread), [`sea_surface_wave_mean_from_direction`](product_variables.md#sea_surface_wave_mean_from_direction) |
-| [Peak and mean wave parameters](../annex/wave_parameters.md#file-contents) (L2b) | `wave_parameters` | **Recommended:** [`sea_surface_wave_significant_height`](product_variables.md#sea_surface_wave_significant_height), [`sea_surface_wave_from_direction_at_variance_spectral_density_maximum`](product_variables.md#sea_surface_wave_from_direction_at_variance_spectral_density_maximum), [`sea_surface_wave_period_at_variance_spectral_density_maximum`](product_variables.md#sea_surface_wave_period_at_variance_spectral_density_maximum), [`sea_surface_wave_mean_period`](product_variables.md#sea_surface_wave_mean_period), [`sea_surface_wave_from_direction`](product_variables.md#sea_surface_wave_from_direction)<br>**Optional:** [`wave_signal`](product_variables.md#wave_signal), [`background_noise`](product_variables.md#background_noise), [`sea_surface_wave_mean_square_slope`](product_variables.md#sea_surface_wave_mean_square_slope) |
+| Product | `data_type` | `product_type` | Variables |
+|---|---|---|---|
+| [Surface wave two-dimensional wavenumber spectra](../annex/wave_wavenumber_spectra.md#file-contents) (L2a) | `averaged_windows` | `wave_wavenumber_spectra` | **Required:** [`eastward_wave_wavenumber`](product_variables.md#eastward_wave_wavenumber), [`northward_wave_wavenumber`](product_variables.md#northward_wave_wavenumber), [`sea_surface_wave_wavenumber_variance_spectral_density`](product_variables.md#sea_surface_wave_wavenumber_variance_spectral_density)<br>**Optional:** [`wave_signal`](product_variables.md#wave_signal), [`background_noise`](product_variables.md#background_noise), [`sea_surface_wave_mean_square_slope`](product_variables.md#sea_surface_wave_mean_square_slope) |
+| [Surface wave frequency-direction spectra](../annex/wave_frequency_direction_spectra.md#file-contents) (L2b) | `averaged_windows` | `wave_frequency_direction_spectra` | **Required:** [`wave_frequency`](product_variables.md#wave_frequency), [`sea_surface_wave_from_direction`](product_variables.md#sea_surface_wave_from_direction), [`sea_surface_wave_directional_variance_spectral_density`](product_variables.md#sea_surface_wave_directional_variance_spectral_density) |
+| [Surface wave one-dimensional frequency spectra](../annex/wave_frequency_spectra.md#file-contents) (L2b) | `averaged_windows` | `wave_frequency_spectra` | **Required:** [`wave_frequency`](product_variables.md#wave_frequency), [`sea_surface_wave_variance_spectral_density`](product_variables.md#sea_surface_wave_variance_spectral_density)<br>**Optional:** [`sea_surface_wave_directional_spread`](product_variables.md#sea_surface_wave_directional_spread), [`sea_surface_wave_mean_from_direction`](product_variables.md#sea_surface_wave_mean_from_direction) |
+| [Peak and mean wave parameters](../annex/wave_parameters.md#file-contents) (L2b) | `averaged_windows` | `wave_parameters` | **Recommended:** [`sea_surface_wave_significant_height`](product_variables.md#sea_surface_wave_significant_height), [`sea_surface_wave_from_direction_at_variance_spectral_density_maximum`](product_variables.md#sea_surface_wave_from_direction_at_variance_spectral_density_maximum), [`sea_surface_wave_period_at_variance_spectral_density_maximum`](product_variables.md#sea_surface_wave_period_at_variance_spectral_density_maximum), [`sea_surface_wave_mean_period`](product_variables.md#sea_surface_wave_mean_period), [`sea_surface_wave_from_direction`](product_variables.md#sea_surface_wave_from_direction)<br>**Optional:** [`wave_signal`](product_variables.md#wave_signal), [`background_noise`](product_variables.md#background_noise), [`sea_surface_wave_mean_square_slope`](product_variables.md#sea_surface_wave_mean_square_slope) |
 {: .product-type-table }
 
 Of the five bulk wave parameters that the peak and mean wave parameters recommend, at least one is required.

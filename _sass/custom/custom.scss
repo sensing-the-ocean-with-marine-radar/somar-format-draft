@@ -52,7 +52,7 @@ table.mandatory-attribute-table {
   }
 }
 
-// Product overview table on product_types/index.md
+// Data type overview table on data_types/index.md
 table.product-table {
   width: 100%;
   table-layout: fixed;
@@ -62,23 +62,23 @@ table.product-table {
     min-width: 0;
   }
 
-  // Level | Product | Category | product_type
+  // Level | data_type | Products (product_type) | Structure
   th:nth-child(1),
   td:nth-child(1) {
-    width: 10%;
+    width: 12%;
     text-align: center;
   }
 
   th:nth-child(2) {
-    width: 40%;
+    width: 23%;
   }
 
   th:nth-child(3) {
-    width: 20%;
+    width: 40%;
   }
 
   th:nth-child(4) {
-    width: 30%;
+    width: 25%;
   }
 
   td code {
@@ -86,7 +86,7 @@ table.product-table {
   }
 }
 
-// Product-type tables on the Level 2 category pages
+// Product tables on the data-type pages
 table.product-type-table {
   width: 100%;
   table-layout: fixed;
@@ -96,17 +96,21 @@ table.product-type-table {
     min-width: 0;
   }
 
-  // Product | product_type | Variables
+  // Product | data_type | product_type | Variables
   th:nth-child(1) {
-    width: 25%;
+    width: 22%;
   }
 
   th:nth-child(2) {
-    width: 20%;
+    width: 16%;
   }
 
   th:nth-child(3) {
-    width: 55%;
+    width: 16%;
+  }
+
+  th:nth-child(4) {
+    width: 46%;
   }
 
   td code {

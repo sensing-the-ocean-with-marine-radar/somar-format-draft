@@ -8,57 +8,60 @@ nav_order: 7
 # L2a: Near-surface current maps
 
 {: .informative }
-> This page is informative. The product type `currents` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `currents` and the data type `gridded_windows`, which the page of the [gridded data types](../data_types/gridded.md#gridded-windows) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
-Near-surface current maps (`currents`) provide the horizontal near-surface current vector ([`eastward_sea_water_velocity`](../product_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../product_types/product_variables.md#northward_sea_water_velocity)) in a set of analysis windows along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
+Near-surface current maps (`currents`) provide the horizontal near-surface current vector ([`eastward_sea_water_velocity`](../data_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../data_types/product_variables.md#northward_sea_water_velocity)) in a set of analysis windows along the platform trajectory, together with optional diagnostics of the retrieval and a `measurement_quality` bit flag.
 Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.
 The method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method): for example, a least-squares fit that minimizes the distance between the wave signal and the dispersion relation (`dispersion_relation_least_squares_fit`; Young et al. [1985](../references/index.md#young-1985); Senet et al. [2001](../references/index.md#senet-2001)), or the maximization of the normalized scalar product between the spectrum and a filter following the dispersion relation (`normalized_scalar_product`; Serafino et al. [2010](../references/index.md#serafino-2010)).
-The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and [`number_of_fitted_spectral_points`](../product_types/product_variables.md#number_of_fitted_spectral_points), while other methods may report a [`signal_to_noise_ratio`](../product_types/product_variables.md#signal_to_noise_ratio).
-Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the retrieval and can be approximated as 4–8% of the underlying ocean wavelength; [`mean_wavenumber`](../product_types/product_variables.md#mean_wavenumber) reports the actual mean wavenumber of the wave signal used for a given measurement.
+The diagnostics of the retrieval depend on the method: a least-squares fit yields standard errors and [`number_of_fitted_spectral_points`](../data_types/product_variables.md#number_of_fitted_spectral_points), while other methods may report a [`signal_to_noise_ratio`](../data_types/product_variables.md#signal_to_noise_ratio).
+Because the resulting current is a depth-weighted average, with the surface current carrying the greatest weight (Stewart and Joy [1974](../references/index.md#stewart-joy-1974)), the effective sensing depth depends on the wavenumber range of the wave signal used in the retrieval and can be approximated as 4–8% of the underlying ocean wavelength; [`mean_wavenumber`](../data_types/product_variables.md#mean_wavenumber) reports the actual mean wavenumber of the wave signal used for a given measurement.
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time). Each grid is the [geographic grid](../product_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../product_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [geographic grid](../data_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
 | **Global attributes** | | |
-| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "currents"` | Required | |
-| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`data_type`](../metadata_attributes/mandatory_global.md#data_type) `= "gridded_windows"` | Required | |
+| [`product_type`](../metadata_attributes/optional_global.md#product_type) `= "currents"` | Recommended | |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "false"` | Required | fixed platform |
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../product_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded.md#variables-time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
-| [`latitude`](../product_types/gridded.md#variables-latitude), [`longitude`](../product_types/gridded.md#variables-longitude) | Required | |
-| [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y) | Required | local grid |
-| [`crs`](../product_types/gridded.md#variables-crs) | Required | local grid |
-| [`crs`](../product_types/gridded.md#variables-crs) | Recommended | geographic grid |
-| [`radar_latitude`](../product_types/gridded.md#radar_latitude), [`radar_longitude`](../product_types/gridded.md#radar_longitude) | Optional | |
-| [`eastward_sea_water_velocity`](../product_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../product_types/product_variables.md#northward_sea_water_velocity) | Required | north-oriented grid |
-| [`sea_water_x_velocity`](../product_types/product_variables.md#sea_water_x_velocity), [`sea_water_y_velocity`](../product_types/product_variables.md#sea_water_y_velocity) | Required | rotated grid |
-| [`mean_wavenumber`](../product_types/product_variables.md#mean_wavenumber) | Recommended | |
-| [`number_of_fitted_spectral_points`](../product_types/product_variables.md#number_of_fitted_spectral_points), [`signal_to_noise_ratio`](../product_types/product_variables.md#signal_to_noise_ratio) | Optional | |
-| [`eastward_sea_water_velocity_standard_error`](../product_types/product_variables.md#eastward_sea_water_velocity_standard_error), [`northward_sea_water_velocity_standard_error`](../product_types/product_variables.md#northward_sea_water_velocity_standard_error) | Optional | north-oriented grid |
-| [`sea_water_x_velocity_standard_error`](../product_types/product_variables.md#sea_water_x_velocity_standard_error), [`sea_water_y_velocity_standard_error`](../product_types/product_variables.md#sea_water_y_velocity_standard_error) | Optional | rotated grid |
-| [`measurement_quality`](../product_types/gridded.md#measurement_quality) | Recommended | |
+| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
+| [`latitude`](../data_types/gridded.md#gridded-windows-latitude), [`longitude`](../data_types/gridded.md#gridded-windows-longitude) | Required | |
+| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y) | Required | local grid |
+| [`crs`](../data_types/gridded.md#variables-crs) | Required | local grid |
+| [`crs`](../data_types/gridded.md#variables-crs) | Recommended | geographic grid |
+| [`radar_latitude`](../data_types/gridded.md#radar_latitude), [`radar_longitude`](../data_types/gridded.md#radar_longitude) | Optional | |
+| [`eastward_sea_water_velocity`](../data_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../data_types/product_variables.md#northward_sea_water_velocity) | Required | north-oriented grid |
+| [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity), [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) | Required | rotated grid |
+| [`mean_wavenumber`](../data_types/product_variables.md#mean_wavenumber) | Recommended | |
+| [`number_of_fitted_spectral_points`](../data_types/product_variables.md#number_of_fitted_spectral_points), [`signal_to_noise_ratio`](../data_types/product_variables.md#signal_to_noise_ratio) | Optional | |
+| [`eastward_sea_water_velocity_standard_error`](../data_types/product_variables.md#eastward_sea_water_velocity_standard_error), [`northward_sea_water_velocity_standard_error`](../data_types/product_variables.md#northward_sea_water_velocity_standard_error) | Optional | north-oriented grid |
+| [`sea_water_x_velocity_standard_error`](../data_types/product_variables.md#sea_water_x_velocity_standard_error), [`sea_water_y_velocity_standard_error`](../data_types/product_variables.md#sea_water_y_velocity_standard_error) | Optional | rotated grid |
+| [`measurement_quality`](../data_types/gridded.md#measurement_quality) | Recommended | |
 | [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
 {: .contents-table }
 
 ## Example
 
-A radar on a moving platform, with the map on the [geographic grid](../product_types/gridded.md#geographic-grid).
+A radar on a moving platform, with the map on the [geographic grid](../data_types/gridded.md#geographic-grid).
 
 ```
 netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_windows" ;
                 :geospatial_lat_max = 15.03 ; // recommended
                 :geospatial_lat_min = 14.9265 ; // recommended
                 :geospatial_lon_max = 145.96815 ; // recommended
@@ -66,7 +69,7 @@ netcdf or_2025-01-15-11_currents {
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :product_type = "currents" ;
+                :product_type = "currents" ; // recommended
                 :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2025-01-15T12:00:00.775429Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
@@ -162,8 +165,8 @@ netcdf or_2025-01-15-11_currents {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_windows" ;
                 :platform_is_mobile = "true" ;
-                :product_type = "currents" ;
 
 group: time_20250115110031 {
   dimensions:
@@ -201,7 +204,7 @@ group: time_20250115110031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform, with the map on the [local grid](../product_types/gridded.md#local-grid): all measurements share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time), and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform, with the map on the [local grid](../data_types/gridded.md#local-grid): all measurements share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna.
 
 ```
 netcdf or_2023-08-31-17_currents {
@@ -292,13 +295,15 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_windows" ;
                 :geospatial_lat_max = 54.2185 ; // recommended
                 :geospatial_lat_min = 54.1467 ; // recommended
                 :geospatial_lon_max = 7.9467 ; // recommended
                 :geospatial_lon_min = 7.8239 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
-                :product_type = "currents" ;
+                :platform_is_mobile = "false" ;
+                :product_type = "currents" ; // recommended
                 :summary = "Near-surface current vectors from a marine X-band radar at Ocean Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -373,13 +378,14 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "currents" ;
+                :data_type = "gridded_windows" ;
+                :platform_is_mobile = "false" ;
 }
 ```
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../product_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../product_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../product_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the near-surface current is given in [`sea_water_x_velocity`](../product_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../product_types/product_variables.md#sea_water_y_velocity) in place of its eastward and northward components.
+A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the near-surface current is given in [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) in place of its eastward and northward components.
 
 ```
 netcdf cr_2023-08-31-17_currents {
@@ -488,13 +494,15 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_windows" ;
                 :geospatial_lat_max = 54.2286 ; // recommended
                 :geospatial_lat_min = 54.1366 ; // recommended
                 :geospatial_lon_max = 7.9640 ; // recommended
                 :geospatial_lon_min = 7.8066 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > OCEAN CURRENTS > SURFACE CURRENTS" ; // highly recommended
-                :product_type = "currents" ;
+                :platform_is_mobile = "false" ;
+                :product_type = "currents" ; // recommended
                 :summary = "Near-surface current vectors from a marine X-band radar at Coastal Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -587,6 +595,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "currents" ;
+                :data_type = "gridded_windows" ;
+                :platform_is_mobile = "false" ;
 }
 ```

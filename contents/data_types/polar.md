@@ -1,21 +1,23 @@
 ---
-title: Polar products
+title: Polar data types
 layout: default
-parent: SOMaR product types
+parent: SOMaR data types
 nav_order: 1
 ---
 
-# Polar products
+# Polar data types
 
-Polar products store the radar measurement in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
-They are the Level 1 products that keep the measurement in the geometry in which it was recorded, in the uncalibrated units of the instrument:
+The polar data types store the radar measurement in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
+They are the Level 1 data that keep the measurement in the geometry in which it was recorded, in the uncalibrated units of the instrument:
 
-- **Level 1a "raw" data** (`radar_polar_raw`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified. Every ray is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration. The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
-- **Level 1b polar image sequences** (`radar_polar_regularized`) remain in the polar coordinates of the sensor but are mapped onto a regular range and azimuth axis, so that all images of a sequence share the same grid. They are usually derived from Level 1a data, and each image is one complete antenna revolution, corresponding to one Level 1a sweep.
-- **Level 1b pulse-averaged pointing data** (`radar_polar_averaged`) are Level 1a data recorded in pointing mode, in which each stored ray is the mean of a fixed number of consecutive pulses. They keep the dwells of Level 1a, with the sampling in time reduced by the averaging.
+- **Level 1a "raw" data** (`data_type = "polar_raw"`) are the lowest SOMaR level: the radar recording as delivered by the instrument (Level 0), converted from the manufacturer's container into NetCDF and otherwise unmodified. Every ray is kept, indexed by time and range, with no interpolation, pulse averaging, or calibration. The data are therefore still "raw", but no longer tied to the often proprietary containers of individual manufacturers, which makes them interoperable across radar systems.
+- **Level 1b pulse-averaged data** (`data_type = "polar_pulse_averaged"`) are Level 1a data in which each stored ray is the mean of a fixed number of consecutive pulses and keeps its own time and azimuth. They keep the sweeps of Level 1a, with the sampling in time reduced by the averaging. Pulse averaging is mainly used in pointing mode, but is also allowed for a rotating antenna.
+- **Level 1b polar image sequences** (`data_type = "polar_image_cube"`) remain in the polar coordinates of the sensor but are mapped onto a regular range and azimuth axis, so that all images of a sequence share the same grid. They are usually derived from Level 1a data, and each image is one complete antenna revolution, corresponding to one Level 1a sweep.
 
-Level 1a data are stored as [sweeps](#sweeps), Level 1b polar images as an [image cube](#image-cube), and Level 1b pulse-averaged pointing data as [averaged sweeps](#averaged-sweeps).
-What all three forms share is described first; the products and their variables are listed under [Product types](#product-types).
+Level 1a data are stored as [sweeps](#sweeps), Level 1b pulse-averaged data as [averaged sweeps](#averaged-sweeps), and Level 1b polar images as an [image cube](#image-cube).
+The two Level 1b data types are told apart by their structure, not by the scan mode: in averaged sweeps, each ray keeps its own time and azimuth, whereas in the image cube, each revolution is mapped onto a regular azimuth axis, which may involve averaging.
+What all three share is described first; each is then defined in its own section, and their products and variables are listed under [Products](#products).
+Each links to a complete example in the annex: [sweeps](../annex/level1a.md#example), [averaged sweeps](../annex/level1b_pointing.md#example), and [image cube](../annex/level1b_polar.md#example).
 
 ## Relation to FM 301 and CfRadial
 
@@ -31,7 +33,7 @@ SOMaR departs from FM 301 in the following points:
 - Units are written as UDUNITS symbols (`m`, `degree`, `s`) rather than `metres`, `degrees`, and `seconds`.
 - `azimuth` is stored relative to the radar's zero direction rather than true north (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). It therefore carries neither the [`standard_name`](../metadata_attributes/variable_attributes.md#standard_name) and `axis` that FM 301 requires for it (Table 301-7) nor its [`long_name`](../metadata_attributes/variable_attributes.md#long_name) "Azimuth angle from true north".
 - `altitude` carries the CF standard name `altitude` (height above the geoid, i.e. approximately mean sea level), which matches its FM 301 description; FM 301 Table 301-4b gives `height_above_reference_ellipsoid`.
-- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and `platform_type` in the root group (Table 301-4). Whether the platform moves, and thus whether its position and heading are recorded for every sweep or ray, is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) instead; the global attributes [`platform`](../metadata_attributes/optional_global.md#platform) and [`source`](../metadata_attributes/optional_global.md#source) describe the platform in words. `sweep_mode`, mandatory in FM 301 (Table 301-7), is optional at Level 1a and assumed `"azimuth_surveillance"` if missing.
+- Variables that a horizontally scanning marine radar does not need are omitted, among them several that FM 301 makes mandatory: `elevation`, `sweep_number`, `follow_mode`, and `prt_mode` in the sweep groups (Table 301-7), and `volume_number`, `instrument_type`, and `platform_type` in the root group (Table 301-4). Whether the platform moves, and thus whether its position and heading are recorded for every sweep or ray, is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) instead; the global attributes [`platform`](../metadata_attributes/optional_global.md#platform) and [`source`](../metadata_attributes/optional_global.md#source) describe the platform in words. `sweep_mode`, mandatory in FM 301 (Table 301-7), is optional at Level 1a and assumed `"azimuth_surveillance"` if missing.
 - The `standard_name` and `axis` attributes of `range` are not required, and its attributes `spacing_is_constant`, `meters_to_center_of_first_gate`, and `meters_between_gates` are optional, although FM 301 makes all of them mandatory (Table 301-6).
 - [`frequency`](../metadata_attributes/radar_parameters.md#frequency) is a scalar in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group rather than a coordinate variable of each sweep (Table 301-6).
 - The [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) attribute of the data variable is `"azimuth range"` rather than `"elevation azimuth range"`, since `elevation` is omitted (regulation 301.4.6.4).
@@ -41,7 +43,7 @@ SOMaR departs from FM 301 in the following points:
 ## Coordinates and position
 
 `range` is the slant range from the antenna to the center of each range bin, and `azimuth` the antenna pointing direction, clockwise positive, as recorded by the radar relative to its zero direction; it is related to true north through the platform `heading` and the [`azimuth_correction`](../metadata_attributes/georeference_correction.md#azimuth_correction) (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)).
-In all three forms, the `range` variable may carry the following attributes.
+In all three data types, the `range` variable may carry the following attributes.
 
 | Attribute | Values | Description |
 |---|---|---|
@@ -59,7 +61,7 @@ The root group locates the radar antenna:
 | `altitude`<br><small>[FM 301][fm301], Table 301-4</small> | double; `m` | Required. Height of the radar antenna above mean sea level, assumed constant for fixed and moving platforms; needed to convert slant range to ground range (see [Georeferencing](../georeferencing/index.md#applying-georeference-corrections)). |
 {: .variable-table }
 
-Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile).
+Whether the platform moves is stated by the mandatory global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile).
 The positions and directions are stored as recorded, and the optional [`georeference_correction`](../metadata_attributes/georeference_correction.md) group in the root group gives the known offsets of azimuth, range, time, and antenna position.
 
 ## Data variables
@@ -70,11 +72,11 @@ Its [`units`](../metadata_attributes/variable_attributes.md#units) attribute is 
 The [`comment`](../metadata_attributes/variable_attributes.md#comment) attribute should describe how the values were derived from the radar signal (see the [example](../annex/level1a.md#example)).
 
 {: .open_issue }
-<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar products and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](product_variables.md).
+<a id="coherent-data"></a>Only backscatter amplitude and power are specified, for the polar data types and for the [Cartesian images of Level 1b](gridded.md#image-cube-with-moving-origin). Coherent radars also record in-phase and quadrature (I/Q) data, phase, or radial Doppler velocity (FM 301 `VRAD`), for which no variable names are defined yet; they are to be added to the [product variables](product_variables.md).
 
 ## Moving platforms
 
-When [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) is `"true"`, the position and heading of the platform should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), either per sweep or per ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)): in a `georeference` subgroup of each sweep group, scalar or with the dimension `time` (see [Sweeps](#sweeps) and [Averaged sweeps](#averaged-sweeps)), or in the root group of an image cube, with the dimension `time` or `(time, azimuth)` (see [Image cube](#image-cube)).
+When [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) is `"true"`, the position and heading of the platform should be recorded with the variable names and units of CfRadial 2.1 (Section 5.4), either per sweep or per ray (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)): in a `georeference` subgroup of each sweep group, scalar or with the dimension `time` (see [Sweeps](#sweeps) and [Averaged sweeps](#averaged-sweeps)), or in the root group of an image cube, with the dimension `time` or `(time, azimuth)` (see [Image cube](#image-cube)).
 
 | Variable | Values | Description |
 |---|---|---|
@@ -96,7 +98,7 @@ Where they vary, they are stored as variables instead: in the sweep groups, with
 
 ## Sweeps
 
-Level 1a data are organized in sweeps, as in FM 301.
+Level 1a data, of the data type `polar_raw`, are organized in sweeps, as in FM 301.
 A sweep comprises the rays of one antenna revolution.
 For a radar in pointing mode, whose antenna is held at a fixed direction, a sweep is one dwell: an unbroken sequence of rays at that direction, in line with FM 301, where a sweep is a subset of the data "over which certain fundamental conditions remain constant" (301.2.1.2), and CfRadial 2.1, where a pointing sweep is "a sequence of rays over some time period, at fixed azimuth and elevation" (Section 2).
 A new sweep starts when the direction changes or the recording is interrupted, so a file from an antenna that stays at one direction throughout holds a single sweep.
@@ -165,9 +167,10 @@ group: sweep_0 {
 
 ## Averaged sweeps
 
-Level 1b pulse-averaged pointing data are derived from Level 1a sweeps recorded in pointing mode: each stored ray is the mean of a block of consecutive pulses of a dwell.
-They are organized in [sweeps](#sweeps) as Level 1a data are, with the same root group, `sweep_<n>` groups, `georeference` subgroups, and optional groups, and each sweep is one dwell.
-A block never spans the boundary of a sweep, so the last ray of a dwell may be the mean of fewer pulses than the others.
+Level 1b pulse-averaged data, of the data type `polar_pulse_averaged`, are derived from Level 1a sweeps: each stored ray is the mean of a block of consecutive pulses of a sweep, and keeps its own time and azimuth.
+They are organized in [sweeps](#sweeps) as Level 1a data are, with the same root group, `sweep_<n>` groups, `georeference` subgroups, and optional groups, and each sweep is one revolution or one dwell.
+Pulse averaging is mainly used in pointing mode, but data from a rotating antenna may be averaged too: into averaged sweeps, whose rays keep their own azimuths, or into the [image cube](#image-cube), whose regular azimuth axis may involve averaging (`azimuth_regularization = average`).
+A block never spans the boundary of a sweep, so the last ray of a sweep may be the mean of fewer pulses than the others.
 
 The data variable carries `cell_methods = "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), which states whether the pulses are averaged in power, in amplitude, or as stored.
 
@@ -179,17 +182,16 @@ An averaged sweep group holds the data variable and the following variables.
 | `time_bounds`<br><small>CF</small> | double `(time, nv)`; `seconds since 1970-01-01T00:00:00Z` | Optional. Time of the first and the last pulse averaged into each ray, along the dimension `nv` of size 2 (CF section 7.1). |
 | `range`<br><small>[FM 301][fm301], Table 301-6</small> | float `(range)`; `m` | Required. Slant range from the antenna to the center of each range bin. |
 | `azimuth`<br><small>[FM 301][fm301], Table 301-7</small> | float `(time)`; `degree` | Required. Circular mean of the recorded pointing directions of the averaged pulses, i.e. the direction of the mean of their unit vectors, so that a dwell near 0° is averaged correctly; clockwise positive, relative to the radar's zero direction (see [Georeferencing](../georeferencing/index.md#polar-sensor-coordinates)). |
-| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"pointing"` | Required. |
-| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int, or int `(time)` | Required. Total number of pulses averaged into each ray, including any averaging done by the radar itself: the Level 1a `n_samples` times the number of Level 1a rays in each block. With the dimension `time` where it varies, such as at the end of a dwell. It is stored in each sweep group, as in FM 301, and not in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group. |
+| `sweep_mode`<br><small>[FM 301][fm301], Tables 301-7, 301-15</small> | string; `"azimuth_surveillance"` or `"pointing"` | Required. Whether the sweep is a full revolution or a dwell at a fixed direction. |
+| `fixed_angle`<br><small>[FM 301][fm301], Table 301-7</small> | float; `degree` | Required if `sweep_mode` is `"pointing"`; omitted otherwise. Nominal pointing direction of the antenna, clockwise positive, in the same reference as `azimuth`. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int, or int `(time)` | Required. Total number of pulses averaged into each ray, including any averaging done by the radar itself: the Level 1a `n_samples` times the number of Level 1a rays in each block. With the dimension `time` where it varies, such as at the end of a sweep. It is stored in each sweep group, as in FM 301, and not in the [`radar_parameters`](../metadata_attributes/radar_parameters.md) group. |
 {: .variable-table }
-
-The annex gives an example of pulse-averaged pointing data (see [Example](../annex/level1b_pointing.md#example)).
 
 ## Image cube
 
-Level 1b polar images are stored as a single three-dimensional cube in the root group: each time step is one complete antenna revolution, and the data variable has the dimensions `(time, azimuth, range)`.
+Level 1b polar images, of the data type `polar_image_cube`, are stored as a single three-dimensional cube in the root group: each time step is one complete antenna revolution, and the data variable has the dimensions `(time, azimuth, range)`.
 Images are formed from revolutions and are not defined for data recorded in pointing mode, which are stored as [sweeps](#sweeps) at Level 1a and as [averaged sweeps](#averaged-sweeps) at Level 1b.
+Mapping a revolution onto the regular azimuth axis may itself average the rays within each azimuth bin (`azimuth_regularization = average`); rays averaged over consecutive pulses that keep their own azimuths are stored as averaged sweeps instead.
 In addition to the [position and heading](#moving-platforms), the file holds the data variable and the following variables.
 
 | Variable | Values | Description |
@@ -225,21 +227,20 @@ If the position and heading of a moving platform are given per ray instead of pe
                 heading:long_name = "heading of the platform relative to true north" ;
 ```
 
-## Product types
+## Products
 
-The following products are polar products.
+Each polar data type holds one product, which has no product type.
 For each, the table lists the data variables that it requires, recommends, or allows, in addition to the variables above; they are defined under [Product variables](product_variables.md).
 The name of each product links to the table of its file contents in the annex, which lists everything a file of the product holds.
 
-| Product | `product_type` | Variables |
-|---|---|---|
-| [Radar "raw" data](../annex/level1a.md#file-contents) (L1a) | `radar_polar_raw` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
-| [Polar image sequences](../annex/level1b_polar.md#file-contents) (L1b) | `radar_polar_regularized` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power)<br>**Optional:** [`ray_time`](product_variables.md#ray_time) |
-| [Pulse-averaged pointing data](../annex/level1b_pointing.md#file-contents) (L1b) | `radar_polar_averaged` | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
+| Product | `data_type` | `product_type` | Variables |
+|---|---|---|---|
+| [Radar "raw" data](../annex/level1a.md#file-contents) (L1a) | `polar_raw` | — | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
+| [Pulse-averaged data](../annex/level1b_pointing.md#file-contents) (L1b) | `polar_pulse_averaged` | — | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power) |
+| [Polar image sequences](../annex/level1b_polar.md#file-contents) (L1b) | `polar_image_cube` | — | **Required:** one of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power)<br>**Optional:** [`ray_time`](product_variables.md#ray_time) |
 {: .product-type-table }
 
 Of [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) and [`backscatter_power`](product_variables.md#backscatter_power), a file holds exactly one.
-Level 1a data take the form of [sweeps](#sweeps), Level 1b polar images that of an [image cube](#image-cube), and Level 1b pulse-averaged pointing data that of [averaged sweeps](#averaged-sweeps).
 
 [fm301]: https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes
 [cfradial]: https://github.com/NCAR/CfRadial/tree/master/docs

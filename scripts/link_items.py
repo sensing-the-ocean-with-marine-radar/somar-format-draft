@@ -13,13 +13,13 @@ name. Two kinds of mention, written as `name`, link to these rows:
 
 A name that more than one row defines links to the row on its own page,
 preferring the row of the current section; on a product page of the annex, to
-the row of its category page that applies to the product (see SECTION_SCOPES in
-check_examples.py); for comment, source, and references outside the pages of the
-global attributes, to the variable attributes, unless "global attribute" goes
-with the name; for a variable defined both under Product variables and on a
-category page, to Product variables; and otherwise it stays plain. The words
-around a mention narrow its meaning: a name after "product type" or inside
-quotes is no reference, and "attribute" or "variable" next to it leaves out the
+the row of the page of its data type that applies to that data type (see
+SECTION_SCOPES in check_examples.py); for comment, source, and references
+outside the pages of the global attributes, to the variable attributes, unless
+"global attribute" goes with the name; for a variable defined both under
+Product variables and on a data-type page, to Product variables; and otherwise
+it stays plain. The words around a mention narrow its meaning: a name after
+"product type" or "data type" or inside quotes is no reference, and "attribute" or "variable" next to it leaves out the
 rows of the other kind.
 
 The script also checks the links of the text against the rule of the README:
@@ -46,28 +46,26 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from check_examples import SECTION_SCOPES, STANDARD_NAME_TABLE_VERSION, registry  # noqa: E402
+from check_examples import ANNEX_TYPES, SECTION_SCOPES, STANDARD_NAME_TABLE_VERSION, registry  # noqa: E402
 
 DEFINITION_TABLES = ("attribute-table", "variable-table", "mandatory-attribute-table")
 HEADING = re.compile(r"^(#{1,6}) (.*)$")
 CODE_NAME = re.compile(r"`(\w+)`")
 # A Markdown link, whose text may hold code spans.
 LINK = re.compile(r"\[((?:[^\[\]`]|`[^`]*`)*)\]\(([^)\s]*)\)")
-PRODUCT_VARIABLES = "contents/product_types/product_variables.md"
+PRODUCT_VARIABLES = "contents/data_types/product_variables.md"
 VARIABLE_ATTRIBUTES = "contents/metadata_attributes/variable_attributes.md"
 # The names of both a global and a variable attribute, and the pages on which they mean the global one.
 GLOBAL_AND_VARIABLE_ATTRIBUTES = ("comment", "references", "source")
-# The words before or after a mention that say what it names: a product type, a global attribute
+# The words before or after a mention that say what it names: a product or data type, a global attribute
 # (also as the last of a list, "the global attributes `a` and `b`"), or an attribute or variable.
 LIST_BEFORE = r"(?: `x`(?:,| and|, and))* $"
-PRODUCT_TYPE_BEFORE = re.compile(r"product types?" + LIST_BEFORE)
+PRODUCT_TYPE_BEFORE = re.compile(r"(?:product|data) types?" + LIST_BEFORE)
 GLOBAL_ATTRIBUTES_BEFORE = re.compile(r"global attributes?" + LIST_BEFORE)
 KIND_WORDS = {
     "attribute": (re.compile(r"\battributes?" + LIST_BEFORE), re.compile(r" (?:global |variable )?attributes?\b")),
     "variable": (re.compile(r"\bvariables?" + LIST_BEFORE), re.compile(r" variables?\b")),
 }
-# The sentence by which a product page of the annex names its product type and category.
-CATEGORY_LINK = re.compile(r"The product type `(\w+)` is one of the \[[^\]]*\]\(\.\./product_types/(\w+)\.md")
 GLOBAL_ATTRIBUTE_PAGES = ("contents/metadata_attributes/mandatory_global.md", "contents/metadata_attributes/optional_global.md")
 # The conventions SOMaR builds on, by the start of their URLs, and the one URL of each, without
 # fragment, for the version SOMaR pins. UDUNITS has no version pinned, so its current documentation applies.
@@ -154,9 +152,9 @@ def target(name, page, section, defs, global_attribute=False, context=None, kind
     """Return (page, row id) that a mention of name links to, or None if it is ambiguous.
 
     global_attribute is true for a mention followed by "global attribute"; context is
-    (product type, category page, {section: product types}) on a product page of the annex,
-    where a name that the category page defines in several sections means the row of the
-    section that applies to the product. kind, "attribute" or "variable", is the kind
+    (data type, data-type page, {section: data types}) on a product page of the annex,
+    where a name that the data-type page defines in several sections means the row of the
+    section that applies to the data type. kind, "attribute" or "variable", is the kind
     of item that the words around the mention name, if any; rows of the other kind are
     left out.
     """
@@ -170,9 +168,9 @@ def target(name, page, section, defs, global_attribute=False, context=None, kind
         here = [c for c in own if c[2] == section]
         return here[0][:2] if len(here) == 1 else None
     if context:
-        product, category, scopes = context
-        rows = [c for c in candidates if c[0] == category and (scopes.get(c[2]) is None or product in scopes[c[2]])]
-        if len(rows) == 1 and len([c for c in candidates if c[0] == category]) > 1:
+        data_type, page_of_type, scopes = context
+        rows = [c for c in candidates if c[0] == page_of_type and (scopes.get(c[2]) is None or data_type in scopes[c[2]])]
+        if len(rows) == 1 and len([c for c in candidates if c[0] == page_of_type]) > 1:
             return rows[0][:2]
     if name in GLOBAL_AND_VARIABLE_ATTRIBUTES:
         meant = GLOBAL_ATTRIBUTE_PAGES if global_attribute or page in GLOBAL_ATTRIBUTE_PAGES else (VARIABLE_ATTRIBUTES,)
@@ -182,7 +180,7 @@ def target(name, page, section, defs, global_attribute=False, context=None, kind
     if len(candidates) == 1:
         return candidates[0][:2]
     variables = [c for c in candidates if c[0] == PRODUCT_VARIABLES]
-    if len(variables) == 1 and all(c[0].startswith("contents/product_types/") for c in candidates):
+    if len(variables) == 1 and all(c[0].startswith("contents/data_types/") for c in candidates):
         return variables[0][:2]
     return None
 
@@ -235,16 +233,11 @@ def link_line(text, page, section, defs, seen, context=None, other_pages_only=Fa
 
 def annex_context(lines, products):
     """Return the context of target() for a product page of the annex, or None for other pages."""
-    match = CATEGORY_LINK.search("\n".join(lines))
-    if not match or match.group(1) not in products:
+    match = ANNEX_TYPES.search("\n".join(lines))
+    if not match or (match.group(1) or match.group(2)) not in products:
         return None
-    category = f"contents/product_types/{match.group(2)}.md"
-    scopes = {}
-    for section, scope in SECTION_SCOPES.get(category, {}).items():
-        if scope == "level 2":
-            scope = {p for p, (page, _, level) in products.items() if page == category and level.startswith("L2")}
-        scopes[section] = scope
-    return match.group(1), category, scopes
+    page_of_type = f"contents/data_types/{match.group(3)}.md"
+    return match.group(2), page_of_type, SECTION_SCOPES.get(page_of_type, {})
 
 
 def link_page(page, lines, defs, products):

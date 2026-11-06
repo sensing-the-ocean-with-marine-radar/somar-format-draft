@@ -10,8 +10,8 @@ has_children: true
 {: .informative }
 > This annex is informative.
 
-This annex gives a table of the file contents and a complete example file of each product type, as the header of a NetCDF file in CDL, and for the Level 2 products a description of the product and of its retrieval.
-The examples illustrate the definitions of the [SOMaR product types](../product_types/index.md) but do not add to them; where an example and a definition differ, the definition applies.
+This annex gives a table of the file contents and a complete example file of each product, as the header of a NetCDF file in CDL, and for the Level 2 products a description of the product and of its retrieval.
+The examples illustrate the definitions of the [SOMaR data types](../data_types/index.md) and their products but do not add to them; where an example and a definition differ, the definition applies.
 
 ## File contents
 
@@ -23,9 +23,9 @@ The table summarizes the definitions of the product and, like the example, does 
 
 The examples are illustrative: their platforms, stations, and institution are fictional, and they are not based on existing NetCDF files or real data.
 Each example of a product is a typical file: it carries the recommended items of its product and the optional items that its retrieval method yields; of the recommended global attributes it shows only a few, all of which appear in the [example of the global attributes](../metadata_attributes/optional_global.md#example).
-Every item that a file may omit is marked by a trailing comment with its tier, `// highly recommended`, `// recommended`, or `// optional`, as given by the [global attributes](../metadata_attributes/optional_global.md), the [processing parameters](../metadata_attributes/processing_parameters.md), and the tables of the product's category page and its row in the product-type table there; unmarked items are required.
+Every item that a file may omit is marked by a trailing comment with its tier, `// highly recommended`, `// recommended`, or `// optional`, as given by the [global attributes](../metadata_attributes/optional_global.md), the [processing parameters](../metadata_attributes/processing_parameters.md), and the tables of the page of the product's data type and its row in the product table there; unmarked items are required.
 The markers apply to global attributes, variables, and groups, and to the variable attributes that have a tier of their own; the other variable attributes, such as [`units`](../metadata_attributes/variable_attributes.md#units) and [`long_name`](../metadata_attributes/variable_attributes.md#long_name), follow CF and the description of their variable.
-An item that the tables recommend but that a minimal file must keep is marked `// required:` with the reason, such as one of the [bulk wave parameters](../product_types/spatially_averaged.md#product-types), of which at least one is required.
+An item that the tables recommend or make optional but that a minimal file must keep is marked `// required:` with the reason, such as one of the [bulk wave parameters](../data_types/averaged_windows.md#products), of which at least one is required, or an [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) other than its default.
 
-Removing the marked items, together with the references to them in [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) and [`ancillary_variables`](../metadata_attributes/variable_attributes.md#ancillary_variables), leaves the minimal form of an example: the smallest file of its product that complies with SOMaR.
+Removing the marked items, together with the references to them in [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) and [`ancillary_variables`](../metadata_attributes/variable_attributes.md#ancillary_variables), leaves the minimal form of an example: the smallest file of its data type that complies with SOMaR, which omits the recommended [`product_type`](../metadata_attributes/optional_global.md#product_type) too.
 It is given under each example, as for the [near-surface current map](current_maps.md#minimal-form).

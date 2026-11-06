@@ -1,43 +1,45 @@
 ---
-title: Pulse-averaged pointing data (L1b)
+title: Pulse-averaged data (L1b)
 layout: default
 parent: "Annex: Example products"
 nav_order: 3
 ---
 
-# L1b: Pulse-averaged pointing data
+# L1b: Pulse-averaged data
 
 {: .informative }
-> This page is informative. The product type `radar_polar_averaged` is one of the [polar products](../product_types/polar.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the data type `polar_pulse_averaged`, which the page of the [polar data types](../data_types/polar.md#averaged-sweeps) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 ## File contents
 
-**Layout.** The file holds the [averaged sweeps](../product_types/polar.md#averaged-sweeps): one `sweep_<n>` group per dwell, numbered from 0 in the order of acquisition.
+**Layout.** The file holds the [averaged sweeps](../data_types/polar.md#averaged-sweeps): one `sweep_<n>` group per revolution or dwell, numbered from 0 in the order of acquisition.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
 | **Global attributes** | | |
-| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "radar_polar_averaged"` | Required | |
-| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`data_type`](../metadata_attributes/mandatory_global.md#data_type) `= "polar_pulse_averaged"` | Required | |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "false"` | Required | fixed platform |
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | **Root group** | | |
-| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
-| [`latitude`](../product_types/polar.md#coordinates-and-position-latitude), [`longitude`](../product_types/polar.md#coordinates-and-position-longitude) | Recommended | moving platform |
-| [`altitude`](../product_types/polar.md#altitude) | Required | |
+| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
+| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Recommended | moving platform |
+| [`altitude`](../data_types/polar.md#altitude) | Required | |
 | [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
 | **Each `sweep_<n>` group** | | |
-| [`time`](../product_types/polar.md#averaged-sweeps-time), [`range`](../product_types/polar.md#averaged-sweeps-range), [`azimuth`](../product_types/polar.md#averaged-sweeps-azimuth) | Required | |
-| [`time_bounds`](../product_types/polar.md#time_bounds), with [`bounds`](../product_types/polar.md#averaged-sweeps-time) `= "time_bounds"` on `time` | Optional | |
-| [`meters_between_gates`](../product_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../product_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../product_types/polar.md#spacing_is_constant) on `range` | Optional | |
-| [`sweep_mode`](../product_types/polar.md#averaged-sweeps-sweep_mode) `= "pointing"`, [`fixed_angle`](../product_types/polar.md#averaged-sweeps-fixed_angle), [`n_samples`](../product_types/polar.md#n_samples) | Required | |
-| [`backscatter_amplitude`](../product_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../product_types/product_variables.md#backscatter_power), exactly one | Required | |
-| [`coordinates`](../product_types/polar.md#data-variables) `= "azimuth range"` on the data variable | Required | |
-| [`cell_methods`](../product_types/polar.md#averaged-sweeps) `= "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | |
-| [`comment`](../product_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
-| [`georeference`](../product_types/polar.md#moving-platforms) subgroup, with [`latitude`](../product_types/polar.md#moving-platforms-latitude), [`longitude`](../product_types/polar.md#moving-platforms-longitude), and [`heading`](../product_types/polar.md#heading) | Recommended | moving platform |
+| [`time`](../data_types/polar.md#averaged-sweeps-time), [`range`](../data_types/polar.md#averaged-sweeps-range), [`azimuth`](../data_types/polar.md#averaged-sweeps-azimuth) | Required | |
+| [`time_bounds`](../data_types/polar.md#time_bounds), with [`bounds`](../data_types/polar.md#averaged-sweeps-time) `= "time_bounds"` on `time` | Optional | |
+| [`meters_between_gates`](../data_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar.md#spacing_is_constant) on `range` | Optional | |
+| [`sweep_mode`](../data_types/polar.md#averaged-sweeps-sweep_mode), [`n_samples`](../data_types/polar.md#n_samples) | Required | |
+| [`fixed_angle`](../data_types/polar.md#averaged-sweeps-fixed_angle) | Required | `sweep_mode = "pointing"` |
+| [`backscatter_amplitude`](../data_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../data_types/product_variables.md#backscatter_power), exactly one | Required | |
+| [`coordinates`](../data_types/polar.md#data-variables) `= "azimuth range"` on the data variable | Required | |
+| [`cell_methods`](../data_types/polar.md#averaged-sweeps) `= "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | |
+| [`comment`](../data_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`georeference`](../data_types/polar.md#moving-platforms) subgroup, with [`latitude`](../data_types/polar.md#moving-platforms-latitude), [`longitude`](../data_types/polar.md#moving-platforms-longitude), and [`heading`](../data_types/polar.md#heading) | Recommended | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
 {: .contents-table }
 
@@ -47,7 +49,7 @@ A radar on a ship, with the antenna held at a fixed direction for ten minutes an
 The position and heading of the ship are given at the start of the dwell, and the [`georeference_correction`](../metadata_attributes/georeference_correction.md#example) group, whose contents are shown on its own page, is included.
 
 ```
-netcdf or_2025-01-15-11-00_radar_polar_averaged {
+netcdf or_2025-01-15-11-00_polar_pulse_averaged {
 variables:
         double latitude ; // recommended
                 latitude:units = "degrees_north" ;
@@ -64,6 +66,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "polar_pulse_averaged" ;
                 :geospatial_lat_max = 14.9958976192 ; // recommended
                 :geospatial_lat_min = 14.99471 ; // recommended
                 :geospatial_lon_max = 145.86898 ; // recommended
@@ -71,7 +74,6 @@ variables:
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :product_type = "radar_polar_averaged" ;
                 :summary = "Marine X-band radar backscatter recorded in pointing mode on board R/V Ocean Research, with the amplitude of every eight consecutive pulses averaged into one ray." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:09:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
@@ -159,7 +161,7 @@ The smallest file of this product that complies with SOMaR, obtained by removing
 
 ```
 // minimal form of the example above
-netcdf or_2025-01-15-11-00_radar_polar_averaged {
+netcdf or_2025-01-15-11-00_polar_pulse_averaged {
 variables:
         double altitude ;
                 altitude:units = "m" ;
@@ -168,8 +170,8 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "polar_pulse_averaged" ;
                 :platform_is_mobile = "true" ;
-                :product_type = "radar_polar_averaged" ;
 data:
         altitude = 18.5 ;
 

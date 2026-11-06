@@ -8,7 +8,7 @@ nav_order: 12
 # L2b: Surface wave frequency-direction spectra
 
 {: .informative }
-> This page is informative. The product type `wave_frequency_direction_spectra` is one of the [spatially averaged products](../product_types/spatially_averaged.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `wave_frequency_direction_spectra` and the data type `averaged_windows`, which the page of the [averaged windows](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Frequency-direction spectra (`wave_frequency_direction_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_directional_variance_spectral_density(time, wave_frequency, sea_surface_wave_from_direction)`, as a function of wave frequency and wave direction for each measurement, averaged over the analysis windows that contribute to it.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
@@ -17,33 +17,35 @@ Integrating over direction yields the [one-dimensional frequency spectra](wave_f
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds a [trajectory](../product_types/spatially_averaged.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
+**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
 | **Global attributes** | | |
-| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "wave_frequency_direction_spectra"` | Required | |
-| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`data_type`](../metadata_attributes/mandatory_global.md#data_type) `= "averaged_windows"` | Required | |
+| [`product_type`](../metadata_attributes/optional_global.md#product_type) `= "wave_frequency_direction_spectra"` | Recommended | |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "false"` | Required | fixed platform |
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`featureType`](../metadata_attributes/optional_global.md#featureType) `= "trajectory"` or `"timeSeries"` | Recommended | |
 | [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_analysis_windows`](../metadata_attributes/processing_parameters.md#number_of_analysis_windows), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md#wave_frequency_frame) | Recommended | |
 | [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Optional | |
 | **Variables** | | |
-| [`time`](../product_types/spatially_averaged.md#time), [`longitude`](../product_types/spatially_averaged.md#longitude), [`latitude`](../product_types/spatially_averaged.md#latitude) | Required | |
-| [`time_bounds`](../product_types/spatially_averaged.md#time_bounds) | Optional | |
-| [`crs`](../product_types/spatially_averaged.md#crs) | Required | rotated grid |
-| [`crs`](../product_types/spatially_averaged.md#crs) | Recommended | north-oriented grid |
-| [`trajectory`](../product_types/spatially_averaged.md#trajectory) | Recommended | moving platform |
-| [`station`](../product_types/spatially_averaged.md#station) | Recommended | fixed platform |
-| [`platform_speed_wrt_ground`](../product_types/spatially_averaged.md#platform_speed_wrt_ground), [`platform_course`](../product_types/spatially_averaged.md#platform_course) | Required | `analysis_window_motion = "platform_fixed"` |
-| [`radar_latitude`](../product_types/spatially_averaged.md#radar_latitude), [`radar_longitude`](../product_types/spatially_averaged.md#radar_longitude) | Optional | |
-| [`wave_frequency`](../product_types/product_variables.md#wave_frequency), [`sea_surface_wave_from_direction`](../product_types/product_variables.md#sea_surface_wave_from_direction), [`sea_surface_wave_directional_variance_spectral_density`](../product_types/product_variables.md#sea_surface_wave_directional_variance_spectral_density) | Required | |
-| [`eastward_sea_water_velocity`](../product_types/spatially_averaged.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../product_types/spatially_averaged.md#northward_sea_water_velocity) | Optional | north-oriented grid |
-| [`sea_water_x_velocity`](../product_types/product_variables.md#sea_water_x_velocity), [`sea_water_y_velocity`](../product_types/product_variables.md#sea_water_y_velocity) | Optional | rotated grid |
-| [`measurement_quality`](../product_types/spatially_averaged.md#measurement_quality) | Recommended | |
+| [`time`](../data_types/averaged_windows.md#time), [`longitude`](../data_types/averaged_windows.md#longitude), [`latitude`](../data_types/averaged_windows.md#latitude) | Required | |
+| [`time_bounds`](../data_types/averaged_windows.md#time_bounds) | Optional | |
+| [`crs`](../data_types/averaged_windows.md#crs) | Required | rotated grid |
+| [`crs`](../data_types/averaged_windows.md#crs) | Recommended | north-oriented grid |
+| [`trajectory`](../data_types/averaged_windows.md#trajectory) | Recommended | moving platform |
+| [`station`](../data_types/averaged_windows.md#station) | Recommended | fixed platform |
+| [`platform_speed_wrt_ground`](../data_types/averaged_windows.md#platform_speed_wrt_ground), [`platform_course`](../data_types/averaged_windows.md#platform_course) | Required | `analysis_window_motion = "platform_fixed"` |
+| [`radar_latitude`](../data_types/averaged_windows.md#radar_latitude), [`radar_longitude`](../data_types/averaged_windows.md#radar_longitude) | Optional | |
+| [`wave_frequency`](../data_types/product_variables.md#wave_frequency), [`sea_surface_wave_from_direction`](../data_types/product_variables.md#sea_surface_wave_from_direction), [`sea_surface_wave_directional_variance_spectral_density`](../data_types/product_variables.md#sea_surface_wave_directional_variance_spectral_density) | Required | |
+| [`eastward_sea_water_velocity`](../data_types/averaged_windows.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../data_types/averaged_windows.md#northward_sea_water_velocity) | Optional | north-oriented grid |
+| [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity), [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) | Optional | rotated grid |
+| [`measurement_quality`](../data_types/averaged_windows.md#measurement_quality) | Recommended | |
 | [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "time longitude latitude"` on the data variables | Required | |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
 | [`cell_methods`](../metadata_attributes/variable_attributes.md#cell_methods) `= "area: mean (comment: over the analysis windows of the measurement)"` on the spectrum and the near-surface current | Recommended | |
@@ -115,6 +117,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "averaged_windows" ;
                 :featureType = "trajectory" ; // recommended
                 :geospatial_lat_max = 15.0012 ; // recommended
                 :geospatial_lat_min = 14.9478 ; // recommended
@@ -123,7 +126,7 @@ variables:
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :product_type = "wave_frequency_direction_spectra" ;
+                :product_type = "wave_frequency_direction_spectra" ; // recommended
                 :summary = "Surface wave frequency-direction spectra from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
@@ -183,15 +186,15 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "averaged_windows" ;
                 :platform_is_mobile = "true" ;
-                :product_type = "wave_frequency_direction_spectra" ;
 
 }
 ```
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: the measurements form a [time series](../product_types/spatially_averaged.md#moving-and-fixed-platforms), identified by [`station`](../product_types/spatially_averaged.md#station) in place of the trajectory, with scalar [`longitude`](../product_types/spatially_averaged.md#longitude) and [`latitude`](../product_types/spatially_averaged.md#latitude) given under `data`.
+A radar on a fixed platform: the measurements form a [time series](../data_types/averaged_windows.md#moving-and-fixed-platforms), identified by [`station`](../data_types/averaged_windows.md#station) in place of the trajectory, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) given under `data`.
 
 ```
 netcdf or_2023-08-31-17_wave_frequency_direction_spectra {
@@ -253,6 +256,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "averaged_windows" ;
                 :featureType = "timeSeries" ; // recommended
                 :geospatial_lat_max = 54.1702 ; // recommended
                 :geospatial_lat_min = 54.1702 ; // recommended
@@ -260,7 +264,8 @@ variables:
                 :geospatial_lon_min = 7.9050 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
-                :product_type = "wave_frequency_direction_spectra" ;
+                :platform_is_mobile = "false" ;
+                :product_type = "wave_frequency_direction_spectra" ; // recommended
                 :summary = "Surface wave frequency-direction spectra from a marine X-band radar at Ocean Research Station, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -322,7 +327,8 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "wave_frequency_direction_spectra" ;
+                :data_type = "averaged_windows" ;
+                :platform_is_mobile = "false" ;
 data:
         longitude = 7.9050 ;
         latitude = 54.1702 ;

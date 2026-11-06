@@ -8,36 +8,38 @@ nav_order: 5
 # L2a: Relative roughness images
 
 {: .informative }
-> This page is informative. The product type `relative_roughness` is one of the [gridded products](../product_types/gridded.md#product-types), whose page defines the structure and variables that a file of this product holds; the variables are defined under [Product variables](../product_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `relative_roughness` and the data type `gridded_pixels`, which the page of the [gridded data types](../data_types/gridded.md#gridded-pixels) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
-Relative roughness images ([`relative_roughness`](../product_types/product_variables.md#relative_roughness)) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
-Because the platform continues to move during this averaging window, and because the local grid origin and extent may change from one averaging window to the next, each averaging window is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
-From a fixed platform, the grid does not change, and all averaging windows of a file share a single grid.
-Within each grid, `relative_roughness` gives the averaged, still uncalibrated radar backscatter amplitude, which the examples average instead of power to give less weight to sea spikes, and [`number_of_observations`](../product_types/product_variables.md#number_of_observations) records how many Level 1b images contributed to each grid cell.
+Relative roughness images ([`relative_roughness`](../data_types/product_variables.md#relative_roughness)) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
+Because the platform continues to move during this averaging period, and because the local grid origin and extent may change from one averaging period to the next, each averaging period is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
+From a fixed platform, the grid does not change, and all averaging periods of a file share a single grid.
+Within each grid, `relative_roughness` gives the averaged, still uncalibrated radar backscatter amplitude, which the examples average instead of power to give less weight to sea spikes, and [`number_of_observations`](../data_types/product_variables.md#number_of_observations) records how many Level 1b images contributed to each grid cell.
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../product_types/gridded.md#time-bounded-grids) per averaging window, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time). Each grid is the [local grid](../product_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per averaging period, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
 | **Global attributes** | | |
-| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`product_type`](../metadata_attributes/mandatory_global.md#product_type) `= "relative_roughness"` | Required | |
-| [`platform_is_mobile`](../metadata_attributes/optional_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`Conventions`](../metadata_attributes/mandatory_global.md#Conventions), [`data_type`](../metadata_attributes/mandatory_global.md#data_type) `= "gridded_pixels"` | Required | |
+| [`product_type`](../metadata_attributes/optional_global.md#product_type) `= "relative_roughness"` | Recommended | |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "true"` | Required | moving platform |
+| [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) `= "false"` | Required | fixed platform |
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../product_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded.md#variables-time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../product_types/gridded.md#time_bounds) | Optional | |
-| [`x`](../product_types/gridded.md#variables-x), [`y`](../product_types/gridded.md#variables-y), [`crs`](../product_types/gridded.md#variables-crs) | Required | |
-| [`relative_roughness`](../product_types/product_variables.md#relative_roughness) | Required | |
+| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
+| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y), [`crs`](../data_types/gridded.md#variables-crs) | Required | |
+| [`relative_roughness`](../data_types/product_variables.md#relative_roughness) | Required | |
 | [`cell_methods`](../metadata_attributes/variable_attributes.md#cell_methods) `= "time: mean"`, [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), and [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "time"` on `relative_roughness` | Required | |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | |
-| [`number_of_observations`](../product_types/product_variables.md#number_of_observations) | Optional | |
+| [`number_of_observations`](../data_types/product_variables.md#number_of_observations) | Optional | |
 {: .contents-table }
 
 ## Example
@@ -49,6 +51,7 @@ netcdf or_2025-01-15-11_relative_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_pixels" ;
                 :geospatial_lat_max = 14.99528 ; // recommended
                 :geospatial_lat_min = 14.95348 ; // recommended
                 :geospatial_lon_max = 145.94251 ; // recommended
@@ -56,7 +59,7 @@ netcdf or_2025-01-15-11_relative_roughness {
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :platform_is_mobile = "true" ;
-                :product_type = "relative_roughness" ;
+                :product_type = "relative_roughness" ; // recommended
                 :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ; // highly recommended
                 :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
@@ -108,7 +111,7 @@ group: time_20250115110031 {
                 number_of_observations:grid_mapping = "crs" ;
   } // group time_20250115110031
 
-// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging window ...
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging period ...
 }
 ```
 
@@ -122,8 +125,8 @@ netcdf or_2025-01-15-11_relative_roughness {
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_pixels" ;
                 :platform_is_mobile = "true" ;
-                :product_type = "relative_roughness" ;
 
 group: time_20250115110031 {
   dimensions:
@@ -163,13 +166,13 @@ group: time_20250115110031 {
                 relative_roughness:averaged_quantity = "amplitude" ;
   } // group time_20250115110031
 
-// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging window ...
+// ... additional time_<YYYYMMDDHHMMSS> groups follow the same layout, one per averaging period ...
 }
 ```
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: all averaging windows share a [single grid](../product_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../product_types/gridded.md#variables-time), and the [`crs`](../product_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform: all averaging periods share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna.
 
 ```
 netcdf or_2023-08-31-17_relative_roughness {
@@ -218,13 +221,15 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_pixels" ;
                 :geospatial_lat_max = 54.2185 ; // recommended
                 :geospatial_lat_min = 54.1467 ; // recommended
                 :geospatial_lon_max = 7.9467 ; // recommended
                 :geospatial_lon_min = 7.8239 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
-                :product_type = "relative_roughness" ;
+                :platform_is_mobile = "false" ;
+                :product_type = "relative_roughness" ; // recommended
                 :summary = "Sea surface roughness from a marine X-band radar at Ocean Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -279,13 +284,14 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "relative_roughness" ;
+                :data_type = "gridded_pixels" ;
+                :platform_is_mobile = "false" ;
 }
 ```
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../product_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../product_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../product_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
+A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
 netcdf cr_2023-08-31-17_relative_roughness {
@@ -352,13 +358,15 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
+                :data_type = "gridded_pixels" ;
                 :geospatial_lat_max = 54.2185 ; // recommended
                 :geospatial_lat_min = 54.1467 ; // recommended
                 :geospatial_lon_max = 7.9467 ; // recommended
                 :geospatial_lon_min = 7.8239 ; // recommended
                 :institution = "Famous Radar Ocean Research Institute" ; // recommended
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
-                :product_type = "relative_roughness" ;
+                :platform_is_mobile = "false" ;
+                :product_type = "relative_roughness" ; // recommended
                 :summary = "Sea surface roughness from a marine X-band radar at Coastal Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
                 :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
@@ -431,6 +439,7 @@ variables:
 
 // global attributes:
                 :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :product_type = "relative_roughness" ;
+                :data_type = "gridded_pixels" ;
+                :platform_is_mobile = "false" ;
 }
 ```
