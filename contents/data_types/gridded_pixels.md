@@ -11,13 +11,13 @@ Files of the data type `gridded_pixels` hold Level 2a values at the resolution o
 The averaging over time that leads to the value of a pixel is recorded by [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration).
 The annex gives a complete [example](../annex/relative_roughness_images.md#example).
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 moving platform:
 /
 └── time_<YYYYMMDDHHMMSS>/     time, time_bounds, crs, x, y, <product variables> (y, x)
-                               (one group per averaging or measurement period)
+                               one group per averaging or measurement period
 
 fixed platform:
 /                              time, time_bounds, crs, x, y, <product variables> (time, y, x)

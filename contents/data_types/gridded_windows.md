@@ -11,7 +11,7 @@ Files of the data type `gridded_windows` hold Level 2a values in analysis window
 Windows that move with the platform, or that do not form such a lattice, are stored as [`discrete_windows`](discrete_windows.md).
 The annex gives a complete [example](../annex/current_maps.md#example).
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 moving platform:
@@ -21,7 +21,7 @@ moving platform:
                                local grid:      x, y, latitude (y, x), longitude (y, x)
                                radar_latitude, radar_longitude, measurement_quality,
                                <product variables> on the grid
-                               (one group per measurement period)
+                               one group per measurement period
 
 fixed platform:
 /                              the same variables, with time, time_bounds,

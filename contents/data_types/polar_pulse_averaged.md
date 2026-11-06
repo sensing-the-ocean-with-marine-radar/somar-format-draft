@@ -12,16 +12,16 @@ They keep the sweeps of `polar_raw`, with the sampling in time reduced by the av
 Pulse averaging is mainly used in pointing mode, in which the antenna is held at a fixed direction, but is also allowed for a rotating antenna; rotating data whose revolutions are mapped onto a regular azimuth axis, which may itself average the rays within each azimuth bin, are stored as [`polar_image_cube`](polar_image_cube.md) instead.
 The annex gives a complete [example](../annex/level1b_pointing.md#example).
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 /                              latitude, longitude, altitude
-├── radar_parameters/          (optional)
-├── georeference_correction/   (optional)
+├── radar_parameters/          optional
+├── georeference_correction/   optional
 └── sweep_<n>/                 time, time_bounds, range, azimuth, sweep_mode, fixed_angle,
     │                          n_samples, backscatter_amplitude | backscatter_power (time, range)
-    └── georeference/          latitude, longitude, heading, roll, pitch
-                               (moving platform; per sweep or per ray)
+    └── georeference/          moving platform: latitude, longitude, heading, roll, pitch,
+                                                per sweep, or per ray (time)
 ```
 
 ## Structure

@@ -11,12 +11,12 @@ Files of the data type `discrete_windows` give one value set for each of a set o
 They differ from [gridded windows](gridded_windows.md), whose windows form a regular lattice that stays fixed to the Earth, and from [averaged windows](averaged_windows.md), which merge the results of their windows into one value set per measurement.
 No product type has this data type yet; the [example](#example) on this page shows near-surface currents retrieved in windows fixed to the platform.
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 /                              time, time_bounds, crs,
                                latitude, longitude (time, window), window_range, window_bearing,
-                               platform_speed_wrt_ground, platform_course (platform-fixed windows),
+                               platform-fixed windows: platform_speed_wrt_ground, platform_course (time)
                                radar_latitude, radar_longitude, measurement_quality,
                                <product variables> (time, window, …)
 ```
@@ -46,7 +46,7 @@ The data variables of a product are defined under [Product variables](product_va
 | `window_range`<br><small>SOMaR</small> | double `(time, window)` or `(window)`; `m` | Optional. Distance from the radar antenna at the start of the measurement to the center of each analysis window, as given by `longitude` and `latitude`; with the dimension `window` alone where it is the same in every measurement. |
 | `window_bearing`<br><small>SOMaR</small> | double `(time, window)` or `(window)`; `degree` | Optional. Direction from the radar antenna at the start of the measurement to the center of each analysis window, clockwise from true north; with the dimension `window` alone where it is the same in every measurement. |
 | `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Averaged windows](averaged_windows.md#measurements)). |
-| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
+| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean course over ground of the platform during each measurement, i.e. the direction in which it moves, clockwise from true north. It is not the heading (`platform_orientation`), from which it differs when the platform drifts sideways. |
 | `radar_longitude`<br><small>SOMaR</small> | double `(time)`; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
 | `radar_latitude`<br><small>SOMaR</small> | double `(time)`; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
 | `measurement_quality`<br><small>SOMaR</small> | ubyte `(time, window)`; bit flags | Recommended. Quality flag of each window in each measurement. 0 is good; each bit that is set marks a failed check (see [Quality flags](../metadata_attributes/quality_flags.md)). |
@@ -99,7 +99,7 @@ variables:
                 platform_speed_wrt_ground:standard_name = "platform_speed_wrt_ground" ;
                 platform_speed_wrt_ground:units = "m s-1" ;
         double platform_course(time) ;
-                platform_course:long_name = "mean platform course during the measurement" ;
+                platform_course:long_name = "mean platform course over ground during the measurement" ;
                 platform_course:standard_name = "platform_course" ;
                 platform_course:units = "degree" ;
         double eastward_sea_water_velocity(time, window) ;

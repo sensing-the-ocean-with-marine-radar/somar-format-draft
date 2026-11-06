@@ -14,14 +14,14 @@ The products of this data type are currently the surface wave products: two-dime
 They are listed, with the variables that each of them holds, under [Products](#products).
 The annex gives a complete example of [peak and mean wave parameters](../annex/wave_parameters.md#example).
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 /                              time, time_bounds, crs, latitude, longitude, trajectory | station,
-│                              platform_speed_wrt_ground, platform_course (platform-fixed windows),
+│                              platform-fixed windows: platform_speed_wrt_ground, platform_course (time)
 │                              radar_latitude, radar_longitude, measurement_quality,
 │                              <product variables> (time, …)
-└── wave_calibration/          (recommended for the wave products)
+└── wave_calibration/          recommended for the wave products
 ```
 
 ## Measurements
@@ -31,7 +31,7 @@ The windows are spread across the radar field of view, and their placement is le
 Depending on the processor, the analysis windows are fixed to the Earth for the duration of a measurement period, so that their bearing and range from a moving platform change during the period, or they move with the platform at a fixed bearing and range; which of the two is given by [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion).
 Windows that move with the platform cover a track rather than a fixed area during the period.
 Their retrieval assumes that the wave field is spatially homogeneous along this track and that the platform moves at constant velocity during the period, and the mean platform velocity is added afterwards to the current obtained in the moving frame, which gives the current relative to the ground.
-This velocity is stored as the speed over ground and course of the platform, in the variables `platform_speed_wrt_ground` and `platform_course` with the dimension `time`, which are required for windows that move with the platform and omitted otherwise:
+This velocity is stored as the speed and the direction of motion over ground of the platform (its course, not its heading), in the variables `platform_speed_wrt_ground` and `platform_course` with the dimension `time`, which are required for windows that move with the platform and omitted otherwise:
 
 ```
 // excerpt: the platform velocity of a measurement with platform-fixed analysis windows
@@ -43,7 +43,7 @@ variables:
                 platform_speed_wrt_ground:coordinates = "time longitude latitude" ;
                 platform_speed_wrt_ground:grid_mapping = "crs" ;
         double platform_course(time) ;
-                platform_course:long_name = "mean platform course during the measurement" ;
+                platform_course:long_name = "mean platform course over ground during the measurement" ;
                 platform_course:standard_name = "platform_course" ;
                 platform_course:units = "degree" ;
                 platform_course:coordinates = "time longitude latitude" ;
@@ -89,7 +89,7 @@ Where the dimensions differ between a moving and a fixed platform, the second is
 | `longitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_east` | Required. Mean longitude of the analysis windows contributing to each measurement. |
 | `latitude`<br><small>[CF][cf-names]</small> | double `(time)` or scalar; `degrees_north` | Required. Mean latitude of the analysis windows contributing to each measurement. |
 | `platform_speed_wrt_ground`<br><small>[CF][cf-names]</small> | double `(time)`; `m s-1` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean speed over ground of the platform during each measurement (see [Measurements](#measurements)). |
-| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean course of the platform during each measurement. |
+| `platform_course`<br><small>[CF][cf-names]</small> | double `(time)`; `degree` | Required if [`analysis_window_motion`](../metadata_attributes/processing_parameters.md#analysis_window_motion) is `platform_fixed`; omitted otherwise. Mean course over ground of the platform during each measurement, i.e. the direction in which it moves, clockwise from true north. It is not the heading (`platform_orientation`), from which it differs when the platform drifts sideways. |
 | `radar_longitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_east` | Optional. Longitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
 | `radar_latitude`<br><small>SOMaR</small> | double `(time)` or scalar; `degrees_north` | Optional. Latitude of the radar antenna at the start of each measurement, from which the range and bearing of each analysis window can be recovered. |
 | `trajectory`<br><small>[CF][cf-dsg]</small> | string | Recommended for a moving platform. Identifier of the trajectory, with `cf_role = "trajectory_id"` (see [Moving and fixed platforms](#moving-and-fixed-platforms)). |

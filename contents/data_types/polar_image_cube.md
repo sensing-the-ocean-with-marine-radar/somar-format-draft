@@ -12,15 +12,16 @@ They are usually derived from [`polar_raw`](polar_raw.md) data, and each image i
 Images are formed from revolutions and are not defined for data recorded in pointing mode, which are stored as `polar_raw` and, averaged over pulses, as [`polar_pulse_averaged`](polar_pulse_averaged.md).
 The annex gives a complete [example](../annex/level1b_polar.md#example).
 
-A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; parentheses after variables give their dimensions, and a label ending in a colon, such as "moving platform:", names the files in which the variables after it occur. The sections below define each item.
 
 ```text
 /                              time, azimuth, range, ray_time, altitude,
-│                              latitude, longitude (scalar, or per revolution or per ray),
-│                              heading, roll, pitch (moving platform),
+│                              fixed platform:  latitude, longitude
+│                              moving platform: latitude, longitude, heading, roll, pitch
+│                                               (time) or (time, azimuth)
 │                              backscatter_amplitude | backscatter_power (time, azimuth, range)
-├── radar_parameters/          (optional)
-└── georeference_correction/   (optional)
+├── radar_parameters/          optional
+└── georeference_correction/   optional
 ```
 
 ## Image cube
