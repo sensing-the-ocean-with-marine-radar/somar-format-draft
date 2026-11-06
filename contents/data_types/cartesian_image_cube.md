@@ -11,6 +11,14 @@ Files of the data type `cartesian_image_cube` hold Level 1b Cartesian image sequ
 No radiometric calibration or temporal averaging is applied.
 The annex gives a complete [example](../annex/level1b_cartesian.md#example).
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+/                              time, x, y, longitude, latitude (per image, or scalar),
+                               crs (fixed platform),
+                               backscatter_amplitude | backscatter_power (time, y, x)
+```
+
 ## Image cube
 
 All images of a file share one grid of fixed extent and resolution, and only its origin, the position of the radar antenna at the start of each revolution, moves with a moving platform.

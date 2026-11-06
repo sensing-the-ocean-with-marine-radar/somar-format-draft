@@ -11,6 +11,16 @@ Files of the data type `discrete_windows` give one value set for each of a set o
 They differ from [gridded windows](gridded_windows.md), whose windows form a regular lattice that stays fixed to the Earth, and from [averaged windows](averaged_windows.md), which merge the results of their windows into one value set per measurement.
 No product type has this data type yet; the [example](#example) on this page shows near-surface currents retrieved in windows fixed to the platform.
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+/                              time, time_bounds, crs,
+                               latitude, longitude (time, window), window_range, window_bearing,
+                               platform_speed_wrt_ground, platform_course (platform-fixed windows),
+                               radar_latitude, radar_longitude, measurement_quality,
+                               <product variables> (time, window, …)
+```
+
 ## Windows
 
 A file holds a sequence of measurements along the dimension `time`, each with the results of the same set of analysis windows along the dimension `window`, all in the root group.

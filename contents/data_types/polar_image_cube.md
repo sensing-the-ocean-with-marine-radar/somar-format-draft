@@ -12,6 +12,17 @@ They are usually derived from [`polar_raw`](polar_raw.md) data, and each image i
 Images are formed from revolutions and are not defined for data recorded in pointing mode, which are stored as `polar_raw` and, averaged over pulses, as [`polar_pulse_averaged`](polar_pulse_averaged.md).
 The annex gives a complete [example](../annex/level1b_polar.md#example).
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+/                              time, azimuth, range, ray_time, altitude,
+│                              latitude, longitude (scalar, or per revolution or per ray),
+│                              heading, roll, pitch (moving platform),
+│                              backscatter_amplitude | backscatter_power (time, azimuth, range)
+├── radar_parameters/          (optional)
+└── georeference_correction/   (optional)
+```
+
 ## Image cube
 
 The images are stored as a single three-dimensional cube in the root group: each time step is one complete antenna revolution, and the data variable, [`backscatter_amplitude`](product_variables.md#backscatter_amplitude) or [`backscatter_power`](product_variables.md#backscatter_power), has the dimensions `(time, azimuth, range)`.

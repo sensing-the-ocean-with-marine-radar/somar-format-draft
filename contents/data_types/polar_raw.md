@@ -14,6 +14,18 @@ The data are therefore still "raw", but no longer tied to the often proprietary 
 This page also gives the definitions that the other polar data types, [`polar_pulse_averaged`](polar_pulse_averaged.md) and [`polar_image_cube`](polar_image_cube.md), share with it: the relation to FM 301 and CfRadial, the coordinates, the data variable, and the navigation of a moving platform.
 The annex gives a complete [example](../annex/level1a.md#example).
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+/                              latitude, longitude, altitude
+├── radar_parameters/          (optional)
+├── georeference_correction/   (optional)
+└── sweep_<n>/                 time, range, azimuth, sweep_mode, fixed_angle,
+    │                          backscatter_amplitude | backscatter_power (time, range)
+    └── georeference/          latitude, longitude, heading, roll, pitch
+                               (moving platform; per sweep or per ray)
+```
+
 ## Relation to FM 301 and CfRadial
 
 Radar data in polar coordinates already have an international standard, the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes, which was developed for weather radars from the earlier [CfRadial format][cfradial].

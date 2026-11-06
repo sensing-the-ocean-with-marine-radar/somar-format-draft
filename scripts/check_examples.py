@@ -125,7 +125,9 @@ FILE_NAME = re.compile(
     r"^(?P<station>[a-z0-9]+)_(?P<date>\d{4}-\d{2}-\d{2})-(?P<hour>\d{2})(?:-(?P<minute>\d{2}))?_"
     r"(?P<product>[a-z0-9_]+)$"
 )
-FENCE = re.compile(r"^```[^\n]*\n(.*?)^```", re.M | re.S)
+# A fenced code block, and its content; blocks marked as plain text (```text), such as the
+# structure trees of the data-type pages, are not CDL and are left out (see code_blocks).
+FENCE = re.compile(r"^```text\n.*?^```|^```[^\n]*\n(.*?)^```", re.M | re.S)
 PLACEHOLDER = re.compile(r"^(\s*)group: (\w+) \{ \.\.\. \}.*$", re.M)
 # CDL lines, as written in the examples.
 DECLARATION = re.compile(r"^\s*(?:char|byte|ubyte|short|ushort|int|uint|int64|uint64|float|double|string) (\w+)(?:\(.*\))? ;")
@@ -193,6 +195,11 @@ DSG_COORDINATES = {"time", "time_bounds", "longitude", "latitude", "trajectory",
 
 # Texts that stand in for pages while check_link_independence parses them.
 TEXT_OVERRIDES = {}
+
+
+def code_blocks(text):
+    """Return the contents of the fenced code blocks of a page, except those marked as plain text."""
+    return [match.group(1) for match in FENCE.finditer(text) if match.group(1) is not None]
 
 
 def read(path):
@@ -761,7 +768,7 @@ def check_contents_table(text, product, products):
         return ["has no file contents table"]
     rows = contents_rows(text)
     named = {name for names, _, _, _ in rows for name in names}
-    examples = [block for block in FENCE.findall(text) if block.startswith("netcdf ")]
+    examples = [block for block in code_blocks(text) if block.startswith("netcdf ")]
     items = {}
     for block in examples:
         for name, occurrences in example_items(block).items():
@@ -839,7 +846,7 @@ def rotated_grid(groups):
 def canonical_groups():
     groups = {}
     for path in glob.glob(os.path.join(ROOT, "contents/metadata_attributes/*.md")):
-        for block in FENCE.findall(read(path)):
+        for block in code_blocks(read(path)):
             match = re.match(r"group: (\w+) \{\n", block)
             if match:
                 groups[match.group(1)] = block
@@ -1466,7 +1473,7 @@ def check_link_independence(products):
     def parse():
         examples = [(block, example_key(block))
                     for page in sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
-                    for block in FENCE.findall(read(page)) if block.startswith("netcdf ") and example_key(block) in products]
+                    for block in code_blocks(read(page)) if block.startswith("netcdf ") and example_key(block) in products]
         return (variable_rules(), replacements(), global_tiers(), attribute_tiers(), registry(),
                 {page: table_tiers(read(os.path.join(ROOT, page))) for page in DATA_TYPE_PAGES},
                 [product_tiers(block, product, products) for block, product in examples],
@@ -1534,7 +1541,7 @@ def main():
         sys.exit("\n".join(errors))
     pages = sorted(glob.glob(os.path.join(ROOT, "contents/**/*.md"), recursive=True))
     # The examples by file name, from which the written-out minimal forms are derived.
-    examples = {block.split()[1]: block for page in pages for block in FENCE.findall(read(page)) if block.startswith("netcdf ")}
+    examples = {block.split()[1]: block for page in pages for block in code_blocks(read(page)) if block.startswith("netcdf ")}
 
     failures = checked = minimal_forms = 0
     with tempfile.TemporaryDirectory() as tmp:
@@ -1571,7 +1578,7 @@ def main():
                 print(f"FAIL {relative}:")
                 for error in order:
                     print(f"     {error}")
-            for number, block in enumerate(FENCE.findall(text), 1):
+            for number, block in enumerate(code_blocks(text), 1):
                 first = block.lstrip().splitlines()[0] if block.strip() else ""
                 product = example_key(block)
                 completeness = []

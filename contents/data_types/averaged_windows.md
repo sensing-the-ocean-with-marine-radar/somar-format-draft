@@ -14,6 +14,16 @@ The products of this data type are currently the surface wave products: two-dime
 They are listed, with the variables that each of them holds, under [Products](#products).
 The annex gives a complete example of [peak and mean wave parameters](../annex/wave_parameters.md#example).
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+/                              time, time_bounds, crs, latitude, longitude, trajectory | station,
+│                              platform_speed_wrt_ground, platform_course (platform-fixed windows),
+│                              radar_latitude, radar_longitude, measurement_quality,
+│                              <product variables> (time, …)
+└── wave_calibration/          (recommended for the wave products)
+```
+
 ## Measurements
 
 A file holds a sequence of measurements along the dimension `time`, and the variables `longitude` and `latitude` give the mean position of the analysis windows that contribute to each measurement, as described under [Moving and fixed platforms](#moving-and-fixed-platforms).

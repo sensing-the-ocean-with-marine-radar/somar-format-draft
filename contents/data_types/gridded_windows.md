@@ -11,6 +11,22 @@ Files of the data type `gridded_windows` hold Level 2a values in analysis window
 Windows that move with the platform, or that do not form such a lattice, are stored as [`discrete_windows`](discrete_windows.md).
 The annex gives a complete [example](../annex/current_maps.md#example).
 
+A file has the following structure, with the groups ending in `/`, the main variables of each group, and alternatives separated by `|`; the sections below define each item.
+
+```text
+moving platform:
+/
+└── time_<YYYYMMDDHHMMSS>/     time, time_bounds, crs,
+                               geographic grid: latitude, longitude
+                               local grid:      x, y, latitude (y, x), longitude (y, x)
+                               radar_latitude, radar_longitude, measurement_quality,
+                               <product variables> on the grid
+                               (one group per measurement period)
+
+fixed platform:
+/                              the same variables, with the leading dimension time
+```
+
 ## Grids
 
 The lattice is the [geographic grid](../georeferencing/index.md#geographic-grid) or the [local grid](../georeferencing/index.md#local-grid) of the measurement, and the center of each cell is the center of one window.
