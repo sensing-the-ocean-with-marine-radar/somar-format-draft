@@ -195,43 +195,6 @@ group: wave_calibration { ... } // recommended; as in the example under Wave cal
 }
 ```
 
-### Minimal form
-
-The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
-
-```
-// minimal form of the example above
-netcdf or_2025-01-15-11_wave_parameters {
-dimensions:
-        time = 29 ;
-variables:
-        double time(time) ;
-                time:calendar = "standard" ;
-                time:long_name = "start time of wave measurement" ;
-                time:standard_name = "time" ;
-                time:units = "seconds since 1970-01-01T00:00:00Z" ;
-        double longitude(time) ;
-                longitude:long_name = "mean longitude of wave measurement" ;
-                longitude:standard_name = "longitude" ;
-                longitude:units = "degrees_east" ;
-        double latitude(time) ;
-                latitude:long_name = "mean latitude of wave measurement" ;
-                latitude:standard_name = "latitude" ;
-                latitude:units = "degrees_north" ;
-        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
-                sea_surface_wave_significant_height:long_name = "significant wave height" ;
-                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
-                sea_surface_wave_significant_height:units = "m" ;
-                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
-
-// global attributes:
-                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :data_type = "averaged_windows" ;
-                :platform_is_mobile = "true" ;
-
-}
-```
-
 ## Example for a fixed platform
 
 A radar on a fixed platform: the measurements form a [time series](../data_types/averaged_windows.md#moving-and-fixed-platforms), identified by [`station`](../data_types/averaged_windows.md#station) in place of the trajectory, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) given under `data`.
@@ -375,42 +338,3 @@ group: wave_calibration { ... } // recommended; as in the example under Wave cal
 }
 ```
 
-### Minimal form
-
-The smallest file of this product that complies with SOMaR, obtained by removing the marked items from the example (see [Reading the examples](index.md#reading-the-examples)):
-
-```
-// minimal form of the example above
-netcdf or_2023-08-31-17_wave_parameters {
-dimensions:
-        time = 29 ;
-variables:
-        double time(time) ;
-                time:calendar = "standard" ;
-                time:long_name = "start time of wave measurement" ;
-                time:standard_name = "time" ;
-                time:units = "seconds since 1970-01-01T00:00:00Z" ;
-        double longitude ;
-                longitude:long_name = "mean longitude of wave measurement" ;
-                longitude:standard_name = "longitude" ;
-                longitude:units = "degrees_east" ;
-        double latitude ;
-                latitude:long_name = "mean latitude of wave measurement" ;
-                latitude:standard_name = "latitude" ;
-                latitude:units = "degrees_north" ;
-        double sea_surface_wave_significant_height(time) ; // required: at least one of the five bulk parameters
-                sea_surface_wave_significant_height:long_name = "significant wave height" ;
-                sea_surface_wave_significant_height:standard_name = "sea_surface_wave_significant_height" ;
-                sea_surface_wave_significant_height:units = "m" ;
-                sea_surface_wave_significant_height:coordinates = "time longitude latitude" ;
-
-// global attributes:
-                :Conventions = "CF-1.13, ACDD-1.3, SOMaR-0.5-draft" ;
-                :data_type = "averaged_windows" ;
-                :platform_is_mobile = "false" ;
-data:
-        longitude = 7.9050 ;
-        latitude = 54.1702 ;
-
-}
-```
