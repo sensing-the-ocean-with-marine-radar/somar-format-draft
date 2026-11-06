@@ -9,10 +9,10 @@ nav_order: 6
 
 SOMaR files describe the radar instrument in words through the global attributes [`instrument`](optional_global.md#instrument) and [`source`](optional_global.md#source).
 The technical parameters of the radar are stored as variables.
-SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
+SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Relation to FM 301 and CfRadial](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
 
 Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table that defines each of them; all of them are optional. Only the beam widths are part of the FM 301 `radar_parameters` group (Table 301-12a). FM 301 stores the pulse and scan parameters per ray in each sweep group (Table 301-8a) and `frequency` as a sweep coordinate (Table 301-6a); collecting them as constants in `radar_parameters` is a SOMaR choice, since they rarely change for a marine radar.
-The FM 301 `radar_calibration` group (Table 301-14) is not adopted: its constants convert the received power of a weather radar into calibrated quantities such as reflectivity, whereas the backscatter of a marine radar is stored in uncalibrated units of its analog-to-digital converter, for which no such constants exist. A calibration of marine radar backscatter would be added as a group of its own.
+The FM 301 `radar_calibration` group (Table 301-14a) is not adopted: its constants convert the received power of a weather radar into calibrated quantities such as reflectivity, whereas the backscatter of a marine radar is stored in uncalibrated units of its analog-to-digital converter, for which no such constants exist. A calibration of marine radar backscatter would be added as a group of its own.
 
 | Variable | Values | Description |
 |---|---|---|
@@ -33,7 +33,7 @@ When pulse or scan parameters vary, [Level 1a](../data_types/polar_raw.md#sweep-
 
 Sectors of the field of view that are shadowed by platform superstructure or blanked by the radar are given by `obstructed_sectors`, with the start and end azimuth of each sector along the dimension `nv` (number of vertices, as in [CF][cf-bounds] section 7.1), of size 2.
 Each sector runs clockwise from its start to its end azimuth and may wrap through 0°, e.g. from 350° to 5°.
-The azimuths are given in the frame of `azimuth + azimuth_correction` (see [Applying georeference corrections](../georeferencing/index.md#applying-georeference-corrections)), i.e. relative to the bow on a ship and to true north on a fixed platform; unlike the `azimuth` of the polar products, they do not depend on the radar's zero direction.
+The azimuths are given in the frame of `azimuth + azimuth_correction` (see [Applying georeference corrections](../georeferencing/index.md#applying-georeference-corrections)), i.e. relative to the bow on a ship and to true north on a fixed platform; unlike the `azimuth` of the polar data types, they do not depend on the radar's zero direction.
 At Level 1b Cartesian and Level 2, grid cells and analysis windows that fall inside an obstructed sector hold the [`_FillValue`](variable_attributes.md#_FillValue).
 
 ## Example

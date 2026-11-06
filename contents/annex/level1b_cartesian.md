@@ -12,7 +12,7 @@ nav_order: 4
 
 ## File contents
 
-**Layout.** The file holds an [image cube with moving origin](../data_types/cartesian_image_cube.md) in the root group, with the data variable on `(time, y, x)`.
+**Layout.** The file holds an [image cube](../data_types/cartesian_image_cube.md#image-cube) in the root group, with the data variable on `(time, y, x)`.
 
 | Item | Tier | Condition |
 |---|---|---|

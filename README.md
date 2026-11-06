@@ -13,7 +13,7 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `index.md` | Home page / abstract |
 | `contents/introduction/` | Scope, motivation, terms, and document structure |
 | `contents/metadata_attributes/` | Mandatory and recommended global attributes, variable attributes, processing parameters, quality flags, radar parameters, georeference correction parameters, wave calibration parameters |
-| `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
+| `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, grids |
 | `contents/data_types/` | The processing levels and the data types, one page each, with the product tables of the Level 2 products, and the product variables |
 | `contents/annex/` | Informative example files of all Level 1 data types and Level 2 products, with descriptions of the Level 2 products and their retrieval |
 | `contents/file_naming/` | File naming pattern recommendations |
@@ -98,7 +98,6 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 - [ ] The examples, the minimal form of the near-surface current map, and the file contents tables of the affected products are updated; `python3 scripts/check_examples.py --strict` passes.
 - [ ] The descriptions of the affected products in the annex are reread and still agree with the definitions.
 - [ ] A new conditional tier uses the fixed form; a new condition is added to the description under Requirements and to `scripts/check_examples.py`.
-- [ ] A new section of a data-type page whose tables apply to some of its data types only, such as the sweeps of `polar_raw` on the page of the polar data types, is added to `SECTION_SCOPES` in `scripts/check_examples.py`; otherwise its rows apply to every data type of the page.
 - [ ] `python3 scripts/link_items.py` is run after editing tables or text, so that the names link to their definitions; "see …" references use the heading of their target.
 - [ ] `bundle exec jekyll build` and `python3 scripts/check_links.py _site` pass, so that the links to the definitions resolve.
 

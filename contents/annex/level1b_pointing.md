@@ -38,6 +38,7 @@ nav_order: 2
 | [`cell_methods`](../data_types/polar_pulse_averaged.md) `= "time: mean"` and [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | |
 | [`comment`](../data_types/polar_pulse_averaged.md#structure) on the data variable, describing how the values were derived | Recommended | |
 | [`georeference`](../data_types/polar_pulse_averaged.md#navigation) subgroup, with [`latitude`](../data_types/polar_pulse_averaged.md#navigation-latitude), [`longitude`](../data_types/polar_pulse_averaged.md#navigation-longitude), and [`heading`](../data_types/polar_pulse_averaged.md#heading) | Recommended | moving platform |
+| [`roll`](../data_types/polar_pulse_averaged.md#roll), [`pitch`](../data_types/polar_pulse_averaged.md#pitch) in the `georeference` subgroup | Optional | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
 {: .contents-table }
 
@@ -115,10 +116,8 @@ group: sweep_0 {
                 fixed_angle:comment = "clockwise positive, relative to the bow of the ship, not north-oriented" ;
         int n_samples ;
                 n_samples:long_name = "number of pulses averaged into each ray" ;
-        ushort backscatter_amplitude(time, range) ;
-                backscatter_amplitude:scale_factor = 0.176738930567883 ;
-                backscatter_amplitude:add_offset = 0. ;
-                backscatter_amplitude:_FillValue = 65535US ;
+        float backscatter_amplitude(time, range) ;
+                backscatter_amplitude:_FillValue = NaNf ;
                 backscatter_amplitude:long_name = "radar backscatter amplitude" ;
                 backscatter_amplitude:units = "1" ;
                 backscatter_amplitude:coordinates = "azimuth range" ;
@@ -147,7 +146,7 @@ group: sweep_0 {
     } // group georeference
   } // group sweep_0
 
-// ... additional sweep_<n> groups follow the same layout, one per dwell ...
+// ... a longer file holds further sweep_<n> groups of the same layout, one per dwell ...
 
 group: georeference_correction { ... } // optional; as in the example under Georeference correction parameters
 }

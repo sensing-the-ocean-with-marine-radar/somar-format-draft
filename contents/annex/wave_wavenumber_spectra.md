@@ -12,7 +12,7 @@ nav_order: 11
 
 Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 By SOMaR convention, the wavenumber vector points toward the direction from which the waves come, opposite to the direction of propagation, so that the spectrum agrees with the from-direction of the [frequency-direction spectra](wave_frequency_direction_spectra.md); spectra that follow the propagation direction, as in many wave models, are mirrored through the origin (see [`eastward_wave_wavenumber`](../data_types/product_variables.md#eastward_wave_wavenumber)).
-They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation (Young et al. [1985](../references/index.md#young-1985)).
+They are retrieved from the wavenumber-frequency spectra of local radar image analysis windows, as used for the [near-surface current retrieval](current_maps.md), by keeping the wave signal that follows the dispersion relation and correcting it by the modulation transfer function (`dispersion_relation_filter`, as named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method); Young et al. [1985](../references/index.md#young-1985); Nieto Borge et al. [2004](../references/index.md#nieto-borge-2004)).
 The Level 2b frequency-direction spectra, [one-dimensional frequency spectra](wave_frequency_spectra.md), and [peak and mean wave parameters](wave_parameters.md) are derived from these spectra.
 The wave energy density is calibrated, typically against a reference wave data set (see [Wave calibration parameters](../metadata_attributes/wave_calibration.md)).
 The quantities from which the calibration derives the significant wave height may be stored as for the wave parameters: [`wave_signal`](../data_types/product_variables.md#wave_signal) and [`background_noise`](../data_types/product_variables.md#background_noise) for the signal-to-noise ratio method, or [`sea_surface_wave_mean_square_slope`](../data_types/product_variables.md#sea_surface_wave_mean_square_slope) for the shadowing method.
@@ -151,6 +151,7 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_filter" ; // optional
 data:
         trajectory = "R/V Ocean Research" ;
 
@@ -253,6 +254,7 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_filter" ; // optional
 data:
         station = "Ocean Research Station" ;
         longitude = 7.9050 ;
@@ -377,6 +379,7 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_filter" ; // optional
 data:
         station = "Ocean Research Station" ;
         longitude = 7.9050 ;

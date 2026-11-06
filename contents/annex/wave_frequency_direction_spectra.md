@@ -135,6 +135,7 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_filter" ; // optional
                 :wave_frequency_frame = "intrinsic" ; // recommended
 data:
         trajectory = "R/V Ocean Research" ;
@@ -227,6 +228,7 @@ variables:
                 :measurement_duration = 240. ; // recommended
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
+                :retrieval_method = "dispersion_relation_filter" ; // optional
                 :wave_frequency_frame = "intrinsic" ; // recommended
 data:
         station = "Ocean Research Station" ;

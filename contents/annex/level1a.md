@@ -36,6 +36,7 @@ nav_order: 1
 | [`coordinates`](../data_types/polar_raw.md#data-variable) `= "azimuth range"` on the data variable | Required | |
 | [`comment`](../data_types/polar_raw.md#data-variable) on the data variable, describing how the values were derived | Recommended | |
 | [`georeference`](../data_types/polar_raw.md#moving-platforms) subgroup, with [`latitude`](../data_types/polar_raw.md#moving-platforms-latitude), [`longitude`](../data_types/polar_raw.md#moving-platforms-longitude), and [`heading`](../data_types/polar_raw.md#heading) | Recommended | moving platform |
+| [`roll`](../data_types/polar_raw.md#roll), [`pitch`](../data_types/polar_raw.md#pitch) in the `georeference` subgroup | Optional | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | |
 {: .contents-table }
 

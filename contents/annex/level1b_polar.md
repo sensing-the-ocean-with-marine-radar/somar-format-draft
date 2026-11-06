@@ -26,6 +26,7 @@ nav_order: 3
 | [`latitude`](../data_types/polar_image_cube.md#latitude), [`longitude`](../data_types/polar_image_cube.md#longitude) | Required | fixed platform |
 | [`altitude`](../data_types/polar_image_cube.md#altitude) | Required | |
 | [`latitude`](../data_types/polar_image_cube.md#latitude), [`longitude`](../data_types/polar_image_cube.md#longitude), [`heading`](../data_types/polar_image_cube.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
+| [`roll`](../data_types/polar_image_cube.md#roll), [`pitch`](../data_types/polar_image_cube.md#pitch), on `(time)` or `(time, azimuth)` | Optional | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
 | [`time`](../data_types/polar_image_cube.md#time), [`azimuth`](../data_types/polar_image_cube.md#azimuth), [`range`](../data_types/polar_image_cube.md#range) | Required | |
 | [`rays_angle_resolution`](../data_types/polar_image_cube.md#rays_angle_resolution) on `azimuth` | Optional | |
@@ -40,7 +41,7 @@ nav_order: 3
 
 ## Example
 
-A radar on a ship, with position and heading recorded per sweep, along with the optional [`radar_parameters`](../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
+A radar on a ship, with position and heading recorded per revolution, along with the optional [`radar_parameters`](../metadata_attributes/radar_parameters.md#example) and [`georeference_correction`](../metadata_attributes/georeference_correction.md#example) groups, whose contents are shown on their own pages.
 
 ```
 netcdf or_2025-01-15-11-00_polar_image_cube {

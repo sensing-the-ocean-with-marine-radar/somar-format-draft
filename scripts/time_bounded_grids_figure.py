@@ -144,7 +144,7 @@ def figure():
 
     ky, kx = 556, 60
     w(f'<circle cx="{kx}" cy="{ky}" r="11" fill="none" stroke="{FOOTPRINT}" stroke-width="1.5"/>')
-    label(ky, f'radar footprint at {code("time")}, the start of the measurement period or averaging window')
+    label(ky, f'radar footprint at {code("time")}, the start of the measurement or averaging period')
     w(f'<circle cx="{kx}" cy="{ky+30}" r="11" fill="none" stroke="{FOOTPRINT}" stroke-width="1.5" stroke-dasharray="4 3"/>')
     label(ky + 30, f'radar footprint at its end, {code("measurement_duration")} or {code("averaging_duration")} later')
     y = ky + 60
@@ -152,11 +152,11 @@ def figure():
     label(y, f'grid origin at the radar antenna at {code("time")}, with {code("x")} east and {code("y")} north')
     y = ky + 90
     w(f'<rect x="{kx-11}" y="{y-8}" width="22" height="16" fill="{GRID}" fill-opacity="0.04" stroke="{GRID}" stroke-width="1.5"/>')
-    label(y, f'time-bounded grid, one group {code("time_&lt;YYYYMMDDHHMMSS&gt;")} per measurement period or averaging window')
+    label(y, f'time-bounded grid, one group {code("time_&lt;YYYYMMDDHHMMSS&gt;")} per measurement or averaging period')
     y = ky + 120
     for d in (-9, 0, 9):
         w(f'<circle cx="{kx+d}" cy="{y}" r="2.6" fill="{TRACK}"/>')
-    label(y, 'further periods or windows along the track, not shown')
+    label(y, 'further periods along the track, not shown')
     w('</svg>')
     return "\n".join(out) + "\n"
 

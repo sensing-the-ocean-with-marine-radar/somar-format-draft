@@ -20,14 +20,14 @@ The CF conventions can describe each such grid but have no provision for a seque
 Each grid can thus have its own origin, extent, and resolution, while every variable within it still carries standard CF metadata.
 
 At the lowest level of processing, radar data in polar coordinates are already covered by an international standard, the WMO-CF Radial profile [FM 301][fm301], which was developed for weather radars from the earlier [CfRadial format][cfradial].
-SOMaR does not replicate this work: [Level 1a data](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
-Neither document covers the products that follow, i.e. image sequences on regular grids and the geophysical variables retrieved from them; these are defined by SOMaR.
+SOMaR does not replicate this work: its [polar data types](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial) follow FM 301 wherever possible, and CfRadial 2.1 for moving platforms, which FM 301 does not support.
+Neither document covers the data that follow, i.e. image sequences on regular grids and the geophysical products retrieved from them; these are defined by SOMaR.
 For discovery metadata, such as the creator, license, and coverage of a file, SOMaR adopts the [Attribute Convention for Data Discovery (ACDD)][acdd], which is designed to complement CF.
 The versions of these standards that SOMaR refers to are listed under [References](../references/index.md#standards-and-conventions).
 
 ## Terms
 
-- **Processing levels** order SOMaR products from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR data types](../data_types/index.md#processing-levels). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../data_types/polar_raw.md) is their conversion to NetCDF.
+- **Processing levels** order SOMaR data from the radar's own measurement (Level 1a and 1b) to geophysical variables (Level 2a and 2b); they are defined under [SOMaR data types](../data_types/index.md#processing-levels). **Level 0** data, the radar recording as delivered by the instrument in the manufacturer's format, are not defined by SOMaR; [Level 1a](../data_types/polar_raw.md) is their conversion to NetCDF.
 - A **ray** is one stored azimuth sample of a sweep, i.e. the echo along one beam direction as a function of range, following FM 301. At Level 1a, a ray normally holds a single transmitted pulse, unless the radar itself averages pulses (`n_samples` > 1); in Level 1b polar images, it is one bin of the regular azimuth axis, and in Level 1b pulse-averaged data the mean of `n_samples` consecutive pulses.
 - A **sweep** is the sequence of rays of one antenna revolution, or of one dwell at a fixed direction for a radar in pointing mode. It is the unit in which Level 1a data and Level 1b pulse-averaged data are stored.
 - An **image** is the Level 1b representation of one sweep. Images are not defined for sweeps recorded in pointing mode, which Level 1b may average over pulses instead.
@@ -37,8 +37,8 @@ The versions of these standards that SOMaR refers to are listed under [Reference
 
 ## Document structure
 
-The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR products share: the NetCDF-4 data model, global and variable attributes, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
-The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the products: polar coordinates, the application of georeference corrections, coordinate reference systems, time-bounded local grids, and analysis windows.
+The [Metadata](../metadata_attributes/index.md) chapter describes what all SOMaR files share: the NetCDF-4 data model, global and variable attributes, the processing parameters and quality flags of the Level 2 products, and the radar, georeference correction, and wave calibration parameters.
+The [Georeferencing](../georeferencing/index.md) chapter defines the spatial framework that locates the data: polar coordinates, the application of georeference corrections, coordinate reference systems, including the time-bounded and rotated local grids, and the grids of the gridded data types.
 The [SOMaR data types](../data_types/index.md) chapter defines the data types, i.e. the structures of SOMaR files, on a page each, from the Level 1 radar data in polar or Cartesian form to the Level 2 data in pixels or in gridded, discrete, or averaged analysis windows, together with the Level 2 products of each data type and the variables that hold their data.
 The [File naming](../file_naming/index.md) chapter specifies the naming pattern for SOMaR files on disk, and the [Storage recommendations](../storage/index.md) chapter their compression and chunking.
 Finally, the informative [Annex: Examples](../annex/index.md) gives an example file of each Level 1 data type and each Level 2 product, and for Level 2 a description of the product and of its retrieval.

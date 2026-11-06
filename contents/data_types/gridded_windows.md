@@ -24,7 +24,9 @@ moving platform:
                                (one group per measurement period)
 
 fixed platform:
-/                              the same variables, with the leading dimension time
+/                              the same variables, with time, time_bounds,
+                               measurement_quality, and the product variables
+                               on the leading dimension time
 ```
 
 ## Grids

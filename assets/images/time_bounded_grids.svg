@@ -114,15 +114,15 @@
 <text x="588.2" y="141.1" font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14">x</text>
 <text x="554.2" y="100.1" font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" text-anchor="middle">y</text>
 <circle cx="60" cy="556" r="11" fill="none" stroke="#2a7f86" stroke-width="1.5"/>
-<text x="100" y="561">radar footprint at <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">time</tspan>, the start of the measurement period or averaging window</text>
+<text x="100" y="561">radar footprint at <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">time</tspan>, the start of the measurement or averaging period</text>
 <circle cx="60" cy="586" r="11" fill="none" stroke="#2a7f86" stroke-width="1.5" stroke-dasharray="4 3"/>
 <text x="100" y="591">radar footprint at its end, <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">measurement_duration</tspan> or <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">averaging_duration</tspan> later</text>
 <g stroke="#27262b" stroke-width="2"><line x1="52" y1="623" x2="72" y2="623" marker-end="url(#a-k)"/><line x1="52" y1="623" x2="52" y2="603" marker-end="url(#a-k)"/></g><circle cx="52" cy="623" r="2.5" fill="#27262b"/>
 <text x="100" y="621">grid origin at the radar antenna at <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">time</tspan>, with <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">x</tspan> east and <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">y</tspan> north</text>
 <rect x="49" y="638" width="22" height="16" fill="#a0522d" fill-opacity="0.04" stroke="#a0522d" stroke-width="1.5"/>
-<text x="100" y="651">time-bounded grid, one group <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">time_&lt;YYYYMMDDHHMMSS&gt;</tspan> per measurement period or averaging window</text>
+<text x="100" y="651">time-bounded grid, one group <tspan font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">time_&lt;YYYYMMDDHHMMSS&gt;</tspan> per measurement or averaging period</text>
 <circle cx="51" cy="676" r="2.6" fill="#1f5f8b"/>
 <circle cx="60" cy="676" r="2.6" fill="#1f5f8b"/>
 <circle cx="69" cy="676" r="2.6" fill="#1f5f8b"/>
-<text x="100" y="681">further periods or windows along the track, not shown</text>
+<text x="100" y="681">further periods along the track, not shown</text>
 </svg>
