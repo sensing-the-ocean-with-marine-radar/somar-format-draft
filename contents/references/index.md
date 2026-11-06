@@ -69,7 +69,7 @@ ESIP, Attribute Convention for Data Discovery (ACDD), version 1.3. [https://wiki
 WMO, 2025: Manual on Codes, Volume I.2: International Codes (WMO-No. 306), 2025 edition, FM 301-2022 (WMO-CF Radial). [https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes](https://library.wmo.int/records/item/35625-manual-on-codes-volume-i-2-international-codes).
 {: #fm301 }
 
-NCAR/EOL, CfRadial data file format, version 2.1. [https://github.com/NCAR/CfRadial/tree/master/docs](https://github.com/NCAR/CfRadial/tree/master/docs).
+NCAR/EOL, 2019: CfRadial data file format, version 2.1, draft of 2019-09-01. [https://github.com/NCAR/CfRadial/tree/master/docs](https://github.com/NCAR/CfRadial/tree/master/docs).
 {: #cfradial }
 
 Unidata, Network Common Data Form (NetCDF). [https://doi.org/10.5065/D6H70CW6](https://doi.org/10.5065/D6H70CW6).
@@ -83,3 +83,12 @@ ISO 8601-1:2019, Date and time — Representations for information interchange �
 
 NGA, 2014: Department of Defense World Geodetic System 1984 (WGS 84), NGA.STND.0036_1.0.0_WGS84. National Geospatial-Intelligence Agency, [https://nsgreg.nga.mil/doc/view?i=4085](https://nsgreg.nga.mil/doc/view?i=4085). As a coordinate reference system: EPSG:4326, [https://epsg.org/crs_4326/WGS-84.html](https://epsg.org/crs_4326/WGS-84.html).
 {: #wgs84 }
+
+ISO 19162:2019, Geographic information — Well-known text representation of coordinate reference systems (WKT2). International Organization for Standardization; also published as OGC 18-010r7, [https://docs.ogc.org/is/18-010r7/18-010r7.html](https://docs.ogc.org/is/18-010r7/18-010r7.html).
+{: #iso19162 }
+
+IOGP, EPSG Geodetic Parameter Dataset, with the coordinate operation methods Azimuthal Equidistant (1125), Affine parametric transformation (9624), and Local Orthographic (9837). [https://epsg.org](https://epsg.org).
+{: #epsg }
+
+PROJ contributors, PROJ coordinate transformation software library. [https://proj.org](https://proj.org).
+{: #proj }

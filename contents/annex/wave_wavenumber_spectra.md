@@ -63,7 +63,7 @@ A radar on a moving platform.
 ```
 netcdf or_2025-01-15-11_wave_wavenumber_spectra {
 dimensions:
-        time = 29 ;
+        time = 15 ;
         northward_wave_wavenumber = 512 ;
         eastward_wave_wavenumber = 512 ;
 variables:
@@ -142,7 +142,7 @@ variables:
                 :platform_is_mobile = "true" ;
                 :product_type = "wave_wavenumber_spectra" ; // recommended
                 :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar on board R/V Ocean Research, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
-                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:00Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
                 :title = "Marine X-band radar surface wave two-dimensional wavenumber spectra from R/V Ocean Research" ; // highly recommended
                 :analysis_window_motion = "earth_fixed" ; // optional
@@ -163,9 +163,9 @@ group: wave_calibration { ... } // recommended; as in the example under Wave cal
 A radar on a fixed platform: the measurements form a [time series](../data_types/averaged_windows.md#moving-and-fixed-platforms), identified by [`station`](../data_types/averaged_windows.md#station) in place of the trajectory, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) given under `data`.
 
 ```
-netcdf or_2023-08-31-17_wave_wavenumber_spectra {
+netcdf ors_2023-08-31-17_wave_wavenumber_spectra {
 dimensions:
-        time = 29 ;
+        time = 15 ;
         northward_wave_wavenumber = 512 ;
         eastward_wave_wavenumber = 512 ;
 variables:
@@ -244,7 +244,7 @@ variables:
                 :platform_is_mobile = "false" ;
                 :product_type = "wave_wavenumber_spectra" ; // recommended
                 :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar at Ocean Research Station, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
                 :title = "Marine X-band radar surface wave two-dimensional wavenumber spectra from Ocean Research Station" ; // highly recommended
                 :analysis_window_motion = "earth_fixed" ; // optional
@@ -267,9 +267,9 @@ group: wave_calibration { ... } // recommended; as in the example under Wave cal
 A radar on a fixed platform at a coastal site, whose vector components are given along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna: its axes follow the convention of Argus and CIRN, `x` cross-shore, positive offshore, and `y` along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/averaged_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), while [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) remain geographic coordinates, and the wavenumbers are given in [`x_wave_wavenumber`](../data_types/product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](../data_types/product_variables.md#y_wave_wavenumber) in place of their eastward and northward components.
 
 ```
-netcdf cr_2023-08-31-17_wave_wavenumber_spectra {
+netcdf ors_2023-08-31-17_wave_wavenumber_spectra {
 dimensions:
-        time = 29 ;
+        time = 15 ;
         y_wave_wavenumber = 512 ;
         x_wave_wavenumber = 512 ;
 variables:
@@ -367,10 +367,10 @@ variables:
                 :keywords = "EARTH SCIENCE > OCEANS > OCEAN WAVES > WAVE SPECTRA" ; // highly recommended
                 :platform_is_mobile = "false" ;
                 :product_type = "wave_wavenumber_spectra" ; // recommended
-                :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar at Coastal Research Station, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :summary = "Two-dimensional surface wave wavenumber spectra from a marine X-band radar at Ocean Research Station, retrieved from 240 s image sequences in analysis windows fixed to the Earth and averaged over the windows of each measurement." ; // highly recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
-                :title = "Marine X-band radar surface wave two-dimensional wavenumber spectra from Coastal Research Station" ; // highly recommended
+                :title = "Marine X-band radar surface wave two-dimensional wavenumber spectra from Ocean Research Station" ; // highly recommended
                 :analysis_window_motion = "earth_fixed" ; // optional
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 3840. ; // recommended
@@ -378,7 +378,7 @@ variables:
                 :number_of_analysis_windows = 6 ; // recommended
                 :number_of_images = 160 ; // recommended
 data:
-        station = "Coastal Research Station" ;
+        station = "Ocean Research Station" ;
         longitude = 7.9050 ;
         latitude = 54.1702 ;
 

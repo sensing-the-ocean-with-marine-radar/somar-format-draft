@@ -104,7 +104,7 @@ The global attributes of a [near-surface current map](../annex/current_maps.md) 
                 :standard_name_vocabulary = "CF Standard Name Table v95" ; // recommended
                 :station_id = "or" ; // recommended
                 :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
-                :time_coverage_end = "2025-01-15T12:00:00.775429Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:31.417000Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar near-surface current maps from R/V Ocean Research" ; // highly recommended
 ```

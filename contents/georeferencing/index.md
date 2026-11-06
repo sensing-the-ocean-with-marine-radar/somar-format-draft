@@ -8,20 +8,18 @@ nav_order: 4
 
 ## Polar sensor coordinates
 
-[Level 1a data](../data_types/polar_raw.md) and [Level 1b polar images](../data_types/polar_image_cube.md) are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
+The polar data types, [`polar_raw`](../data_types/polar_raw.md), [`polar_pulse_averaged`](../data_types/polar_pulse_averaged.md), and [`polar_image_cube`](../data_types/polar_image_cube.md), are stored in the polar coordinates of the sensor, `range` and `azimuth`, with the radar antenna at the origin.
 The `azimuth` variable holds the antenna angle as recorded by the radar relative to its zero direction; on a ship, this is typically the bow.
 This differs from FM 301, which defines `azimuth` relative to true north; SOMaR polar data are stored as recorded without modification.
 The elevation angle that FM 301 stores for every ray is not used, since a marine radar scans horizontally only.
 
-Whether the platform moves is stated by the global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) (`"true"` or `"false"`; assumed `"false"` if missing, so that every file from a moving platform must set it to `"true"`).
-
-They are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft:
+These data are located in space with variables from the WMO-CF Radial profile [FM 301][fm301] and the [CfRadial 2.1][cfradial] draft, depending on whether the platform moves, as stated by the mandatory global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile):
 
 - Scalar [`altitude`](../data_types/polar_raw.md#altitude) in the root group gives the height of the radar antenna above mean sea level (FM 301). SOMaR assumes it constant for both fixed and moving platforms, whereas CfRadial 2.1 also allows `altitude(time)` in the `georeference` group.
 - For a fixed platform, scalar `latitude` and `longitude` in the root group give the position of the radar antenna (FM 301).
 - For a moving platform (`platform_is_mobile = "true"`), platform position and orientation should be recorded in `latitude` (double; `degrees_north`), `longitude` (double; `degrees_east`), and [`heading`](../data_types/polar_raw.md#heading) (float; `degree`, standard name `platform_orientation`), following CfRadial 2.1 (Section 5.4). All navigation variables within a group or subgroup must use the same representation, provided either **per sweep** (scalar at the start of each sweep, i.e. at the time of its first ray; a SOMaR addition, as CfRadial defines them per ray only) or **per ray** (dimension `time`, keeping the full resolution of navigation data as in CfRadial, which, like FM 301, indexes `time` by ray):
-  - **Level 1a**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Sweep groups](../data_types/polar_raw.md#sweep-groups)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
-  - **Level 1b polar**: stored in the root group with dimension `time` (per sweep) or `(time, azimuth)` (per ray).
+  - **`polar_raw` and `polar_pulse_averaged`**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Sweep groups](../data_types/polar_raw.md#sweep-groups)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
+  - **`polar_image_cube`**: stored in the root group with dimension `time` (per revolution) or `(time, azimuth)` (per ray).
 
   Position and heading are recommended rather than required for a moving platform, since they may not be available when the file is written, e.g. in real-time recording, or may be taken from a separate navigation data stream; a file without them is not georeferenced (see [Moving platforms](../data_types/polar_raw.md#moving-platforms)).
 
@@ -126,11 +124,11 @@ north = -x * sin(α) + y * cos(α)
 on the plane of the azimuthal equidistant projection, from which its longitude and latitude follow as on the north-oriented grid.
 A grid with an azimuth of 0 is the north-oriented grid, which is stored with `grid_mapping_name = "azimuthal_equidistant"`.
 
-CF defines no rotation for the azimuthal equidistant projection: as in the parameter sets of PROJ and EPSG from which the CF grid mappings are taken, its y axis points to north at the projection origin.
+CF defines no rotation for the azimuthal equidistant projection: as in the parameter sets of [PROJ](../references/index.md#proj) and [EPSG](../references/index.md#epsg) from which the CF grid mappings are taken, its y axis points to north at the projection origin.
 SOMaR therefore gives the rotated grid mapping a name of its own, formed like the `rotated_latitude_longitude` of CF, so that software that does not know it leaves the grid unplaced rather than placing it as north-oriented; the angle is stated like the azimuth of the y axis of the Local Orthographic projection of EPSG (method 9837).
 This name is not among the grid mappings of CF Appendix F, and it is the only point at which a file on a rotated grid departs from the CF conventions: a CF checker reports it, and software that reads only the CF grid mapping attributes leaves the grid unplaced.
 
-The `crs` of a rotated grid therefore also carries `crs_wkt` (see [Use of the CRS well-known text format][cf-crs-wkt] in the CF conventions), which describes the rotated grid in the well-known text format of ISO 19162:2019 (WKT2), so that software built on PROJ 9.1 or later, such as GDAL, QGIS, and pyproj, places the grid.
+The `crs` of a rotated grid therefore also carries `crs_wkt` (see [Use of the CRS well-known text format][cf-crs-wkt] in the CF conventions), which describes the rotated grid in the well-known text format of [ISO 19162:2019](../references/index.md#iso19162) (WKT2), so that software built on PROJ 9.1 or later, such as GDAL, QGIS, and pyproj, places the grid.
 It is a derived projected coordinate reference system, `DERIVEDPROJCRS`, made of:
 
 - a base projected coordinate reference system, `BASEPROJCRS`: the azimuthal equidistant projection of the north-oriented grid (EPSG method 1125), on the WGS 84 ellipsoid, with the projection origin as its natural origin and no false easting or northing;

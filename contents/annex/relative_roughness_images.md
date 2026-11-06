@@ -59,7 +59,7 @@ netcdf or_2025-01-15-11_relative_roughness {
                 :platform_is_mobile = "true" ;
                 :product_type = "relative_roughness" ; // recommended
                 :summary = "Sea surface roughness from a marine X-band radar on board R/V Ocean Research: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, each window on its own local grid." ; // highly recommended
-                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:31.417000Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar sea surface relative roughness images from R/V Ocean Research" ; // highly recommended
                 :averaging_duration = 30. ; // recommended
@@ -118,7 +118,7 @@ group: time_20250115110031 {
 A radar on a fixed platform: all averaging periods share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_pixels.md#time), and the [`crs`](../data_types/gridded_pixels.md#crs) is centered on the radar antenna.
 
 ```
-netcdf or_2023-08-31-17_relative_roughness {
+netcdf ors_2023-08-31-17_relative_roughness {
 dimensions:
         time = 120 ;
         y = 1000 ;
@@ -174,7 +174,7 @@ variables:
                 :platform_is_mobile = "false" ;
                 :product_type = "relative_roughness" ; // recommended
                 :summary = "Sea surface roughness from a marine X-band radar at Ocean Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
                 :title = "Marine X-band radar sea surface relative roughness images from Ocean Research Station" ; // highly recommended
                 :averaging_duration = 30. ; // recommended
@@ -186,7 +186,7 @@ variables:
 A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_pixels.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_pixels.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_pixels.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
-netcdf cr_2023-08-31-17_relative_roughness {
+netcdf ors_2023-08-31-17_relative_roughness {
 dimensions:
         time = 120 ;
         y = 1000 ;
@@ -259,10 +259,10 @@ variables:
                 :keywords = "EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR BACKSCATTER, EARTH SCIENCE > SPECTRAL/ENGINEERING > RADAR > RADAR IMAGERY" ; // highly recommended
                 :platform_is_mobile = "false" ;
                 :product_type = "relative_roughness" ; // recommended
-                :summary = "Sea surface roughness from a marine X-band radar at Coastal Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :summary = "Sea surface roughness from a marine X-band radar at Ocean Research Station: Cartesian backscatter images averaged over 30 s windows to reduce speckle noise, all windows on one local grid centered on the radar antenna." ; // highly recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
-                :title = "Marine X-band radar sea surface relative roughness images from Coastal Research Station" ; // highly recommended
+                :title = "Marine X-band radar sea surface relative roughness images from Ocean Research Station" ; // highly recommended
                 :averaging_duration = 30. ; // recommended
 }
 ```

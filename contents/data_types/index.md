@@ -81,8 +81,7 @@ Where the tier of an item depends on the file, its description begins with claus
 Each clause gives a tier, or "omitted" for an item that the file does not carry, and the files to which it applies: "for a moving platform" or "for a fixed platform"; "on the local grid" or "on the geographic grid" of a [gridded data type](../georeferencing/index.md#grids); "on a rotated grid", i.e. in a file whose `crs` is that of a [rotated local grid](../georeferencing/index.md#rotated-local-grids); for a data type, such as "for `gridded_windows`", or for a product type, such as "for `sea_ice_drift`"; or the files in which another item has a value, such as "if `sweep_mode` is `"pointing"`".
 A clause ending in "otherwise" applies to the files that no other clause names, and where an omitting clause applies, it takes precedence.
 For a file to which no clause applies, the item is not defined.
-On a rotated local grid, a variable that takes the place of another, such as [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) in place of [`eastward_sea_water_velocity`](product_variables.md#eastward_sea_water_velocity), has the tier of the variable it replaces, which is omitted (see [Product variables](product_variables.md)).
-Sectors of the field of view that are shadowed or blanked are recorded in the `radar_parameters` group (see [Obstructed sectors](../metadata_attributes/radar_parameters.md#obstructed-sectors)).
+On a rotated local grid, a variable that takes the place of another, such as [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) in place of [`eastward_sea_water_velocity`](product_variables.md#eastward_sea_water_velocity), takes the tier of the variable it replaces, and the replaced variable is omitted (see [Product variables](product_variables.md)).
 
 ## Adding a data type or product type
 

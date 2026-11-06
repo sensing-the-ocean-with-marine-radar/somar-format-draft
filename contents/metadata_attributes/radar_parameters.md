@@ -11,19 +11,19 @@ SOMaR files describe the radar instrument in words through the global attributes
 The technical parameters of the radar are stored as variables.
 SOMaR takes their names, meanings, and types from the WMO-CF Radial profile [FM 301][fm301] (see [Level 1a data](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial)), but not always their location in the file.
 
-Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table that defines each of them; all of them are optional. Only the beam widths are part of the FM 301 `radar_parameters` group (Table 301-12). FM 301 stores the pulse and scan parameters per ray in each sweep group (Table 301-8) and `frequency` as a sweep coordinate (Table 301-6); collecting them as constants in `radar_parameters` is a SOMaR choice, since they rarely change for a marine radar.
+Constant technical parameters of the radar antenna, pulse, and scan are stored in a group named `radar_parameters` in the root group. The table below lists the variables that apply to marine radars, with the FM 301 table that defines each of them; all of them are optional. Only the beam widths are part of the FM 301 `radar_parameters` group (Table 301-12a). FM 301 stores the pulse and scan parameters per ray in each sweep group (Table 301-8a) and `frequency` as a sweep coordinate (Table 301-6a); collecting them as constants in `radar_parameters` is a SOMaR choice, since they rarely change for a marine radar.
 
 | Variable | Values | Description |
 |---|---|---|
-| `beam_width_h`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Horizontal beam width of the antenna. |
-| `beam_width_v`<br><small>[FM 301][fm301], Table 301-12</small> | float; `degree` | Vertical beam width of the antenna. |
-| `frequency`<br><small>[FM 301][fm301], Table 301-6</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
-| `n_samples`<br><small>[FM 301][fm301], Table 301-8</small> | int | Number of samples contributing to each ray. 1 at Level 1a unless the radar itself averages pulses. Not stored here for [pulse-averaged data](../data_types/polar_pulse_averaged.md), which require it in each sweep group. |
+| `beam_width_h`<br><small>[FM 301][fm301], Table 301-12a</small> | float; `degree` | Horizontal beam width of the antenna. |
+| `beam_width_v`<br><small>[FM 301][fm301], Table 301-12a</small> | float; `degree` | Vertical beam width of the antenna. |
+| `frequency`<br><small>[FM 301][fm301], Table 301-6a</small> | float; `s-1` | Operating frequency of the radar. Scalar in SOMaR; FM 301 defines a `frequency` dimension for multi-frequency radars. |
+| `n_samples`<br><small>[FM 301][fm301], Table 301-8a</small> | int | Number of samples contributing to each ray. 1 at Level 1a unless the radar itself averages pulses. Not stored here for [pulse-averaged data](../data_types/polar_pulse_averaged.md), which require it in each sweep group. |
 | `obstructed_sectors`<br><small>SOMaR</small> | float `(obstructed_sector, nv)`; `degree` | Start and end azimuth of each sector of the field of view that is obstructed or blanked, for example by platform superstructure (see [Obstructed sectors](#obstructed-sectors)). |
-| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8, 301-15</small> | string; `"horizontal"` or `"vertical"` | Antenna polarization (typically horizontal or vertical). |
-| `prt`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Pulse repetition time. |
-| `pulse_width`<br><small>[FM 301][fm301], Table 301-8</small> | float; `s` | Length of the transmitted pulse. |
-| `scan_rate`<br><small>[FM 301][fm301], Table 301-8</small> | float; `degree s-1` | Antenna rotation rate. |
+| `polarization_mode`<br><small>[FM 301][fm301], Tables 301-8a, 301-15</small> | string; `"horizontal"` or `"vertical"` | Antenna polarization (typically horizontal or vertical). |
+| `prt`<br><small>[FM 301][fm301], Table 301-8a</small> | float; `s` | Pulse repetition time. |
+| `pulse_width`<br><small>[FM 301][fm301], Table 301-8a</small> | float; `s` | Length of the transmitted pulse. |
+| `scan_rate`<br><small>[FM 301][fm301], Table 301-8a</small> | float; `degree s-1` | Antenna rotation rate. |
 {: .variable-table }
 
 When pulse or scan parameters vary, [Level 1a](../data_types/polar_raw.md#sweep-groups) and [Level 1b pulse-averaged data](../data_types/polar_pulse_averaged.md) store them in each sweep group (as scalars per sweep, or with dimension `time` per ray) and [Level 1b polar images](../data_types/polar_image_cube.md) store them in the root group with dimension `time` (per image) or `(time, azimuth)` (per ray).
@@ -72,7 +72,7 @@ group: radar_parameters {
         beam_width_h = 0.95 ;
         beam_width_v = 20. ;
         frequency = 9.41e+09 ;
-        polarization_mode = "vertical" ;
+        polarization_mode = "horizontal" ;
         pulse_width = 5.e-08 ;
         prt = 3.33e-04 ;
         scan_rate = 240. ;

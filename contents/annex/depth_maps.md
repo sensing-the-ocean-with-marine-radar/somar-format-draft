@@ -66,7 +66,7 @@ netcdf or_2025-01-15-12_bathymetry {
                 :platform_is_mobile = "true" ;
                 :product_type = "bathymetry" ; // recommended
                 :summary = "Water depths from a marine X-band radar on board R/V Ocean Research, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
-                :time_coverage_end = "2025-01-15T12:59:59Z" ; // recommended
+                :time_coverage_end = "2025-01-15T13:00:31.417000Z" ; // recommended
                 :time_coverage_start = "2025-01-15T12:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar bathymetric maps from R/V Ocean Research" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
@@ -144,7 +144,7 @@ group: time_20250115120031 {
 A radar on a fixed platform, with the map on the [local grid](../georeferencing/index.md#local-grid): all measurements share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time), and the [`crs`](../data_types/gridded_windows.md#crs) is centered on the radar antenna.
 
 ```
-netcdf or_2023-08-31-17_bathymetry {
+netcdf ors_2023-08-31-17_bathymetry {
 dimensions:
         time = 15 ;
         y = 17 ;
@@ -229,7 +229,7 @@ variables:
                 :platform_is_mobile = "false" ;
                 :product_type = "bathymetry" ; // recommended
                 :summary = "Water depths from a marine X-band radar at Ocean Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
                 :title = "Marine X-band radar bathymetric maps from Ocean Research Station" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
@@ -246,7 +246,7 @@ variables:
 A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_windows.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_windows.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
-netcdf cr_2023-08-31-17_bathymetry {
+netcdf ors_2023-08-31-17_bathymetry {
 dimensions:
         time = 15 ;
         y = 17 ;
@@ -348,10 +348,10 @@ variables:
                 :keywords = "EARTH SCIENCE > OCEANS > BATHYMETRY/SEAFLOOR TOPOGRAPHY > WATER DEPTH" ; // highly recommended
                 :platform_is_mobile = "false" ;
                 :product_type = "bathymetry" ; // recommended
-                :summary = "Water depths from a marine X-band radar at Coastal Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :summary = "Water depths from a marine X-band radar at Ocean Research Station, retrieved by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
-                :title = "Marine X-band radar bathymetric maps from Coastal Research Station" ; // highly recommended
+                :title = "Marine X-band radar bathymetric maps from Ocean Research Station" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 1245. ; // recommended
                 :analysis_window_spacing = 500. ; // recommended

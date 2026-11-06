@@ -70,7 +70,7 @@ netcdf or_2025-08-23-12_sea_ice_drift {
                 :platform_is_mobile = "true" ;
                 :product_type = "sea_ice_drift" ; // recommended
                 :summary = "Sea ice drift vectors from a marine X-band radar on board R/V Ocean Research, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
-                :time_coverage_end = "2025-08-23T12:59:59Z" ; // recommended
+                :time_coverage_end = "2025-08-23T13:00:31.417000Z" ; // recommended
                 :time_coverage_start = "2025-08-23T12:00:31.417000Z" ; // recommended
                 :title = "Marine X-band radar sea ice drift maps from R/V Ocean Research" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
@@ -162,7 +162,7 @@ group: time_20250823120031 {
 A radar on a fixed platform, with the map on the [local grid](../georeferencing/index.md#local-grid): all measurements share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time), and the [`crs`](../data_types/gridded_windows.md#crs) is centered on the radar antenna.
 
 ```
-netcdf or_2025-03-12-12_sea_ice_drift {
+netcdf aors_2025-03-12-12_sea_ice_drift {
 dimensions:
         time = 30 ;
         y = 17 ;
@@ -262,7 +262,7 @@ variables:
                 :platform_is_mobile = "false" ;
                 :product_type = "sea_ice_drift" ; // recommended
                 :summary = "Sea ice drift vectors from a marine X-band radar at Arctic Ocean Research Station, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
-                :time_coverage_end = "2025-03-12T12:59:59Z" ; // recommended
+                :time_coverage_end = "2025-03-12T13:00:00Z" ; // recommended
                 :time_coverage_start = "2025-03-12T12:00:00Z" ; // recommended
                 :title = "Marine X-band radar sea ice drift maps from Arctic Ocean Research Station" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
@@ -280,7 +280,7 @@ variables:
 A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_windows.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_windows.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the sea ice drift is given in [`sea_ice_x_velocity`](../data_types/product_variables.md#sea_ice_x_velocity) and [`sea_ice_y_velocity`](../data_types/product_variables.md#sea_ice_y_velocity) in place of its eastward and northward components.
 
 ```
-netcdf cr_2025-03-12-12_sea_ice_drift {
+netcdf aors_2025-03-12-12_sea_ice_drift {
 dimensions:
         time = 30 ;
         y = 17 ;
@@ -397,10 +397,10 @@ variables:
                 :keywords = "EARTH SCIENCE > OCEANS > SEA ICE > SEA ICE MOTION" ; // highly recommended
                 :platform_is_mobile = "false" ;
                 :product_type = "sea_ice_drift" ; // recommended
-                :summary = "Sea ice drift vectors from a marine X-band radar at Arctic Coastal Research Station, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
-                :time_coverage_end = "2025-03-12T12:59:59Z" ; // recommended
+                :summary = "Sea ice drift vectors from a marine X-band radar at Arctic Ocean Research Station, retrieved from the cross-correlation of backscatter patterns between time-averaged radar images." ; // highly recommended
+                :time_coverage_end = "2025-03-12T13:00:00Z" ; // recommended
                 :time_coverage_start = "2025-03-12T12:00:00Z" ; // recommended
-                :title = "Marine X-band radar sea ice drift maps from Arctic Coastal Research Station" ; // highly recommended
+                :title = "Marine X-band radar sea ice drift maps from Arctic Ocean Research Station" ; // highly recommended
                 :analysis_window_shape = "circle" ; // recommended
                 :analysis_window_size = 720. ; // recommended
                 :analysis_window_spacing = 500. ; // recommended

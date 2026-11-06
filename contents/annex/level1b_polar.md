@@ -43,7 +43,7 @@ nav_order: 3
 A radar on a fixed platform.
 
 ```
-netcdf or_2023-08-31-17-00_polar_image_cube {
+netcdf ors_2023-08-31-17-00_polar_image_cube {
 dimensions:
         time = 40 ;
         azimuth = 1440 ;

@@ -124,7 +124,7 @@ variables:
                 :platform_is_mobile = "true" ;
                 :processing_level = "L2a" ; // recommended
                 :summary = "Near-surface current vectors from a marine X-band radar on board R/V Ocean Research, retrieved in four analysis windows fixed to the platform by least-squares fits of the dispersion relation to the wave signal in the wavenumber-frequency spectra of 240 s image sequences." ; // highly recommended
-                :time_coverage_end = "2025-01-15T12:00:00Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:31Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:31Z" ; // recommended
                 :title = "Marine X-band radar near-surface currents in platform-fixed analysis windows from R/V Ocean Research" ; // highly recommended
                 :analysis_window_motion = "platform_fixed" ; // required: the default is earth_fixed

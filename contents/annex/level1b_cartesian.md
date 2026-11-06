@@ -94,7 +94,7 @@ variables:
 A radar on a fixed platform: [`longitude`](../data_types/cartesian_image_cube.md#longitude) and [`latitude`](../data_types/cartesian_image_cube.md#latitude) are scalar, and the file carries a [`crs`](../data_types/cartesian_image_cube.md#crs) centered on the radar antenna, with [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) on the data variable and the projection standard names on [`x`](../data_types/cartesian_image_cube.md#x) and [`y`](../data_types/cartesian_image_cube.md#y).
 
 ```
-netcdf or_2023-08-31-17-00_cartesian_image_cube {
+netcdf ors_2023-08-31-17-00_cartesian_image_cube {
 dimensions:
         time = 40 ;
         y = 1980 ;
@@ -166,7 +166,7 @@ data:
 A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/cartesian_image_cube.md#x) cross-shore, positive offshore, and [`y`](../data_types/cartesian_image_cube.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/cartesian_image_cube.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
-netcdf cr_2023-08-31-17-00_cartesian_image_cube {
+netcdf ors_2023-08-31-17-00_cartesian_image_cube {
 dimensions:
         time = 40 ;
         y = 1980 ;

@@ -8,7 +8,7 @@ nav_order: 4
 # Processing parameters
 
 The processing parameters needed to interpret the Level 2 products are recorded in the following global attributes, in addition to the [shared global attributes](index.md).
-They document how the data were obtained; each row states the data types or products for which the attribute is recommended or optional. `analysis_window_motion` is optional throughout, since windows that move with the platform require further variables, so its default cannot be mistaken.
+They document how the data were obtained; each row states the data types or products for which the attribute is recommended or optional. `analysis_window_motion` is optional throughout: its default, `earth_fixed`, cannot be mistaken, since windows that move with the platform also require the platform velocity variables.
 
 | Attribute | Values | Description |
 |---|---|---|

@@ -58,7 +58,7 @@ A radar on a moving platform.
 ```
 netcdf or_2025-01-15-11_wave_frequency_spectra {
 dimensions:
-        time = 29 ;
+        time = 15 ;
         wave_frequency = 512 ;
 variables:
         char crs ; // recommended
@@ -135,7 +135,7 @@ variables:
                 :platform_is_mobile = "true" ;
                 :product_type = "wave_frequency_spectra" ; // recommended
                 :summary = "One-dimensional surface wave frequency spectra, with mean wave direction and directional spread, from a marine X-band radar on board R/V Ocean Research, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
-                :time_coverage_end = "2025-01-15T11:59:59Z" ; // recommended
+                :time_coverage_end = "2025-01-15T12:00:00Z" ; // recommended
                 :time_coverage_start = "2025-01-15T11:00:00Z" ; // recommended
                 :title = "Marine X-band radar surface wave one-dimensional frequency spectra from R/V Ocean Research" ; // highly recommended
                 :analysis_window_motion = "earth_fixed" ; // optional
@@ -157,9 +157,9 @@ group: wave_calibration { ... } // recommended; as in the example under Wave cal
 A radar on a fixed platform: the measurements form a [time series](../data_types/averaged_windows.md#moving-and-fixed-platforms), identified by [`station`](../data_types/averaged_windows.md#station) in place of the trajectory, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) given under `data`.
 
 ```
-netcdf or_2023-08-31-17_wave_frequency_spectra {
+netcdf ors_2023-08-31-17_wave_frequency_spectra {
 dimensions:
-        time = 29 ;
+        time = 15 ;
         wave_frequency = 512 ;
 variables:
         char crs ; // recommended
@@ -236,7 +236,7 @@ variables:
                 :platform_is_mobile = "false" ;
                 :product_type = "wave_frequency_spectra" ; // recommended
                 :summary = "One-dimensional surface wave frequency spectra, with mean wave direction and directional spread, from a marine X-band radar at Ocean Research Station, derived from two-dimensional wavenumber spectra with the linear dispersion relation." ; // highly recommended
-                :time_coverage_end = "2023-08-31T17:59:59Z" ; // recommended
+                :time_coverage_end = "2023-08-31T18:00:00Z" ; // recommended
                 :time_coverage_start = "2023-08-31T17:00:00Z" ; // recommended
                 :title = "Marine X-band radar surface wave one-dimensional frequency spectra from Ocean Research Station" ; // highly recommended
                 :analysis_window_motion = "earth_fixed" ; // optional

@@ -44,7 +44,7 @@ nav_order: 1
 A radar on a fixed platform.
 
 ```
-netcdf or_2023-08-31-17-00_polar_raw {
+netcdf ors_2023-08-31-17-00_polar_raw {
 variables:
         double latitude ;
                 latitude:units = "degrees_north" ;
