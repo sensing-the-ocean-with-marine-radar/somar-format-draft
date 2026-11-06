@@ -1,20 +1,20 @@
 ---
-title: Cartesian image sequences (L1b)
+title: Cartesian image sequences (cartesian_image_cube)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 4
 ---
 
-# L1b: Cartesian image sequences
+# L1b: Cartesian image sequences (`cartesian_image_cube`)
 
 {: .informative }
-> This page is informative. A file of this product has the data type `cartesian_image_cube`, which the page of the [gridded data types](../data_types/gridded.md#image-cube-with-moving-origin) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. It gives an example of the data type `cartesian_image_cube`, which the page of [`cartesian_image_cube`](../data_types/cartesian_image_cube.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
 
 ## File contents
 
-**Layout.** The file holds an [image cube with moving origin](../data_types/gridded.md#image-cube-with-moving-origin) in the root group, with the data variable on `(time, y, x)`.
+**Layout.** The file holds an [image cube with moving origin](../data_types/cartesian_image_cube.md) in the root group, with the data variable on `(time, y, x)`.
 
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
@@ -25,15 +25,15 @@ A file of this product holds the following items; each links to its definition, 
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | **Variables** | | |
-| [`time`](../data_types/gridded.md#position-and-orientation-time), [`x`](../data_types/gridded.md#position-and-orientation-x), [`y`](../data_types/gridded.md#position-and-orientation-y) | Required | |
-| [`longitude`](../data_types/gridded.md#position-and-orientation-longitude), [`latitude`](../data_types/gridded.md#position-and-orientation-latitude): `(time)` from a moving platform, scalar from a fixed platform | Required | |
-| [`crs`](../data_types/gridded.md#position-and-orientation-crs) | Required | fixed platform |
-| [`standard_name`](../data_types/gridded.md#position-and-orientation) `projection_x_coordinate` and `projection_y_coordinate` on `x` and `y` | Required | fixed platform |
+| [`time`](../data_types/cartesian_image_cube.md#time), [`x`](../data_types/cartesian_image_cube.md#x), [`y`](../data_types/cartesian_image_cube.md#y) | Required | |
+| [`longitude`](../data_types/cartesian_image_cube.md#longitude), [`latitude`](../data_types/cartesian_image_cube.md#latitude): `(time)` from a moving platform, scalar from a fixed platform | Required | |
+| [`crs`](../data_types/cartesian_image_cube.md#crs) | Required | fixed platform |
+| [`standard_name`](../data_types/cartesian_image_cube.md#position-and-orientation) `projection_x_coordinate` and `projection_y_coordinate` on `x` and `y` | Required | fixed platform |
 | [`backscatter_amplitude`](../data_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../data_types/product_variables.md#backscatter_power), exactly one | Required | |
-| [`cartesian_resampling`](../data_types/gridded.md#cartesian_resampling) on the data variable | Required | |
+| [`cartesian_resampling`](../data_types/cartesian_image_cube.md#cartesian_resampling) on the data variable | Required | |
 | [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | `cartesian_resampling` other than `nearest_neighbor` |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variable | Required | fixed platform |
-| [`comment`](../data_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`comment`](../data_types/polar_raw.md#data-variable) on the data variable, describing how the values were derived | Recommended | |
 {: .contents-table }
 
 ## Example
@@ -138,7 +138,7 @@ variables:
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: [`longitude`](../data_types/gridded.md#position-and-orientation-longitude) and [`latitude`](../data_types/gridded.md#position-and-orientation-latitude) are scalar, and the file carries a [`crs`](../data_types/gridded.md#position-and-orientation-crs) centered on the radar antenna, with [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) on the data variable and the projection standard names on [`x`](../data_types/gridded.md#position-and-orientation-x) and [`y`](../data_types/gridded.md#position-and-orientation-y).
+A radar on a fixed platform: [`longitude`](../data_types/cartesian_image_cube.md#longitude) and [`latitude`](../data_types/cartesian_image_cube.md#latitude) are scalar, and the file carries a [`crs`](../data_types/cartesian_image_cube.md#crs) centered on the radar antenna, with [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) on the data variable and the projection standard names on [`x`](../data_types/cartesian_image_cube.md#x) and [`y`](../data_types/cartesian_image_cube.md#y).
 
 ```
 netcdf or_2023-08-31-17-00_cartesian_image_cube {
@@ -272,7 +272,7 @@ data:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#position-and-orientation-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#position-and-orientation-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#position-and-orientation-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
+A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/cartesian_image_cube.md#x) cross-shore, positive offshore, and [`y`](../data_types/cartesian_image_cube.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/cartesian_image_cube.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
 netcdf cr_2023-08-31-17-00_cartesian_image_cube {

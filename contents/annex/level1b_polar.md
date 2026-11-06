@@ -1,20 +1,20 @@
 ---
-title: Polar image sequences (L1b)
+title: Polar image sequences (polar_image_cube)
 layout: default
-parent: "Annex: Example products"
-nav_order: 2
+parent: "Annex: Examples"
+nav_order: 3
 ---
 
-# L1b: Polar image sequences
+# L1b: Polar image sequences (`polar_image_cube`)
 
 {: .informative }
-> This page is informative. A file of this product has the data type `polar_image_cube`, which the page of the [polar data types](../data_types/polar.md#image-cube) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. It gives an example of the data type `polar_image_cube`, which the page of [`polar_image_cube`](../data_types/polar_image_cube.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
 
 ## File contents
 
-**Layout.** The file holds an [image cube](../data_types/polar.md#image-cube) in the root group, with the data variable on `(time, azimuth, range)`.
+**Layout.** The file holds an [image cube](../data_types/polar_image_cube.md) in the root group, with the data variable on `(time, azimuth, range)`.
 
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
@@ -25,18 +25,18 @@ A file of this product holds the following items; each links to its definition, 
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | **Root group** | | |
-| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
-| [`altitude`](../data_types/polar.md#altitude) | Required | |
-| [`latitude`](../data_types/polar.md#moving-platforms-latitude), [`longitude`](../data_types/polar.md#moving-platforms-longitude), [`heading`](../data_types/polar.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
+| [`latitude`](../data_types/polar_image_cube.md#latitude), [`longitude`](../data_types/polar_image_cube.md#longitude) | Required | fixed platform |
+| [`altitude`](../data_types/polar_image_cube.md#altitude) | Required | |
+| [`latitude`](../data_types/polar_image_cube.md#latitude), [`longitude`](../data_types/polar_image_cube.md#longitude), [`heading`](../data_types/polar_image_cube.md#heading), on `(time)` or `(time, azimuth)` | Recommended | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | moving platform |
-| [`time`](../data_types/polar.md#image-cube-time), [`azimuth`](../data_types/polar.md#image-cube-azimuth), [`range`](../data_types/polar.md#image-cube-range) | Required | |
-| [`rays_angle_resolution`](../data_types/polar.md#rays_angle_resolution) on `azimuth` | Optional | |
-| [`meters_between_gates`](../data_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar.md#spacing_is_constant) on `range` | Optional | |
+| [`time`](../data_types/polar_image_cube.md#time), [`azimuth`](../data_types/polar_image_cube.md#azimuth), [`range`](../data_types/polar_image_cube.md#range) | Required | |
+| [`rays_angle_resolution`](../data_types/polar_image_cube.md#rays_angle_resolution) on `azimuth` | Optional | |
+| [`meters_between_gates`](../data_types/polar_raw.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar_raw.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar_raw.md#spacing_is_constant) on `range` | Optional | |
 | [`ray_time`](../data_types/product_variables.md#ray_time) | Optional | |
 | [`backscatter_amplitude`](../data_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../data_types/product_variables.md#backscatter_power), exactly one | Required | |
-| [`azimuth_regularization`](../data_types/polar.md#azimuth_regularization) on the data variable | Required | |
+| [`azimuth_regularization`](../data_types/polar_image_cube.md#azimuth_regularization) on the data variable | Required | |
 | [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity) on the data variable | Required | `azimuth_regularization` other than `nearest_neighbor` |
-| [`comment`](../data_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
+| [`comment`](../data_types/polar_image_cube.md#image-cube) on the data variable, describing how the values were derived | Recommended | |
 | [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
 {: .contents-table }
 

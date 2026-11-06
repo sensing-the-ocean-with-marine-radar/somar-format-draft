@@ -1,16 +1,16 @@
 ---
 title: Bathymetric maps (L2a)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 9
 ---
 
 # L2a: Bathymetric maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `bathymetry` and the data type `gridded_windows`, which the page of the [gridded data types](../data_types/gridded.md#gridded-windows) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `bathymetry` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
-Bathymetric maps (`bathymetry`) provide sea floor depth ([`sea_floor_depth_below_sea_surface`](../data_types/product_variables.md#sea_floor_depth_below_sea_surface)) in a set of analysis windows along the platform trajectory, together with an optional standard error and a `measurement_quality` bit flag.
+Bathymetric maps (`bathymetry`) provide sea floor depth ([`sea_floor_depth_below_sea_surface`](../data_types/product_variables.md#sea_floor_depth_below_sea_surface)) in a set of analysis windows along the platform trajectory, together with an optional standard error and a [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) bit flag.
 As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../references/index.md#bell-1999)).
 Because this deviation only becomes detectable once the water depth is a small enough fraction of the dominant ocean wavelength, marine radar bathymetry retrievals are limited to waters shallower than approximately a quarter of the underlying ocean wavelength, where the wavelength has decreased to about 90% of its deep-water value (Bell and Osler [2011](../references/index.md#bell-osler-2011)); [`mean_wavenumber`](../data_types/product_variables.md#mean_wavenumber) reports the actual mean wavenumber of the wave signal used for a given measurement.
 
@@ -18,7 +18,7 @@ The depths are not tide-corrected, as the definition of `sea_floor_depth_below_s
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [geographic grid](../data_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
@@ -33,25 +33,25 @@ A file of this product holds the following items; each links to its definition, 
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../data_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded_windows.md#time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
-| [`latitude`](../data_types/gridded.md#gridded-windows-latitude), [`longitude`](../data_types/gridded.md#gridded-windows-longitude) | Required | |
-| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Recommended | geographic grid |
-| [`radar_latitude`](../data_types/gridded.md#radar_latitude), [`radar_longitude`](../data_types/gridded.md#radar_longitude) | Optional | |
+| [`time_bounds`](../data_types/gridded_windows.md#time_bounds) | Optional | |
+| [`latitude`](../data_types/gridded_windows.md#latitude), [`longitude`](../data_types/gridded_windows.md#longitude) | Required | |
+| [`x`](../data_types/gridded_windows.md#x), [`y`](../data_types/gridded_windows.md#y) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Recommended | geographic grid |
+| [`radar_latitude`](../data_types/gridded_windows.md#radar_latitude), [`radar_longitude`](../data_types/gridded_windows.md#radar_longitude) | Optional | |
 | [`sea_floor_depth_below_sea_surface`](../data_types/product_variables.md#sea_floor_depth_below_sea_surface) | Required | |
 | [`mean_wavenumber`](../data_types/product_variables.md#mean_wavenumber) | Recommended | |
 | [`sea_floor_depth_below_sea_surface_standard_error`](../data_types/product_variables.md#sea_floor_depth_below_sea_surface_standard_error), [`number_of_fitted_spectral_points`](../data_types/product_variables.md#number_of_fitted_spectral_points) | Optional | |
-| [`measurement_quality`](../data_types/gridded.md#measurement_quality) | Recommended | |
+| [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) | Recommended | |
 | [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
 {: .contents-table }
 
 ## Example
 
-A radar on a moving platform, with the map on the [geographic grid](../data_types/gridded.md#geographic-grid).
+A radar on a moving platform, with the map on the [geographic grid](../georeferencing/index.md#geographic-grid).
 
 ```
 netcdf or_2025-01-15-12_bathymetry {
@@ -185,7 +185,7 @@ group: time_20250115120031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform, with the map on the [local grid](../data_types/gridded.md#local-grid): all measurements share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform, with the map on the [local grid](../georeferencing/index.md#local-grid): all measurements share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time), and the [`crs`](../data_types/gridded_windows.md#crs) is centered on the radar antenna.
 
 ```
 netcdf or_2023-08-31-17_bathymetry {
@@ -346,7 +346,7 @@ variables:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
+A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_windows.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_windows.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
 netcdf cr_2023-08-31-17_bathymetry {

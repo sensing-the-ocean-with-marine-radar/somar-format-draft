@@ -1,14 +1,14 @@
 ---
 title: Near-surface current profile maps (L2a)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 8
 ---
 
 # L2a: Near-surface current profile maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `currents_profile` and the data type `gridded_windows`, which the page of the [gridded data types](../data_types/gridded.md#gridded-windows) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `currents_profile` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current retrieval for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with increasing wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear (Lund et al. [2015](../references/index.md#lund-2015); Campana et al. [2016](../references/index.md#campana-2016)).
 The data variables therefore have an additional dimension [`wavenumber_bin`](../data_types/product_variables.md#wavenumber_bin), with one layer per wavenumber band, whose edges are given by [`wavenumber_bin_bounds`](../data_types/product_variables.md#wavenumber_bin_bounds), so that the bands need not be of equal width; cells for which no retrieval was attempted or for which the retrieval failed hold the [`_FillValue`](../metadata_attributes/variable_attributes.md#_FillValue).
@@ -16,7 +16,7 @@ As in the current maps, [`mean_wavenumber`](../data_types/product_variables.md#m
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [geographic grid](../data_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
@@ -31,14 +31,14 @@ A file of this product holds the following items; each links to its definition, 
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`number_of_images`](../metadata_attributes/processing_parameters.md#number_of_images), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../data_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded_windows.md#time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
-| [`latitude`](../data_types/gridded.md#gridded-windows-latitude), [`longitude`](../data_types/gridded.md#gridded-windows-longitude) | Required | |
-| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Recommended | geographic grid |
-| [`radar_latitude`](../data_types/gridded.md#radar_latitude), [`radar_longitude`](../data_types/gridded.md#radar_longitude) | Optional | |
+| [`time_bounds`](../data_types/gridded_windows.md#time_bounds) | Optional | |
+| [`latitude`](../data_types/gridded_windows.md#latitude), [`longitude`](../data_types/gridded_windows.md#longitude) | Required | |
+| [`x`](../data_types/gridded_windows.md#x), [`y`](../data_types/gridded_windows.md#y) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Recommended | geographic grid |
+| [`radar_latitude`](../data_types/gridded_windows.md#radar_latitude), [`radar_longitude`](../data_types/gridded_windows.md#radar_longitude) | Optional | |
 | [`wavenumber_bin`](../data_types/product_variables.md#wavenumber_bin), [`wavenumber_bin_bounds`](../data_types/product_variables.md#wavenumber_bin_bounds); all data variables, `measurement_quality` included, have the dimension `wavenumber_bin` before those of the grid | Required | |
 | [`eastward_sea_water_velocity`](../data_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../data_types/product_variables.md#northward_sea_water_velocity) | Required | north-oriented grid |
 | [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity), [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) | Required | rotated grid |
@@ -46,14 +46,14 @@ A file of this product holds the following items; each links to its definition, 
 | [`number_of_fitted_spectral_points`](../data_types/product_variables.md#number_of_fitted_spectral_points), [`signal_to_noise_ratio`](../data_types/product_variables.md#signal_to_noise_ratio) | Optional | |
 | [`eastward_sea_water_velocity_standard_error`](../data_types/product_variables.md#eastward_sea_water_velocity_standard_error), [`northward_sea_water_velocity_standard_error`](../data_types/product_variables.md#northward_sea_water_velocity_standard_error) | Optional | north-oriented grid |
 | [`sea_water_x_velocity_standard_error`](../data_types/product_variables.md#sea_water_x_velocity_standard_error), [`sea_water_y_velocity_standard_error`](../data_types/product_variables.md#sea_water_y_velocity_standard_error) | Optional | rotated grid |
-| [`measurement_quality`](../data_types/gridded.md#measurement_quality) | Recommended | |
+| [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) | Recommended | |
 | [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
 {: .contents-table }
 
 ## Example
 
-A radar on a moving platform, with the map on the [geographic grid](../data_types/gridded.md#geographic-grid).
+A radar on a moving platform, with the map on the [geographic grid](../georeferencing/index.md#geographic-grid).
 
 ```
 netcdf or_2025-01-15-11_currents_profile {
@@ -243,7 +243,7 @@ group: time_20250115110031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform, with the map on the [local grid](../data_types/gridded.md#local-grid): all measurements share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna. The wavenumber bands are those of the example above.
+A radar on a fixed platform, with the map on the [local grid](../georeferencing/index.md#local-grid): all measurements share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time), and the [`crs`](../data_types/gridded_windows.md#crs) is centered on the radar antenna. The wavenumber bands are those of the example above.
 
 ```
 netcdf or_2023-08-31-17_currents_profile {
@@ -438,7 +438,7 @@ variables:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the near-surface current is given in [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) in place of its eastward and northward components.
+A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_windows.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_windows.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the near-surface current is given in [`sea_water_x_velocity`](../data_types/product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](../data_types/product_variables.md#sea_water_y_velocity) in place of its eastward and northward components.
 
 ```
 netcdf cr_2023-08-31-17_currents_profile {

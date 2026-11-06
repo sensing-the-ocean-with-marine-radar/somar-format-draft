@@ -16,9 +16,9 @@ SOMaR files should be named so that a file's platform, time coverage, and produc
 - `<YYYY-MM-DD>-<HH>` is the UTC date and hour at which the file's data coverage begins. Most SOMaR products are aggregated into one file per hour; sub-hourly products additionally append a two-digit `-<MM>` minute field.
 - `type` is the value of the file's [`product_type`](../metadata_attributes/optional_global.md#product_type) attribute, which identifies the product, or, in a file without it, such as a Level 1 file, the value of its [`data_type`](../metadata_attributes/mandatory_global.md#data_type) attribute (see [SOMaR data types](../data_types/index.md)).
 
-| Example filename | Product |
+| Example filename | Content |
 |---|---|
-| `or_2025-01-15-11-00_polar_raw.nc` | [Radar "raw" data](../annex/level1a.md) (sub-hourly) |
+| `or_2025-01-15-11-00_polar_raw.nc` | [Raw radar data](../annex/level1a.md) (sub-hourly) |
 | `or_2025-01-15-11-00_polar_image_cube.nc` | [Polar image sequences](../annex/level1b_polar.md) (sub-hourly) |
 | `or_2025-01-15-11-00_polar_pulse_averaged.nc` | [Pulse-averaged data](../annex/level1b_pointing.md) (sub-hourly) |
 | `or_2025-01-15-11-00_cartesian_image_cube.nc` | [Cartesian image sequences](../annex/level1b_cartesian.md) (sub-hourly) |

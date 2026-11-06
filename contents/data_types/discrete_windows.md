@@ -1,14 +1,14 @@
 ---
-title: Discrete windows
+title: discrete_windows (L2)
 layout: default
 parent: SOMaR data types
-nav_order: 3
+nav_order: 7
 ---
 
-# Discrete windows
+# discrete_windows (L2)
 
 Files of the data type `discrete_windows` give one value set for each of a set of analysis windows that keep their own positions but do not form a regular lattice fixed to the Earth, such as windows fixed to the platform at a constant bearing and range, or windows placed upwind of the platform.
-They differ from [gridded windows](gridded.md#gridded-windows), whose windows form a regular lattice that stays fixed to the Earth, and from [averaged windows](averaged_windows.md), which merge the results of their windows into one value set per measurement.
+They differ from [gridded windows](gridded_windows.md), whose windows form a regular lattice that stays fixed to the Earth, and from [averaged windows](averaged_windows.md), which merge the results of their windows into one value set per measurement.
 No product type has this data type yet; the [example](#example) on this page shows near-surface currents retrieved in windows fixed to the platform.
 
 ## Windows

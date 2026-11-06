@@ -1,14 +1,14 @@
 ---
 title: Relative roughness images (L2a)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 5
 ---
 
 # L2a: Relative roughness images
 
 {: .informative }
-> This page is informative. A file of this product has the product type `relative_roughness` and the data type `gridded_pixels`, which the page of the [gridded data types](../data_types/gridded.md#gridded-pixels) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `relative_roughness` and the data type `gridded_pixels`, which the page of [`gridded_pixels`](../data_types/gridded_pixels.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Relative roughness images ([`relative_roughness`](../data_types/product_variables.md#relative_roughness)) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
 Because the platform continues to move during this averaging period, and because the local grid origin and extent may change from one averaging period to the next, each averaging period is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
@@ -17,7 +17,7 @@ Within each grid, `relative_roughness` gives the averaged, still uncalibrated ra
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per averaging period, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per averaging period, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_pixels.md#time). Each grid is the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
@@ -32,10 +32,10 @@ A file of this product holds the following items; each links to its definition, 
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../data_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded_pixels.md#time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
-| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y), [`crs`](../data_types/gridded.md#variables-crs) | Required | |
+| [`time_bounds`](../data_types/gridded_pixels.md#time_bounds) | Optional | |
+| [`x`](../data_types/gridded_pixels.md#x), [`y`](../data_types/gridded_pixels.md#y), [`crs`](../data_types/gridded_pixels.md#crs) | Required | |
 | [`relative_roughness`](../data_types/product_variables.md#relative_roughness) | Required | |
 | [`cell_methods`](../metadata_attributes/variable_attributes.md#cell_methods) `= "time: mean"`, [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity), and [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "time"` on `relative_roughness` | Required | |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | |
@@ -172,7 +172,7 @@ group: time_20250115110031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform: all averaging periods share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform: all averaging periods share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_pixels.md#time), and the [`crs`](../data_types/gridded_pixels.md#crs) is centered on the radar antenna.
 
 ```
 netcdf or_2023-08-31-17_relative_roughness {
@@ -291,7 +291,7 @@ variables:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
+A radar on a fixed platform at a coastal site, with the images on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_pixels.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_pixels.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_pixels.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt).
 
 ```
 netcdf cr_2023-08-31-17_relative_roughness {

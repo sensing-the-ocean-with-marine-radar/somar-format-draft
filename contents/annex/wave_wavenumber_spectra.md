@@ -1,14 +1,14 @@
 ---
 title: Surface wave two-dimensional wavenumber spectra (L2a)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 11
 ---
 
 # L2a: Surface wave two-dimensional wavenumber spectra
 
 {: .informative }
-> This page is informative. A file of this product has the product type `wave_wavenumber_spectra` and the data type `averaged_windows`, which the page of the [averaged windows](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `wave_wavenumber_spectra` and the data type `averaged_windows`, which the page of [`averaged_windows`](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 By SOMaR convention, the wavenumber vector points toward the direction from which the waves come, opposite to the direction of propagation, so that the spectrum agrees with the from-direction of the [frequency-direction spectra](wave_frequency_direction_spectra.md); spectra that follow the propagation direction, as in many wave models, are mirrored through the origin (see [`eastward_wave_wavenumber`](../data_types/product_variables.md#eastward_wave_wavenumber)).
@@ -19,7 +19,7 @@ The quantities from which the calibration derives the significant wave height ma
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
+**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension [`time`](../data_types/averaged_windows.md#time), with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude).
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
@@ -357,7 +357,7 @@ data:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, whose vector components are given along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna: its axes follow the convention of Argus and CIRN, `x` cross-shore, positive offshore, and `y` along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/averaged_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), while `longitude` and `latitude` remain geographic coordinates, and the wavenumbers are given in [`x_wave_wavenumber`](../data_types/product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](../data_types/product_variables.md#y_wave_wavenumber) in place of their eastward and northward components.
+A radar on a fixed platform at a coastal site, whose vector components are given along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna: its axes follow the convention of Argus and CIRN, `x` cross-shore, positive offshore, and `y` along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/averaged_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), while [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude) remain geographic coordinates, and the wavenumbers are given in [`x_wave_wavenumber`](../data_types/product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](../data_types/product_variables.md#y_wave_wavenumber) in place of their eastward and northward components.
 
 ```
 netcdf cr_2023-08-31-17_wave_wavenumber_spectra {

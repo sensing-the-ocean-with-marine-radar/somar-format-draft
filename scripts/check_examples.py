@@ -73,8 +73,7 @@ in its minimal form, without the marked items; a block whose first line is
 The tiers that depend on the file are written in the fixed form of
 data_types/index.md#requirements ("Required on the local grid;
 recommended on the geographic grid.") and resolved for each example from its
-structure, its grid, its data type and product type, and its values; the rows
-of the sections in SECTION_SCOPES apply to some data types only. An example
+structure, its grid, its data type and product type, and its values. An example
 must hold every item that the resolved tiers, the processing parameters, and
 its product row make required or recommended, and no item that they omit. The
 type, dimensions, and units of each of its variables must be among those that
@@ -82,7 +81,7 @@ the Values columns of product_variables.md and of the page of its data type
 give, with "(…)" standing for the dimensions of its data type (see
 ellipsis_forms).
 
-The product pages of the annex each have a file contents table, which must
+The pages of the annex each have a file contents table, which must
 name every global attribute, variable, and group of the examples on the page,
 every variable attribute that they mark with a tier, and every variable of the
 product row. Its conditions must be of the fixed forms of
@@ -137,16 +136,18 @@ GROUP_CLOSE = re.compile(r"^\s*\} // group (\w+)")
 # "required" marks an item that the tables recommend but the minimal file keeps.
 TIER = re.compile(r"(highly recommended|recommended|optional|required)\b")
 OMITTED_TIERS = ("highly recommended", "recommended", "optional")
-# The pages of the data types, whose product tables list the products of each data type.
-DATA_TYPE_PAGES = ("contents/data_types/polar.md", "contents/data_types/gridded.md",
-                   "contents/data_types/discrete_windows.md", "contents/data_types/averaged_windows.md")
+# The pages of the data types, one per data type, named after it; those of the Level 2 data types list
+# their products in a product table.
+DATA_TYPE_PAGES = tuple(f"contents/data_types/{name}.md" for name in (
+    "polar_raw", "polar_pulse_averaged", "polar_image_cube", "cartesian_image_cube",
+    "gridded_pixels", "gridded_windows", "discrete_windows", "averaged_windows"))
 DATA_TYPE_INDEX = "contents/data_types/index.md"
 PRODUCT_TYPE = re.compile(r':product_type = "(\w+)"')
 DATA_TYPE = re.compile(r':data_type = "(\w+)"')
 # The data type whose structure is the same from a moving and from a fixed platform.
 SAME_STRUCTURE_DATA_TYPES = {"discrete_windows"}
-# The sentence by which a product page of the annex names its product type, if any, and its data type.
-ANNEX_TYPES = re.compile(r"has the (?:product type `(\w+)` and the )?data type `(\w+)`, which the page of the \[[^\]]*\]\(\.\./data_types/(\w+)\.md")
+# The sentence by which a page of the annex names its product type, if any, and its data type.
+ANNEX_TYPES = re.compile(r"(?:has the (?:product type `(\w+)` and the )?|an example of the )data type `(\w+)`, which the page of \[[^\]]*\]\(\.\./data_types/(\w+)\.md")
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # The variables that take the place of others on a rotated local grid, and its grid mapping (see product_variables.md).
@@ -162,7 +163,7 @@ CELL_METHOD = re.compile(r"((?:\w+:\s*)+)(\w+)((?:\s+(?:where|over|within)\s+\w+
 # Attributes whose references to omitted variables are dropped in the minimal form.
 REFERENCE_ATTRIBUTES = ("grid_mapping", "ancillary_variables")
 # The tiers of the groups that a file may omit, as stated in the text of their pages
-# (polar.md, radar_parameters.md, georeference_correction.md, wave_calibration.md); other groups are required.
+# (polar_raw.md, radar_parameters.md, georeference_correction.md, wave_calibration.md); other groups are required.
 GROUP_TIERS = {"georeference": "recommended", "radar_parameters": "optional",
                "georeference_correction": "optional", "wave_calibration": "recommended"}
 # The pages whose attribute tables give the tiers of variable attributes.
@@ -176,21 +177,12 @@ METERS_PER_DEGREE = 111320.0
 LINKED_CODE = re.compile(r"\[(`[^`\]]+`)\]\([^)\s]*\)")
 # The types of NetCDF variables, as named in the Values columns of the tables.
 NETCDF_TYPES = ("char", "byte", "ubyte", "short", "ushort", "int", "uint", "int64", "uint64", "float", "double", "string")
-# The sections of the data-type pages whose tables apply to some of their data types only, by the
-# heading of the section (h2): {page: {section: data types}}.
-SECTION_SCOPES = {
-    "contents/data_types/polar.md": {"sweeps": {"polar_raw"}, "averaged-sweeps": {"polar_pulse_averaged"},
-                                     "image-cube": {"polar_image_cube"}},
-    "contents/data_types/gridded.md": {"image-cube-with-moving-origin": {"cartesian_image_cube"},
-                                       "variables": {"gridded_pixels", "gridded_windows"},
-                                       "gridded-pixels": {"gridded_pixels"}, "gridded-windows": {"gridded_windows"}},
-}
 # The first sentence of a description that gives a tier, possibly with conditions, and one clause of it.
 TIER_SENTENCE = re.compile(r"(Required|Recommended|Optional)\b(.*?)\.(?:\s|$)")
 TIER_CLAUSE = re.compile(r"(required|recommended|optional|omitted)\b\s*(.*)", re.I)
 # The words by which a sentence states a requirement, which the informative annex leaves to the definitions.
 NORMATIVE_WORDS = re.compile(r"\b(?:must|shall|(?:is|are) required)\b", re.I)
-# The file contents table of a product page of the annex, and the names that its rows link to.
+# The file contents table of a page of the annex, and the names that its rows link to.
 CONTENTS_TABLE = "{: .contents-table }"
 LINKED_NAME = re.compile(r"\[`(\w+)`\]\(([^)]*)\)")
 # The groups that the layout rows of a file contents table describe, rather than a row of their own.
@@ -295,9 +287,8 @@ def table_tiers(text, strict=True):
 def registry():
     """Return {key: (data-type page, {name: tier}, level, data type)} for the products and the data types.
 
-    The products are the rows of the product tables of the data-type pages, keyed by their
-    product type, or by their data type where the row gives none ("—"), as for the Level 1
-    products; the tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**"
+    The products are the rows of the product tables of the Level 2 data-type pages, keyed by
+    their product type; the tiers are those of the "**Required:**", "**Recommended:**", and "**Optional:**"
     lines of a row, and the level, such as "L1a", is given in parentheses after the name of the
     product. Each data type without such a row is keyed by itself, with no tiers of a product,
     for the files that carry no product type; its level is that of the index of the data types.
@@ -323,7 +314,7 @@ def registry():
 
 
 def product_rows(products):
-    """Return the keys of the products that have a row in a product table, i.e. all keys but the bare Level 2 data types."""
+    """Return the keys that have an example in the annex: the product types and the Level 1 data types."""
     return {key for key, (_, tiers, level, data_type) in products.items() if key != data_type or level.startswith("L1")}
 
 
@@ -357,7 +348,7 @@ def attribute_tiers():
 
 
 def annex_key(text):
-    """Return the key of the product of a product page of the annex: its product type, or its data type; None for other pages."""
+    """Return the key of the product of a page of the annex: its product type, or its data type; None for other pages."""
     match = ANNEX_TYPES.search(text)
     return (match.group(1) or match.group(2)) if match else None
 
@@ -551,27 +542,15 @@ def resolved_tier(description, facts):
     return applying[0] if applying else default
 
 
-def section_slug(heading):
-    return re.sub(r"[^a-z0-9 -]", "", heading.lower()).strip().replace(" ", "-")
-
-
 def resolved_tiers(page, facts):
     """Return ({name: tier}, [conflicts]) for the rows of a page's tables that apply to an example.
 
-    Rows in a section of SECTION_SCOPES apply to its data types only. Names whose rows give
-    different tiers are reported as conflicts and left out.
+    Names whose rows give different tiers are reported as conflicts and left out.
     """
-    scopes = SECTION_SCOPES.get(page, {})
-    tiers, conflicts, section = {}, set(), None
+    tiers, conflicts = {}, set()
     for line in read(os.path.join(ROOT, page)).splitlines():
-        if line.startswith("## "):
-            section = section_slug(line[3:])
-            continue
         match = re.match(r"\| `(\w+)`", line)
         if not match:
-            continue
-        scope = scopes.get(section)
-        if scope is not None and facts["data_type"] not in scope:
             continue
         found = resolved_tier(unlink(line.strip().strip("|").split("|")[-1]), facts)
         if found is None:
@@ -616,27 +595,21 @@ def check_completeness(block, tiers):
     return errors
 
 
-def value_specs(text, scopes, data_type):
+def value_specs(text):
     """Return {variable: [(types, dimension forms, units, values text)]} from the Values columns of a page's variable tables.
 
     The types are those named, or None for any; a dimension form is a tuple of names, () for
     a scalar, None for any, or a tuple starting with "…", which stands for the dimensions of
     ellipsis_forms;
     the units are those given in code, or None where the column gives values or flags instead.
-    Rows in a section of scopes apply to its data types only.
     """
-    specs, section, rows = {}, None, []
+    specs, rows = {}, []
     for line in text.splitlines():
-        if line.startswith("## "):
-            section = section_slug(line[3:])
         if line.startswith("| `"):
-            rows.append((section, line))
+            rows.append(line)
             continue
         if line.strip() == "{: .variable-table }":
-            for row_section, row in rows:
-                scope = scopes.get(row_section)
-                if scope is not None and data_type not in scope:
-                    continue
+            for row in rows:
                 cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
                 name = re.match(r"`(\w+)`", cells[0]).group(1)
                 shape, _, units = unlink(cells[1]).partition(";")
@@ -661,9 +634,9 @@ def value_specs(text, scopes, data_type):
 
 def product_value_specs(product, products):
     """Return the value specifications of the variables of a product: those of product_variables.md and of the page of its data type."""
-    page, _, _, data_type = products[product]
-    specs = value_specs(read(os.path.join(ROOT, "contents/data_types/product_variables.md")), {}, data_type)
-    for name, found in value_specs(read(os.path.join(ROOT, page)), SECTION_SCOPES.get(page, {}), data_type).items():
+    page = products[product][0]
+    specs = value_specs(read(os.path.join(ROOT, "contents/data_types/product_variables.md")))
+    for name, found in value_specs(read(os.path.join(ROOT, page))).items():
         specs.setdefault(name, []).extend(found)
     return specs
 
@@ -731,7 +704,7 @@ def check_value_specs(block, specs, bases):
 
 
 def check_informative_prose(text):
-    """Check that the prose of a product page of the annex states no requirements, which belong to the definitions.
+    """Check that the prose of a page of the annex states no requirements, which belong to the definitions.
 
     The prose is the text outside code blocks and tables; a requirement is recognized by
     "must", "shall", or "is/are required".
@@ -774,7 +747,7 @@ def contents_condition_holds(condition, facts):
 
 
 def check_contents_table(text, product, products):
-    """Check the file contents table of a product page of the annex against the examples on the page.
+    """Check the file contents table of a page of the annex against the examples on the page.
 
     Every global attribute, variable, and group of the examples, and every variable attribute
     that they mark with a tier, is named by a row, the recommended global attributes also by the
@@ -1238,11 +1211,11 @@ def check_rules(groups, is_file, expected):
             if "featureType" in root and "time" in group["dimensions"].get(variable, ()) and variable not in DSG_COORDINATES \
                     and unquote(attributes.get("coordinates", "")).split() != ["time", "longitude", "latitude"]:
                 errors.append(f'{where}: a variable of a discrete sampling geometry needs coordinates = "time longitude latitude"')
-        # fixed_angle is required in pointing sweeps and omitted otherwise (polar.md).
+        # fixed_angle is required in pointing sweeps and omitted otherwise (polar_raw.md).
         pointing = group["strings"].get("sweep_mode") == "pointing"
         if pointing != ("fixed_angle" in group["variables"]):
             errors.append(f"{path}: fixed_angle is required if sweep_mode is \"pointing\" and omitted otherwise")
-        # The local grid of a Level 2 data type needs its crs (gridded.md).
+        # The local grid of a Level 2 data type needs its crs (georeferencing/index.md#local-grid).
         if data_type in expected["level2_data_types"] and {"x", "y"} <= group["variables"].keys() and not resolve(groups, path, "crs"):
             errors.append(f"{path}: a local grid needs a crs")
         # A rotated local grid gives the azimuth of its y axis, from a fixed platform and not on a geographic grid (georeferencing).
@@ -1274,7 +1247,7 @@ def check_rules(groups, is_file, expected):
             errors.append(f"{name} is replaced by {replacement} on a rotated grid")
         if not rotated and anywhere(groups, replacement):
             errors.append(f"{replacement} is used on a rotated grid only, in place of {name}")
-    # Cartesian images carry a crs from a fixed platform only (gridded.md).
+    # Cartesian images carry a crs from a fixed platform only (cartesian_image_cube.md).
     if data_type == "cartesian_image_cube":
         fixed = groups["/"]["dimensions"].get("longitude") == ()
         if fixed != ("crs" in groups["/"]["variables"]):
@@ -1348,7 +1321,7 @@ def check_values(groups, is_file, expected):
         # time_iso_8601 states the same instant as the value of time (variable_attributes.md).
         if iso and value is not None and abs(iso.timestamp() - value) > 0.001:
             errors.append(f"{path}: time_iso_8601 {iso.isoformat()} differs from the value of time")
-        # A time-bounded grid is named after its start time (gridded.md).
+        # A time-bounded grid is named after its start time (georeferencing/index.md#time-bounded-grids).
         if name and start and start.strftime("%Y%m%d%H%M%S") != name.group(1):
             errors.append(f"{path}: the group is named after {name.group(1)}, but its time is {start.isoformat()}")
         if name and start:

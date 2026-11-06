@@ -11,7 +11,7 @@ Known offsets of the recorded pointing direction, range, time, and platform posi
 For a ship-borne radar, the azimuth, range, and time offsets can be estimated from the imagery itself (McCann and Bell [2018](../references/index.md#mccann-bell-2018)).
 This group is not part of FM 301; it is taken from CfRadial 2.1 (section 7.5), except for the time correction and the position offsets, which are SOMaR additions.
 
-The group is used only by [Level 1a](../data_types/polar.md) and [Level 1b polar](../data_types/polar.md#image-cube) products; how the corrections are applied is described under [Georeferencing](../georeferencing/index.md#applying-georeference-corrections).
+The group is used only by the polar data types, [`polar_raw`](../data_types/polar_raw.md), [`polar_pulse_averaged`](../data_types/polar_pulse_averaged.md), and [`polar_image_cube`](../data_types/polar_image_cube.md); how the corrections are applied is described under [Georeferencing](../georeferencing/index.md#applying-georeference-corrections).
 
 | Variable | Values | Description |
 |---|---|---|

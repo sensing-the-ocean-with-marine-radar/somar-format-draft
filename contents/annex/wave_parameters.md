@@ -1,22 +1,22 @@
 ---
 title: Peak and mean wave parameters (L2b)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 14
 ---
 
 # L2b: Peak and mean wave parameters
 
 {: .informative }
-> This page is informative. A file of this product has the product type `wave_parameters` and the data type `averaged_windows`, which the page of the [averaged windows](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `wave_parameters` and the data type `averaged_windows`, which the page of [`averaged_windows`](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height ([`sea_surface_wave_significant_height`](../data_types/product_variables.md#sea_surface_wave_significant_height)), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
 The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md#wave_frequency_frame).
-To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities ([`wave_signal`](../data_types/product_variables.md#wave_signal), [`background_noise`](../data_types/product_variables.md#background_noise)), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface ([`sea_surface_wave_mean_square_slope`](../data_types/product_variables.md#sea_surface_wave_mean_square_slope)) for the shadowing method; the calibration applies [`hs_slope`](../metadata_attributes/wave_calibration.md#hs_slope) and [`hs_intercept`](../metadata_attributes/wave_calibration.md#hs_intercept) to the predictor [`hs_predictor`](../metadata_attributes/wave_calibration.md#hs_predictor) computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows, for platform-fixed windows after correcting for the platform velocity (see [Near-surface current maps](current_maps.md)) and a `measurement_quality` flag.
+To aid interpretation and quality assessment, the quantities from which the significant wave height is derived may also be reported: the wave-signal and background-noise spectral densities ([`wave_signal`](../data_types/product_variables.md#wave_signal), [`background_noise`](../data_types/product_variables.md#background_noise)), whose ratio is the signal-to-noise ratio, for the signal-to-noise ratio method, or the mean square slope of the sea surface ([`sea_surface_wave_mean_square_slope`](../data_types/product_variables.md#sea_surface_wave_mean_square_slope)) for the shadowing method; the calibration applies [`hs_slope`](../metadata_attributes/wave_calibration.md#hs_slope) and [`hs_intercept`](../metadata_attributes/wave_calibration.md#hs_intercept) to the predictor [`hs_predictor`](../metadata_attributes/wave_calibration.md#hs_predictor) computed from them. The wave parameters are given together with the near-surface current vector obtained from the same analysis windows, for platform-fixed windows after correcting for the platform velocity (see [Near-surface current maps](current_maps.md)) and a [`measurement_quality`](../data_types/averaged_windows.md#measurement_quality) flag.
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
+**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension [`time`](../data_types/averaged_windows.md#time), with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude).
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 

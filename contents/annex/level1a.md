@@ -1,20 +1,20 @@
 ---
-title: Radar "raw" data (L1a)
+title: Raw radar data (polar_raw)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 1
 ---
 
-# L1a: "raw" radar data
+# L1a: Raw radar data (`polar_raw`)
 
 {: .informative }
-> This page is informative. A file of this product has the data type `polar_raw`, which the page of the [polar data types](../data_types/polar.md#sweeps) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. It gives an example of the data type `polar_raw`, which the page of [`polar_raw`](../data_types/polar_raw.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
 
 ## File contents
 
-**Layout.** The file holds the [sweeps](../data_types/polar.md#sweeps): one `sweep_<n>` group per sweep, numbered from 0 in the order of acquisition.
+**Layout.** The file holds the [sweeps](../data_types/polar_raw.md#sweeps): one `sweep_<n>` group per sweep, numbered from 0 in the order of acquisition.
 
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
+A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|
@@ -25,19 +25,19 @@ A file of this product holds the following items; each links to its definition, 
 | [`keywords`](../metadata_attributes/optional_global.md#keywords), [`summary`](../metadata_attributes/optional_global.md#summary), [`title`](../metadata_attributes/optional_global.md#title) | Highly recommended | |
 | the other [recommended global attributes](../metadata_attributes/optional_global.md#recommended) | Recommended | |
 | **Root group** | | |
-| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Required | fixed platform |
-| [`latitude`](../data_types/polar.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar.md#coordinates-and-position-longitude) | Recommended | moving platform |
-| [`altitude`](../data_types/polar.md#altitude) | Required | |
+| [`latitude`](../data_types/polar_raw.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar_raw.md#coordinates-and-position-longitude) | Required | fixed platform |
+| [`latitude`](../data_types/polar_raw.md#coordinates-and-position-latitude), [`longitude`](../data_types/polar_raw.md#coordinates-and-position-longitude) | Recommended | moving platform |
+| [`altitude`](../data_types/polar_raw.md#altitude) | Required | |
 | [`radar_parameters`](../metadata_attributes/radar_parameters.md), [`georeference_correction`](../metadata_attributes/georeference_correction.md) groups | Optional | |
 | **Each `sweep_<n>` group** | | |
-| [`time`](../data_types/polar.md#sweep-groups-time), [`range`](../data_types/polar.md#sweep-groups-range), [`azimuth`](../data_types/polar.md#sweep-groups-azimuth) | Required | |
-| [`meters_between_gates`](../data_types/polar.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar.md#spacing_is_constant) on `range` | Optional | |
-| [`sweep_mode`](../data_types/polar.md#sweep-groups-sweep_mode) | Optional | |
-| [`fixed_angle`](../data_types/polar.md#sweep-groups-fixed_angle) | Required | `sweep_mode = "pointing"` |
+| [`time`](../data_types/polar_raw.md#time), [`range`](../data_types/polar_raw.md#range), [`azimuth`](../data_types/polar_raw.md#azimuth) | Required | |
+| [`meters_between_gates`](../data_types/polar_raw.md#meters_between_gates), [`meters_to_center_of_first_gate`](../data_types/polar_raw.md#meters_to_center_of_first_gate), [`spacing_is_constant`](../data_types/polar_raw.md#spacing_is_constant) on `range` | Optional | |
+| [`sweep_mode`](../data_types/polar_raw.md#sweep_mode) | Optional | |
+| [`fixed_angle`](../data_types/polar_raw.md#fixed_angle) | Required | `sweep_mode = "pointing"` |
 | [`backscatter_amplitude`](../data_types/product_variables.md#backscatter_amplitude) or [`backscatter_power`](../data_types/product_variables.md#backscatter_power), exactly one | Required | |
-| [`coordinates`](../data_types/polar.md#data-variables) `= "azimuth range"` on the data variable | Required | |
-| [`comment`](../data_types/polar.md#data-variables) on the data variable, describing how the values were derived | Recommended | |
-| [`georeference`](../data_types/polar.md#moving-platforms) subgroup, with [`latitude`](../data_types/polar.md#moving-platforms-latitude), [`longitude`](../data_types/polar.md#moving-platforms-longitude), and [`heading`](../data_types/polar.md#heading) | Recommended | moving platform |
+| [`coordinates`](../data_types/polar_raw.md#data-variable) `= "azimuth range"` on the data variable | Required | |
+| [`comment`](../data_types/polar_raw.md#data-variable) on the data variable, describing how the values were derived | Recommended | |
+| [`georeference`](../data_types/polar_raw.md#moving-platforms) subgroup, with [`latitude`](../data_types/polar_raw.md#moving-platforms-latitude), [`longitude`](../data_types/polar_raw.md#moving-platforms-longitude), and [`heading`](../data_types/polar_raw.md#heading) | Recommended | moving platform |
 | [`source`](../metadata_attributes/variable_attributes.md#source), [`sampling_frequency`](../metadata_attributes/variable_attributes.md#sampling_frequency) on the navigation variables | Optional | |
 {: .contents-table }
 

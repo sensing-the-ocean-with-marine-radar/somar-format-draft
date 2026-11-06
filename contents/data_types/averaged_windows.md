@@ -1,14 +1,14 @@
 ---
-title: Averaged windows
+title: averaged_windows (L2)
 layout: default
 parent: SOMaR data types
-nav_order: 4
+nav_order: 8
 ---
 
-# Averaged windows
+# averaged_windows (L2)
 
 Files of the data type `averaged_windows` combine the results of several analysis windows into one value set per measurement, located at the mean position of the windows.
-What sets them apart from [gridded windows](gridded.md#gridded-windows) and [discrete windows](discrete_windows.md) is not that their values are averages over an area, since the value of a single window is an average over that window too, but that the windows do not keep their own positions.
+What sets them apart from [gridded windows](gridded_windows.md) and [discrete windows](discrete_windows.md) is not that their values are averages over an area, since the value of a single window is an average over that window too, but that the windows do not keep their own positions.
 The windows need not span the radar footprint; the averaging over the windows is distinct from the averaging over time that all Level 2 data types share.
 The products of this data type are currently the surface wave products: two-dimensional wavenumber spectra, frequency-direction spectra, one-dimensional frequency spectra, and bulk wave parameters.
 They are listed, with the variables that each of them holds, under [Products](#products).

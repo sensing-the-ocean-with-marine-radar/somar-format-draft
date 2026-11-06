@@ -1,14 +1,14 @@
 ---
 title: Surface wave one-dimensional frequency spectra (L2b)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 13
 ---
 
 # L2b: Surface wave one-dimensional frequency spectra
 
 {: .informative }
-> This page is informative. A file of this product has the product type `wave_frequency_spectra` and the data type `averaged_windows`, which the page of the [averaged windows](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `wave_frequency_spectra` and the data type `averaged_windows`, which the page of [`averaged_windows`](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
 One-dimensional frequency spectra (`wave_frequency_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_variance_spectral_density(time, wave_frequency)`, for each measurement, averaged over the analysis windows that contribute to it, together with the directional spread ([`sea_surface_wave_directional_spread`](../data_types/product_variables.md#sea_surface_wave_directional_spread)) and mean wave direction ([`sea_surface_wave_mean_from_direction`](../data_types/product_variables.md#sea_surface_wave_mean_from_direction)) in each frequency band.
 They are derived from the [two-dimensional wavenumber spectra](wave_wavenumber_spectra.md) using the linear wave dispersion relation, which relates each wavenumber to its corresponding wave frequency.
@@ -16,7 +16,7 @@ The frequencies are intrinsic, i.e. relative to the moving water, if this disper
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension `time`, with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar `longitude` and `latitude`.
+**Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension [`time`](../data_types/averaged_windows.md#time), with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude).
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 

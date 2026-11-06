@@ -14,8 +14,8 @@ For more about the community, see the [SOMaR GitHub organization](https://github
 | `contents/introduction/` | Scope, motivation, terms, and document structure |
 | `contents/metadata_attributes/` | Mandatory and recommended global attributes, variable attributes, processing parameters, quality flags, radar parameters, georeference correction parameters, wave calibration parameters |
 | `contents/georeferencing/` | Polar coordinates, georeference correction application, antenna offsets, CRS variables, time-bounded local grids, analysis windows |
-| `contents/data_types/` | The processing levels and the data types, polar, gridded, discrete windows, and averaged windows, each with the product table of its products, and the product variables |
-| `contents/annex/` | Informative example files of all products, with descriptions of the Level 2 products and their retrieval |
+| `contents/data_types/` | The processing levels and the data types, one page each, with the product tables of the Level 2 products, and the product variables |
+| `contents/annex/` | Informative example files of all Level 1 data types and Level 2 products, with descriptions of the Level 2 products and their retrieval |
 | `contents/file_naming/` | File naming pattern recommendations |
 | `contents/references/` | Scientific literature and the standards SOMaR builds on |
 | `contents/about/` | About the SOMaR community |
@@ -75,8 +75,8 @@ Releases are archived with a DOI once the repository is enabled in [Zenodo's Git
 ## Editing the specification
 
 - Pages are Markdown files. The front matter (`title`, `parent`, `nav_order`) determines the page's place in the navigation.
-- A data type is defined on its page or section under `contents/data_types/` (polar, gridded, discrete windows, or averaged windows) and listed in the table of `contents/data_types/index.md` and under `data_type` in `contents/metadata_attributes/mandatory_global.md`. A product is a row in the product table of its data type's page, with its `product_type` for Level 2, which is also listed in the index and under `product_type` in `contents/metadata_attributes/optional_global.md`; its variables are defined in `contents/data_types/product_variables.md`, and its example file is a page under `contents/annex/`. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
-- Each product page of the annex begins with its file contents, the layout of the file and a table of its items, which summarize the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
+- A data type is defined on its own page under `contents/data_types/`, named after its `data_type` value, and listed in the table of `contents/data_types/index.md` and under `data_type` in `contents/metadata_attributes/mandatory_global.md`. A product, defined at Level 2 only, is a row in the product table of its data type's page, with its `product_type`, which is also listed in the index and under `product_type` in `contents/metadata_attributes/optional_global.md`; its variables are defined in `contents/data_types/product_variables.md`, and its example file is a page under `contents/annex/`, as is the example of each Level 1 data type. Attributes and variables shared by more than one product belong in `contents/metadata_attributes/`.
+- Each page of the annex begins with its file contents, the layout of the file and a table of its items, which summarize the definitions of the product for readers; its items link to the rows that define them (every row of an attribute or variable table has an id, see `_plugins/table_rows.rb`). The annex is informative: its prose describes the products and states no requirements.
 - Links follow the rule under [Links](#links).
 - A tier that depends on the file is written in the fixed form described under [Requirements](contents/data_types/index.md#requirements), such as "Required on the local grid; recommended on the geographic grid.", so that `scripts/check_examples.py` can resolve it for each example.
 - Please propose changes through issues or pull requests.

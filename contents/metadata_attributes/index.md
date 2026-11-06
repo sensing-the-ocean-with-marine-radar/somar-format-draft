@@ -19,7 +19,7 @@ In both cases, the convention that defines the attribute or variable is named in
 
 - **CF**: the attribute is defined by the [NetCDF Climate and Forecast (CF) Metadata Conventions][cf], version 1.13, and is used as defined there.
 - **ACDD**: the attribute is defined by the [Attribute Convention for Data Discovery (ACDD)][acdd], version 1.3, which complements CF with attributes describing who created a dataset, under which license, and what time span and area it covers.
-- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../data_types/polar.md#relation-to-fm-301-and-cfradial) and the [radar parameters](radar_parameters.md).
+- **FM 301**: the attribute or variable is defined by the WMO-CF Radial profile [FM 301][fm301] of the WMO Manual on Codes (WMO-No. 306, Volume I.2), the international standard for radar data in polar coordinates. SOMaR follows it for [Level 1a data](../data_types/polar_raw.md#relation-to-fm-301-and-cfradial) and the [radar parameters](radar_parameters.md).
 - **CfRadial**: the attribute or variable is defined by the [CfRadial format][cfradial], version 2.1 (draft of 2019), from which FM 301 was developed. SOMaR follows it for moving platforms and georeference corrections, which FM 301 does not include.
 - **SOMaR**: the attribute is defined by none of these conventions and is introduced by this document.
 

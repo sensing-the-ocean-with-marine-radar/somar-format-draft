@@ -1,16 +1,16 @@
 ---
 title: Sea ice drift maps (L2a)
 layout: default
-parent: "Annex: Example products"
+parent: "Annex: Examples"
 nav_order: 10
 ---
 
 # L2a: Sea ice drift maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `sea_ice_drift` and the data type `gridded_windows`, which the page of the [gridded data types](../data_types/gridded.md#gridded-windows) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> This page is informative. A file of this product has the product type `sea_ice_drift` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
 
-Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector in a set of analysis windows along the platform trajectory, together with a `measurement_quality` bit flag.
+Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector in a set of analysis windows along the platform trajectory, together with a [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) bit flag.
 Each drift vector is retrieved from the displacement of the backscatter pattern between two radar images, which may be temporally averaged, separated by a short time lag.
 The method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method): for example, cross-correlation of the two images within a local analysis window, where the offset at the correlation peak yields the drift vector (`cross_correlation`; Lund et al. [2018](../references/index.md#lund-2018)), or optical flow (`optical_flow`; Thomson et al. [2021](../references/index.md#thomson-2021)).
 If the retrieval is also carried out backward in time, two independent drift vector estimates are reported for each location: [`eastward_sea_ice_velocity`](../data_types/product_variables.md#eastward_sea_ice_velocity)/[`northward_sea_ice_velocity`](../data_types/product_variables.md#northward_sea_ice_velocity) from the forward retrieval and [`eastward_sea_ice_velocity_backward`](../data_types/product_variables.md#eastward_sea_ice_velocity_backward)/[`northward_sea_ice_velocity_backward`](../data_types/product_variables.md#northward_sea_ice_velocity_backward) from the backward retrieval.
@@ -19,7 +19,7 @@ The cross-correlation method is blind to the actual presence or absence of sea i
 
 ## File contents
 
-**Layout.** On a moving platform, the file holds one [time-bounded grid](../data_types/gridded.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time). Each grid is the [geographic grid](../data_types/gridded.md#geographic-grid) `(latitude, longitude)` or the [local grid](../data_types/gridded.md#local-grid) `(y, x)`.
+**Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
 
 A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
@@ -35,27 +35,27 @@ A file of this product holds the following items; each links to its definition, 
 | [`analysis_window_shape`](../metadata_attributes/processing_parameters.md#analysis_window_shape), [`analysis_window_size`](../metadata_attributes/processing_parameters.md#analysis_window_size), [`analysis_window_spacing`](../metadata_attributes/processing_parameters.md#analysis_window_spacing), [`measurement_duration`](../metadata_attributes/processing_parameters.md#measurement_duration), [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method), [`time_lag`](../metadata_attributes/processing_parameters.md#time_lag) | Recommended | |
 | [`averaging_duration`](../metadata_attributes/processing_parameters.md#averaging_duration) | Recommended | |
 | **Variables of each grid** | | |
-| [`time`](../data_types/gridded.md#variables-time) | Required | |
+| [`time`](../data_types/gridded_windows.md#time) | Required | |
 | [`time_iso_8601`](../metadata_attributes/variable_attributes.md#time_iso_8601) on `time` | Optional | time-bounded grid |
-| [`time_bounds`](../data_types/gridded.md#time_bounds) | Optional | |
-| [`latitude`](../data_types/gridded.md#gridded-windows-latitude), [`longitude`](../data_types/gridded.md#gridded-windows-longitude) | Required | |
-| [`x`](../data_types/gridded.md#variables-x), [`y`](../data_types/gridded.md#variables-y) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Required | local grid |
-| [`crs`](../data_types/gridded.md#variables-crs) | Recommended | geographic grid |
-| [`radar_latitude`](../data_types/gridded.md#radar_latitude), [`radar_longitude`](../data_types/gridded.md#radar_longitude) | Optional | |
+| [`time_bounds`](../data_types/gridded_windows.md#time_bounds) | Optional | |
+| [`latitude`](../data_types/gridded_windows.md#latitude), [`longitude`](../data_types/gridded_windows.md#longitude) | Required | |
+| [`x`](../data_types/gridded_windows.md#x), [`y`](../data_types/gridded_windows.md#y) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Required | local grid |
+| [`crs`](../data_types/gridded_windows.md#crs) | Recommended | geographic grid |
+| [`radar_latitude`](../data_types/gridded_windows.md#radar_latitude), [`radar_longitude`](../data_types/gridded_windows.md#radar_longitude) | Optional | |
 | [`eastward_sea_ice_velocity`](../data_types/product_variables.md#eastward_sea_ice_velocity), [`northward_sea_ice_velocity`](../data_types/product_variables.md#northward_sea_ice_velocity) | Required | north-oriented grid |
 | [`sea_ice_x_velocity`](../data_types/product_variables.md#sea_ice_x_velocity), [`sea_ice_y_velocity`](../data_types/product_variables.md#sea_ice_y_velocity) | Required | rotated grid |
 | [`correlation_coefficient`](../data_types/product_variables.md#correlation_coefficient), [`correlation_coefficient_backward`](../data_types/product_variables.md#correlation_coefficient_backward) | Optional | |
 | [`eastward_sea_ice_velocity_backward`](../data_types/product_variables.md#eastward_sea_ice_velocity_backward), [`northward_sea_ice_velocity_backward`](../data_types/product_variables.md#northward_sea_ice_velocity_backward) | Optional | north-oriented grid |
 | [`sea_ice_x_velocity_backward`](../data_types/product_variables.md#sea_ice_x_velocity_backward), [`sea_ice_y_velocity_backward`](../data_types/product_variables.md#sea_ice_y_velocity_backward) | Optional | rotated grid |
-| [`measurement_quality`](../data_types/gridded.md#measurement_quality) | Recommended | |
+| [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) | Recommended | |
 | [`coordinates`](../metadata_attributes/variable_attributes.md#coordinates) `= "longitude latitude"` on the data variables | Required | local grid |
 | [`grid_mapping`](../metadata_attributes/variable_attributes.md#grid_mapping) `= "crs"` on the data variables | Required | with `crs` |
 {: .contents-table }
 
 ## Example
 
-A radar on a moving platform, with the map on the [geographic grid](../data_types/gridded.md#geographic-grid).
+A radar on a moving platform, with the map on the [geographic grid](../georeferencing/index.md#geographic-grid).
 
 ```
 netcdf or_2025-08-23-12_sea_ice_drift {
@@ -208,7 +208,7 @@ group: time_20250823120031 {
 
 ## Example for a fixed platform
 
-A radar on a fixed platform, with the map on the [local grid](../data_types/gridded.md#local-grid): all measurements share a [single grid](../data_types/gridded.md#fixed-platform) in the root group, with the leading dimension [`time`](../data_types/gridded.md#variables-time), and the [`crs`](../data_types/gridded.md#variables-crs) is centered on the radar antenna.
+A radar on a fixed platform, with the map on the [local grid](../georeferencing/index.md#local-grid): all measurements share a [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time), and the [`crs`](../data_types/gridded_windows.md#crs) is centered on the radar antenna.
 
 ```
 netcdf or_2025-03-12-12_sea_ice_drift {
@@ -392,7 +392,7 @@ variables:
 
 ## Example for a rotated grid
 
-A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded.md#variables-x) cross-shore, positive offshore, and [`y`](../data_types/gridded.md#variables-y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded.md#variables-crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the sea ice drift is given in [`sea_ice_x_velocity`](../data_types/product_variables.md#sea_ice_x_velocity) and [`sea_ice_y_velocity`](../data_types/product_variables.md#sea_ice_y_velocity) in place of its eastward and northward components.
+A radar on a fixed platform at a coastal site, with the map on a [rotated local grid](../georeferencing/index.md#rotated-local-grids): its axes follow the convention of Argus and CIRN, [`x`](../data_types/gridded_windows.md#x) cross-shore, positive offshore, and [`y`](../data_types/gridded_windows.md#y) along-shore, at a coast whose offshore normal points to 110°, so that the azimuth of the y axis is 20°. The [`crs`](../data_types/gridded_windows.md#crs) gives `grid_mapping_name = "rotated_azimuthal_equidistant"`, [`azimuth_of_y_axis`](../metadata_attributes/variable_attributes.md#azimuth_of_y_axis), and [`crs_wkt`](../metadata_attributes/variable_attributes.md#crs_wkt), and the sea ice drift is given in [`sea_ice_x_velocity`](../data_types/product_variables.md#sea_ice_x_velocity) and [`sea_ice_y_velocity`](../data_types/product_variables.md#sea_ice_y_velocity) in place of its eastward and northward components.
 
 ```
 netcdf cr_2025-03-12-12_sea_ice_drift {
