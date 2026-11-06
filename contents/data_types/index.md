@@ -8,8 +8,9 @@ has_children: true
 # SOMaR data types
 
 SOMaR files are organized by their data type, i.e. by how their values are arranged and located in space.
-Every SOMaR NetCDF file carries the mandatory global attribute [`data_type`](../metadata_attributes/mandatory_global.md#data_type), which names its data type and thereby its structure, and the mandatory global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile), which chooses between the layouts of a moving and a fixed platform (see [Moving and fixed platforms](#moving-and-fixed-platforms)).
-A Level 2 file should also carry the global attribute [`product_type`](../metadata_attributes/optional_global.md#product_type), which names the geophysical product that it holds and thereby its data variables; products are defined at Level 2 only, and a Level 1 file is fully described by its data type.
+Every SOMaR NetCDF file names its data type, and thereby its structure, in the mandatory global attribute [`data_type`](../metadata_attributes/mandatory_global.md#data_type).
+The mandatory global attribute [`platform_is_mobile`](../metadata_attributes/mandatory_global.md#platform_is_mobile) chooses between the layouts of a moving and a fixed platform (see [Moving and fixed platforms](#moving-and-fixed-platforms)).
+Products are defined at Level 2 only: a Level 2 file should also carry the global attribute [`product_type`](../metadata_attributes/optional_global.md#product_type), which names its geophysical product and thereby its data variables, whereas a Level 1 file is fully described by its data type.
 The processing level, from radar data as recorded by the instrument to derived geophysical quantities, is a property of each data type.
 
 | Level | `data_type` | Examples (`product_type`) | Structure |

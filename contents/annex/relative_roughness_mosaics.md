@@ -15,7 +15,7 @@ In contrast to [relative roughness images](relative_roughness_images.md), where 
 The averaging start time is determined by data availability and hence by the platform track: a location is averaged while it lies within the part of the radar field of view that is suitable for the mosaic, and different locations are reached at different times as the platform passes by.
 The mosaic therefore extends along the platform track beyond the footprint of a single relative roughness image, and the pixel-wise averaging start time is provided in [`start_time_of_observations`](../data_types/product_variables.md#start_time_of_observations), in seconds after the group's [`time`](../data_types/gridded_pixels.md#time).
 Like the relative roughness images, all mosaics of one file, typically covering one hour of a platform trajectory, are stored as sibling groups, one per measurement period, each on its own local grid.
-Within each group, [`relative_roughness`](../data_types/product_variables.md#relative_roughness) gives the averaged, still uncalibrated radar backscatter power, with three ancillary variables: [`number_of_observations`](../data_types/product_variables.md#number_of_observations) records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and [`scan_sectors`](../data_types/product_variables.md#scan_sectors) which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
+Within each group, [`relative_roughness`](../data_types/product_variables.md#relative_roughness) gives the averaged, still uncalibrated radar backscatter power, which this example averages, while the example of the relative roughness images averages amplitude; which of the two a file averages is stated by [`averaged_quantity`](../metadata_attributes/variable_attributes.md#averaged_quantity). It comes with three ancillary variables: [`number_of_observations`](../data_types/product_variables.md#number_of_observations) records how many Level 1b images contributed to each grid cell, `start_time_of_observations` when the averaging of each grid cell started, and [`scan_sectors`](../data_types/product_variables.md#scan_sectors) which part of the radar scan, relative to the target area, the observations of each grid cell belong to.
 
 ## File contents
 
@@ -43,6 +43,8 @@ Within each group, [`relative_roughness`](../data_types/product_variables.md#rel
 {: .contents-table }
 
 ## Example
+
+A radar on a moving platform; mosaics are defined for moving platforms only.
 
 ```
 netcdf or_2025-01-15-11_relative_roughness_mosaic {
