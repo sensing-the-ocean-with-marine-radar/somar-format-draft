@@ -21,7 +21,7 @@ These data are located in space with variables from the WMO-CF Radial profile [F
   - **`polar_raw` and `polar_pulse_averaged`**: stored in each sweep's `georeference` subgroup, either as scalars (per sweep) or with dimension `time` (per ray; see [Sweep groups](../data_types/polar_raw.md#sweep-groups)). Scalar `latitude` and `longitude` in the root group, which FM 301 requires, give the position at the start of the file.
   - **`polar_image_cube`**: stored in the root group with dimension `time` (per revolution) or `(time, azimuth)` (per ray).
 
-  Position and heading are recommended rather than required for a moving platform, since they may not be available when the file is written, e.g. in real-time recording, or may be taken from a separate navigation data stream; a file without them is not georeferenced (see [Moving platforms](../data_types/polar_raw.md#moving-platforms)).
+  Position and heading are recommended rather than required for a moving platform; why, and what a file without them means, is described under [Moving platforms](../data_types/polar_raw.md#moving-platforms).
 
 ## Applying georeference corrections
 
@@ -211,7 +211,7 @@ Gridded windows that lie on a lattice in longitude and latitude are stored on a 
 The coordinate variables `latitude` and `longitude` give the centers of the analysis windows; they are one-dimensional because the windows lie on a lattice in longitude and latitude.
 The latitude spacing is the same for all measurement periods, since a degree of latitude has nearly the same length everywhere, whereas a degree of longitude shrinks with the cosine of latitude: each measurement period therefore uses a single longitude spacing, chosen for its latitude, which may differ from one period to the next.
 From a fixed platform, the latitude of the windows does not change, and all periods share one grid.
-On this grid, `crs` is recommended rather than required: without it, `latitude` and `longitude` refer to WGS 84 (see [Geographic coordinates](#geographic-coordinates)).
+The `crs` of this grid is described under [Geographic coordinates](#geographic-coordinates).
 
 ### Local grid
 

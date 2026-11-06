@@ -50,7 +50,7 @@ variables:
                 platform_course:grid_mapping = "crs" ;
 ```
 
-The near-surface current retrieved within the same analysis windows may be stored with any product of this data type, in `eastward_sea_water_velocity` and `northward_sea_water_velocity`, for windows that move with the platform after correcting for the mean platform velocity (see [Product variables](product_variables.md)).
+The near-surface current retrieved within the same analysis windows may be stored with any product of this data type, in [`eastward_sea_water_velocity`](product_variables.md#eastward_sea_water_velocity) and [`northward_sea_water_velocity`](product_variables.md#northward_sea_water_velocity), relative to the ground as described above.
 From a fixed platform, a file may give the current and the wavenumbers of a two-dimensional wavenumber spectrum along the axes of a [rotated local grid](../georeferencing/index.md#rotated-local-grids) centered on the radar antenna, whose `crs` defines the axes: [`sea_water_x_velocity`](product_variables.md#sea_water_x_velocity) and [`sea_water_y_velocity`](product_variables.md#sea_water_y_velocity), and [`x_wave_wavenumber`](product_variables.md#x_wave_wavenumber) and [`y_wave_wavenumber`](product_variables.md#y_wave_wavenumber), then take the place of their eastward and northward counterparts.
 Its `longitude` and `latitude` remain geographic coordinates, and the wave directions remain bearings from true north.
 
