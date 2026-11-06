@@ -1,11 +1,11 @@
 ---
-title: discrete_windows (L2)
+title: discrete_windows (L2a/L2b)
 layout: default
 parent: SOMaR data types
 nav_order: 7
 ---
 
-# discrete_windows (L2)
+# discrete_windows (L2a/L2b)
 
 Files of the data type `discrete_windows` give one value set for each of a set of analysis windows that keep their own positions but do not form a regular lattice fixed to the Earth, such as windows fixed to the platform at a constant bearing and range, or windows placed upwind of the platform.
 They differ from [gridded windows](gridded_windows.md), whose windows form a regular lattice that stays fixed to the Earth, and from [averaged windows](averaged_windows.md), which merge the results of their windows into one value set per measurement.
