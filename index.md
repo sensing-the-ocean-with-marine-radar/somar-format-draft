@@ -9,7 +9,16 @@ nav_order: 1
 
 _The SOMaR community_
 
-This document is the first draft of the Sensing the Ocean with Marine Radar (SOMaR) data format conventions. They define a common NetCDF structure and metadata for marine radar products at every processing level, from raw radar data and image sequences to maps of relative sea surface roughness, near-surface currents, bathymetry, and sea ice drift, and to surface wave spectra and parameters, so that these data are findable, accessible, interoperable, and reusable (FAIR).
+{: .disclaimer-box }
+> **Disclaimer:** This document is an early-stage draft and is currently under active development. Its primary purpose is to provide a concrete basis for discussion and refinement within the marine radar community, with the intention of presenting it for consideration and feedback at the next community meeting. As such, all aspects of the specification should be regarded as provisional and subject to change based on community input, implementation experience, and further technical review.
+>
+>Readers may notice that this draft appears unusually polished for a document at this stage of development. This is because artificial intelligence (AI) tools were used extensively to assist with the generation of explanatory text, document structure, internal cross-linking, and references to external resources. The use of AI significantly accelerated the preparation of this draft and improved its readability and navigability.
+>
+>The underlying concept, overall structure, technical direction, and key design decisions presented in this document originate from the drafting authors, Michael Streßer, Björn Lund, and Ruben Carrasco. All AI-generated or AI-assisted content has been reviewed, validated, and edited by the authors to ensure consistency with the intended technical objectives and the current state of the proposal.
+>
+>Publication of this draft does not imply endorsement by any organization, project, or community body. The document is intended solely as a starting point for collaborative discussion and the eventual development of a community-driven standard.
+
+The Sensing the Ocean with Marine Radar (SOMaR) data format conventions define a common NetCDF structure and metadata for marine radar products at every processing level, from raw radar data and image sequences to maps of relative sea surface roughness, near-surface currents, bathymetry, and sea ice drift, and to surface wave spectra and parameters, so that these data are findable, accessible, interoperable, and reusable (FAIR).
 
 Wherever possible, SOMaR follows existing standards: the [NetCDF Climate and Forecast (CF) Metadata Conventions][cf] throughout, the [Attribute Convention for Data Discovery (ACDD)][acdd] for discovery metadata such as the creator, license, and coverage of a file, and, for radar data in polar coordinates, the WMO-CF Radial profile [FM 301][fm301] together with the [CfRadial format][cfradial] for moving platforms. What SOMaR adds is a way to store gridded products from a moving vessel, whose grids change location from one measurement to the next. The versions of these standards are listed under [References](contents/references/index.md#standards-and-conventions).
 
