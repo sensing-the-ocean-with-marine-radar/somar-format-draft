@@ -8,13 +8,11 @@ nav_order: 2
 # L1b: Pulse-averaged data (`polar_pulse_averaged`)
 
 {: .informative }
-> This page is informative. It gives an example of the data type `polar_pulse_averaged`, which the page of [`polar_pulse_averaged`](../data_types/polar_pulse_averaged.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
+> An example of the data type [`polar_pulse_averaged`](../data_types/polar_pulse_averaged.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 ## File contents
 
 **Layout.** The file holds the [averaged sweeps](../data_types/polar_pulse_averaged.md): one `sweep_<n>` group per revolution or dwell, numbered from 0 in the order of acquisition.
-
-A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

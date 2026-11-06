@@ -8,7 +8,7 @@ nav_order: 7
 # L2a: Near-surface current maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `currents` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `currents`, of the data type [`gridded_windows`](../data_types/gridded_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Near-surface current maps (`currents`) provide the horizontal near-surface current vector ([`eastward_sea_water_velocity`](../data_types/product_variables.md#eastward_sea_water_velocity), [`northward_sea_water_velocity`](../data_types/product_variables.md#northward_sea_water_velocity)) in a set of analysis windows along the platform trajectory, together with optional diagnostics of the retrieval and a [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) bit flag.
 Each current vector is retrieved from the current-induced Doppler shift of the surface wave field, i.e. from the deviation of the wave signal in a wavenumber-frequency spectrum, computed from a radar image sequence within a local analysis window, from the linear ocean wave dispersion relation of still water.
@@ -19,8 +19,6 @@ Because the resulting current is a depth-weighted average, with the surface curr
 ## File contents
 
 **Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

@@ -12,10 +12,11 @@ has_children: true
 
 This annex gives a table of the file contents and a complete example file of each Level 1 data type and each Level 2 product, as the header of a NetCDF file in CDL, and for the Level 2 products a description of the product and of its retrieval.
 The examples illustrate the definitions of the [SOMaR data types](../data_types/index.md) and of the Level 2 products but do not add to them; where an example and a definition differ, the definition applies.
+Each page names, at its top, the data type and, for Level 2, the product type that it illustrates; the page of the data type defines the structure and variables of the file, and the variables themselves are defined under [Product variables](../data_types/product_variables.md).
 
 ## File contents
 
-Each page begins with its file contents: the layout of the file, i.e. the forms its structure takes, followed by a table of its global attributes, variables, and groups, and the variable attributes that have a tier of their own, each with its tier and linked to its definition.
+Each page begins with its file contents: the layout of the file, i.e. the forms its structure takes, followed by a table of its global attributes, variables, and groups, and the variable attributes that have a tier of their own, each with its tier and linked to its definition; the condition of a row, where one is given, states when its tier applies.
 Where the tier of an item depends on the platform, the grid, or another item, the table gives the condition under which it applies: one of the forms of the layout, "moving platform", "fixed platform", "time-bounded grid", "local grid", "geographic grid", "rotated grid", or "north-oriented grid" (see [Rotated local grids](../georeferencing/index.md#rotated-local-grids)); the presence of another item, such as "with `crs`", or its value, such as "`sweep_mode = "pointing"`" or "`cartesian_resampling` other than `nearest_neighbor`". The table so also covers the forms of a file that the example does not show, such as a file from a fixed platform.
 The table summarizes the definitions of the data type and product and, like the example, does not add to them.
 

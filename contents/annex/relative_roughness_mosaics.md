@@ -8,7 +8,7 @@ nav_order: 6
 # L2a: Relative roughness image mosaics
 
 {: .informative }
-> This page is informative. A file of this product has the product type `relative_roughness_mosaic` and the data type `gridded_pixels`, which the page of [`gridded_pixels`](../data_types/gridded_pixels.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `relative_roughness_mosaic`, of the data type [`gridded_pixels`](../data_types/gridded_pixels.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Relative roughness image mosaics (`relative_roughness_mosaic`) provide temporally averaged relative sea surface roughness on a single, larger local Cartesian grid per measurement period (typically ten minutes), assembled from a sequence of Level 1b Cartesian backscatter images acquired while the platform moves along its trajectory.
 In contrast to [relative roughness images](relative_roughness_images.md), where all pixels of a grid share one short averaging period, each pixel of a mosaic is a temporal average over a short time window (typically tens of seconds), but the start of that averaging period differs from pixel to pixel.
@@ -20,8 +20,6 @@ Within each group, [`relative_roughness`](../data_types/product_variables.md#rel
 ## File contents
 
 **Layout.** The file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement period, each in a `time_<YYYYMMDDHHMMSS>` group, on the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

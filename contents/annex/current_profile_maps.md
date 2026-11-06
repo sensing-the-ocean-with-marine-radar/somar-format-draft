@@ -8,7 +8,7 @@ nav_order: 8
 # L2a: Near-surface current profile maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `currents_profile` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `currents_profile`, of the data type [`gridded_windows`](../data_types/gridded_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Near-surface current profile maps (`currents_profile`) extend the [near-surface current maps](current_maps.md) by repeating the same current retrieval for a set of distinct wavenumber bands rather than a single wavenumber range; since the effective sensing depth decreases with increasing wavenumber, the resulting currents provide an approximate vertical profile of the upper-ocean current and thus of its vertical shear (Lund et al. [2015](../references/index.md#lund-2015); Campana et al. [2016](../references/index.md#campana-2016)).
 The data variables therefore have an additional dimension [`wavenumber_bin`](../data_types/product_variables.md#wavenumber_bin), with one layer per wavenumber band, whose edges are given by [`wavenumber_bin_bounds`](../data_types/product_variables.md#wavenumber_bin_bounds), so that the bands need not be of equal width; cells for which no retrieval was attempted or for which the retrieval failed hold the [`_FillValue`](../metadata_attributes/variable_attributes.md#_FillValue).
@@ -17,8 +17,6 @@ As in the current maps, [`mean_wavenumber`](../data_types/product_variables.md#m
 ## File contents
 
 **Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

@@ -8,7 +8,7 @@ nav_order: 14
 # L2b: Peak and mean wave parameters
 
 {: .informative }
-> This page is informative. A file of this product has the product type `wave_parameters` and the data type `averaged_windows`, which the page of [`averaged_windows`](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `wave_parameters`, of the data type [`averaged_windows`](../data_types/averaged_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Peak and mean wave parameters (`wave_parameters`) summarize each [two-dimensional wavenumber spectrum](wave_wavenumber_spectra.md) using standard bulk wave parameters: significant wave height ([`sea_surface_wave_significant_height`](../data_types/product_variables.md#sea_surface_wave_significant_height)), the peak wave period and peak wave direction (period and direction at the spectral maximum), and the mean wave period and mean wave direction.
 The peak and mean wave periods are intrinsic, i.e. relative to the moving water, or absolute, i.e. relative to the ground and including the Doppler shift by the current, as given by [`wave_frequency_frame`](../metadata_attributes/processing_parameters.md#wave_frequency_frame).
@@ -17,8 +17,6 @@ To aid interpretation and quality assessment, the quantities from which the sign
 ## File contents
 
 **Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension [`time`](../data_types/averaged_windows.md#time), with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude).
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

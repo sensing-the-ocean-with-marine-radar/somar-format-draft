@@ -8,7 +8,7 @@ nav_order: 9
 # L2a: Bathymetric maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `bathymetry` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `bathymetry`, of the data type [`gridded_windows`](../data_types/gridded_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Bathymetric maps (`bathymetry`) provide sea floor depth ([`sea_floor_depth_below_sea_surface`](../data_types/product_variables.md#sea_floor_depth_below_sea_surface)) in a set of analysis windows along the platform trajectory, together with an optional standard error and a [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) bit flag.
 As for the [near-surface current maps](current_maps.md), each depth is retrieved from the wave signal in the wavenumber-frequency spectrum of a local analysis window, here exploiting the depth-induced deviation from the deep-water dispersion relation; the method is named by [`retrieval_method`](../metadata_attributes/processing_parameters.md#retrieval_method), e.g. a least-squares fit of the wave signal to the dispersion relation that solves for water depth rather than current velocity (`dispersion_relation_least_squares_fit`; Bell [1999](../references/index.md#bell-1999)).
@@ -19,8 +19,6 @@ The depths are not tide-corrected, as the definition of `sea_floor_depth_below_s
 ## File contents
 
 **Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

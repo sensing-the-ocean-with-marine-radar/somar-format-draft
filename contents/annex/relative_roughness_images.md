@@ -8,7 +8,7 @@ nav_order: 5
 # L2a: Relative roughness images
 
 {: .informative }
-> This page is informative. A file of this product has the product type `relative_roughness` and the data type `gridded_pixels`, which the page of [`gridded_pixels`](../data_types/gridded_pixels.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `relative_roughness`, of the data type [`gridded_pixels`](../data_types/gridded_pixels.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Relative roughness images ([`relative_roughness`](../data_types/product_variables.md#relative_roughness)) provide temporally averaged relative sea surface roughness, derived from Level 1b Cartesian backscatter images averaged over a short time window (typically tens of seconds) to reduce speckle noise.
 Because the platform continues to move during this averaging period, and because the local grid origin and extent may change from one averaging period to the next, each averaging period is mapped onto its own time-bounded local grid; all grids of one file, typically covering one hour of a platform trajectory, are stored as sibling groups.
@@ -18,8 +18,6 @@ Within each grid, `relative_roughness` gives the averaged, still uncalibrated ra
 ## File contents
 
 **Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per averaging period, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_pixels.md#time). Each grid is the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

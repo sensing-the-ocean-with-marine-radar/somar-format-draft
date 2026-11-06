@@ -8,7 +8,7 @@ nav_order: 11
 # L2a: Surface wave two-dimensional wavenumber spectra
 
 {: .informative }
-> This page is informative. A file of this product has the product type `wave_wavenumber_spectra` and the data type `averaged_windows`, which the page of [`averaged_windows`](../data_types/averaged_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `wave_wavenumber_spectra`, of the data type [`averaged_windows`](../data_types/averaged_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Two-dimensional wavenumber spectra (`wave_wavenumber_spectra`) give the (time-averaged) wave energy density, `sea_surface_wave_wavenumber_variance_spectral_density(time, northward_wave_wavenumber, eastward_wave_wavenumber)`, as a function of the two horizontal wavenumber components for each measurement, averaged over the analysis windows that contribute to it.
 By SOMaR convention, the wavenumber vector points toward the direction from which the waves come, opposite to the direction of propagation, so that the spectrum agrees with the from-direction of the [frequency-direction spectra](wave_frequency_direction_spectra.md); spectra that follow the propagation direction, as in many wave models, are mirrored through the origin (see [`eastward_wave_wavenumber`](../data_types/product_variables.md#eastward_wave_wavenumber)).
@@ -20,8 +20,6 @@ The quantities from which the calibration derives the significant wave height ma
 ## File contents
 
 **Layout.** On a moving platform, the file holds a [trajectory](../data_types/averaged_windows.md#moving-and-fixed-platforms) along the dimension [`time`](../data_types/averaged_windows.md#time), with `longitude(time)` and `latitude(time)`; on a fixed platform, it holds a time series along the dimension `time`, with scalar [`longitude`](../data_types/averaged_windows.md#longitude) and [`latitude`](../data_types/averaged_windows.md#latitude).
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

@@ -8,7 +8,7 @@ nav_order: 10
 # L2a: Sea ice drift maps
 
 {: .informative }
-> This page is informative. A file of this product has the product type `sea_ice_drift` and the data type `gridded_windows`, which the page of [`gridded_windows`](../data_types/gridded_windows.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this product; where they differ, the definitions apply.
+> An example of the product type `sea_ice_drift`, of the data type [`gridded_windows`](../data_types/gridded_windows.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 Sea ice drift maps (`sea_ice_drift`) provide the horizontal sea ice drift vector in a set of analysis windows along the platform trajectory, together with a [`measurement_quality`](../data_types/gridded_windows.md#measurement_quality) bit flag.
 Each drift vector is retrieved from the displacement of the backscatter pattern between two radar images, which may be temporally averaged, separated by a short time lag.
@@ -20,8 +20,6 @@ The cross-correlation method is blind to the actual presence or absence of sea i
 ## File contents
 
 **Layout.** On a moving platform, the file holds one [time-bounded grid](../georeferencing/index.md#time-bounded-grids) per measurement, each in a `time_<YYYYMMDDHHMMSS>` group; on a fixed platform, it holds one [single grid](../georeferencing/index.md#single-grid) in the root group, with the leading dimension [`time`](../data_types/gridded_windows.md#time). Each grid is the [geographic grid](../georeferencing/index.md#geographic-grid) `(latitude, longitude)` or the [local grid](../georeferencing/index.md#local-grid) `(y, x)`.
-
-A file of this product holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

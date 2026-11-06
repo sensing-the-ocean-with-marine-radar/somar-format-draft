@@ -8,13 +8,11 @@ nav_order: 4
 # L1b: Cartesian image sequences (`cartesian_image_cube`)
 
 {: .informative }
-> This page is informative. It gives an example of the data type `cartesian_image_cube`, which the page of [`cartesian_image_cube`](../data_types/cartesian_image_cube.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
+> An example of the data type [`cartesian_image_cube`](../data_types/cartesian_image_cube.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 ## File contents
 
 **Layout.** The file holds an [image cube with moving origin](../data_types/cartesian_image_cube.md) in the root group, with the data variable on `(time, y, x)`.
-
-A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

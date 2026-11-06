@@ -8,13 +8,11 @@ nav_order: 3
 # L1b: Polar image sequences (`polar_image_cube`)
 
 {: .informative }
-> This page is informative. It gives an example of the data type `polar_image_cube`, which the page of [`polar_image_cube`](../data_types/polar_image_cube.md) defines, with the structure and variables that the file holds; the variables are defined under [Product variables](../data_types/product_variables.md). The [file contents](#file-contents) summarize these definitions for this data type; where they differ, the definitions apply.
+> An example of the data type [`polar_image_cube`](../data_types/polar_image_cube.md), which defines its structure and variables (see [Annex: Examples](index.md)).
 
 ## File contents
 
 **Layout.** The file holds an [image cube](../data_types/polar_image_cube.md) in the root group, with the data variable on `(time, azimuth, range)`.
-
-A file of this data type holds the following items; each links to its definition, and the condition, where one is given, states when the tier applies.
 
 | Item | Tier | Condition |
 |---|---|---|

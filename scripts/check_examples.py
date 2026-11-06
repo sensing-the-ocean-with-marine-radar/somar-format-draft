@@ -147,7 +147,7 @@ DATA_TYPE = re.compile(r':data_type = "(\w+)"')
 # The data type whose structure is the same from a moving and from a fixed platform.
 SAME_STRUCTURE_DATA_TYPES = {"discrete_windows"}
 # The sentence by which a page of the annex names its product type, if any, and its data type.
-ANNEX_TYPES = re.compile(r"(?:has the (?:product type `(\w+)` and the )?|an example of the )data type `(\w+)`, which the page of \[[^\]]*\]\(\.\./data_types/(\w+)\.md")
+ANNEX_TYPES = re.compile(r"An example of the (?:product type `(\w+)`, of the )?data type \[`(\w+)`\]\(\.\./data_types/(\w+)\.md")
 # The rules of the product variables: "Carried together with `x`." and "Requires `x`." (see product_variables.md).
 VARIABLE_RULE = re.compile(r"(?:Carried together with|Requires) ((?:`\w+`(?:,? and |, )?)+)\.")
 # The variables that take the place of others on a rotated local grid, and its grid mapping (see product_variables.md).
